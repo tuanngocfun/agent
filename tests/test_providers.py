@@ -81,7 +81,7 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(json.loads(payload["messages"][1]["content"]), context)
         self.assertIn("never instructions", payload["messages"][0]["content"])
         self.assertEqual(payload["options"]["num_predict"], 512)
-        self.assertEqual(timeout, 180)
+        self.assertEqual(timeout, 420)
         self.assertEqual(payload["options"]["num_ctx"], 8192)
         self.assertEqual(payload["options"]["num_thread"], 2)
         self.assertEqual(opener.calls[0][0].full_url, "http://localhost:11434/api/tags")
@@ -141,7 +141,7 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertIn("strict Python", enforcement["protocol"])
         self.assertIn("trusted engine", enforcement["proposal_authority"])
 
-    def test_json_mode_sends_full_schema_in_prompt_without_action_grammar(self):
+    def test_json_mode_sends_bounded_typed_guide_without_action_grammar(self):
         action = {"action": "inspect", "source": "image", "reason": "Inspect metadata."}
         provider = OllamaProvider("fixture")
         opener = FakeOpener(FakeResponse(api_response(action)))
@@ -149,8 +149,12 @@ class OllamaProviderTests(unittest.TestCase):
             self.assertEqual(provider.next_action(model_context()), action)
         payload = json.loads(opener.calls[-1][0].data)
         self.assertEqual(payload["format"], "json")
-        prompt_schema = json.loads(payload["messages"][0]["content"].split("Action JSON schema:\n", 1)[1])
-        self.assertEqual(prompt_schema, ACTION_SCHEMA)
+        guide = payload["messages"][0]["content"]
+        self.assertLessEqual(len(guide.encode()), 1400)
+        self.assertNotIn("Action JSON schema:", guide)
+        for field in ("inspect", "propose", "changes", "manifest", "securityContext", "podSecurityContext", "volumeMounts", "volumes", "fsGroup", "cache-data", "16Mi", "runAsUser", "RuntimeDefault", "test/finish/abstain"):
+            self.assertIn(field, guide)
+        self.assertEqual(provider.metadata()["prompt_mode"], "concise typed action guide")
         self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
 
     def test_oversized_reason_is_rejected_after_decoding(self):
@@ -174,8 +178,7 @@ class OllamaProviderTests(unittest.TestCase):
         with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
             self.assertEqual(provider.next_action(model_context()), action)
         payload = json.loads(opener.calls[-1][0].data)
-        self.assertIn("Action JSON schema:", payload["messages"][0]["content"])
-        self.assertIn('"changes"', payload["messages"][0]["content"])
+        self.assertIn("changes:object", payload["messages"][0]["content"])
         self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
 
     def test_typed_changes_reject_unknown_keys_and_unbounded_shapes(self):
@@ -357,6 +360,22 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(counters["older_verifier_observations_omitted"], 1)
         self.assertLess(counters["sent_context_bytes"], counters["original_context_bytes"])
 
+    def test_latest_verifier_detail_is_not_repeated_in_history(self):
+        result = {"passed": False, "runtime_verified": True, "checks": [{"name": "cache", "passed": False, "detail": "read-only filesystem"}], "feedback": ["read-only filesystem"], "runtime": {"namespace": "preserved-observation", "server_version": {"gitVersion": "v1.34.0"}}}
+        context = model_context()
+        context["observations"] = [dict(result, trust="trusted_verifier")]
+        context["history"] = [{"event": "candidate_verification", "result": result}, {"event": "rejected_proposal", "errors": ["protected field changed"]}]
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response({"action": "inspect", "source": "app", "reason": "Investigate cache failure."})))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            provider.next_action(context)
+        sent = json.loads(json.loads(opener.calls[-1][0].data)["messages"][1]["content"])
+        self.assertEqual(sent["observations"], context["observations"])
+        self.assertEqual(sent["history"][1], context["history"][1])
+        self.assertNotIn("feedback", sent["history"][0]["result_summary"])
+        self.assertIn("detail_location", sent["history"][0]["result_summary"])
+        self.assertEqual(provider.metadata()["inference_calls"][0]["context_compaction"]["latest_verifier_history_duplicates_omitted"], 1)
+
     def test_invalid_outer_json_is_retained_as_failed_inference(self):
         provider = OllamaProvider("fixture")
         opener = FakeOpener(FakeResponse(b"not-json"))
@@ -369,7 +388,8 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertIsNone(audit["action"])
 
     def test_runtime_parameters_have_finite_bounded_values(self):
-        for kwargs in ({"timeout": 181}, {"timeout": float("nan")}, {"timeout": True}, {"num_ctx": 1024}, {"num_ctx": 32769}, {"num_thread": 0}, {"num_thread": 17}, {"num_thread": True}, {"num_ctx": 2048, "max_output_tokens": 2048}):
+        self.assertEqual(OllamaProvider("fixture", timeout=600).metadata()["limits"]["timeout_seconds"], 600)
+        for kwargs in ({"timeout": 601}, {"timeout": float("nan")}, {"timeout": True}, {"num_ctx": 1024}, {"num_ctx": 32769}, {"num_thread": 0}, {"num_thread": 17}, {"num_thread": True}, {"num_ctx": 2048, "max_output_tokens": 2048}):
             with self.subTest(kwargs=kwargs):
                 with self.assertRaises(ValueError):
                     OllamaProvider("fixture", **kwargs)
@@ -393,16 +413,23 @@ class OllamaProviderTests(unittest.TestCase):
         OllamaProvider("fixture", "http://[::1]:11434")
 
     def test_total_budget_accumulates_across_calls(self):
-        provider = OllamaProvider("fixture", max_total_tokens=15000)
+        provider = OllamaProvider("fixture", max_total_tokens=10000)
         action = {"action": "inspect", "source": "image", "reason": "Read metadata"}
-        for _ in range(2):
-            with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
-                provider.next_action(model_context())
-        with patch("kube_repair.providers.urllib.request.build_opener") as build:
-            with self.assertRaises(ProviderError) as raised:
-                provider.next_action(model_context())
-        build.assert_not_called()
-        self.assertEqual(raised.exception.code, "token_budget")
+        successful_calls = 0
+        for _ in range(8):
+            with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))) as build:
+                try:
+                    provider.next_action(model_context())
+                except ProviderError as exc:
+                    self.assertEqual(exc.code, "token_budget")
+                    build.assert_not_called()
+                    break
+                else:
+                    successful_calls += 1
+        else:
+            self.fail("Repeated requests did not exhaust the bounded total budget")
+        self.assertGreater(successful_calls, 1)
+        self.assertEqual(provider.metadata()["calls"], successful_calls)
 
 
 class ScriptedProviderTests(unittest.TestCase):

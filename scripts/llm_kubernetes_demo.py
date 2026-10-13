@@ -140,7 +140,7 @@ def main(argv=None):
                "tags_before": before, "show": show, "warmup_response": warm, "inference_smoke": smoke,
                "ps_before": before_ps,
                "settings": {"temperature": 0, "num_ctx": 8192, "num_thread": 2,
-                            "decoding_mode": "json", "max_output_tokens": 512, "timeout_seconds": 180},
+                            "decoding_mode": "json", "max_output_tokens": 512, "timeout_seconds": 420},
                "weight_license": "Apache-2.0; weights are not published in this repository",
                "cpu_only": True, "selected_model": selected}
         (output / "model-pin.json").write_text(json.dumps(pin, indent=2) + "\n")
