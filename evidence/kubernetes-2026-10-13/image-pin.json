@@ -1,0 +1,12 @@
+{
+  "source_fingerprint": "df02a9f5baee95c5c0d6ecdb9039a4170428eb9b20c7aad7624f54db06f1f098",
+  "fixture_files": {
+    "app.py": "3f734bd650c51157704f62d823aa5bbb8effdf10c58f473964355844909ce64e",
+    "Dockerfile": "3dd7d5af6f4b3f62668758811f35a49e1627d32b43f4de2cf3defae393832c9d"
+  },
+  "fixture_tag": "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+  "runtime_image_id": "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+  "pod_uid": "d87b5bb3-6d89-40e2-9a6a-dcdc8af72abc",
+  "base_image": "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+  "node_image": "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a"
+}

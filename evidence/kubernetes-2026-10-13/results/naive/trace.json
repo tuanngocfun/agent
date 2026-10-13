@@ -1,0 +1,122 @@
+[
+  {
+    "errors": [],
+    "event": "baseline_verification",
+    "result": {
+      "backend": "kubernetes",
+      "behavior_pass": false,
+      "checks": [
+        {
+          "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+          "name": "static-non-root",
+          "passed": true
+        },
+        {
+          "detail": "readOnlyRootFilesystem must be true",
+          "name": "static-read-only",
+          "passed": true
+        },
+        {
+          "detail": "allowPrivilegeEscalation must be false",
+          "name": "static-no-escalation",
+          "passed": true
+        },
+        {
+          "detail": "Drop ALL capabilities without adding any",
+          "name": "static-capabilities",
+          "passed": true
+        },
+        {
+          "detail": "Use RuntimeDefault seccomp",
+          "name": "static-seccomp",
+          "passed": true
+        },
+        {
+          "detail": "Privileged containers are forbidden",
+          "name": "static-unprivileged",
+          "passed": true
+        },
+        {
+          "detail": "Expected sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3; observed sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+          "name": "runtime-image-identity",
+          "passed": true
+        },
+        {
+          "detail": "Fixture startup/cache failed: Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'",
+          "name": "application-cache",
+          "passed": false
+        },
+        {
+          "detail": "No successful runtime probe: application was not ready",
+          "name": "runtime-non-root",
+          "passed": false
+        },
+        {
+          "detail": "No successful runtime probe: application was not ready",
+          "name": "runtime-read-only",
+          "passed": false
+        },
+        {
+          "detail": "No successful runtime probe: application was not ready",
+          "name": "runtime-no-new-privileges",
+          "passed": false
+        },
+        {
+          "detail": "No successful runtime probe: application was not ready",
+          "name": "runtime-capabilities",
+          "passed": false
+        },
+        {
+          "detail": "No successful runtime probe: application was not ready",
+          "name": "runtime-seccomp",
+          "passed": false
+        },
+        {
+          "detail": "Only this run's namespace was deleted",
+          "name": "namespace-cleanup",
+          "passed": true
+        }
+      ],
+      "feedback": [
+        "Fixture startup/cache failed: Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'",
+        "No successful runtime probe: application was not ready",
+        "No successful runtime probe: application was not ready",
+        "No successful runtime probe: application was not ready",
+        "No successful runtime probe: application was not ready",
+        "No successful runtime probe: application was not ready"
+      ],
+      "infrastructure_error": null,
+      "kubernetes_execution_observed": true,
+      "negative_pass": false,
+      "passed": false,
+      "runtime": {
+        "context": "kind-repair-demo-e2962fea7b39",
+        "deployment_uid": "fc9eee1a-5e4f-4515-afb4-14e0f6d3535e",
+        "generation": 1,
+        "image_id": "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+        "namespace": "kube-repair-7f2332c49b864464",
+        "pod_name": "repair-cache-app-6d9b7fd777-rs6kz",
+        "pod_uid": "f73b38f5-57af-46c9-9508-c48ab4498b4d",
+        "server_version": {
+          "buildDate": "2025-08-27T10:09:04Z",
+          "compiler": "gc",
+          "emulationMajor": "1",
+          "emulationMinor": "34",
+          "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+          "gitTreeState": "clean",
+          "gitVersion": "v1.34.0",
+          "goVersion": "go1.24.6",
+          "major": "1",
+          "minCompatibilityMajor": "1",
+          "minCompatibilityMinor": "33",
+          "minor": "34",
+          "platform": "linux/amd64"
+        },
+        "startup_logs": "Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'"
+      },
+      "runtime_verified": false,
+      "static_pass": true
+    },
+    "strategy": "naive"
+  }
+]

@@ -1,12 +1,12 @@
 # Demo bắt buộc chạy Kubernetes
 
-**Repo riêng `tuanngocfun/agent` đã được chọn; bạn đã cho phép publish nhánh `kube-remediation-demo` và chạy GitHub Actions. Lượt Kubernetes thật còn chờ bằng chứng từ job.** Host ban đầu thiếu Docker, kind, kubectl, kubeconfig và quyền tạo container; worker GitHub Actions cung cấp môi trường Kubernetes cho demo này.
+**Demo Kubernetes thật đã thành công:** [run 38408621533](https://github.com/tuanngocfun/agent/actions/runs/38408621533) chạy source commit `4461388` trên nhánh `kube-remediation-demo` của repo riêng `tuanngocfun/agent`. Artifact đã được tải xuống và kiểm tra; `summary.json` có `status: passed`, backend `kubernetes`, provider `scripted` và version server **v1.34.0**. Host ban đầu thiếu runtime; job dùng worker GitHub Actions để dựng cluster `kind`.
 
-Xem code ở nhánh `kube-remediation-demo` và mở [Actions của repo](https://github.com/tuanngocfun/agent/actions). Khi job kết thúc, tải artifact `kubernetes-remediation-evidence`, đọc `summary.json` và các file `REVIEW.md`, `report.json`, `trace.json`, `patch.diff`. Chỉ bước kiểm thử unit màu xanh chưa chứng minh cluster đã chạy. Xem thêm [hướng dẫn đọc job và bằng chứng](GITHUB_KUBERNETES_DEMO.md).
+Xem [kết quả thực tế](REAL_KUBERNETES_RESULT_VI.md) và mở run phía trên để tải artifact `kubernetes-remediation-evidence`. Đọc `summary.json` và các file `REVIEW.md`, `report.json`, `trace.json`, `patch.diff`. Artifact được giữ 7 ngày; bản đã tải nằm trên workstation gốc, không nằm trong source Git. Xem thêm [hướng dẫn đọc job và bằng chứng](GITHUB_KUBERNETES_DEMO.md).
 
 ## Đường chạy trên GitHub Actions
 
-File [.github/workflows/kubernetes-demo.yml](../.github/workflows/kubernetes-demo.yml) dùng một worker Ubuntu tạm thời có Docker. Workflow chỉ khởi chạy khi được gọi thủ công hoặc khi push đúng nhánh `kube-remediation-demo`. Push nhánh này đủ để khởi chạy job đầu tiên; không cần merge vào `main`. Source đầy đủ nằm trên nhánh demo; README ban đầu trên `main` chỉ giúp bootstrap repo trống.
+File [.github/workflows/kubernetes-demo.yml](../.github/workflows/kubernetes-demo.yml) dùng một worker Ubuntu tạm thời có Docker. Workflow hỗ trợ gọi thủ công và push trên nhánh `kube-remediation-demo` theo bộ lọc trong YAML. Publish source đã khởi chạy job đầu tiên; không cần merge vào `main`. Source đầy đủ nằm trên nhánh demo; README ban đầu trên `main` chỉ giúp bootstrap repo trống.
 
 Workflow cài `kind v0.30.0` và `kubectl v1.34.0` bằng checksum từ nguồn chính thức, dùng node image Kubernetes 1.34.0 được pin theo digest của [kind release](https://github.com/kubernetes-sigs/kind/releases/tag/v0.30.0). Đây là phiên bản cố định cho demo, không phải tuyên bố dùng bản mới nhất.
 
@@ -58,6 +58,15 @@ Cluster phải có fixture image đã được load ở node và quyền tạo/x
 
 ## Trạng thái bằng chứng
 
-Việc publish vào repo riêng `tuanngocfun/agent` và chạy nhánh demo đã được bạn cho phép. Kết quả thực thi vẫn cần được xác nhận từ job và artifact tương ứng; chưa có kết quả runtime thành công được ghi ở tài liệu này.
+Lượt đã xác nhận cho kịch bản `cache-path`:
 
-Sau khi có artifact, cần kiểm tra cả ứng dụng chạy đúng lẫn các control bảo mật mục tiêu. Một job thành công với provider `scripted` chứng minh fixture được thử trên Kubernetes thật; muốn chứng minh LLM tự chọn bản sửa cần một lượt riêng dùng `ollama` hoặc bridge `session` cùng bằng chứng quyết định.
+| Cách sửa | Kết quả trên Kubernetes thật |
+|---|---|
+| Không sửa (`noop`) | Ứng dụng/cache hoạt động; thiếu các control bảo mật mục tiêu. |
+| Chỉ bật hardening (`naive`) | Cấu hình đạt; ứng dụng lỗi ghi cache vì filesystem chỉ đọc. |
+| Đối chứng đúng (`known-good`) | Qua các kiểm tra đã khai báo. |
+| Vòng `scripted` | Sửa thành công sau 2 ứng viên, 3 lượt test, 5 action; khoảng 39 giây. |
+
+Ứng viên cuối chạy UID 10001; ghi root filesystem bị từ chối bằng `EROFS`; `NoNewPrivs=1`; capabilities bằng 0; seccomp ở filter mode 2. Kiểm tra HTTP, kết quả SHA-256, cache đọc lại/tái sử dụng, image ID và cleanup namespace đều qua.
+
+Đây là một fixture tổng hợp được thử trên Kubernetes thật. Kết quả chưa chứng minh LLM tự chọn bản sửa hoặc hiệu quả trên benchmark; các phần đó cần một lượt riêng dùng `ollama` hoặc bridge `session` cùng bằng chứng quyết định và bộ workload độc lập.

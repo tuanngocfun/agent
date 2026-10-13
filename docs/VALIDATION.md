@@ -47,3 +47,11 @@ Read [Kubernetes runbook](KUBERNETES_DEMO_VI.md). Preparation records are in `ru
 ## Authorized remote run
 
 The user selected private `tuanngocfun/agent` and authorized publishing/running `kube-remediation-demo`. A bootstrap README initializes the previously empty default branch; code/workflow are isolated on the demo branch. Actual runtime results will be recorded after the GitHub worker finishes.
+
+## Actual Kubernetes execution
+
+Run38408621533 completed successfully at commit44613880014ca56882f0a21e5de461db97941b50. The downloaded ZIP matches GitHub artifact digest7361704237d39eeef6cb0db119444b6a392f69664a3caf43e2751a68f687faec. All4 review bundles passed integrity checks and the source/fixture fingerprints match.
+
+Kubernetesv1.34.0 observed: noop preserves behavior but fails security; naive hardening passes static checks and fails cache initialization with errno30; known-good and scripted repair pass all14 final checks. Namespace/cluster cleanup verified. Agent5actions,2candidate repairs,3tests. No LLM inference or Checkov run.
+
+See [verified real result](REAL_KUBERNETES_RESULT_VI.md) and [durable evidence](../evidence/kubernetes-2026-10-13/summary.json).

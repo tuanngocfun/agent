@@ -1,0 +1,17 @@
+{
+  "base_hash": "e4ee99b39236cb3e401896a67b27dbcc5469e40a50d007d4d3abf7884b765135",
+  "candidate_hash": "3e016936ca48ef136acf5cd5499a4f13aedc3fb2b4beaebf358af95eea35ae71",
+  "contract_hash": "0202477e9c26758ee6338458ee34f78b8137810ef9a6acef459748046878e68d",
+  "files": {
+    "REVIEW.md": "1f31c804f6edd209f95ebf602d4dcd840316a215b24899485dd6a67e33739442",
+    "base.json": "e4ee99b39236cb3e401896a67b27dbcc5469e40a50d007d4d3abf7884b765135",
+    "candidate.json": "3e016936ca48ef136acf5cd5499a4f13aedc3fb2b4beaebf358af95eea35ae71",
+    "contract.json": "0202477e9c26758ee6338458ee34f78b8137810ef9a6acef459748046878e68d",
+    "patch.diff": "cebfc22662714e661e0f38a3c606547a75e355223b20e62f7ffcaa3fd5820f56",
+    "report.json": "c74981a1375e47e688b4c83d69d9b0bdcb08c7dc4b0f06e8d251c222e4759735",
+    "trace.json": "aa693d585630ddd979c84f54bf45966654201486623dc464f21b6764622b59df"
+  },
+  "review_hash": "c9e32c867894f33d847515ea35beddadcfba6a9fb93b4b0e02d8540fd1f62f05",
+  "schema_version": 1,
+  "source_fingerprint": "df02a9f5baee95c5c0d6ecdb9039a4170428eb9b20c7aad7624f54db06f1f098"
+}

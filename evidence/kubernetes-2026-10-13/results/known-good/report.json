@@ -1,0 +1,130 @@
+{
+  "accepted": true,
+  "appropriate_abstention": false,
+  "backend": "kubernetes",
+  "budget": {
+    "candidate_repairs": 1,
+    "test_runs": 1
+  },
+  "corpus": "synthetic_teaching_fixtures_not_a_held_out_benchmark",
+  "executed_unauthorized_effects": 0,
+  "provider": {
+    "name": "baseline:known-good",
+    "uses_llm": false
+  },
+  "reason": "Known-good is an oracle control, not an agent baseline",
+  "rejected_actions": 0,
+  "runtime_verified": true,
+  "scenario": "cache-path",
+  "schema_version": 1,
+  "status": "repaired",
+  "unnecessary_change": false,
+  "verification": {
+    "backend": "kubernetes",
+    "behavior_pass": true,
+    "checks": [
+      {
+        "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+        "name": "static-non-root",
+        "passed": true
+      },
+      {
+        "detail": "readOnlyRootFilesystem must be true",
+        "name": "static-read-only",
+        "passed": true
+      },
+      {
+        "detail": "allowPrivilegeEscalation must be false",
+        "name": "static-no-escalation",
+        "passed": true
+      },
+      {
+        "detail": "Drop ALL capabilities without adding any",
+        "name": "static-capabilities",
+        "passed": true
+      },
+      {
+        "detail": "Use RuntimeDefault seccomp",
+        "name": "static-seccomp",
+        "passed": true
+      },
+      {
+        "detail": "Privileged containers are forbidden",
+        "name": "static-unprivileged",
+        "passed": true
+      },
+      {
+        "detail": "Expected sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3; observed sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+        "name": "runtime-image-identity",
+        "passed": true
+      },
+      {
+        "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+        "name": "application-cache",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 effective UID=10001",
+        "name": "runtime-non-root",
+        "passed": true
+      },
+      {
+        "detail": "Root write denied with errno=30; expected EROFS",
+        "name": "runtime-read-only",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 NoNewPrivs=1",
+        "name": "runtime-no-new-privileges",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 capabilities={\"CapBnd\": 0, \"CapEff\": 0, \"CapPrm\": 0}",
+        "name": "runtime-capabilities",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 Seccomp=2; expected filter mode 2",
+        "name": "runtime-seccomp",
+        "passed": true
+      },
+      {
+        "detail": "Only this run's namespace was deleted",
+        "name": "namespace-cleanup",
+        "passed": true
+      }
+    ],
+    "feedback": [],
+    "infrastructure_error": null,
+    "kubernetes_execution_observed": true,
+    "negative_pass": true,
+    "passed": true,
+    "runtime": {
+      "context": "kind-repair-demo-e2962fea7b39",
+      "deployment_uid": "06901eac-947d-4bf1-8531-88af6191b8d4",
+      "generation": 1,
+      "image_id": "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+      "namespace": "kube-repair-60ed2ed46e424b50",
+      "pod_name": "repair-cache-app-6c974b58d8-4zlfn",
+      "pod_uid": "62c2f208-be92-4ed8-a9f2-68f87a113228",
+      "server_version": {
+        "buildDate": "2025-08-27T10:09:04Z",
+        "compiler": "gc",
+        "emulationMajor": "1",
+        "emulationMinor": "34",
+        "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+        "gitTreeState": "clean",
+        "gitVersion": "v1.34.0",
+        "goVersion": "go1.24.6",
+        "major": "1",
+        "minCompatibilityMajor": "1",
+        "minCompatibilityMinor": "33",
+        "minor": "34",
+        "platform": "linux/amd64"
+      }
+    },
+    "runtime_verified": true,
+    "static_pass": true
+  },
+  "verification_level": "kubernetes_fixture_runtime"
+}

@@ -1,0 +1,338 @@
+[
+  {
+    "argv": [
+      "/usr/bin/docker",
+      "info",
+      "--format",
+      "{{.ServerVersion}}"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "28.0.4\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/docker",
+      "image",
+      "inspect",
+      "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+      "--format",
+      "{{.Id}}"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/docker",
+      "image",
+      "inspect",
+      "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a",
+      "--format",
+      "{{.Id}}"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "sha256:4357c93ef232c51f6665d72256423eeee8f2084e92dbc6b1a05d963da67969ad\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/docker",
+      "build",
+      "--pull=false",
+      "--network=none",
+      "--build-arg",
+      "BASE_IMAGE=python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+      "-t",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "/home/runner/work/agent/agent/fixtures/cache_app"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "",
+    "stderr": "#0 building with \"default\" instance using docker driver\n\n#1 [internal] load build definition from Dockerfile\n#1 transferring dockerfile: 444B done\n#1 DONE 0.0s\n\n#2 [internal] load metadata for docker.io/library/python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1\n#2 DONE 0.0s\n\n#3 [internal] load .dockerignore\n#3 transferring context: 2B done\n#3 DONE 0.0s\n\n#4 [internal] load build context\n#4 transferring context: 2.88kB done\n#4 DONE 0.0s\n\n#5 [1/4] FROM docker.io/library/python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1\n#5 DONE 0.0s\n\n#6 [2/4] WORKDIR /app\n#6 DONE 0.0s\n\n#7 [3/4] COPY app.py /app/app.py\n#7 DONE 0.0s\n\n#8 [4/4] RUN mkdir -p /var/cache/repair-app /cache && chmod 0755 /var/cache/repair-app && chgrp 2000 /cache && chmod 0770 /cache\n#8 DONE 0.1s\n\n#9 exporting to image\n#9 exporting layers\n#9 exporting layers 0.5s done\n#9 writing image sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3 done\n#9 naming to docker.io/library/repair-cache-app:demo-df02a9f5baee95c5-4d79b851 done\n#9 DONE 0.5s\n"
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kind",
+      "create",
+      "cluster",
+      "--name",
+      "repair-demo-e2962fea7b39",
+      "--image",
+      "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a",
+      "--config",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/kind-config.json",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--wait",
+      "120s"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "",
+    "stderr": "using docker due to KIND_EXPERIMENTAL_PROVIDER\nCreating cluster \"repair-demo-e2962fea7b39\" ...\n \u2022 Ensuring node image (kindest/node:v1.34.0) \ud83d\uddbc  ...\n \u2713 Ensuring node image (kindest/node:v1.34.0) \ud83d\uddbc\n \u2022 Preparing nodes \ud83d\udce6   ...\n \u2713 Preparing nodes \ud83d\udce6 \n \u2022 Writing configuration \ud83d\udcdc  ...\n \u2713 Writing configuration \ud83d\udcdc\n \u2022 Starting control-plane \ud83d\udd79\ufe0f  ...\n \u2713 Starting control-plane \ud83d\udd79\ufe0f\n \u2022 Installing CNI \ud83d\udd0c  ...\n \u2713 Installing CNI \ud83d\udd0c\n \u2022 Installing StorageClass \ud83d\udcbe  ...\n \u2713 Installing StorageClass \ud83d\udcbe\n \u2022 Waiting \u2264 2m0s for control-plane = Ready \u23f3  ...\n \u2713 Waiting \u2264 2m0s for control-plane = Ready \u23f3\n \u2022 Ready after 20s \ud83d\udc9a\nSet kubectl context to \"kind-repair-demo-e2962fea7b39\"\nYou can now use your cluster with:\n\nkubectl cluster-info --context kind-repair-demo-e2962fea7b39 --kubeconfig /home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig\n\nThanks for using kind! \ud83d\ude0a\n"
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kind",
+      "load",
+      "docker-image",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "--name",
+      "repair-demo-e2962fea7b39"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "",
+    "stderr": "using docker due to KIND_EXPERIMENTAL_PROVIDER\nImage: \"repair-cache-app:demo-df02a9f5baee95c5-4d79b851\" with ID \"sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3\" not yet present on node \"repair-demo-e2962fea7b39-control-plane\", loading...\n"
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--request-timeout=10s",
+      "create",
+      "namespace",
+      "repair-pin-beba1871b8c2"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "namespace/repair-pin-beba1871b8c2 created\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--request-timeout=10s",
+      "-n",
+      "repair-pin-beba1871b8c2",
+      "apply",
+      "-f",
+      "-"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "deployment.apps/repair-cache-app created\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--request-timeout=10s",
+      "-n",
+      "repair-pin-beba1871b8c2",
+      "rollout",
+      "status",
+      "deployment/repair-cache-app",
+      "--timeout=60s"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "Waiting for deployment \"repair-cache-app\" rollout to finish: 0 out of 1 new replicas have been updated...\nWaiting for deployment \"repair-cache-app\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"repair-cache-app\" successfully rolled out\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--request-timeout=10s",
+      "-n",
+      "repair-pin-beba1871b8c2",
+      "get",
+      "pods",
+      "-l",
+      "app=repair-cache-app",
+      "-o",
+      "json"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "th\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/var/cache/repair-app\",\n                                \"name\": \"cache-data\"\n                            }\n                        ]\n                    }\n                ],\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"enableServiceLinks\": true,\n                \"nodeName\": \"repair-demo-e2962fea7b39-control-plane\",\n                \"preemptionPolicy\": \"PreemptLowerPriority\",\n                \"priority\": 0,\n                \"restartPolicy\": \"Always\",\n                \"schedulerName\": \"default-scheduler\",\n                \"securityContext\": {\n                    \"fsGroup\": 10001\n                },\n                \"serviceAccount\": \"default\",\n                \"serviceAccountName\": \"default\",\n                \"terminationGracePeriodSeconds\": 30,\n                \"tolerations\": [\n                    {\n                        \"effect\": \"NoExecute\",\n                        \"key\": \"node.kubernetes.io/not-ready\",\n                        \"operator\": \"Exists\",\n                        \"tolerationSeconds\": 300\n                    },\n                    {\n                        \"effect\": \"NoExecute\",\n                        \"key\": \"node.kubernetes.io/unreachable\",\n                        \"operator\": \"Exists\",\n                        \"tolerationSeconds\": 300\n                    }\n                ],\n                \"volumes\": [\n                    {\n                        \"emptyDir\": {\n                            \"sizeLimit\": \"16Mi\"\n                        },\n                        \"name\": \"cache-data\"\n                    }\n                ]\n            },\n            \"status\": {\n                \"conditions\": [\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-13T13:54:13Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"PodReadyToStartContainers\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-13T13:54:12Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"Initialized\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-13T13:54:13Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"Ready\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-13T13:54:13Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"ContainersReady\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-13T13:54:12Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"PodScheduled\"\n                    }\n                ],\n                \"containerStatuses\": [\n                    {\n                        \"allocatedResources\": {\n                            \"cpu\": \"100m\",\n                            \"memory\": \"32Mi\"\n                        },\n                        \"containerID\": \"containerd://c60be570c9ef89be4fe65bac4643ac6b09aabbf849bca6c578e368ead4a70a6a\",\n                        \"image\": \"docker.io/library/repair-cache-app:demo-df02a9f5baee95c5-4d79b851\",\n                        \"imageID\": \"sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3\",\n                        \"lastState\": {},\n                        \"name\": \"app\",\n                        \"ready\": true,\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"500m\",\n                                \"memory\": \"128Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"100m\",\n                                \"memory\": \"32Mi\"\n                            }\n                        },\n                        \"restartCount\": 0,\n                        \"started\": true,\n                        \"state\": {\n                            \"running\": {\n                                \"startedAt\": \"2026-10-13T13:54:13Z\"\n                            }\n                        },\n                        \"user\": {\n                            \"linux\": {\n                                \"gid\": 10001,\n                                \"supplementalGroups\": [\n                                    10001\n                                ],\n                                \"uid\": 10001\n                            }\n                        },\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/var/cache/repair-app\",\n                                \"name\": \"cache-data\"\n                            }\n                        ]\n                    }\n                ],\n                \"hostIP\": \"172.18.0.2\",\n                \"hostIPs\": [\n                    {\n                        \"ip\": \"172.18.0.2\"\n                    }\n                ],\n                \"observedGeneration\": 1,\n                \"phase\": \"Running\",\n                \"podIP\": \"10.244.0.5\",\n                \"podIPs\": [\n                    {\n                        \"ip\": \"10.244.0.5\"\n                    }\n                ],\n                \"qosClass\": \"Burstable\",\n                \"startTime\": \"2026-10-13T13:54:12Z\"\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--request-timeout=10s",
+      "delete",
+      "namespace",
+      "repair-pin-beba1871b8c2",
+      "--wait=true",
+      "--timeout=30s"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "namespace \"repair-pin-beba1871b8c2\" deleted\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "kube_repair",
+      "baseline",
+      "--scenario",
+      "cache-path",
+      "--backend",
+      "kubernetes",
+      "--kube-context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--kubectl",
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--image",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "--expected-image-id",
+      "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+      "--strategy",
+      "noop",
+      "--output",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/noop"
+    ],
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "stdout": "{\n  \"accepted\": false,\n  \"backend\": \"kubernetes\",\n  \"output\": \"/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/noop\",\n  \"provider\": \"baseline:noop\",\n  \"review_hash\": \"2d53e6722606b0c79034418c66369f2c0ea63ea801250245a483b016e8bede12\",\n  \"runtime_verified\": true,\n  \"scenario\": \"cache-path\",\n  \"status\": \"failed\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "kube_repair",
+      "baseline",
+      "--scenario",
+      "cache-path",
+      "--backend",
+      "kubernetes",
+      "--kube-context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--kubectl",
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--image",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "--expected-image-id",
+      "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+      "--strategy",
+      "naive",
+      "--output",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/naive"
+    ],
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "stdout": "{\n  \"accepted\": false,\n  \"backend\": \"kubernetes\",\n  \"output\": \"/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/naive\",\n  \"provider\": \"baseline:naive\",\n  \"review_hash\": \"720752d49669c151b32c27cefd1498703da6c8f3d67993079957066f944ae5f2\",\n  \"runtime_verified\": false,\n  \"scenario\": \"cache-path\",\n  \"status\": \"failed\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "kube_repair",
+      "baseline",
+      "--scenario",
+      "cache-path",
+      "--backend",
+      "kubernetes",
+      "--kube-context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--kubectl",
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--image",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "--expected-image-id",
+      "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+      "--strategy",
+      "known-good",
+      "--output",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/known-good"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "{\n  \"accepted\": true,\n  \"backend\": \"kubernetes\",\n  \"output\": \"/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/known-good\",\n  \"provider\": \"baseline:known-good\",\n  \"review_hash\": \"c9e32c867894f33d847515ea35beddadcfba6a9fb93b4b0e02d8540fd1f62f05\",\n  \"runtime_verified\": true,\n  \"scenario\": \"cache-path\",\n  \"status\": \"repaired\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "kube_repair",
+      "run",
+      "--scenario",
+      "cache-path",
+      "--backend",
+      "kubernetes",
+      "--kube-context",
+      "kind-repair-demo-e2962fea7b39",
+      "--kubeconfig",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/private-kubeconfig",
+      "--kubectl",
+      "/home/runner/work/agent/agent/.tools/bin/kubectl",
+      "--image",
+      "repair-cache-app:demo-df02a9f5baee95c5-4d79b851",
+      "--expected-image-id",
+      "sha256:519b7efc63798041b79249c3567b36a46cd475cca6810fac4c3199a66bcee1c3",
+      "--provider",
+      "scripted",
+      "--output",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/agent"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "{\n  \"accepted\": true,\n  \"backend\": \"kubernetes\",\n  \"output\": \"/home/runner/work/agent/agent/runs/github-kubernetes-demo/results/agent\",\n  \"provider\": \"scripted\",\n  \"review_hash\": \"af5af3779951631e02351f6767f09dce7bb952fe8fda14b61473610b8150b88c\",\n  \"runtime_verified\": true,\n  \"scenario\": \"cache-path\",\n  \"status\": \"repaired\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kind",
+      "export",
+      "logs",
+      "--name",
+      "repair-demo-e2962fea7b39",
+      "/home/runner/work/agent/agent/runs/github-kubernetes-demo/cluster-logs"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "/home/runner/work/agent/agent/runs/github-kubernetes-demo/cluster-logs\n",
+    "stderr": "using docker due to KIND_EXPERIMENTAL_PROVIDER\nExporting logs for cluster \"repair-demo-e2962fea7b39\" to:\n"
+  },
+  {
+    "argv": [
+      "/home/runner/work/agent/agent/.tools/bin/kind",
+      "delete",
+      "cluster",
+      "--name",
+      "repair-demo-e2962fea7b39"
+    ],
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "stdout": "",
+    "stderr": "using docker due to KIND_EXPERIMENTAL_PROVIDER\nDeleting cluster \"repair-demo-e2962fea7b39\" ...\nDeleted nodes: [\"repair-demo-e2962fea7b39-control-plane\"]\n"
+  }
+]

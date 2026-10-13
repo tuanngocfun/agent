@@ -1,0 +1,9 @@
+{
+  "workflow_run_id": 38408621533,
+  "job_id": 115334738105,
+  "artifact_id": 11820875786,
+  "artifact_sha256": "7361704237d39eeef6cb0db119444b6a392f69664a3caf43e2751a68f687faec",
+  "commit": "44613880014ca56882f0a21e5de461db97941b50",
+  "run_url": "https://github.com/tuanngocfun/agent/actions/runs/38408621533",
+  "claim": "Real Kubernetes fixture execution with scripted decision provider; not an LLM benchmark."
+}

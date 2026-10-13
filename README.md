@@ -2,7 +2,9 @@
 
 A runnable first project for the question: **can an agent harden a container without breaking its required behavior?**
 
-**Bạn muốn xem demo Kubernetes thật:** đọc [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md). Repository riêng `tuanngocfun/agent` đã được chọn và việc publish nhánh `kube-remediation-demo` đã được cho phép. Workflow sẽ dựng cluster `kind`, chạy ứng dụng thật và lưu patch/trace/kết quả kiểm tra. Lượt chạy GitHub Actions còn chờ; chưa có bằng chứng Kubernetes thành công.
+**Demo Kubernetes thật đã chạy thành công:** [xem GitHub Actions run](https://github.com/tuanngocfun/agent/actions/runs/38408621533) trên repo riêng `tuanngocfun/agent`, nhánh `kube-remediation-demo`, source commit `4461388`. Cluster `kind` chạy Kubernetes **v1.34.0**; artifact chứa patch, trace và kiểm tra runtime. Bản hardening đơn giản làm cache lỗi; vòng `scripted` sửa được sau **2 ứng viên, 3 lượt test**. Đây là bộ điều khiển viết tay trên Kubernetes thật, chưa phải thí nghiệm LLM.
+
+Đọc [kết quả và giới hạn](docs/REAL_KUBERNETES_RESULT_VI.md), rồi dùng [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md) để chạy lại.
 
 See the [GitHub worker guide](docs/GITHUB_KUBERNETES_DEMO.md) for the workflow and evidence to inspect.
 
@@ -102,7 +104,7 @@ Tests exercise unauthorized edits, forged success claims, runtime failures, malf
 
 Read source in this order: [fixtures](src/kube_repair/scenarios.py), [allowed edits](src/kube_repair/policy.py), [verification](src/kube_repair/verification.py), [decision providers](src/kube_repair/providers.py), [engine](src/kube_repair/engine.py), [review artifacts](src/kube_repair/artifacts.py).
 
-The next milestone is an evidenced real Kubernetes job, followed by an LLM-driven repair on the same runtime and several independent workload histories. Freeze evaluator/model versions, establish competent one-shot/fixed-workflow baselines, protect held-out tests and compare at matched budgets before claiming a research contribution. Persistence here is an auditable trace, not resumable agent execution.
+The next milestone is an LLM-driven repair on the demonstrated Kubernetes runtime, followed by several independent workload histories. Freeze evaluator/model versions, establish competent one-shot/fixed-workflow baselines, protect held-out tests and compare at matched budgets before claiming a research contribution. Persistence here is an auditable trace, not resumable agent execution.
 
 ## Environment record
 
