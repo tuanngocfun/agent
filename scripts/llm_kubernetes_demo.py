@@ -20,9 +20,9 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE = "ollama/ollama:0.6.8@sha256:50ab2378567a62b811a2967759dd91f254864c3495cbe50576bd8a85bc6edd56"
-MODEL = "qwen2.5-coder:1.5b-instruct-q4_K_M"
-MODEL_DIGEST = "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
-MODEL_LAYER = "sha256:29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104"
+MODEL = "qwen2.5-coder:3b-instruct-q4_K_M"
+MODEL_DIGEST = "sha256:f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225"
+MODEL_LAYER = "sha256:4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba"
 BASE_IMAGE = "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1"
 NODE_IMAGE = "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a"
 
@@ -142,7 +142,7 @@ def main(argv=None):
                "ps_before": before_ps,
                "settings": {"temperature": 0, "num_ctx": 8192, "num_thread": 2,
                             "decoding_mode": "json", "max_output_tokens": 512, "timeout_seconds": 420},
-               "weight_license": "Apache-2.0; weights are not published in this repository",
+               "weight_license": "Qwen Research License; weights are not published in this repository",
                "cpu_only": True, "selected_model": selected}
         (output / "model-pin.json").write_text(json.dumps(pin, indent=2) + "\n")
         run([sys.executable, "scripts/kind_demo.py", "--base-image", BASE_IMAGE, "--node-image", NODE_IMAGE,
