@@ -1,0 +1,67 @@
+name: Kubernetes remediation demo
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - kube-remediation-demo
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kube-remediation-demo-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  real-kubernetes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the exact demo commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Install verified kind and kubectl
+        run: python3 scripts/install_worker_tools.py
+
+      - name: Validate the source and protocol tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -v
+
+      - name: Prepare trusted images and run real Kubernetes
+        env:
+          NODE_IMAGE: kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a
+        run: |
+          set -euo pipefail
+          docker pull "$NODE_IMAGE"
+          docker pull python:3.12-slim
+          BASE_IMAGE="$(docker image inspect python:3.12-slim --format '{{index .RepoDigests 0}}')"
+          python3 scripts/kind_demo.py \
+            --node-image "$NODE_IMAGE" --base-image "$BASE_IMAGE" \
+            --provider scripted --output runs/github-kubernetes-demo
+
+      - name: Collect reports without cluster credentials
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import shutil
+          from pathlib import Path
+          source = Path('runs/github-kubernetes-demo')
+          target = Path('reports')
+          target.mkdir(exist_ok=True)
+          for name in ('summary.json', 'image-pin.json', 'commands.json'):
+              if (source / name).is_file():
+                  shutil.copy2(source / name, target / name)
+          if (source / 'results').is_dir():
+              shutil.copytree(source / 'results', target / 'results')
+          PY
+
+      - name: Upload reviewable evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kubernetes-remediation-evidence
+          path: reports/
+          retention-days: 7
+          if-no-files-found: warn

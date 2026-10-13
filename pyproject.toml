@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kube-security-remediation-lab"
+version = "0.1.0"
+description = "A bounded security repair agent with explicit simulation and runtime evidence"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+kube-repair = "kube_repair.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
