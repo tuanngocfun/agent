@@ -41,7 +41,7 @@ jobs:
           source = Path('runs/github-llm-kubernetes-demo')
           target = Path('reports')
           target.mkdir(exist_ok=True)
-          for name in ('summary.json', 'model-pin.json', 'model-commands.json', 'model-server.log'):
+          for name in ('summary.json', 'model-pin.json', 'inference-smoke.json', 'model-commands.json', 'model-server.log'):
               if (source / name).is_file():
                   shutil.copy2(source / name, target / name)
           kube = source / 'kubernetes'

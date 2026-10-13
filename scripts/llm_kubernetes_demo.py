@@ -20,9 +20,9 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE = "ollama/ollama:0.6.8@sha256:50ab2378567a62b811a2967759dd91f254864c3495cbe50576bd8a85bc6edd56"
-MODEL = "qwen2.5-coder:3b-instruct-q4_K_M"
-MODEL_DIGEST = "sha256:f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225"
-MODEL_LAYER = "sha256:4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba"
+MODEL = "qwen2.5-coder:1.5b-instruct-q4_K_M"
+MODEL_DIGEST = "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+MODEL_LAYER = "sha256:29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104"
 BASE_IMAGE = "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1"
 NODE_IMAGE = "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a"
 
@@ -117,16 +117,31 @@ def main(argv=None):
         if "sha256:" + checksum.hexdigest() != MODEL_LAYER:
             raise RuntimeError("Downloaded GGUF weight blob checksum mismatch")
         show = http(base_url + "/api/show", "POST", {"model": MODEL})
+        (output / "model-pin.json").write_text(json.dumps({
+            "status": "weights_verified_before_inference", "model": MODEL, "model_digest": MODEL_DIGEST,
+            "weight_blob_digest": MODEL_LAYER, "downloaded_weight_sha256_verified": True,
+            "tags_before": before, "show": show, "ollama_image": IMAGE, "ollama_version": version,
+        }, indent=2) + "\n")
         warm = http(base_url + "/api/chat", "POST", {"model": MODEL, "messages": [], "stream": False,
                     "keep_alive": "30m", "options": {"num_ctx": 8192, "num_thread": 2}}, timeout=180)
+        smoke = http(base_url + "/api/chat", "POST", {"model": MODEL, "stream": False, "format": "json",
+                     "messages": [{"role": "user", "content": 'Return exactly this JSON object: {"ready":true}'}],
+                     "keep_alive": "30m", "options": {"temperature": 0, "num_ctx": 8192,
+                                                         "num_thread": 2, "num_predict": 32}}, timeout=180)
+        (output / "inference-smoke.json").write_text(json.dumps(smoke, indent=2) + "\n")
+        if not (smoke.get("done") is True and smoke.get("eval_count", 0) > 0
+                and json.loads(smoke.get("message", {}).get("content", "null")) == {"ready": True}):
+            raise RuntimeError("Actual short model inference did not return the requested JSON")
         before_ps = http(base_url + "/api/ps")
         if not before_ps.get("models") or any(m.get("size_vram") != 0 for m in before_ps["models"]):
             raise RuntimeError("CPU-only model execution could not be confirmed")
         pin = {"model": MODEL, "model_digest": MODEL_DIGEST, "weight_blob_digest": MODEL_LAYER,
                "downloaded_weight_sha256_verified": True, "ollama_image": IMAGE, "ollama_version": version,
-               "tags_before": before, "show": show, "warmup_response": warm, "ps_before": before_ps,
-               "settings": {"temperature": 0, "num_ctx": 8192, "num_thread": 2},
-               "weight_license": "Qwen Research License; weights are not published in this repository",
+               "tags_before": before, "show": show, "warmup_response": warm, "inference_smoke": smoke,
+               "ps_before": before_ps,
+               "settings": {"temperature": 0, "num_ctx": 8192, "num_thread": 2,
+                            "decoding_mode": "json", "max_output_tokens": 512, "timeout_seconds": 180},
+               "weight_license": "Apache-2.0; weights are not published in this repository",
                "cpu_only": True, "selected_model": selected}
         (output / "model-pin.json").write_text(json.dumps(pin, indent=2) + "\n")
         run([sys.executable, "scripts/kind_demo.py", "--base-image", BASE_IMAGE, "--node-image", NODE_IMAGE,

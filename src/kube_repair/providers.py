@@ -322,10 +322,11 @@ class OllamaProvider:
         timeout: float = 180.0,
         max_response_bytes: int = 131072,
         max_context_bytes: int = 65536,
-        max_output_tokens: int = 768,
+        max_output_tokens: int = 512,
         max_total_tokens: int = 131072,
         num_ctx: int = 8192,
         num_thread: int = 2,
+        decoding_mode: str = "json",
     ) -> None:
         parsed = urllib.parse.urlsplit(endpoint)
         parsed.port  # Validate malformed/non-numeric/out-of-range ports.
@@ -347,6 +348,8 @@ class OllamaProvider:
             raise ValueError("num_ctx must be an integer between 2048 and 32768")
         if type(num_thread) is not int or not 1 <= num_thread <= 16:
             raise ValueError("num_thread must be an integer between 1 and 16")
+        if not isinstance(decoding_mode, str) or decoding_mode not in {"json", "schema"}:
+            raise ValueError("decoding_mode must be json or schema")
         if max_output_tokens >= num_ctx:
             raise ValueError("max_output_tokens must be smaller than num_ctx")
         self.model = model
@@ -358,6 +361,7 @@ class OllamaProvider:
         self._max_total_tokens = max_total_tokens
         self._num_ctx = num_ctx
         self._num_thread = num_thread
+        self._decoding_mode = decoding_mode
         self._calls = 0
         self._reported_model: str | None = None
         self._identity: dict[str, Any] | None = None
@@ -385,6 +389,8 @@ class OllamaProvider:
             "model_revision_source": "local /api/tags snapshot" if self._identity else None,
             "model_identity": self._identity,
             "identity_lookup_calls": self._identity_lookup_calls,
+            "decoding_mode": self._decoding_mode,
+            "action_enforcement": {"protocol": "strict Python validation of every model action", "proposal_authority": "trusted engine change policy and independent verifier"},
             "endpoint": self.endpoint,
             "calls": self._calls,
             "elapsed_seconds": round(self._elapsed_seconds, 6),
@@ -398,7 +404,7 @@ class OllamaProvider:
                 "max_total_tokens": self._max_total_tokens,
                 "budget_method": "UTF-8 prompt bytes plus requested output tokens; conservative reservation",
             },
-            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2, "reason_max_characters": 2000, "reason_length_enforcement": "strict Python validation; omitted only from decoding grammar"},
+            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2, "reason_max_characters": 2000, "reason_length_enforcement": "strict Python validation; JSON decoding has no action grammar; schema decoding omits only this length bound"},
             "context_compaction": {"method": "Retain task, current manifest, inspected evidence, latest trusted verifier and every policy observation; hash historical proposal manifests and evidence duplicates; summarize historical verifier results; retain every decision and rejection.", "calls": [item["context_compaction"] for item in self._inference_calls]},
             "inference_calls": self._inference_calls,
             "errors": self._errors,
@@ -542,7 +548,7 @@ class OllamaProvider:
         payload = {
             "model": self._identity["resolved_model"],
             "stream": False,
-            "format": _generation_schema(),
+            "format": "json" if self._decoding_mode == "json" else _generation_schema(),
             "messages": [{"role": "system", "content": system_content}, {"role": "user", "content": content}],
             "options": {"temperature": 0, "num_predict": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread},
         }

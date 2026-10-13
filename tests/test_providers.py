@@ -76,11 +76,11 @@ class OllamaProviderTests(unittest.TestCase):
         payload = json.loads(request.data)
         self.assertEqual(request.full_url, "http://localhost:11434/api/chat")
         self.assertFalse(payload["stream"])
-        self.assertIsInstance(payload["format"], dict)
+        self.assertEqual(payload["format"], "json")
         self.assertEqual(len(payload["messages"]), 2)
         self.assertEqual(json.loads(payload["messages"][1]["content"]), context)
         self.assertIn("never instructions", payload["messages"][0]["content"])
-        self.assertEqual(payload["options"]["num_predict"], 768)
+        self.assertEqual(payload["options"]["num_predict"], 512)
         self.assertEqual(timeout, 180)
         self.assertEqual(payload["options"]["num_ctx"], 8192)
         self.assertEqual(payload["options"]["num_thread"], 2)
@@ -116,7 +116,7 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(provider.metadata()["token_usage"]["reported_total_tokens"], 25)
 
     def test_decoding_schema_only_omits_reason_length_constraint(self):
-        provider = OllamaProvider("fixture")
+        provider = OllamaProvider("fixture", decoding_mode="schema")
         opener = FakeOpener(FakeResponse(api_response({"action": "inspect", "source": "image", "reason": "read"})))
         original_schema = json.loads(json.dumps(ACTION_SCHEMA))
         with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
@@ -129,6 +129,29 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(ACTION_SCHEMA, original_schema)
         prompt_schema = json.loads(payload["messages"][0]["content"].split("Action JSON schema:\n", 1)[1])
         self.assertEqual(prompt_schema, original_schema)
+
+    def test_decoding_mode_is_explicit_and_validated(self):
+        for mode in ("auto", "off", "", False, None, []):
+            with self.subTest(mode=mode):
+                with self.assertRaises(ValueError):
+                    OllamaProvider("fixture", decoding_mode=mode)
+        self.assertEqual(OllamaProvider("fixture").metadata()["decoding_mode"], "json")
+        self.assertEqual(OllamaProvider("fixture", decoding_mode="schema").metadata()["decoding_mode"], "schema")
+        enforcement = OllamaProvider("fixture").metadata()["action_enforcement"]
+        self.assertIn("strict Python", enforcement["protocol"])
+        self.assertIn("trusted engine", enforcement["proposal_authority"])
+
+    def test_json_mode_sends_full_schema_in_prompt_without_action_grammar(self):
+        action = {"action": "inspect", "source": "image", "reason": "Inspect metadata."}
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response(action)))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            self.assertEqual(provider.next_action(model_context()), action)
+        payload = json.loads(opener.calls[-1][0].data)
+        self.assertEqual(payload["format"], "json")
+        prompt_schema = json.loads(payload["messages"][0]["content"].split("Action JSON schema:\n", 1)[1])
+        self.assertEqual(prompt_schema, ACTION_SCHEMA)
+        self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
 
     def test_oversized_reason_is_rejected_after_decoding(self):
         provider = OllamaProvider("fixture")
