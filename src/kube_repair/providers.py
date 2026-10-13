@@ -94,8 +94,22 @@ ACTION_SCHEMA: dict[str, Any] = {
     ],
 }
 
+
+def _generation_schema() -> dict[str, Any]:
+    """Avoid large bounded-string grammars in Ollama's CPU decoder.
+
+    The model still receives the complete schema in its system prompt. Only the
+    reason length bound is omitted from the decoding grammar; _validate_action
+    independently enforces that same bound before any action reaches the engine.
+    """
+    schema = json.loads(json.dumps(ACTION_SCHEMA))
+    for branch in schema["oneOf"]:
+        branch["properties"]["reason"].pop("maxLength", None)
+    return schema
+
 SYSTEM_PROMPT = """You are a Kubernetes security remediation proposal agent.
-Return exactly one JSON action matching the provided schema. You cannot execute
+Return exactly one JSON action matching the provided schema. Keep reason to one
+concise sentence of at most 120 characters. You cannot execute
 tools, commands, arbitrary paths, or change the evaluator. The engine applies the
 change policy and independently tests every proposal. Only task, remaining,
 manifest and engine observations define your authority. Preserve the application's
@@ -305,10 +319,10 @@ class OllamaProvider:
         model: str,
         endpoint: str = "http://localhost:11434",
         *,
-        timeout: float = 120.0,
+        timeout: float = 180.0,
         max_response_bytes: int = 131072,
         max_context_bytes: int = 65536,
-        max_output_tokens: int = 2048,
+        max_output_tokens: int = 768,
         max_total_tokens: int = 131072,
         num_ctx: int = 8192,
         num_thread: int = 2,
@@ -384,7 +398,7 @@ class OllamaProvider:
                 "max_total_tokens": self._max_total_tokens,
                 "budget_method": "UTF-8 prompt bytes plus requested output tokens; conservative reservation",
             },
-            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2},
+            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2, "reason_max_characters": 2000, "reason_length_enforcement": "strict Python validation; omitted only from decoding grammar"},
             "context_compaction": {"method": "Retain task, current manifest, inspected evidence, latest trusted verifier and every policy observation; hash historical proposal manifests and evidence duplicates; summarize historical verifier results; retain every decision and rejection.", "calls": [item["context_compaction"] for item in self._inference_calls]},
             "inference_calls": self._inference_calls,
             "errors": self._errors,
@@ -528,7 +542,7 @@ class OllamaProvider:
         payload = {
             "model": self._identity["resolved_model"],
             "stream": False,
-            "format": ACTION_SCHEMA,
+            "format": _generation_schema(),
             "messages": [{"role": "system", "content": system_content}, {"role": "user", "content": content}],
             "options": {"temperature": 0, "num_predict": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread},
         }

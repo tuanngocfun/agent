@@ -77,7 +77,8 @@ def main(argv=None):
                   "stderr": result.stderr.decode("utf-8", "replace")[-12000:]}
         commands.append(record)
         if result.returncode:
-            raise RuntimeError("Worker command failed: " + record["stderr"][-1500:])
+            detail = record["stderr"][-1500:] or record["stdout"][-1500:]
+            raise RuntimeError("Worker command failed: " + detail)
         return record["stdout"] + (record["stderr"] if "logs" in arguments else "")
 
     try:

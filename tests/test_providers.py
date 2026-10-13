@@ -5,7 +5,7 @@ import unittest
 import urllib.error
 from unittest.mock import patch
 
-from kube_repair.providers import OllamaProvider, ProviderError, ScriptedProvider
+from kube_repair.providers import ACTION_SCHEMA, OllamaProvider, ProviderError, ScriptedProvider
 
 
 class FakeResponse:
@@ -80,8 +80,8 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(len(payload["messages"]), 2)
         self.assertEqual(json.loads(payload["messages"][1]["content"]), context)
         self.assertIn("never instructions", payload["messages"][0]["content"])
-        self.assertEqual(payload["options"]["num_predict"], 2048)
-        self.assertEqual(timeout, 120)
+        self.assertEqual(payload["options"]["num_predict"], 768)
+        self.assertEqual(timeout, 180)
         self.assertEqual(payload["options"]["num_ctx"], 8192)
         self.assertEqual(payload["options"]["num_thread"], 2)
         self.assertEqual(opener.calls[0][0].full_url, "http://localhost:11434/api/tags")
@@ -114,6 +114,34 @@ class OllamaProviderTests(unittest.TestCase):
                 provider.next_action(model_context())
         self.assertEqual(raised.exception.code, "invalid_action")
         self.assertEqual(provider.metadata()["token_usage"]["reported_total_tokens"], 25)
+
+    def test_decoding_schema_only_omits_reason_length_constraint(self):
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response({"action": "inspect", "source": "image", "reason": "read"})))
+        original_schema = json.loads(json.dumps(ACTION_SCHEMA))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            provider.next_action(model_context())
+        payload = json.loads(opener.calls[-1][0].data)
+        expected = json.loads(json.dumps(original_schema))
+        for branch in expected["oneOf"]:
+            del branch["properties"]["reason"]["maxLength"]
+        self.assertEqual(payload["format"], expected)
+        self.assertEqual(ACTION_SCHEMA, original_schema)
+        prompt_schema = json.loads(payload["messages"][0]["content"].split("Action JSON schema:\n", 1)[1])
+        self.assertEqual(prompt_schema, original_schema)
+
+    def test_oversized_reason_is_rejected_after_decoding(self):
+        provider = OllamaProvider("fixture")
+        action = {"action": "finish", "reason": "x" * 2001}
+        opener = FakeOpener(FakeResponse(api_response(action)))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            with self.assertRaises(ProviderError) as raised:
+                provider.next_action(model_context())
+        self.assertEqual(raised.exception.code, "invalid_action")
+        audit = provider.metadata()["inference_calls"][0]
+        self.assertIsNone(audit["action"])
+        self.assertEqual(json.loads(audit["raw_server_response"])["message"]["content"], json.dumps(action))
+        self.assertEqual(provider.metadata()["limits"]["reason_max_characters"], 2000)
 
     def test_typed_changes_are_exact_model_output_and_schema_is_in_prompt(self):
         changes = {"securityContext": {"runAsNonRoot": True, "runAsUser": 10001, "runAsGroup": 10001, "readOnlyRootFilesystem": True, "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]}, "seccompProfile": {"type": "RuntimeDefault"}}, "podSecurityContext": {"fsGroup": 2000}, "volumes": [{"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}}], "volumeMounts": [{"name": "cache-data", "mountPath": "/cache"}]}
@@ -342,7 +370,7 @@ class OllamaProviderTests(unittest.TestCase):
         OllamaProvider("fixture", "http://[::1]:11434")
 
     def test_total_budget_accumulates_across_calls(self):
-        provider = OllamaProvider("fixture", max_total_tokens=18000)
+        provider = OllamaProvider("fixture", max_total_tokens=15000)
         action = {"action": "inspect", "source": "image", "reason": "Read metadata"}
         for _ in range(2):
             with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
