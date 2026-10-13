@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from kube_repair.artifacts import digest
 from kube_repair.engine import run_baseline, run_task
 from kube_repair.policy import harden
 from kube_repair.providers import ScriptedProvider
@@ -133,6 +134,145 @@ class EngineTests(unittest.TestCase):
                 report, _ = run_baseline(get_scenario("authority-limit"), "known-good", Path(temp) / "bundle")
             self.assertEqual(report["status"], "runner_error")
             self.assertFalse(report["appropriate_abstention"])
+
+    def test_partial_progress_retains_decisions_tests_and_raw_provider_evidence(self):
+        with tempfile.TemporaryDirectory() as temp:
+            progress = Path(temp) / "progress.json"
+            scenario = get_scenario("cache-path")
+
+            class AuditedProvider(ActionsProvider):
+                def __init__(self, actions):
+                    super().__init__(actions)
+                    self.responses = []
+                    self.before_calls = []
+
+                def next_action(self, context):
+                    self.before_calls.append(json.loads(progress.read_text()))
+                    try:
+                        action = next(self.actions)
+                    except StopIteration:
+                        raise RuntimeError("inference transport failed")
+                    response = {"model": "actual-test-server", "message": {"content": json.dumps(action)},
+                                "prompt_eval_count": 40, "eval_count": 12}
+                    self.responses.append({"raw_response": response, "response_sha256": digest(response),
+                                           "action": copy.deepcopy(action)})
+                    return action
+
+                def metadata(self):
+                    return {"name": "audited-test-provider", "uses_llm": True,
+                            "inference_calls": copy.deepcopy(self.responses)}
+
+            provider = AuditedProvider([
+                {"action": "inspect", "source": "image", "reason": "Read metadata"},
+                {"action": "propose", "manifest": harden(scenario.base), "reason": "Test hardening"},
+            ])
+            report, _ = run_task(scenario, provider, Path(temp) / "bundle", progress_output=progress)
+            snapshot = json.loads(progress.read_text())
+            self.assertEqual(report["status"], "provider_error")
+            self.assertEqual(len(snapshot["provider"]["inference_calls"]), 2)
+            self.assertEqual(snapshot["provider"], provider.metadata())
+            self.assertEqual([record["stage"] for record in provider.before_calls],
+                             ["before_model_call"] * 3)
+            self.assertEqual(snapshot["budget"]["test_runs"], 2)
+            self.assertEqual(snapshot["manifest_hash"], digest(harden(scenario.base)))
+            self.assertEqual(snapshot["verification_manifest_hash"], snapshot["manifest_hash"])
+            self.assertFalse(snapshot["verification"]["behavior_pass"])
+            self.assertIn("image", snapshot["evidence"])
+            events = [item["event"] for item in snapshot["trace"]]
+            self.assertEqual(events.count("decision"), 2)
+            self.assertIn("candidate_verification", events)
+            self.assertIn("provider_error", events)
+            self.assertEqual(snapshot["status"], "in_progress")
+            self.assertFalse(snapshot["accepted"])
+            self.assertFalse(snapshot["exportable"])
+            claimed_hash = snapshot.pop("snapshot_hash")
+            self.assertEqual(digest(snapshot), claimed_hash)
+            self.assertEqual(len(snapshot["source_fingerprint"]), 64)
+
+    def test_progress_stays_nonexportable_after_successful_final_bundle(self):
+        with tempfile.TemporaryDirectory() as temp:
+            progress = Path(temp) / "progress.json"
+            report, binding = run_task(get_scenario("cache-path"), ScriptedProvider(),
+                                       Path(temp) / "bundle", progress_output=progress)
+            snapshot = json.loads(progress.read_text())
+            self.assertTrue(report["accepted"])
+            self.assertEqual(snapshot["stage"], "final_bundle_written")
+            self.assertEqual(snapshot["execution_state"], "completed")
+            self.assertEqual(snapshot["status"], "in_progress")
+            self.assertFalse(snapshot["accepted"])
+            self.assertFalse(snapshot["exportable"])
+            self.assertEqual(snapshot["final_bundle_review_hash"], binding["review_hash"])
+            self.assertFalse(any(Path(temp).glob(".*.tmp")))
+
+    def test_interrupt_during_verification_preserves_completed_model_response(self):
+        with tempfile.TemporaryDirectory() as temp:
+            progress = Path(temp) / "progress.json"
+            scenario = get_scenario("cache-path")
+            action = {"action": "propose", "manifest": harden(scenario.base), "reason": "Model proposal"}
+
+            class AuditedProvider(ActionsProvider):
+                def metadata(self):
+                    return {"name": "audited-test-provider", "uses_llm": True,
+                            "inference_calls": [{"raw_response": {"message": {"content": json.dumps(action)}}}]}
+
+            calls = []
+            from kube_repair.verification import verify as trusted_verify
+
+            def interrupted_verify(manifest, contract, backend):
+                calls.append(manifest)
+                if len(calls) == 2:
+                    raise KeyboardInterrupt("execution interrupted")
+                return trusted_verify(manifest, contract, backend)
+
+            with patch("kube_repair.engine.verify", side_effect=interrupted_verify):
+                with self.assertRaises(KeyboardInterrupt):
+                    run_task(scenario, AuditedProvider([action]), Path(temp) / "bundle",
+                             progress_output=progress)
+            snapshot = json.loads(progress.read_text())
+            self.assertEqual(snapshot["stage"], "interrupted")
+            self.assertEqual(snapshot["interrupted_at_stage"], "before_candidate_verification")
+            self.assertEqual(snapshot["manifest_hash"], digest(action["manifest"]))
+            self.assertEqual(snapshot["verification_manifest_hash"], digest(scenario.base))
+            self.assertEqual(json.loads(snapshot["provider"]["inference_calls"][0]["raw_response"]
+                                        ["message"]["content"]), action)
+            self.assertEqual(snapshot["trace"][-1]["event"], "decision")
+            self.assertFalse(snapshot["accepted"])
+            self.assertFalse(snapshot["exportable"])
+            self.assertFalse((Path(temp) / "bundle").exists())
+
+    def test_existing_or_symlink_progress_file_is_refused_before_verification(self):
+        with tempfile.TemporaryDirectory() as temp:
+            victim = Path(temp) / "existing.json"
+            victim.write_text("original")
+            linked = Path(temp) / "linked.json"
+            linked.symlink_to(victim)
+            for progress in (victim, linked):
+                with self.subTest(progress=progress.name):
+                    with patch("kube_repair.engine.verify") as verifier:
+                        with self.assertRaisesRegex(ValueError, "fresh file"):
+                            run_task(get_scenario("cache-path"), ScriptedProvider(),
+                                     Path(temp) / "bundle", progress_output=progress)
+                    verifier.assert_not_called()
+                    self.assertEqual(victim.read_text(), "original")
+
+    def test_replaced_progress_file_is_not_overwritten(self):
+        with tempfile.TemporaryDirectory() as temp:
+            progress = Path(temp) / "progress.json"
+            victim = Path(temp) / "other.json"
+            victim.write_text("do not change")
+
+            class ReplacingProvider(ActionsProvider):
+                def next_action(self, context):
+                    progress.unlink()
+                    progress.symlink_to(victim)
+                    return {"action": "finish", "reason": "claim success"}
+
+            with self.assertRaisesRegex(ValueError, "refusing to overwrite"):
+                run_task(get_scenario("cache-path"), ReplacingProvider([]),
+                         Path(temp) / "bundle", progress_output=progress)
+            self.assertEqual(victim.read_text(), "do not change")
+            self.assertTrue(progress.is_symlink())
+            self.assertFalse((Path(temp) / "bundle").exists())
 
 
 if __name__ == "__main__":

@@ -69,12 +69,13 @@ def main(argv=None):
     created, success, error = False, False, None
     base_url = None
 
-    def run(arguments, timeout=120):
+    def run(arguments, timeout=120, live=False):
         print("Executing:", str(arguments[0]), str(arguments[1]), flush=True)
-        result = subprocess.run([str(a) for a in arguments], cwd=ROOT, capture_output=True, timeout=timeout)
+        result = subprocess.run([str(a) for a in arguments], cwd=ROOT, capture_output=not live, timeout=timeout)
         record = {"argv": [str(a) for a in arguments], "actual_exit": result.returncode,
-                  "stdout": result.stdout.decode("utf-8", "replace")[-12000:],
-                  "stderr": result.stderr.decode("utf-8", "replace")[-12000:]}
+                  "live_output": live,
+                  "stdout": (result.stdout or b"").decode("utf-8", "replace")[-12000:],
+                  "stderr": (result.stderr or b"").decode("utf-8", "replace")[-12000:]}
         commands.append(record)
         if result.returncode:
             detail = record["stderr"][-1500:] or record["stdout"][-1500:]
@@ -146,7 +147,7 @@ def main(argv=None):
         (output / "model-pin.json").write_text(json.dumps(pin, indent=2) + "\n")
         run([sys.executable, "scripts/kind_demo.py", "--base-image", BASE_IMAGE, "--node-image", NODE_IMAGE,
              "--provider", "ollama", "--model", MODEL, "--endpoint", base_url,
-             "--output", output / "kubernetes"], timeout=1050)
+             "--output", output / "kubernetes"], timeout=2100, live=True)
         report = json.loads((output / "kubernetes/results/agent/report.json").read_text())
         provider = report["provider"]
         if not (report["accepted"] and report["runtime_verified"] and provider.get("uses_llm") is True

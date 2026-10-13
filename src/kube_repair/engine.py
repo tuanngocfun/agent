@@ -2,11 +2,115 @@
 
 import copy
 import json
+import os
+import secrets
 import time
+from pathlib import Path
 
-from .artifacts import digest, write_bundle
+from .artifacts import canonical, digest, source_fingerprint, write_bundle
 from .policy import apply_changes, harden, repair_storage, validate_candidate
 from .verification import verify
+
+
+def _progress_provider_metadata(provider):
+    try:
+        return copy.deepcopy(provider.metadata())
+    except Exception as exc:
+        return {"metadata_error": f"{type(exc).__name__}: {exc}"}
+
+
+class _ProgressJournal:
+    """Atomic partial evidence in a fresh file chosen by the trusted caller.
+
+    The parent must already exist and is never created or resolved through a
+    symlink. Only this journal's own file may be replaced on subsequent writes.
+    These snapshots are deliberately outside the exportable review protocol.
+    """
+
+    def __init__(self, output):
+        self.parent_fd = None
+        self.identity = None
+        self.last = {}
+        self.sequence = 0
+        self.fingerprint = source_fingerprint()
+        path = Path(os.path.abspath(os.fspath(output)))
+        if any(parent.is_symlink() for parent in path.parents):
+            raise ValueError("Progress parent must not contain symlinks")
+        if not path.parent.is_dir():
+            raise ValueError("Progress parent must already be a writable directory")
+        self.name = path.name
+        self.parent_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            fd = os.open(self.name, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW,
+                         0o600, dir_fd=self.parent_fd)
+            try:
+                info = os.fstat(fd)
+                self.identity = (info.st_dev, info.st_ino)
+            finally:
+                os.close(fd)
+        except FileExistsError as exc:
+            self.close()
+            raise ValueError("Progress output must be a fresh file") from exc
+        except BaseException:
+            self.close()
+            raise
+
+    def _check_owned_file(self):
+        info = os.stat(self.name, dir_fd=self.parent_fd, follow_symlinks=False)
+        if (info.st_dev, info.st_ino) != self.identity:
+            raise ValueError("Progress output changed; refusing to overwrite another file")
+
+    def write(self, state):
+        self._check_owned_file()
+        snapshot = copy.deepcopy(state)
+        snapshot.update({
+            "schema_version": 1, "artifact_kind": "partial_agent_progress",
+            "status": "in_progress", "accepted": False, "exportable": False,
+            "limitation": "Partial diagnostics only; completion and acceptance require the final hash-bound review bundle.",
+            "sequence": self.sequence + 1, "source_fingerprint": self.fingerprint,
+        })
+        snapshot["snapshot_hash"] = digest(snapshot)
+        temporary = f".{self.name}.{secrets.token_hex(12)}.tmp"
+        fd = os.open(temporary, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW,
+                     0o600, dir_fd=self.parent_fd)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as file:
+                file.write(canonical(snapshot))
+                file.flush()
+                os.fsync(file.fileno())
+            self._check_owned_file()
+            os.replace(temporary, self.name, src_dir_fd=self.parent_fd, dst_dir_fd=self.parent_fd)
+            info = os.stat(self.name, dir_fd=self.parent_fd, follow_symlinks=False)
+            self.identity = (info.st_dev, info.st_ino)
+            os.fsync(self.parent_fd)
+            self.sequence += 1
+            self.last = snapshot
+            budget = snapshot.get("budget", {})
+            verified = (snapshot.get("verification_manifest_hash") == snapshot.get("manifest_hash")
+                        and bool((snapshot.get("verification") or {}).get("passed")))
+            print(f"Agent progress: stage={snapshot.get('stage')} "
+                  f"actions={budget.get('actions', 0)} tests={budget.get('test_runs', 0)} "
+                  f"repairs={budget.get('candidate_repairs', 0)} "
+                  f"current_verified_pass={str(verified).lower()}", flush=True)
+        finally:
+            try:
+                os.unlink(temporary, dir_fd=self.parent_fd)
+            except FileNotFoundError:
+                pass
+
+    def interrupted(self, provider, exc):
+        state = dict(self.last)
+        state.pop("snapshot_hash", None)
+        state.update({"stage": "interrupted", "execution_state": "interrupted",
+                      "interrupted_at_stage": self.last.get("stage"),
+                      "error": f"{type(exc).__name__}: {exc}",
+                      "provider": _progress_provider_metadata(provider)})
+        self.write(state)
+
+    def close(self):
+        if self.parent_fd is not None:
+            os.close(self.parent_fd)
+            self.parent_fd = None
 
 
 def _verification_level(backend):
@@ -51,16 +155,58 @@ def _task(scenario):
     }
 
 
-def run_task(scenario, provider, output, backend="simulated", max_actions=12, max_repairs=3):
+def run_task(scenario, provider, output, backend="simulated", max_actions=12, max_repairs=3,
+             progress_output=None):
     if not (1 <= max_actions <= 30 and 1 <= max_repairs <= 5):
         raise ValueError("Budgets must be 1..30 actions and 1..5 candidate repairs")
+    journal = _ProgressJournal(progress_output) if progress_output is not None else None
+    try:
+        return _run_task(scenario, provider, output, backend, max_actions, max_repairs, journal)
+    except BaseException as exc:
+        if journal is not None:
+            try:
+                journal.interrupted(provider, exc)
+            except (OSError, ValueError):
+                # Preserve the original error; never bypass an ownership failure.
+                pass
+        raise
+    finally:
+        if journal is not None:
+            journal.close()
+
+
+def _run_task(scenario, provider, output, backend, max_actions, max_repairs, journal):
     started = time.monotonic()
     current = copy.deepcopy(scenario.base)
+    result, verification_hash = None, None
+    observations, trace = [], []
+    evidence, repairs, rejected, tests, actions = {}, 0, 0, 0, 0
+    status, reason = "budget_exhausted", "Action budget exhausted"
+
+    def progress(stage, execution_state="running", **extra):
+        if journal is None:
+            return
+        journal.write({
+            "scenario": scenario.id, "backend": backend, "stage": stage,
+            "execution_state": execution_state, "engine_status": status, "reason": reason,
+            "base_hash": digest(scenario.base), "contract_hash": digest(scenario.contract),
+            "manifest": current, "manifest_hash": digest(current),
+            "verification": result, "verification_manifest_hash": verification_hash,
+            "observations": observations, "evidence": evidence, "trace": trace,
+            "provider": _progress_provider_metadata(provider),
+            "budget": {"max_actions": max_actions, "max_repairs": max_repairs,
+                       "actions": actions, "candidate_repairs": repairs, "test_runs": tests},
+            "rejected_actions": rejected, "executed_unauthorized_effects": 0,
+            "seconds": round(time.monotonic() - started, 6), **extra,
+        })
+
+    progress("before_initial_verification")
     result = _verify(current, scenario.contract, backend)
+    verification_hash = digest(current)
     observations = [dict(result, trust="trusted_verifier")]
     trace = [{"event": "initial_verification", "manifest_hash": digest(current), "result": result}]
-    evidence, repairs, rejected, tests, actions = {}, 0, 0, 1, 0
-    status, reason = "budget_exhausted", "Action budget exhausted"
+    tests = 1
+    progress("initial_verification")
     if result.get("infrastructure_error"):
         status, reason = "runner_error", result["infrastructure_error"]
     else:
@@ -72,6 +218,7 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
                 "history": copy.deepcopy(trace),
             }
             actions += 1
+            progress("before_model_call", step=step + 1)
             try:
                 action = provider.next_action(context)
                 if not isinstance(action, dict) or not isinstance(action.get("reason"), str):
@@ -94,21 +241,25 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
             except Exception as exc:
                 status, reason = "provider_error", f"{type(exc).__name__}: {exc}"
                 trace.append({"event": "provider_error", "detail": reason})
+                progress("provider_error", execution_state="provider_error", error=reason)
                 break
             # Provider cannot mutate the trusted manifest, tests or trace through context.
             kind = action.get("action")
             trace.append({"event": "decision", "step": step + 1, "action": copy.deepcopy(action)})
+            progress("model_decision", step=step + 1)
             if kind == "inspect":
                 source = action.get("source")
                 if source not in scenario.evidence:
                     rejected += 1
                     trace.append({"event": "rejected_tool", "error": "Evidence source is not permitted"})
+                    progress("rejected_tool")
                     continue
                 evidence[source] = {
                     "trust": "untrusted_repository" if source == "repository" else "approved_metadata",
                     "content": scenario.evidence[source],
                 }
                 trace.append({"event": "evidence", "source": source, "record": evidence[source]})
+                progress("evidence_inspected")
             elif kind == "propose":
                 if repairs >= max_repairs:
                     status, reason = "budget_exhausted", "Candidate repair budget exhausted"
@@ -122,6 +273,7 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
                     trace.append({"event": "rejected_proposal", "errors": errors})
                     observations.append({"trust": "trusted_policy", "passed": False,
                                          "policy_errors": errors, "feedback": errors})
+                    progress("rejected_proposal")
                     continue
                 errors = validate_candidate(scenario.base, candidate, scenario.contract)
                 if errors:
@@ -130,21 +282,28 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
                     # Make rejection trusted feedback without overwriting the current test.
                     observations.append({"trust": "trusted_policy", "passed": False,
                                          "policy_errors": errors, "feedback": errors})
+                    progress("rejected_proposal")
                     continue
                 current = copy.deepcopy(candidate)
+                progress("before_candidate_verification")
                 result = _verify(current, scenario.contract, backend)
+                verification_hash = digest(current)
                 tests += 1
                 observations.append(dict(result, trust="trusted_verifier"))
                 trace.append({"event": "candidate_verification", "candidate": repairs,
                               "manifest_hash": digest(current), "result": result})
+                progress("candidate_verification")
                 if result.get("infrastructure_error"):
                     status, reason = "runner_error", result["infrastructure_error"]
                     break
             elif kind == "test":
+                progress("before_requested_verification")
                 result = _verify(current, scenario.contract, backend)
+                verification_hash = digest(current)
                 tests += 1
                 observations.append(dict(result, trust="trusted_verifier"))
                 trace.append({"event": "requested_verification", "manifest_hash": digest(current), "result": result})
+                progress("requested_verification")
                 if result.get("infrastructure_error"):
                     status, reason = "runner_error", result["infrastructure_error"]
                     break
@@ -158,8 +317,10 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
             else:
                 rejected += 1
                 trace.append({"event": "rejected_tool", "error": "Unknown action; no effect was executed"})
+                progress("rejected_tool")
         else:
             status, reason = "budget_exhausted", "Action budget exhausted"
+    progress("agent_loop_finished", execution_state="loop_finished")
     report = {
         "schema_version": 1, "scenario": scenario.id,
         "corpus": "synthetic_teaching_fixtures_not_a_held_out_benchmark",
@@ -178,6 +339,8 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
     # Keep failed candidates in the trace; exportable manifest always reflects accepted result.
     final = current if report["accepted"] else scenario.base
     binding = write_bundle(output, scenario.base, final, report, trace, scenario.contract)
+    progress("final_bundle_written", execution_state="completed",
+             final_bundle_review_hash=binding["review_hash"])
     return report, binding
 
 

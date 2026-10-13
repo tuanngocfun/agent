@@ -150,12 +150,31 @@ class OllamaProviderTests(unittest.TestCase):
         payload = json.loads(opener.calls[-1][0].data)
         self.assertEqual(payload["format"], "json")
         guide = payload["messages"][0]["content"]
-        self.assertLessEqual(len(guide.encode()), 1400)
+        self.assertLessEqual(len(guide.encode()), 1650)
         self.assertNotIn("Action JSON schema:", guide)
         for field in ("inspect", "propose", "changes", "manifest", "securityContext", "podSecurityContext", "volumeMounts", "volumes", "fsGroup", "cache-data", "16Mi", "runAsUser", "RuntimeDefault", "test/finish/abstain"):
             self.assertIn(field, guide)
         self.assertEqual(provider.metadata()["prompt_mode"], "concise typed action guide")
         self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
+
+    def test_guides_explain_unchanged_test_and_inspection_without_rewriting_model_action(self):
+        for mode in ("json", "schema"):
+            with self.subTest(mode=mode):
+                context = model_context()
+                context["observations"] = [{"trust": "trusted_verifier", "passed": False, "feedback": ["read-only cache failure"]}]
+                action = {"action": "test", "reason": "Verify the current deployment."}
+                provider = OllamaProvider("fixture", decoding_mode=mode)
+                opener = FakeOpener(FakeResponse(api_response(action)))
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                    self.assertEqual(provider.next_action(context), action)
+                payload = json.loads(opener.calls[-1][0].data)
+                guide = payload["messages"][0]["content"]
+                for semantics in ("fetches evidence only", "Initial verification", "tested automatically", "test reruns the current unchanged", "applies no fix", "inspect needed evidence or propose", "deterministic failure", "latest", "trusted", "passes"):
+                    self.assertIn(semantics, guide)
+                audit = provider.metadata()["inference_calls"][0]
+                self.assertEqual(audit["action"], action)
+                self.assertEqual(audit["system_prompt_bytes"], len(guide.encode("utf-8")))
+                self.assertEqual(audit["prompt_text_bytes"], sum(len(message["content"].encode("utf-8")) for message in payload["messages"]))
 
     def test_oversized_reason_is_rejected_after_decoding(self):
         provider = OllamaProvider("fixture")

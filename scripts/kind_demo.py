@@ -58,17 +58,26 @@ def main(argv=None):
     kubeconfig = output / "private-kubeconfig"
     context = "kind-" + cluster
 
-    def run(command, *, input_value=None, expected=0, timeout=90):
+    def run(command, *, input_value=None, expected=0, timeout=90, live=False):
         payload = json.dumps(input_value).encode() if input_value is not None else None
-        result = subprocess.run([str(a) for a in command], cwd=ROOT, env=env, input=payload,
-                                capture_output=True, timeout=timeout)
+        try:
+            result = subprocess.run([str(a) for a in command], cwd=ROOT, env=env, input=payload,
+                                    capture_output=not live, timeout=timeout)
+        except subprocess.TimeoutExpired as exc:
+            logs.append({"argv": [str(a) for a in command], "expected_exit": expected,
+                         "actual_exit": None, "timed_out": True, "timeout_seconds": timeout,
+                         "live_output": live,
+                         "stdout": (exc.stdout or b"").decode("utf-8", "replace")[-6000:],
+                         "stderr": (exc.stderr or b"").decode("utf-8", "replace")[-6000:]})
+            raise
         record = {"argv": [str(a) for a in command], "expected_exit": expected,
-                  "actual_exit": result.returncode, "stdout": result.stdout.decode("utf-8", "replace")[-6000:],
-                  "stderr": result.stderr.decode("utf-8", "replace")[-6000:]}
+                  "actual_exit": result.returncode, "live_output": live,
+                  "stdout": (result.stdout or b"").decode("utf-8", "replace")[-6000:],
+                  "stderr": (result.stderr or b"").decode("utf-8", "replace")[-6000:]}
         logs.append(record)
         if result.returncode != expected:
             raise RuntimeError("Command failed: " + str(command[0]) + ": " + record["stderr"])
-        return result.stdout.decode("utf-8", "replace")
+        return (result.stdout or b"").decode("utf-8", "replace")
 
     # Read-only worker checks before creating artifacts or resources.
     try:
@@ -122,12 +131,13 @@ def main(argv=None):
             run([sys.executable, "-m", "kube_repair", "baseline", *common, "--strategy", strategy,
                  "--output", output / "results" / strategy], expected=expected_exit, timeout=90)
         agent_args = [sys.executable, "-m", "kube_repair", "run", *common, "--provider", args.provider,
-                      "--output", output / "results" / "agent"]
+                      "--output", output / "results" / "agent",
+                      "--progress-output", output / "results" / "agent-progress.json"]
         if args.provider == "ollama":
             agent_args += ["--model", args.model, "--endpoint", args.endpoint]
         elif args.provider == "session":
             agent_args += ["--exchange-dir", args.exchange_dir, "--decision-source", "current_assistant_session"]
-        run(agent_args, timeout=900 if args.provider in ("session", "ollama") else 360)
+        run(agent_args, timeout=1800 if args.provider in ("session", "ollama") else 360, live=True)
         reports = {name: json.loads((output / "results" / name / "report.json").read_text())
                    for name in ("noop", "naive", "known-good", "agent")}
         if not (reports["noop"]["verification"]["behavior_pass"] and not reports["noop"]["accepted"]
