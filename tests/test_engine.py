@@ -136,6 +136,7 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(second["remaining"], {"actions": 11, "repairs": 3})
         self.assertEqual(second["task"]["required_security_controls"], {
             "runAsNonRoot": True, "readOnlyRootFilesystem": True,
+            "runAsUser": 10001, "runAsGroup": 10001,
             "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]},
             "seccompProfile": {"type": "RuntimeDefault"},
         })
@@ -145,6 +146,34 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(trace[1]["step"], 1)
         self.assertEqual(trace[1]["provider_call"], 1)
         self.assertEqual([item["step"] for item in trace if item["event"] == "decision"], [2, 3])
+
+    def test_required_identity_metadata_uses_contract_without_applying_a_repair(self):
+        scenario = get_scenario("cache-path", host_identity=(12345, 23456))
+        original = copy.deepcopy(scenario.base)
+
+        class InspectingProvider(ActionsProvider):
+            def next_action(self, context):
+                self.context = copy.deepcopy(context)
+                return {"action": "finish", "reason": "No proposal was made"}
+
+        provider = InspectingProvider([])
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "bundle"
+            report, _ = run_task(scenario, provider, output)
+            task = json.loads(json.dumps(provider.context["task"]))
+            required = task["required_security_controls"]
+            self.assertEqual(required["runAsUser"], 12345)
+            self.assertEqual(required["runAsGroup"], 23456)
+            self.assertEqual(required["runAsUser"], task["allowed_uid"])
+            self.assertEqual(required["runAsGroup"], task["allowed_primary_gid"])
+            self.assertIn(required["runAsGroup"], task["allowed_groups"])
+            self.assertEqual(set(required), set(task["allowed_security_fields"]))
+            self.assertEqual(scenario.base, original)
+            self.assertEqual(provider.context["manifest"], original)
+            self.assertEqual(json.loads((output / "candidate.json").read_text()), original)
+            self.assertFalse(report["accepted"])
+            self.assertEqual(report["budget"]["candidate_repairs"], 0)
+            self.assertEqual(report["budget"]["test_runs"], 1)
 
     def test_repeated_invalid_provider_output_is_bounded_without_candidate_effects(self):
         with tempfile.TemporaryDirectory() as temp:

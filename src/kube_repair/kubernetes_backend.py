@@ -17,6 +17,9 @@ from .verification import _PROBE, _RUNTIME_CHECKS, _check, _container, _env, _st
 
 OWNER_LABEL = "kube-repair.lab/run"
 _DIGEST = re.compile(r"(?:^|@|://)(sha256:[0-9a-f]{64})$")
+_ROOT_POLICY_REJECTION = re.compile(
+    r"container's runAsUser breaks non-root policy \(pod: \"[^\"\r\n]+\", container: app\)"
+)
 
 
 def image_digest(value):
@@ -76,6 +79,17 @@ def _guard(manifest, contract):
         raise ValueError("Fixture root requirement differs from the protected contract")
 
 
+def _root_policy_rejection(manifest, waiting):
+    """Recognize kubelet's explicit UID-zero rejection, never generic config errors."""
+    _, app = _container(manifest)
+    security = app.get("securityContext", {})
+    uid = security.get("runAsUser")
+    message = waiting.get("message", "")
+    return (waiting.get("reason") == "CreateContainerConfigError"
+            and security.get("runAsNonRoot") is True and type(uid) is int and uid == 0
+            and isinstance(message, str) and _ROOT_POLICY_REJECTION.fullmatch(message) is not None)
+
+
 def verify_kubernetes(manifest, contract):
     checks, runtime = [], {}
     infrastructure = None
@@ -125,6 +139,7 @@ def verify_kubernetes(manifest, contract):
         runtime.update({"deployment_uid": deployment_uid, "generation": generation})
         selected = None
         logs = ""
+        startup_rejection = None
         while time.monotonic() - started < 25:
             pods = read(["-n", namespace, "get", "pods", "-l", "app=repair-cache-app"])["items"]
             if len(pods) > 1:
@@ -137,8 +152,18 @@ def verify_kubernetes(manifest, contract):
             status = next((s for s in selected.get("status", {}).get("containerStatuses", []) if s.get("name") == "app"), {})
             state = status.get("state", {})
             waiting = state.get("waiting", {})
+            if waiting:
+                runtime["container_waiting"] = {
+                    "reason": waiting.get("reason", "")[:128],
+                    "message": waiting.get("message", "")[:2000],
+                }
             if waiting.get("reason") in ("ErrImageNeverPull", "ImagePullBackOff", "ErrImagePull", "CreateContainerConfigError"):
-                raise RuntimeError("Fixture image/configuration is unavailable: " + waiting.get("reason", ""))
+                if status.get("ready") is not True and _root_policy_rejection(manifest, waiting):
+                    startup_rejection = runtime["container_waiting"]["message"]
+                    break
+                detail = runtime["container_waiting"]
+                raise RuntimeError("Fixture image/configuration is unavailable: " + detail["reason"]
+                                   + (": " + detail["message"] if detail["message"] else ""))
             if any(c.get("type") == "PodScheduled" and c.get("status") == "False" for c in selected.get("status", {}).get("conditions", [])):
                 raise RuntimeError("Fixture pod could not be scheduled")
             if status.get("ready") is True:
@@ -163,15 +188,25 @@ def verify_kubernetes(manifest, contract):
         runtime["pod_name"] = selected["metadata"]["name"]
         actual_id = status.get("imageID", "")
         runtime["image_id"] = actual_id
-        _check(checks, "runtime-image-identity", image_digest(actual_id) == expected_digest,
-               f"Expected {expected_digest}; observed {actual_id}")
-        if not checks[-1]["passed"]:
-            raise RuntimeError("Fixture image identity differs from the setup pin")
+        if startup_rejection and not actual_id:
+            # Kubelet rejects the contradictory UID policy before creating a
+            # container, so there is no runtime image identity or execution claim.
+            _check(checks, "runtime-image-identity", False,
+                   "No container image ID: kubelet rejected startup before creating the container")
+        else:
+            _check(checks, "runtime-image-identity", image_digest(actual_id) == expected_digest,
+                   f"Expected {expected_digest}; observed {actual_id}")
+            if not checks[-1]["passed"]:
+                raise RuntimeError("Fixture image identity differs from the setup pin")
         if status.get("ready") is not True:
-            if not logs:
-                logs = call(["-n", namespace, "logs", runtime["pod_name"], "-c", "app", "--tail=10"]).strip()
-            runtime["startup_logs"] = logs[:2000]
-            _check(checks, "application-cache", False, "Fixture startup/cache failed: " + logs[:1500])
+            if startup_rejection:
+                runtime["startup_error"] = startup_rejection
+                _check(checks, "application-cache", False, "Fixture startup rejected: " + startup_rejection[:1500])
+            else:
+                if not logs:
+                    logs = call(["-n", namespace, "logs", runtime["pod_name"], "-c", "app", "--tail=10"]).strip()
+                runtime["startup_logs"] = logs[:2000]
+                _check(checks, "application-cache", False, "Fixture startup/cache failed: " + logs[:1500])
             for check in _RUNTIME_CHECKS[1:]:
                 _check(checks, check, False, "No successful runtime probe: application was not ready")
         else:

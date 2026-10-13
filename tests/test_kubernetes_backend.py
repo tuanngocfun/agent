@@ -9,10 +9,12 @@ from kube_repair.scenarios import get_scenario
 from kube_repair.verification import _RUNTIME_CHECKS
 
 IMAGE_ID = "containerd://sha256:" + "a" * 64
+ROOT_POLICY_MESSAGE = 'container\'s runAsUser breaks non-root policy (pod: "fixture-pod_lab", container: app)'
 
 
 class FakeKubectl:
-    def __init__(self, startup_failure=False, wrong_image=False, changed_owner=False, cleanup_failure=False, malformed=False):
+    def __init__(self, startup_failure=False, wrong_image=False, changed_owner=False, cleanup_failure=False, malformed=False,
+                 waiting=None, image_id=None, changed_replica_owner=False):
         self.calls = []
         self.ns = None
         self.deployment = None
@@ -21,6 +23,9 @@ class FakeKubectl:
         self.changed_owner = changed_owner
         self.cleanup_failure = cleanup_failure
         self.malformed = malformed
+        self.waiting = waiting
+        self.image_id = image_id
+        self.changed_replica_owner = changed_replica_owner
 
     def __call__(self, argv, *, input_value=None, timeout=8):
         self.calls.append((argv, input_value))
@@ -55,11 +60,16 @@ class FakeKubectl:
                 data = self.deployment
             elif kind == "replicaset":
                 data = {"metadata": {"uid": "replica-uid", "ownerReferences": [
-                    {"kind": "Deployment", "uid": "deployment-uid", "controller": True}]}}
+                    {"kind": "Deployment", "uid": "foreign-uid" if self.changed_replica_owner else "deployment-uid",
+                     "controller": True}]}}
             elif kind in ("pods", "pod"):
-                app = {"name": "app", "ready": not self.startup_failure,
+                app = {"name": "app", "ready": not (self.startup_failure or self.waiting),
                        "imageID": "containerd://sha256:" + ("b" if self.wrong_image else "a") * 64,
                        "state": {"terminated": {"exitCode": 1}} if self.startup_failure else {"running": {}}}
+                if self.waiting is not None:
+                    app["state"] = {"waiting": self.waiting}
+                if self.image_id is not None:
+                    app["imageID"] = self.image_id
                 pod = {"metadata": {"name": "fixture-pod", "uid": "pod-uid", "ownerReferences": [
                     {"kind": "ReplicaSet", "name": "fixture-replica", "uid": "replica-uid", "controller": True}]},
                     "status": {"containerStatuses": [app]}}
@@ -106,6 +116,80 @@ class KubernetesProtocolTests(unittest.TestCase):
         self.assertFalse(result["behavior_pass"])
         self.assertIsNone(result["infrastructure_error"])
         self.assertIn("Read-only", " ".join(result["feedback"]))
+
+    def test_confirmed_root_policy_conflict_is_repair_feedback_and_cleans_up(self):
+        self.manifest["spec"]["template"]["spec"]["containers"][0]["securityContext"]["runAsUser"] = 0
+        for image_id in ("", IMAGE_ID):
+            with self.subTest(image_id=image_id):
+                fake = FakeKubectl(waiting={"reason": "CreateContainerConfigError", "message": ROOT_POLICY_MESSAGE},
+                                   image_id=image_id)
+                result = self.evaluate(fake)
+                self.assertFalse(result["passed"])
+                self.assertFalse(result["static_pass"])
+                self.assertFalse(result["behavior_pass"])
+                self.assertFalse(result["negative_pass"])
+                self.assertFalse(result["runtime_verified"])
+                self.assertIsNone(result["infrastructure_error"])
+                self.assertEqual(result["runtime"]["startup_error"], ROOT_POLICY_MESSAGE)
+                self.assertEqual(result["runtime"]["container_waiting"]["message"], ROOT_POLICY_MESSAGE)
+                self.assertEqual(result["kubernetes_execution_observed"], bool(image_id))
+                self.assertIn("runAsUser breaks non-root policy", " ".join(result["feedback"]))
+                checks = {item["name"]: item["passed"] for item in result["checks"]}
+                self.assertEqual(checks["runtime-image-identity"], bool(image_id))
+                self.assertTrue(checks["namespace-cleanup"])
+                self.assertFalse(any("exec" in argv or "logs" in argv for argv, _ in fake.calls))
+                self.assertTrue(any("get" in argv and "replicaset" in argv for argv, _ in fake.calls))
+                self.assertTrue(any("get" in argv and "deployment" in argv for argv, _ in fake.calls))
+                self.assertTrue(any("delete" in argv for argv, _ in fake.calls))
+
+    def test_unknown_config_or_image_error_remains_infrastructure(self):
+        self.manifest["spec"]["template"]["spec"]["containers"][0]["securityContext"]["runAsUser"] = 0
+        for waiting in ({"reason": "CreateContainerConfigError", "message": 'secret "missing" not found'},
+                        {"reason": "CreateContainerConfigError", "message": 'configmap "missing" not found'},
+                        {"reason": "CreateContainerConfigError"},
+                        {"reason": "CreateContainerConfigError", "message": "Unknown error: " + ROOT_POLICY_MESSAGE},
+                        {"reason": "ErrImageNeverPull", "message": ROOT_POLICY_MESSAGE},
+                        {"reason": "ImagePullBackOff", "message": "image unavailable"},
+                        {"reason": "ErrImagePull", "message": "image unavailable"}):
+            with self.subTest(waiting=waiting):
+                fake = FakeKubectl(waiting=waiting, image_id="")
+                result = self.evaluate(fake)
+                self.assertFalse(result["passed"])
+                self.assertFalse(result["runtime_verified"])
+                self.assertIn(waiting["reason"], result["infrastructure_error"])
+                self.assertEqual(result["runtime"]["container_waiting"],
+                                 {"reason": waiting["reason"], "message": waiting.get("message", "")})
+                self.assertFalse(any("exec" in argv for argv, _ in fake.calls))
+                self.assertTrue(any("delete" in argv for argv, _ in fake.calls))
+
+    def test_root_rejection_requires_matching_candidate_policy(self):
+        for changes in ({"runAsUser": 10001}, {"runAsUser": 0, "runAsNonRoot": False}):
+            with self.subTest(changes=changes):
+                self.manifest["spec"]["template"]["spec"]["containers"][0]["securityContext"].update(changes)
+                result = self.evaluate(FakeKubectl(waiting={"reason": "CreateContainerConfigError",
+                                                           "message": ROOT_POLICY_MESSAGE}, image_id=""))
+                self.assertIsNotNone(result["infrastructure_error"])
+                self.assertFalse(result["passed"])
+
+    def test_root_rejection_preserves_image_and_ownership_guards(self):
+        self.manifest["spec"]["template"]["spec"]["containers"][0]["securityContext"]["runAsUser"] = 0
+        waiting = {"reason": "CreateContainerConfigError", "message": ROOT_POLICY_MESSAGE}
+        for fake, detail in ((FakeKubectl(waiting=waiting, wrong_image=True), "image identity"),
+                             (FakeKubectl(waiting=waiting, image_id="", changed_replica_owner=True), "ownership changed"),
+                             (FakeKubectl(waiting=waiting, image_id="", changed_owner=True), "deletion refused")):
+            with self.subTest(detail=detail):
+                result = self.evaluate(fake)
+                self.assertFalse(result["passed"])
+                self.assertFalse(result["runtime_verified"])
+                self.assertIn(detail, result["infrastructure_error"])
+                if detail == "deletion refused":
+                    self.assertFalse(any("delete" in argv for argv, _ in fake.calls))
+
+    def test_waiting_feedback_is_bounded(self):
+        message = 'configmap "missing" not found: ' + "x" * 3000
+        result = self.evaluate(FakeKubectl(waiting={"reason": "CreateContainerConfigError", "message": message}, image_id=""))
+        self.assertEqual(result["runtime"]["container_waiting"]["message"], message[:2000])
+        self.assertIsNotNone(result["infrastructure_error"])
 
     def test_wrong_image_fails_before_probe_and_cleans_up(self):
         fake = FakeKubectl(wrong_image=True)

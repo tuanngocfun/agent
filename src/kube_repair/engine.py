@@ -151,6 +151,8 @@ def _task(scenario):
                                     "allowPrivilegeEscalation", "capabilities", "seccompProfile"],
         "required_security_controls": {
             "runAsNonRoot": True, "readOnlyRootFilesystem": True,
+            "runAsUser": scenario.contract.get("allowed_uid", 10001),
+            "runAsGroup": scenario.contract.get("allowed_primary_gid", 10001),
             "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]},
             "seccompProfile": {"type": "RuntimeDefault"},
         },
