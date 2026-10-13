@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .artifacts import canonical, digest, source_fingerprint, write_bundle
 from .policy import apply_changes, harden, repair_storage, validate_candidate
+from .providers import ProviderError
 from .verification import verify
 
 
@@ -148,6 +149,11 @@ def _task(scenario):
         "allowed_cache_paths": scenario.contract["allowed_cache_paths"],
         "allowed_security_fields": ["runAsNonRoot", "runAsUser", "runAsGroup", "readOnlyRootFilesystem",
                                     "allowPrivilegeEscalation", "capabilities", "seccompProfile"],
+        "required_security_controls": {
+            "runAsNonRoot": True, "readOnlyRootFilesystem": True,
+            "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]},
+            "seccompProfile": {"type": "RuntimeDefault"},
+        },
         "storage_policy": {"volume": {"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}},
                            "mount_fields": ["name", "mountPath"], "maximum_volumes": 1,
                            "maximum_mounts": 1, "pod_security_fields": ["fsGroup"]},
@@ -239,6 +245,21 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
                 if len(json.dumps(action, allow_nan=False).encode()) > 65536:
                     raise ValueError("Action exceeds serialized size limit")
             except Exception as exc:
+                if isinstance(exc, ProviderError) and exc.code == "invalid_action":
+                    # The adapter rejected the output before returning an action.
+                    # Supply its bounded validation error, never reinterpret the
+                    # raw response or invent a corrected action on its behalf.
+                    detail = "".join(character if character.isprintable() else " "
+                                     for character in f"{type(exc).__name__}: {exc}")[:1200]
+                    rejected += 1
+                    provider_call = _progress_provider_metadata(provider).get("calls")
+                    trace.append({"event": "rejected_provider_output", "step": step + 1,
+                                  "provider_call": provider_call if type(provider_call) is int else None,
+                                  "detail": detail})
+                    observations.append({"trust": "trusted_protocol", "passed": False,
+                                         "protocol_errors": [detail], "feedback": [detail]})
+                    progress("rejected_provider_output", step=step + 1, protocol_error=detail)
+                    continue
                 status, reason = "provider_error", f"{type(exc).__name__}: {exc}"
                 trace.append({"event": "provider_error", "detail": reason})
                 progress("provider_error", execution_state="provider_error", error=reason)

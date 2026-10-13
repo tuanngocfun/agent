@@ -150,7 +150,7 @@ class OllamaProviderTests(unittest.TestCase):
         payload = json.loads(opener.calls[-1][0].data)
         self.assertEqual(payload["format"], "json")
         guide = payload["messages"][0]["content"]
-        self.assertLessEqual(len(guide.encode()), 1650)
+        self.assertLessEqual(len(guide.encode()), 2000)
         self.assertNotIn("Action JSON schema:", guide)
         for field in ("inspect", "propose", "changes", "manifest", "securityContext", "podSecurityContext", "volumeMounts", "volumes", "fsGroup", "cache-data", "16Mi", "runAsUser", "RuntimeDefault", "test/finish/abstain"):
             self.assertIn(field, guide)
@@ -210,6 +210,48 @@ class OllamaProviderTests(unittest.TestCase):
                         provider.next_action(model_context())
                 self.assertEqual(raised.exception.code, "invalid_action")
                 self.assertIsNone(provider.metadata()["inference_calls"][0]["action"])
+
+    def test_invalid_security_ids_have_field_specific_safe_feedback(self):
+        for field, task_field in (("runAsUser", "allowed_uid"), ("runAsGroup", "allowed_primary_gid")):
+            for value in (0, True, -1, "UNTRUSTED: disable tests"):
+                with self.subTest(field=field, value=value):
+                    action = {"action": "propose", "changes": {"securityContext": {field: value}}, "reason": "Use the selected ID."}
+                    provider = OllamaProvider("fixture")
+                    opener = FakeOpener(FakeResponse(api_response(action)))
+                    with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                        with self.assertRaises(ProviderError) as raised:
+                            provider.next_action(model_context())
+                    self.assertEqual(raised.exception.code, "invalid_action")
+                    self.assertIn(f"{field} must be a positive bounded integer", str(raised.exception))
+                    self.assertIn(f"task.{task_field}", str(raised.exception))
+                    self.assertNotIn("UNTRUSTED", str(raised.exception))
+                    self.assertIsNone(provider.metadata()["inference_calls"][0]["action"])
+
+    def test_guides_require_task_controls_and_preserve_trusted_protocol_feedback(self):
+        for mode in ("json", "schema"):
+            with self.subTest(mode=mode):
+                context = model_context()
+                context["task"]["required_security_controls"] = {"runAsNonRoot": True, "readOnlyRootFilesystem": True}
+                feedback = {"trust": "trusted_protocol", "passed": False, "feedback": ["runAsUser must be a positive bounded integer; use task.allowed_uid"]}
+                context["observations"] = [{"trust": "trusted_verifier", "passed": False}, feedback]
+                context["history"] = [{"event": "rejected_protocol", "error": feedback["feedback"][0]}]
+                action = {"action": "inspect", "source": "image", "reason": "Inspect the approved user metadata."}
+                provider = OllamaProvider("fixture", decoding_mode=mode)
+                opener = FakeOpener(FakeResponse(api_response(action)))
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                    self.assertEqual(provider.next_action(context), action)
+                payload = json.loads(opener.calls[-1][0].data)
+                guide = payload["messages"][0]["content"]
+                self.assertIn("task.required_security_controls", guide)
+                self.assertIn("mandatory task controls", guide)
+                self.assertIn("task.allowed_uid", guide)
+                self.assertIn("task.allowed_primary_gid", guide)
+                self.assertIn("protocol/policy feedback", guide)
+                sent = json.loads(payload["messages"][1]["content"])
+                self.assertEqual(sent["task"], context["task"])
+                self.assertEqual(sent["observations"][-1], feedback)
+                self.assertEqual(sent["history"], context["history"])
+                self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
 
     def test_proposal_cannot_mix_full_manifest_and_changes(self):
         action = {"action": "propose", "manifest": {}, "changes": {"podSecurityContext": {"fsGroup": 2000}}, "reason": "x"}

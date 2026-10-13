@@ -8,7 +8,7 @@ from unittest.mock import patch
 from kube_repair.artifacts import digest
 from kube_repair.engine import run_baseline, run_task
 from kube_repair.policy import harden
-from kube_repair.providers import ScriptedProvider
+from kube_repair.providers import ProviderError, ScriptedProvider
 from kube_repair.scenarios import get_scenario
 
 
@@ -93,6 +93,113 @@ class EngineTests(unittest.TestCase):
         self.assertFalse(report["accepted"])
         self.assertEqual(report["budget"]["test_runs"], 1)
         self.assertEqual(report["rejected_actions"], 1)
+
+    def test_rejected_provider_output_becomes_feedback_for_a_new_model_proposal(self):
+        changes = {
+            "securityContext": {"runAsNonRoot": True, "runAsUser": 10001, "runAsGroup": 10001,
+                                "readOnlyRootFilesystem": True, "allowPrivilegeEscalation": False,
+                                "capabilities": {"drop": ["ALL"]}, "seccompProfile": {"type": "RuntimeDefault"}},
+            "podSecurityContext": {"fsGroup": 10001},
+            "volumes": [{"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}}],
+            "volumeMounts": [{"name": "cache-data", "mountPath": "/var/cache/repair-app"}],
+        }
+
+        class RevisingProvider(ActionsProvider):
+            def __init__(self):
+                self.contexts = []
+                self.calls = 0
+
+            def next_action(self, context):
+                self.contexts.append(copy.deepcopy(context))
+                self.calls += 1
+                if self.calls == 1:
+                    raise ProviderError("invalid_action", "securityContext IDs must be positive integers")
+                if self.calls == 2:
+                    return {"action": "propose", "changes": copy.deepcopy(changes),
+                            "reason": "A new model response uses the permitted non-root identity"}
+                return {"action": "finish", "reason": "Trusted checks now pass"}
+
+            def metadata(self):
+                return {"name": "revising-test-provider", "uses_llm": True, "calls": self.calls}
+
+        provider = RevisingProvider()
+        report = self.run_one("cache-path", provider)
+        self.assertTrue(report["accepted"])
+        self.assertEqual(report["rejected_actions"], 1)
+        self.assertEqual(report["budget"]["actions"], 3)
+        self.assertEqual(report["budget"]["candidate_repairs"], 1)
+        self.assertEqual(report["budget"]["test_runs"], 2)
+        second = provider.contexts[1]
+        self.assertEqual(second["manifest"], get_scenario("cache-path").base)
+        self.assertEqual(second["observations"][-1]["trust"], "trusted_protocol")
+        self.assertIn("positive integers", second["observations"][-1]["feedback"][0])
+        self.assertEqual(second["remaining"], {"actions": 11, "repairs": 3})
+        self.assertEqual(second["task"]["required_security_controls"], {
+            "runAsNonRoot": True, "readOnlyRootFilesystem": True,
+            "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]},
+            "seccompProfile": {"type": "RuntimeDefault"},
+        })
+        self.assertEqual(second["task"]["allowed_uid"], get_scenario("cache-path").contract.get("allowed_uid", 10001))
+        trace = json.loads((self.output / "trace.json").read_text())
+        self.assertEqual(trace[1]["event"], "rejected_provider_output")
+        self.assertEqual(trace[1]["step"], 1)
+        self.assertEqual(trace[1]["provider_call"], 1)
+        self.assertEqual([item["step"] for item in trace if item["event"] == "decision"], [2, 3])
+
+    def test_repeated_invalid_provider_output_is_bounded_without_candidate_effects(self):
+        with tempfile.TemporaryDirectory() as temp:
+            progress = Path(temp) / "progress.json"
+
+            class InvalidProvider(ActionsProvider):
+                def __init__(self):
+                    self.calls = 0
+
+                def next_action(self, context):
+                    self.calls += 1
+                    raise ProviderError("invalid_action", "unsupported action shape")
+
+                def metadata(self):
+                    return {"name": "invalid-test-provider", "uses_llm": True, "calls": self.calls,
+                            "inference_calls": [{"status": "invalid_action"}] * self.calls}
+
+            provider = InvalidProvider()
+            from kube_repair.verification import verify as trusted_verify
+            with patch("kube_repair.engine.verify", wraps=trusted_verify) as verifier:
+                report, _ = run_task(get_scenario("cache-path"), provider, Path(temp) / "bundle",
+                                     max_actions=4, progress_output=progress)
+            verifier.assert_called_once()
+            self.assertEqual(provider.calls, 4)
+            self.assertEqual(report["status"], "budget_exhausted")
+            self.assertFalse(report["accepted"])
+            self.assertEqual(report["rejected_actions"], 4)
+            self.assertEqual(report["budget"], {"max_actions": 4, "max_repairs": 3, "actions": 4,
+                                              "candidate_repairs": 0, "test_runs": 1})
+            self.assertEqual(report["executed_unauthorized_effects"], 0)
+            snapshot = json.loads(progress.read_text())
+            self.assertEqual(snapshot["manifest"], get_scenario("cache-path").base)
+            self.assertEqual(len(snapshot["provider"]["inference_calls"]), 4)
+            self.assertEqual(sum(item["event"] == "rejected_provider_output" for item in snapshot["trace"]), 4)
+            self.assertFalse(any(item["event"] == "decision" for item in snapshot["trace"]))
+            self.assertFalse(snapshot["exportable"])
+
+    def test_transport_identity_and_other_provider_errors_are_not_retried(self):
+        for code in ("transport", "http_error", "model_identity", "token_budget", "response_limit"):
+            with self.subTest(code=code):
+                class FailedProvider(ActionsProvider):
+                    def __init__(self):
+                        self.calls = 0
+
+                    def next_action(self, context):
+                        self.calls += 1
+                        raise ProviderError(code, "inference unavailable")
+
+                provider = FailedProvider()
+                report = self.run_one("cache-path", provider)
+                self.assertEqual(provider.calls, 1)
+                self.assertEqual(report["status"], "provider_error")
+                self.assertEqual(report["budget"]["actions"], 1)
+                self.assertEqual(report["budget"]["test_runs"], 1)
+                self.assertEqual(report["rejected_actions"], 0)
 
     def test_unknown_or_malformed_tools_fail_closed(self):
         for action in ({"action": "inspect", "source": [], "reason": "bad"},
