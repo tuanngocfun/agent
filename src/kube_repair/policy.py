@@ -25,6 +25,27 @@ def app_container(manifest):
     return pod["containers"][0]
 
 
+def apply_changes(manifest, changes):
+    """Apply model-authored field values; target values are never inferred here."""
+    allowed = {"securityContext", "podSecurityContext", "volumes", "volumeMounts"}
+    if not isinstance(changes, dict) or not changes or set(changes) - allowed:
+        raise ValueError("Changes must use only the approved manifest field groups")
+    result = copy.deepcopy(manifest)
+    pod, container = pod_spec(result), app_container(result)
+    for key in ("securityContext", "podSecurityContext"):
+        if key in changes:
+            if not isinstance(changes[key], dict):
+                raise ValueError("Security-context changes must be objects")
+            target = container if key == "securityContext" else pod
+            target.setdefault("securityContext", {}).update(copy.deepcopy(changes[key]))
+    for key, target in (("volumes", pod), ("volumeMounts", container)):
+        if key in changes:
+            if not isinstance(changes[key], list):
+                raise ValueError("Storage changes must be lists")
+            target[key] = copy.deepcopy(changes[key])
+    return result
+
+
 def harden(manifest, uid=10001, gid=10001):
     result = copy.deepcopy(manifest)
     security = copy.deepcopy(SECURE_CONTEXT)

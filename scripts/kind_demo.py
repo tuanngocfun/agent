@@ -127,7 +127,7 @@ def main(argv=None):
             agent_args += ["--model", args.model, "--endpoint", args.endpoint]
         elif args.provider == "session":
             agent_args += ["--exchange-dir", args.exchange_dir, "--decision-source", "current_assistant_session"]
-        run(agent_args, timeout=600 if args.provider == "session" else 360)
+        run(agent_args, timeout=900 if args.provider in ("session", "ollama") else 360)
         reports = {name: json.loads((output / "results" / name / "report.json").read_text())
                    for name in ("noop", "naive", "known-good", "agent")}
         if not (reports["noop"]["verification"]["behavior_pass"] and not reports["noop"]["accepted"]

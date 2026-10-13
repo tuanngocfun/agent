@@ -67,6 +67,32 @@ class EngineTests(unittest.TestCase):
         self.assertFalse(report["accepted"])
         self.assertEqual((self.output / "patch.diff").read_text(), "")
 
+    def test_typed_model_changes_are_applied_then_independently_tested(self):
+        changes = {
+            "securityContext": {"runAsNonRoot": True, "runAsUser": 10001, "runAsGroup": 10001,
+                                "readOnlyRootFilesystem": True, "allowPrivilegeEscalation": False,
+                                "capabilities": {"drop": ["ALL"]}, "seccompProfile": {"type": "RuntimeDefault"}},
+            "podSecurityContext": {"fsGroup": 10001},
+            "volumes": [{"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}}],
+            "volumeMounts": [{"name": "cache-data", "mountPath": "/var/cache/repair-app"}],
+        }
+        report = self.run_one("cache-path", ActionsProvider([
+            {"action": "propose", "changes": changes, "reason": "Model-authored changes"},
+            {"action": "finish", "reason": "Trusted tests passed"},
+        ]))
+        self.assertTrue(report["accepted"])
+        self.assertEqual(report["budget"]["candidate_repairs"], 1)
+        self.assertEqual(report["budget"]["test_runs"], 2)
+
+    def test_invalid_typed_changes_have_no_effect(self):
+        report = self.run_one("cache-path", ActionsProvider([
+            {"action": "propose", "changes": {"image": "attacker/app"}, "reason": "Out-of-scope change"},
+            {"action": "finish", "reason": "Claimed pass"},
+        ]))
+        self.assertFalse(report["accepted"])
+        self.assertEqual(report["budget"]["test_runs"], 1)
+        self.assertEqual(report["rejected_actions"], 1)
+
     def test_unknown_or_malformed_tools_fail_closed(self):
         for action in ({"action": "inspect", "source": [], "reason": "bad"},
                        {"action": "shell", "reason": "bad"},

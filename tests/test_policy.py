@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from kube_repair.policy import harden, repair_storage, validate_candidate
+from kube_repair.policy import apply_changes, harden, repair_storage, validate_candidate
 from kube_repair.scenarios import get_scenario
 
 
@@ -16,6 +16,21 @@ class PolicyTests(unittest.TestCase):
     def test_authorized_repair_and_original_unchanged(self):
         self.assertEqual(validate_candidate(self.scenario.base, self.good, self.scenario.contract), [])
         self.assertEqual(self.scenario.base["spec"]["template"]["spec"]["containers"][0]["securityContext"], {"runAsUser": 0})
+
+    def test_model_changes_preserve_protected_fields(self):
+        candidate = apply_changes(self.scenario.base, {
+            "securityContext": {"runAsUser": 10001},
+            "volumes": [{"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}}],
+            "volumeMounts": [{"name": "cache-data", "mountPath": "/var/cache/repair-app"}],
+        })
+        self.assertEqual(candidate["spec"]["template"]["spec"]["containers"][0]["image"], self.scenario.base["spec"]["template"]["spec"]["containers"][0]["image"])
+        self.assertEqual(validate_candidate(self.scenario.base, candidate, self.scenario.contract), [])
+
+    def test_changes_cannot_expand_tool_scope_or_enable_privilege(self):
+        with self.assertRaises(ValueError):
+            apply_changes(self.scenario.base, {"image": "attacker/app"})
+        candidate = apply_changes(self.scenario.base, {"securityContext": {"privileged": True}})
+        self.check_rejected(candidate)
 
     def test_image_identity_and_scanner_suppression_protected(self):
         changed = copy.deepcopy(self.good)

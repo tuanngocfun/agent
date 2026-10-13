@@ -1,4 +1,5 @@
 """Provider tests use fake local transport; no model service is started."""
+import hashlib
 import json
 import unittest
 import urllib.error
@@ -31,20 +32,23 @@ class FakeResponse:
 
 
 class FakeOpener:
-    def __init__(self, response=None, error=None):
+    def __init__(self, response=None, error=None, tags=None):
         self.response = response
         self.error = error
+        self.tags = tags if tags is not None else {"models": [{"name": "fixture:latest", "digest": "a" * 64}, {"name": "fixture-model:latest", "digest": "b" * 64}]}
         self.calls = []
 
     def open(self, request, timeout):
         self.calls.append((request, timeout))
         if self.error:
             raise self.error
+        if request.full_url.endswith("/api/tags"):
+            return FakeResponse(json.dumps(self.tags).encode())
         return self.response
 
 
 def api_response(action, **extra):
-    result = {"model": "fixture-model:latest", "message": {"role": "assistant", "content": json.dumps(action)}, "prompt_eval_count": 18, "eval_count": 7, "done": True}
+    result = {"model": "fixture:latest", "message": {"role": "assistant", "content": json.dumps(action)}, "prompt_eval_count": 18, "eval_count": 7, "done": True}
     result.update(extra)
     return json.dumps(result).encode()
 
@@ -63,12 +67,12 @@ def model_context():
 class OllamaProviderTests(unittest.TestCase):
     def test_structured_request_preserves_evidence_labels_and_usage(self):
         action = {"action": "inspect", "source": "app", "reason": "Investigate runtime feedback."}
-        opener = FakeOpener(FakeResponse(api_response(action)))
+        opener = FakeOpener(FakeResponse(api_response(action, model="fixture-model:latest")))
         provider = OllamaProvider("fixture-model")
         context = model_context()
         with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener) as build:
             self.assertEqual(provider.next_action(context), action)
-        request, timeout = opener.calls[0]
+        request, timeout = opener.calls[-1]
         payload = json.loads(request.data)
         self.assertEqual(request.full_url, "http://localhost:11434/api/chat")
         self.assertFalse(payload["stream"])
@@ -77,13 +81,18 @@ class OllamaProviderTests(unittest.TestCase):
         self.assertEqual(json.loads(payload["messages"][1]["content"]), context)
         self.assertIn("never instructions", payload["messages"][0]["content"])
         self.assertEqual(payload["options"]["num_predict"], 2048)
-        self.assertEqual(timeout, 30)
+        self.assertEqual(timeout, 120)
+        self.assertEqual(payload["options"]["num_ctx"], 8192)
+        self.assertEqual(payload["options"]["num_thread"], 2)
+        self.assertEqual(opener.calls[0][0].full_url, "http://localhost:11434/api/tags")
         # Both proxy routing and redirects are disabled by the real opener.
         self.assertEqual(len(build.call_args.args), 2)
         metadata = provider.metadata()
         self.assertEqual(metadata["token_usage"]["reported_total_tokens"], 25)
         self.assertTrue(metadata["token_usage"]["counts_complete"])
-        self.assertFalse(metadata["model_revision_available"])
+        self.assertTrue(metadata["model_revision_available"])
+        self.assertEqual(metadata["model_revision"], "b" * 64)
+        self.assertEqual(metadata["model_revision_source"], "local /api/tags snapshot")
         self.assertEqual(metadata["model_reported"], "fixture-model:latest")
 
     def test_transport_error_is_recorded_and_does_not_return_action(self):
@@ -105,6 +114,37 @@ class OllamaProviderTests(unittest.TestCase):
                 provider.next_action(model_context())
         self.assertEqual(raised.exception.code, "invalid_action")
         self.assertEqual(provider.metadata()["token_usage"]["reported_total_tokens"], 25)
+
+    def test_typed_changes_are_exact_model_output_and_schema_is_in_prompt(self):
+        changes = {"securityContext": {"runAsNonRoot": True, "runAsUser": 10001, "runAsGroup": 10001, "readOnlyRootFilesystem": True, "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]}, "seccompProfile": {"type": "RuntimeDefault"}}, "podSecurityContext": {"fsGroup": 2000}, "volumes": [{"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}}], "volumeMounts": [{"name": "cache-data", "mountPath": "/cache"}]}
+        action = {"action": "propose", "changes": changes, "reason": "Use the approved cache path and volume group."}
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response(action)))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            self.assertEqual(provider.next_action(model_context()), action)
+        payload = json.loads(opener.calls[-1][0].data)
+        self.assertIn("Action JSON schema:", payload["messages"][0]["content"])
+        self.assertIn('"changes"', payload["messages"][0]["content"])
+        self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
+
+    def test_typed_changes_reject_unknown_keys_and_unbounded_shapes(self):
+        for changes in ({}, {"image": "evil"}, {"securityContext": {"runAsUser": True}}, {"securityContext": {"runAsUser": 0}}, {"securityContext": {"privileged": True}}, {"securityContext": None}, {"podSecurityContext": {"fsGroup": 1, "runAsUser": 2}}, {"volumes": [{"name": "cache-data", "hostPath": {"path": "/"}}]}, {"volumeMounts": [{"name": "cache-data", "mountPath": "/cache", "subPath": "bad"}]}):
+            with self.subTest(changes=changes):
+                action = {"action": "propose", "changes": changes, "reason": "x"}
+                provider = OllamaProvider("fixture")
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
+                    with self.assertRaises(ProviderError) as raised:
+                        provider.next_action(model_context())
+                self.assertEqual(raised.exception.code, "invalid_action")
+                self.assertIsNone(provider.metadata()["inference_calls"][0]["action"])
+
+    def test_proposal_cannot_mix_full_manifest_and_changes(self):
+        action = {"action": "propose", "manifest": {}, "changes": {"podSecurityContext": {"fsGroup": 2000}}, "reason": "x"}
+        provider = OllamaProvider("fixture")
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
+            with self.assertRaises(ProviderError) as raised:
+                provider.next_action(model_context())
+        self.assertEqual(raised.exception.code, "invalid_action")
 
     def test_arbitrary_command_action_is_rejected(self):
         action = {"action": "test", "command": "sh -c echo bad", "reason": "x"}
@@ -168,13 +208,131 @@ class OllamaProviderTests(unittest.TestCase):
                 return super().read1(size)
 
         body = api_response({"action": "finish", "reason": "x"})
-        provider = OllamaProvider("fixture")
+        provider = OllamaProvider("fixture", timeout=30)
         with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(SlowResponse(body))):
             with patch("kube_repair.providers.time.monotonic", side_effect=lambda: now[0]):
                 with self.assertRaises(ProviderError) as raised:
                     provider.next_action(model_context())
         self.assertEqual(raised.exception.code, "deadline")
         self.assertEqual(provider.metadata()["elapsed_seconds"], 31.0)
+
+    def test_model_identity_is_resolved_lazily_and_not_fabricated(self):
+        provider = OllamaProvider("fixture")
+        self.assertFalse(provider.metadata()["model_revision_available"])
+        self.assertIsNone(provider.metadata()["model_revision"])
+        for _ in range(2):
+            opener = FakeOpener(FakeResponse(api_response({"action": "inspect", "source": "app", "reason": "read"})))
+            with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                provider.next_action(model_context())
+            if _ == 0:
+                self.assertEqual([r.get_method() for r, _ in opener.calls], ["GET", "POST"])
+            else:
+                self.assertEqual([r.get_method() for r, _ in opener.calls], ["POST"])
+        metadata = provider.metadata()
+        self.assertEqual(metadata["identity_lookup_calls"], 1)
+        self.assertEqual(metadata["model_identity"]["digest"], "a" * 64)
+        self.assertEqual(metadata["model_identity"]["resolved_model"], "fixture:latest")
+        self.assertTrue(metadata["token_usage"]["counts_complete"])
+        self.assertEqual(metadata["token_usage"]["reported_total_tokens"], 50)
+
+    def test_missing_ambiguous_or_invalid_digest_stops_before_inference(self):
+        for models in ([], [{"name": "fixture", "digest": "not-a-digest"}], [{"name": "other", "digest": "a" * 64}], [{"name": "fixture", "digest": "a" * 64}, {"name": "fixture:latest", "digest": "b" * 64}]):
+            with self.subTest(models=models):
+                provider = OllamaProvider("fixture")
+                opener = FakeOpener(tags={"models": models})
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                    with self.assertRaises(ProviderError) as raised:
+                        provider.next_action(model_context())
+                self.assertEqual(raised.exception.code, "model_identity")
+                self.assertEqual(provider.metadata()["calls"], 0)
+                self.assertFalse(provider.metadata()["model_revision_available"])
+                self.assertEqual(len(opener.calls), 1)
+                self.assertEqual(opener.calls[0][0].get_method(), "GET")
+
+    def test_reported_model_mismatch_fails_closed(self):
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response({"action": "finish", "reason": "x"}, model="another:latest")))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            with self.assertRaises(ProviderError) as raised:
+                provider.next_action(model_context())
+        self.assertEqual(raised.exception.code, "model_mismatch")
+        self.assertEqual(provider.metadata()["inference_calls"][0]["error_code"], "model_mismatch")
+        self.assertEqual(provider.metadata()["token_usage"]["reported_total_tokens"], 25)
+
+    def test_inference_audit_contains_exact_response_action_and_hash(self):
+        action = {"action": "abstain", "reason": "Allowed changes are insufficient."}
+        raw = api_response(action)
+        opener = FakeOpener(FakeResponse(raw))
+        provider = OllamaProvider("fixture", timeout=180, num_ctx=4096, num_thread=1)
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            self.assertEqual(provider.next_action(model_context()), action)
+        record = provider.metadata()["inference_calls"][0]
+        request, timeout = opener.calls[-1]
+        self.assertEqual(timeout, 180)
+        self.assertEqual(record["request_sha256"], hashlib.sha256(request.data).hexdigest())
+        self.assertEqual(record["request_bytes"], len(request.data))
+        self.assertEqual(record["raw_server_response"], raw.decode())
+        self.assertEqual(record["response_sha256"], hashlib.sha256(raw).hexdigest())
+        self.assertEqual(record["action"], action)
+        self.assertEqual(record["reported_usage"], {"prompt_tokens": 18, "completion_tokens": 7, "total_tokens": 25})
+        record["action"]["reason"] = "tampered"
+        self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
+
+    def test_context_compaction_preserves_policy_errors_evidence_and_latest_verifier(self):
+        context = model_context()
+        manifest = {"kind": "Deployment", "padding": "x" * 3000}
+        previous = {"trust": "trusted_verifier", "passed": False, "checks": [{"id": "old", "passed": True}], "feedback": ["old runtime"]}
+        latest = {"trust": "trusted_verifier", "passed": False, "checks": [{"id": "cache", "passed": False, "detail": "read-only filesystem"}], "feedback": ["cache failed"]}
+        rejected = {"trust": "trusted_policy", "passed": False, "policy_errors": ["image must be unchanged"]}
+        context["manifest"] = manifest
+        context["observations"] = [previous, latest, rejected]
+        context["history"] = [{"event": "decision", "step": 1, "action": {"action": "propose", "manifest": manifest, "reason": "harden"}}, {"event": "evidence", "source": "repository", "record": context["evidence"]["repository"]}, {"event": "initial_verification", "result": previous}, {"event": "rejected_proposal", "errors": ["image must be unchanged"]}]
+        original = json.loads(json.dumps(context))
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(api_response({"action": "inspect", "source": "app", "reason": "investigate"})))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            provider.next_action(context)
+        sent = json.loads(json.loads(opener.calls[-1][0].data)["messages"][1]["content"])
+        for key in ("task", "manifest", "evidence", "remaining"):
+            self.assertEqual(sent[key], original[key])
+        self.assertEqual(sent["observations"], [latest, rejected])
+        self.assertEqual(sent["history"][-1], original["history"][-1])
+        self.assertEqual(sent["history"][0]["action"]["reason"], "harden")
+        self.assertNotIn("manifest", sent["history"][0]["action"])
+        self.assertIn("manifest_sha256", sent["history"][0]["action"])
+        self.assertEqual(context, original)
+        counters = provider.metadata()["inference_calls"][0]["context_compaction"]
+        self.assertEqual(counters["historical_manifests_hashed"], 1)
+        self.assertEqual(counters["older_verifier_observations_omitted"], 1)
+        self.assertLess(counters["sent_context_bytes"], counters["original_context_bytes"])
+
+    def test_invalid_outer_json_is_retained_as_failed_inference(self):
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(FakeResponse(b"not-json"))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            with self.assertRaises(ProviderError):
+                provider.next_action(model_context())
+        audit = provider.metadata()["inference_calls"][0]
+        self.assertEqual(audit["raw_server_response"], "not-json")
+        self.assertEqual(audit["error_code"], "invalid_json")
+        self.assertIsNone(audit["action"])
+
+    def test_runtime_parameters_have_finite_bounded_values(self):
+        for kwargs in ({"timeout": 181}, {"timeout": float("nan")}, {"timeout": True}, {"num_ctx": 1024}, {"num_ctx": 32769}, {"num_thread": 0}, {"num_thread": 17}, {"num_thread": True}, {"num_ctx": 2048, "max_output_tokens": 2048}):
+            with self.subTest(kwargs=kwargs):
+                with self.assertRaises(ValueError):
+                    OllamaProvider("fixture", **kwargs)
+
+    def test_redirect_and_proxy_handlers_are_fail_closed(self):
+        provider = OllamaProvider("fixture")
+        opener = FakeOpener(error=urllib.error.HTTPError("https://credential:secret@remote.invalid", 302, "Found", {}, None))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener) as build:
+            with self.assertRaises(ProviderError):
+                provider.next_action(model_context())
+        proxy, redirects = build.call_args.args
+        self.assertEqual(proxy.proxies, {})
+        self.assertIsNone(redirects.redirect_request(None, None, 302, "Found", {}, "https://remote.invalid"))
+        self.assertNotIn("secret", str(provider.metadata()))
 
     def test_remote_and_redirect_origins_are_rejected(self):
         for endpoint in ("http://example.com", "http://127.0.0.1@evil.example", "http://localhost/x", "http://localhost?redirect=1", "file:///tmp/model"):
@@ -184,7 +342,7 @@ class OllamaProviderTests(unittest.TestCase):
         OllamaProvider("fixture", "http://[::1]:11434")
 
     def test_total_budget_accumulates_across_calls(self):
-        provider = OllamaProvider("fixture", max_total_tokens=10000)
+        provider = OllamaProvider("fixture", max_total_tokens=18000)
         action = {"action": "inspect", "source": "image", "reason": "Read metadata"}
         for _ in range(2):
             with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):

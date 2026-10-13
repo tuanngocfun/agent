@@ -5,7 +5,7 @@ import json
 import time
 
 from .artifacts import digest, write_bundle
-from .policy import harden, repair_storage, validate_candidate
+from .policy import apply_changes, harden, repair_storage, validate_candidate
 from .verification import verify
 
 
@@ -42,6 +42,11 @@ def _task(scenario):
         "execution_kind": scenario.contract.get("execution_kind", "kubernetes-manifest-fixture"),
         "allowed_mount_paths": scenario.contract["allowed_mount_paths"],
         "allowed_cache_paths": scenario.contract["allowed_cache_paths"],
+        "allowed_security_fields": ["runAsNonRoot", "runAsUser", "runAsGroup", "readOnlyRootFilesystem",
+                                    "allowPrivilegeEscalation", "capabilities", "seccompProfile"],
+        "storage_policy": {"volume": {"name": "cache-data", "emptyDir": {"sizeLimit": "16Mi"}},
+                           "mount_fields": ["name", "mountPath"], "maximum_volumes": 1,
+                           "maximum_mounts": 1, "pod_security_fields": ["fsGroup"]},
         "evidence_sources": ["image", "app", "repository"],
     }
 
@@ -74,7 +79,7 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
                 kind = action.get("action")
                 fields = {
                     "inspect": {"action", "source", "reason"},
-                    "propose": {"action", "manifest", "reason"},
+                    "propose": {"action", "changes" if "changes" in action else "manifest", "reason"},
                     "test": {"action", "reason"}, "finish": {"action", "reason"},
                     "abstain": {"action", "reason"},
                 }
@@ -109,7 +114,15 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
                     status, reason = "budget_exhausted", "Candidate repair budget exhausted"
                     break
                 repairs += 1
-                candidate = action.get("manifest")
+                try:
+                    candidate = apply_changes(current, action["changes"]) if "changes" in action else action.get("manifest")
+                except (ValueError, TypeError, KeyError) as exc:
+                    rejected += 1
+                    errors = [f"Invalid change proposal: {exc}"]
+                    trace.append({"event": "rejected_proposal", "errors": errors})
+                    observations.append({"trust": "trusted_policy", "passed": False,
+                                         "policy_errors": errors, "feedback": errors})
+                    continue
                 errors = validate_candidate(scenario.base, candidate, scenario.contract)
                 if errors:
                     rejected += 1
