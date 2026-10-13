@@ -87,8 +87,9 @@ def main(argv=None):
             run([docker, "pull", image], timeout=180)
         created = True
         run([docker, "run", "--detach", "--name", container, "--cpus=2", "--memory=4g", "--pids-limit=128",
+             "--user", f"{os.getuid()}:{os.getgid()}", "--env", "HOME=/tmp",
              "--cap-drop=ALL", "--security-opt=no-new-privileges=true", "--pull=never",
-             "--publish", "127.0.0.1::11434", "--volume", str(cache) + ":/root/.ollama",
+             "--publish", "127.0.0.1::11434", "--volume", str(cache) + ":/tmp/.ollama",
              "--env", "OLLAMA_NUM_PARALLEL=1", "--env", "OLLAMA_MAX_LOADED_MODELS=1",
              "--env", "OLLAMA_KEEP_ALIVE=30m", "--env", "OLLAMA_CONTEXT_LENGTH=8192",
              "--env", "OLLAMA_VULKAN=0", IMAGE], timeout=30)
