@@ -20,9 +20,9 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE = "ollama/ollama:0.6.8@sha256:50ab2378567a62b811a2967759dd91f254864c3495cbe50576bd8a85bc6edd56"
-MODEL = "qwen2.5-coder:3b-instruct-q4_K_M"
-MODEL_DIGEST = "sha256:f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225"
-MODEL_LAYER = "sha256:4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba"
+MODEL = "qwen2.5:3b-instruct-q4_K_M"
+MODEL_DIGEST = "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b"
+MODEL_LAYER = "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6"
 BASE_IMAGE = "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1"
 NODE_IMAGE = "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a"
 
