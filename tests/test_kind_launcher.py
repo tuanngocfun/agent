@@ -47,11 +47,29 @@ class Worker:
 
 
 class KindLauncherTests(unittest.TestCase):
-    def invoke(self, output, worker):
+    def invoke(self, output, worker, *extra):
         with patch.object(launcher.shutil, "which", side_effect=lambda name: "/trusted/" + name):
             with patch.object(launcher.subprocess, "run", side_effect=worker):
                 with patch("builtins.print"):
-                    return launcher.main(["--base-image", BASE, "--output", str(output)])
+                    return launcher.main(["--base-image", BASE, "--output", str(output), *extra])
+
+    def test_ollama_decoding_selection_reaches_worker_cli(self):
+        for mode in ("json", "schema", "compact-schema"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temporary:
+                output, worker = Path(temporary) / "run", Worker()
+                self.assertEqual(self.invoke(output, worker, "--provider", "ollama", "--model", "lab:fixed",
+                                             "--decoding-mode", mode), 0)
+                command = next(a for a in worker.calls if len(a) > 3 and a[1:4] == ["-m", "kube_repair", "run"])
+                self.assertEqual(command[command.index("--decoding-mode") + 1], mode)
+                self.assertEqual(command[command.index("--model") + 1], "lab:fixed")
+
+    def test_scripted_worker_has_no_ollama_decoding_arguments(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output, worker = Path(temporary) / "run", Worker()
+            self.assertEqual(self.invoke(output, worker, "--decoding-mode", "compact-schema"), 0)
+            command = next(a for a in worker.calls if len(a) > 3 and a[1:4] == ["-m", "kube_repair", "run"])
+            self.assertNotIn("--decoding-mode", command)
+            self.assertNotIn("--model", command)
 
     def test_missing_worker_stops_before_output_or_mutation(self):
         with tempfile.TemporaryDirectory() as temporary:

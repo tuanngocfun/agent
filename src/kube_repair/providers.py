@@ -95,6 +95,16 @@ ACTION_SCHEMA: dict[str, Any] = {
 }
 
 
+# Compact constrained generation chooses protocol fields, never repair values.
+# The trusted parser and engine retain the original action/policy acceptance.
+COMPACT_ACTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "oneOf": json.loads(json.dumps([branch for branch in ACTION_SCHEMA["oneOf"] if "manifest" not in branch["properties"]])),
+}
+_COMPACT_SECURITY_SCHEMA = COMPACT_ACTION_SCHEMA["oneOf"][1]["properties"]["changes"]["properties"]["securityContext"]
+_COMPACT_SECURITY_SCHEMA["required"] = list(_COMPACT_SECURITY_SCHEMA["properties"])
+
+
 def _generation_schema() -> dict[str, Any]:
     """Avoid large bounded-string grammars in Ollama's CPU decoder.
 
@@ -105,6 +115,29 @@ def _generation_schema() -> dict[str, Any]:
     schema = json.loads(json.dumps(ACTION_SCHEMA))
     for branch in schema["oneOf"]:
         branch["properties"]["reason"].pop("maxLength", None)
+    return schema
+
+
+def _compact_generation_schema() -> dict[str, Any]:
+    """Bounded action grammar with no generated complete Deployment objects.
+
+    Large string repetition grammars are omitted from decoding only. Every raw
+    response is still checked by the unchanged strict Python action validator.
+    Required security fields have types, never inferred task identity values.
+    """
+    schema = json.loads(json.dumps(COMPACT_ACTION_SCHEMA))
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            if value.get("type") == "string":
+                value.pop("maxLength", None)
+            for item in value.values():
+                visit(item)
+        elif isinstance(value, list):
+            for item in value:
+                visit(item)
+
+    visit(schema)
     return schema
 
 SYSTEM_PROMPT = """You are a Kubernetes security remediation proposal agent.
@@ -172,6 +205,13 @@ changed repair; repeated test cannot repair a deterministic failure. Do not repe
 a failed proposal; revise using latest trusted failures. Finish only
 after latest trusted verification passes; abstain if allowed changes are insufficient.
 """
+
+
+COMPACT_SYSTEM_PROMPT = JSON_SYSTEM_PROMPT.replace(
+    'propose: {action:"propose",changes:object,reason:string}; alternatively replace\n'
+    'changes with manifest:complete Deployment. Never include both.',
+    'propose: {action:"propose",changes:object,reason:string}. Use changes only; no manifest.'
+) + "Compact decoding requires all seven listed securityContext fields when that group is present; generate their task-approved values yourself.\n"
 
 
 def _strict_json_loads(value: str | bytes) -> Any:
@@ -391,8 +431,8 @@ class OllamaProvider:
             raise ValueError("num_ctx must be an integer between 2048 and 32768")
         if type(num_thread) is not int or not 1 <= num_thread <= 16:
             raise ValueError("num_thread must be an integer between 1 and 16")
-        if not isinstance(decoding_mode, str) or decoding_mode not in {"json", "schema"}:
-            raise ValueError("decoding_mode must be json or schema")
+        if not isinstance(decoding_mode, str) or decoding_mode not in {"json", "schema", "compact-schema"}:
+            raise ValueError("decoding_mode must be json, schema or compact-schema")
         if max_output_tokens >= num_ctx:
             raise ValueError("max_output_tokens must be smaller than num_ctx")
         self.model = model
@@ -433,7 +473,13 @@ class OllamaProvider:
             "model_identity": self._identity,
             "identity_lookup_calls": self._identity_lookup_calls,
             "decoding_mode": self._decoding_mode,
-            "prompt_mode": "concise typed action guide" if self._decoding_mode == "json" else "full JSON action schema",
+            "prompt_mode": {"json": "concise typed action guide", "schema": "full JSON action schema", "compact-schema": "concise typed action guide with compact decoding schema"}[self._decoding_mode],
+            "decoding_constraints": {
+                "proposal_shape": "changes only" if self._decoding_mode == "compact-schema" else "manifest or changes",
+                "security_context_required_fields": list(_COMPACT_SECURITY_SCHEMA["required"]) if self._decoding_mode == "compact-schema" else [],
+                "repair_values": "raw model output; no inferred or inserted identity values",
+                "string_maximum_length_enforcement": "strict Python action validation",
+            },
             "action_enforcement": {"protocol": "strict Python validation of every model action", "proposal_authority": "trusted engine change policy and independent verifier"},
             "endpoint": self.endpoint,
             "calls": self._calls,
@@ -448,7 +494,7 @@ class OllamaProvider:
                 "max_total_tokens": self._max_total_tokens,
                 "budget_method": "UTF-8 prompt bytes plus requested output tokens; conservative reservation",
             },
-            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2, "reason_max_characters": 2000, "reason_length_enforcement": "strict Python validation; JSON decoding has no action grammar; schema decoding omits only this length bound"},
+            "limits": {"timeout_seconds": self._timeout, "max_response_bytes": self._max_response_bytes, "max_context_bytes": self._max_context_bytes, "max_output_tokens": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread, "messages_per_request": 2, "reason_max_characters": 2000, "reason_length_enforcement": "strict Python validation; decoding-only string bounds may be omitted"},
             "context_compaction": {"method": "Retain task, current manifest, inspected evidence, latest trusted verifier and every policy observation; hash historical proposal manifests and evidence duplicates; summarize historical verifier results; retain every decision and rejection.", "calls": [item["context_compaction"] for item in self._inference_calls]},
             "inference_calls": self._inference_calls,
             "errors": self._errors,
@@ -589,7 +635,11 @@ class OllamaProvider:
         context_bytes = len(content.encode("utf-8"))
         if context_bytes > self._max_context_bytes:
             raise self._fail("context_limit", "Compacted context exceeds the configured byte limit; required evidence was not silently truncated.")
-        system_content = JSON_SYSTEM_PROMPT if self._decoding_mode == "json" else SYSTEM_PROMPT + "\nAction JSON schema:\n" + json.dumps(ACTION_SCHEMA, separators=(",", ":"))
+        system_content = {
+            "json": JSON_SYSTEM_PROMPT,
+            "schema": SYSTEM_PROMPT + "\nAction JSON schema:\n" + json.dumps(ACTION_SCHEMA, separators=(",", ":")),
+            "compact-schema": COMPACT_SYSTEM_PROMPT,
+        }[self._decoding_mode]
         reservation = context_bytes + len(system_content.encode("utf-8")) + self._max_output_tokens + 1024
         if self._reserved_token_upper_bound + reservation > self._max_total_tokens:
             raise self._fail("token_budget", "The conservative total token budget is exhausted.")
@@ -599,7 +649,7 @@ class OllamaProvider:
         payload = {
             "model": self._identity["resolved_model"],
             "stream": False,
-            "format": "json" if self._decoding_mode == "json" else _generation_schema(),
+            "format": "json" if self._decoding_mode == "json" else (_compact_generation_schema() if self._decoding_mode == "compact-schema" else _generation_schema()),
             "messages": [{"role": "system", "content": system_content}, {"role": "user", "content": content}],
             "options": {"temperature": 0, "num_predict": self._max_output_tokens, "num_ctx": self._num_ctx, "num_thread": self._num_thread},
         }

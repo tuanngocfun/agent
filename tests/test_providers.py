@@ -5,7 +5,7 @@ import unittest
 import urllib.error
 from unittest.mock import patch
 
-from kube_repair.providers import ACTION_SCHEMA, OllamaProvider, ProviderError, ScriptedProvider
+from kube_repair.providers import ACTION_SCHEMA, COMPACT_ACTION_SCHEMA, OllamaProvider, ProviderError, ScriptedProvider
 
 
 class FakeResponse:
@@ -137,9 +137,94 @@ class OllamaProviderTests(unittest.TestCase):
                     OllamaProvider("fixture", decoding_mode=mode)
         self.assertEqual(OllamaProvider("fixture").metadata()["decoding_mode"], "json")
         self.assertEqual(OllamaProvider("fixture", decoding_mode="schema").metadata()["decoding_mode"], "schema")
+        self.assertEqual(OllamaProvider("fixture", decoding_mode="compact-schema").metadata()["decoding_mode"], "compact-schema")
         enforcement = OllamaProvider("fixture").metadata()["action_enforcement"]
         self.assertIn("strict Python", enforcement["protocol"])
         self.assertIn("trusted engine", enforcement["proposal_authority"])
+
+    def test_compact_schema_bounds_protocol_without_fabricating_repair_values(self):
+        context = model_context()
+        context["task"].update({"allowed_uid": 12345, "allowed_primary_gid": 23456})
+        security = {"runAsNonRoot": True, "runAsUser": 12345, "runAsGroup": 23456, "readOnlyRootFilesystem": True, "allowPrivilegeEscalation": False, "capabilities": {"drop": ["ALL"]}, "seccompProfile": {"type": "RuntimeDefault"}}
+        action = {"action": "propose", "changes": {"securityContext": security}, "reason": "Apply the approved security settings."}
+        raw = api_response(action)
+        opener = FakeOpener(FakeResponse(raw))
+        provider = OllamaProvider("fixture", decoding_mode="compact-schema")
+        original = json.loads(json.dumps(COMPACT_ACTION_SCHEMA))
+        with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+            self.assertEqual(provider.next_action(context), action)
+        request = opener.calls[-1][0]
+        payload = json.loads(request.data)
+        schema = payload["format"]
+        self.assertEqual(schema["type"], "object")
+        self.assertEqual(len(schema["oneOf"]), 3)
+        self.assertEqual([branch["properties"]["action"] for branch in schema["oneOf"]], [{"const": "inspect"}, {"const": "propose"}, {"enum": ["test", "finish", "abstain"]}])
+        for branch in schema["oneOf"]:
+            self.assertFalse(branch["additionalProperties"])
+            self.assertIn("action", branch["required"])
+            self.assertIn("reason", branch["required"])
+            self.assertNotIn("manifest", branch["properties"])
+            self.assertNotIn("maxLength", branch["properties"]["reason"])
+        changes = schema["oneOf"][1]["properties"]["changes"]
+        self.assertEqual(set(changes["properties"]), {"securityContext", "podSecurityContext", "volumes", "volumeMounts"})
+        self.assertEqual(changes["minProperties"], 1)
+        sc = changes["properties"]["securityContext"]
+        self.assertEqual(set(sc["required"]), set(security))
+        for key in ("runAsUser", "runAsGroup"):
+            self.assertEqual(sc["properties"][key]["type"], "integer")
+            self.assertEqual(sc["properties"][key]["minimum"], 1)
+            self.assertNotIn("const", sc["properties"][key])
+            self.assertNotIn("default", sc["properties"][key])
+        for key in ("runAsNonRoot", "readOnlyRootFilesystem", "allowPrivilegeEscalation"):
+            self.assertEqual(sc["properties"][key], {"type": "boolean"})
+        self.assertNotIn("maxLength", changes["properties"]["volumeMounts"]["items"]["properties"]["mountPath"])
+        guide = payload["messages"][0]["content"]
+        self.assertIn("changes only; no manifest", guide)
+        self.assertIn("all seven", guide)
+        self.assertNotIn("manifest:complete Deployment", guide)
+        self.assertNotIn("Action JSON schema:", guide)
+        self.assertEqual(json.loads(payload["messages"][1]["content"])["task"], context["task"])
+        self.assertEqual(COMPACT_ACTION_SCHEMA, original)
+        metadata = provider.metadata()
+        self.assertEqual(metadata["decoding_mode"], "compact-schema")
+        self.assertEqual(metadata["decoding_constraints"]["proposal_shape"], "changes only")
+        self.assertEqual(set(metadata["decoding_constraints"]["security_context_required_fields"]), set(security))
+        audit = metadata["inference_calls"][0]
+        self.assertEqual(audit["action"], action)
+        self.assertEqual(audit["raw_server_response"], raw.decode())
+        self.assertEqual(audit["request_sha256"], hashlib.sha256(request.data).hexdigest())
+        self.assertEqual(audit["system_prompt_bytes"], len(guide.encode()))
+
+    def test_compact_decoding_keeps_original_python_parser_acceptance(self):
+        # Decoding guidance is separate from unchanged trusted acceptance. The
+        # adapter must not fill omitted IDs or reinterpret legacy valid objects.
+        actions = [{"action": "propose", "changes": {"securityContext": {"runAsNonRoot": True}}, "reason": "Inspect this partial change."}, {"action": "propose", "manifest": {"kind": "Deployment"}, "reason": "Legacy full manifest action."}]
+        for action in actions:
+            with self.subTest(action=action):
+                provider = OllamaProvider("fixture", decoding_mode="compact-schema")
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
+                    self.assertEqual(provider.next_action(model_context()), action)
+                self.assertEqual(provider.metadata()["inference_calls"][0]["action"], action)
+
+    def test_compact_decoding_rejects_wrapped_and_unknown_actions_without_reinterpretation(self):
+        for action in ({"propose": {"changes": {"securityContext": {"runAsUser": 12345}}, "reason": "x"}}, {"action": "execute", "command": "echo unsafe", "reason": "x"}, {"manifest": {"kind": "Deployment"}}):
+            with self.subTest(action=action):
+                provider = OllamaProvider("fixture", decoding_mode="compact-schema")
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
+                    with self.assertRaises(ProviderError) as raised:
+                        provider.next_action(model_context())
+                self.assertEqual(raised.exception.code, "invalid_action")
+                self.assertIsNone(provider.metadata()["inference_calls"][0]["action"])
+
+    def test_compact_generation_string_bounds_still_enforced_after_decoding(self):
+        for action in ({"action": "finish", "reason": "x" * 2001}, {"action": "propose", "changes": {"volumeMounts": [{"name": "cache-data", "mountPath": "/" + "x" * 256}]}, "reason": "x"}):
+            with self.subTest(action=action):
+                provider = OllamaProvider("fixture", decoding_mode="compact-schema")
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=FakeOpener(FakeResponse(api_response(action)))):
+                    with self.assertRaises(ProviderError) as raised:
+                        provider.next_action(model_context())
+                self.assertEqual(raised.exception.code, "invalid_action")
+                self.assertIsNone(provider.metadata()["inference_calls"][0]["action"])
 
     def test_json_mode_sends_bounded_typed_guide_without_action_grammar(self):
         action = {"action": "inspect", "source": "image", "reason": "Inspect metadata."}

@@ -141,17 +141,19 @@ def main(argv=None):
                "tags_before": before, "show": show, "warmup_response": warm, "inference_smoke": smoke,
                "ps_before": before_ps,
                "settings": {"temperature": 0, "num_ctx": 8192, "num_thread": 2,
-                            "decoding_mode": "json", "max_output_tokens": 512, "timeout_seconds": 420},
+                            "decoding_mode": "compact-schema", "max_output_tokens": 512, "timeout_seconds": 420},
                "weight_license": "Qwen Research License; weights are not published in this repository",
                "cpu_only": True, "selected_model": selected}
         (output / "model-pin.json").write_text(json.dumps(pin, indent=2) + "\n")
         run([sys.executable, "scripts/kind_demo.py", "--base-image", BASE_IMAGE, "--node-image", NODE_IMAGE,
              "--provider", "ollama", "--model", MODEL, "--endpoint", base_url,
+             "--decoding-mode", "compact-schema",
              "--output", output / "kubernetes"], timeout=2100, live=True)
         report = json.loads((output / "kubernetes/results/agent/report.json").read_text())
         provider = report["provider"]
         if not (report["accepted"] and report["runtime_verified"] and provider.get("uses_llm") is True
                 and provider.get("name") == "ollama" and canonical_digest(provider.get("model_revision")) == MODEL_DIGEST
+                and provider.get("decoding_mode") == "compact-schema"
                 and provider["token_usage"]["reported_completion_tokens"] > 0):
             raise RuntimeError("The actual LLM-origin repair and Kubernetes verification were not established")
         after = http(base_url + "/api/tags")

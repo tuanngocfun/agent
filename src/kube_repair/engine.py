@@ -140,7 +140,9 @@ def _task(scenario):
                      "If permitted manifest edits cannot satisfy the task, abstain with evidence.",
         "allowed_changes": "Named app securityContext fields, pod fsGroup, "
                            "one bounded cache-data emptyDir and its approved mount. "
-                           "Preserve all other fields including image, env, app, identity and annotations.",
+                           "Preserve workload names, labels, selectors, app container name, image, env, "
+                           "resources and annotations. Task-approved runAsUser/runAsGroup changes set "
+                           "the container process UID/GID.",
         "allowed_uid": scenario.contract.get("allowed_uid", 10001),
         "allowed_primary_gid": scenario.contract.get("allowed_primary_gid", 10001),
         "allowed_groups": scenario.contract.get("allowed_groups", [10001, 2000]),

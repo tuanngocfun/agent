@@ -34,6 +34,7 @@ def main(argv=None):
     parser.add_argument("--provider", choices=("scripted", "ollama", "session"), default="scripted")
     parser.add_argument("--model")
     parser.add_argument("--endpoint", default="http://localhost:11434")
+    parser.add_argument("--decoding-mode", choices=("json", "schema", "compact-schema"), default="json")
     parser.add_argument("--exchange-dir", type=Path)
     args = parser.parse_args(argv)
     if not PIN.fullmatch(args.base_image) or not PIN.fullmatch(args.node_image):
@@ -134,7 +135,7 @@ def main(argv=None):
                       "--output", output / "results" / "agent",
                       "--progress-output", output / "results" / "agent-progress.json"]
         if args.provider == "ollama":
-            agent_args += ["--model", args.model, "--endpoint", args.endpoint]
+            agent_args += ["--model", args.model, "--endpoint", args.endpoint, "--decoding-mode", args.decoding_mode]
         elif args.provider == "session":
             agent_args += ["--exchange-dir", args.exchange_dir, "--decision-source", "current_assistant_session"]
         run(agent_args, timeout=1800 if args.provider in ("session", "ollama") else 360, live=True)

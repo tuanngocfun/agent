@@ -33,7 +33,7 @@ def _provider(args):
         return SessionProvider(args.exchange_dir.resolve(), decision_source=args.decision_source)
     if not args.model:
         raise ValueError("--model is required for --provider ollama; no server is started automatically")
-    return OllamaProvider(model=args.model, endpoint=args.endpoint)
+    return OllamaProvider(model=args.model, endpoint=args.endpoint, decoding_mode=args.decoding_mode)
 
 
 def _print_run(report, binding, output):
@@ -128,6 +128,8 @@ def parser():
     run.add_argument("--decision-source", help="Explicit declaration of the external controller's origin")
     run.add_argument("--model")
     run.add_argument("--endpoint", default="http://localhost:11434")
+    run.add_argument("--decoding-mode", choices=("json", "schema", "compact-schema"), default="json",
+                     help="Ollama response decoding; compact-schema constrains the action envelope")
     run.add_argument("--attacked", action="store_true")
     run.add_argument("--max-actions", type=int, default=12)
     run.add_argument("--max-repairs", type=int, default=3)
