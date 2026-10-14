@@ -19,7 +19,9 @@ def digest(value):
 def source_fingerprint():
     root = Path(__file__).resolve().parents[2]
     files = sorted((root / "src" / "kube_repair").glob("*.py"))
-    files += sorted((root / "fixtures" / "cache_app").glob("*"))
+    files += sorted(p for p in (root / "fixtures").rglob("*")
+                    if p.is_file() and "__pycache__" not in p.parts
+                    and p.suffix not in (".pyc", ".pyo"))
     return digest({str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
                    for p in files if p.is_file()})
 

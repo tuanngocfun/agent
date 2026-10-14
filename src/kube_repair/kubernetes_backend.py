@@ -6,6 +6,7 @@ credentials and image setup are supplied by the operator, never by the model.
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import re
 import shutil
@@ -13,7 +14,7 @@ import subprocess
 import time
 import uuid
 
-from .verification import _PROBE, _RUNTIME_CHECKS, _check, _container, _env, _static
+from .verification import _RUNTIME_CHECKS, _check, _container, _env, _probe_for_contract, _static
 
 OWNER_LABEL = "kube-repair.lab/run"
 _DIGEST = re.compile(r"(?:^|@|://)(sha256:[0-9a-f]{64})$")
@@ -55,6 +56,7 @@ def prefix(configuration):
 
 
 def _guard(manifest, contract):
+    _probe_for_contract(contract)
     pod, app = _container(manifest)
     if manifest.get("apiVersion") != "apps/v1" or manifest.get("kind") != "Deployment":
         raise ValueError("Only the fixture Deployment can be evaluated")
@@ -120,6 +122,8 @@ def verify_kubernetes(manifest, contract):
         expected_digest = image_digest(configuration.get("expected_image_id"))
         argv = prefix(configuration)
         runtime["context"] = configuration["context"]
+        runtime["fixture_kind"] = contract.get("fixture_kind", "file-cache")
+        runtime["probe_sha256"] = hashlib.sha256(_probe_for_contract(contract).encode()).hexdigest()
         runtime["namespace"] = namespace
         runtime["server_version"] = json.loads(call(["version", "-o", "json"])).get("serverVersion")
         ns = {"apiVersion": "v1", "kind": "Namespace", "metadata": {"name": namespace, "labels": {
@@ -211,7 +215,7 @@ def verify_kubernetes(manifest, contract):
                 _check(checks, check, False, "No successful runtime probe: application was not ready")
         else:
             result = json.loads(call(["-n", namespace, "exec", runtime["pod_name"], "-c", "app", "--",
-                                      "python", "-c", _PROBE, contract["cache_path"]]))
+                                      "python", "-c", _probe_for_contract(contract), contract["cache_path"]]))
             if set(result) != set(_RUNTIME_CHECKS):
                 raise RuntimeError("Trusted probe returned an unexpected check inventory")
             for name in _RUNTIME_CHECKS:

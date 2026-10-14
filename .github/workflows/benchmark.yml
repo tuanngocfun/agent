@@ -1,0 +1,97 @@
+name: Kubernetes model benchmark v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [kube-remediation-demo]
+    paths:
+      - benchmark/plan-v1.json
+      - .github/workflows/benchmark.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kube-benchmark-v1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_benchmark_plan.py --check benchmark/plan-v1.json
+
+  benchmark:
+    needs: protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    name: ${{ matrix.model_id }} / ${{ matrix.method }} / repeat-${{ matrix.repetition }} / shard-${{ matrix.case_shard }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        model_id: [qwen25-coder-1.5b, qwen25-1.5b, qwen25-3b]
+        method: [one-shot, feedback]
+        repetition: [0, 1]
+        case_shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install checksum-verified worker tools
+        run: python3 scripts/install_worker_tools.py
+      - name: Run the registered model tasks on real Kubernetes
+        run: >-
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/benchmark_worker.py
+          --plan benchmark/plan-v1.json --model-id '${{ matrix.model_id }}'
+          --method '${{ matrix.method }}' --trial-index '${{ matrix.repetition }}'
+          --case-shard '${{ matrix.case_shard }}' --output runs/benchmark-shard
+      - name: Preserve completed and interrupted evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: benchmark-${{ matrix.model_id }}-${{ matrix.method }}-r${{ matrix.repetition }}-s${{ matrix.case_shard }}
+          path: |
+            runs/benchmark-shard/plan.json
+            runs/benchmark-shard/suite.json
+            runs/benchmark-shard/summary.json
+            runs/benchmark-shard/progress.json
+            runs/benchmark-shard/commands.json
+            runs/benchmark-shard/model-pin.json
+            runs/benchmark-shard/image-pins.json
+            runs/benchmark-shard/records/
+            runs/benchmark-shard/controls/
+            runs/benchmark-shard/cases/
+          retention-days: 14
+          if-no-files-found: warn
+
+  reports:
+    if: always()
+    needs: [protocol, benchmark]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: benchmark-*
+          path: runs/benchmark-collected
+      - name: Report all registered cells, including missing evidence
+        run: |
+          mkdir -p runs/benchmark-collected
+          python3 scripts/collect_benchmark.py --plan benchmark/plan-v1.json --shards runs/benchmark-collected --output runs/benchmark-report
+          cat runs/benchmark-report/report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload statistics and the complete collected evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: benchmark-v1-complete-report
+          path: runs/benchmark-report/
+          retention-days: 30
+          if-no-files-found: warn

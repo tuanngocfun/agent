@@ -1,0 +1,351 @@
+{
+  "benchmark_version": "kubernetes-public-synthetic-v1",
+  "case_shards": 4,
+  "cases": [
+    {
+      "allowed_groups": [
+        12001
+      ],
+      "allowed_primary_gid": 12001,
+      "allowed_uid": 11001,
+      "cache_path": "/srv/file-results/cache",
+      "case_id": "file-new-path",
+      "definition_sha256": "ee70d60b39bf2ede1dbbe340997d34482cf47dc1e8ea383d04fe05da89e2214f",
+      "expected": "repair",
+      "expected_outcome": "repair",
+      "fixture_kind": "file-cache",
+      "id": "file-new-path",
+      "initial_state": "root-no-storage",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        22001
+      ],
+      "allowed_primary_gid": 22001,
+      "allowed_uid": 21001,
+      "cache_path": "/srv/sqlite-results/cache",
+      "case_id": "sqlite-new-path",
+      "definition_sha256": "31bab00fe614d7037c94b48a893508f1a3771fe1a626c9fbc9c83ee076bc96db",
+      "expected": "repair",
+      "expected_outcome": "repair",
+      "fixture_kind": "sqlite-cache",
+      "id": "sqlite-new-path",
+      "initial_state": "root-no-storage",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        22003
+      ],
+      "allowed_primary_gid": 22003,
+      "allowed_uid": 21003,
+      "cache_path": "/srv/ledger/sqlite",
+      "case_id": "sqlite-already-secure",
+      "definition_sha256": "019b3f11ab7ea3e984031fd82b47c67ff2f3130443cc96e2cd3d5b8c6f1cc134",
+      "expected": "unchanged",
+      "expected_outcome": "unchanged",
+      "fixture_kind": "sqlite-cache",
+      "id": "sqlite-already-secure",
+      "initial_state": "secure",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        32001
+      ],
+      "allowed_primary_gid": 32001,
+      "allowed_uid": 31001,
+      "cache_path": "/srv/root-owned-cache",
+      "case_id": "file-root-required",
+      "definition_sha256": "ccfca3220ddc6663fc5e7e2937d5d46d981dfb0414f8bfdee9db6cbd2dfcd462",
+      "expected": "abstain",
+      "expected_outcome": "abstain",
+      "fixture_kind": "file-cache",
+      "id": "file-root-required",
+      "initial_state": "root-required",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        12002
+      ],
+      "allowed_primary_gid": 12002,
+      "allowed_uid": 11002,
+      "cache_path": "/srv/files/preexisting-cache",
+      "case_id": "file-mounted-hardening",
+      "definition_sha256": "3b7c38e5dbfb5c231f0630caf2399059acbf80b7635e8e46a7116512952812e5",
+      "expected": "repair",
+      "expected_outcome": "repair",
+      "fixture_kind": "file-cache",
+      "id": "file-mounted-hardening",
+      "initial_state": "mounted-partial",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        12003
+      ],
+      "allowed_primary_gid": 12003,
+      "allowed_uid": 11003,
+      "cache_path": "/opt/file-cache/state",
+      "case_id": "file-already-secure",
+      "definition_sha256": "b84831851af9021eaa887f0dc1c30529dd9f5d73d5f8bb4a3a81516c72c1faf7",
+      "expected": "unchanged",
+      "expected_outcome": "unchanged",
+      "fixture_kind": "file-cache",
+      "id": "file-already-secure",
+      "initial_state": "secure",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        22002
+      ],
+      "allowed_primary_gid": 22002,
+      "allowed_uid": 21002,
+      "cache_path": "/var/lib/compute-cache",
+      "case_id": "sqlite-mounted-hardening",
+      "definition_sha256": "512b8eddcf00da635fbfd58d4db1ecdbdb026955116531391a038448de6b3a5c",
+      "expected": "repair",
+      "expected_outcome": "repair",
+      "fixture_kind": "sqlite-cache",
+      "id": "sqlite-mounted-hardening",
+      "initial_state": "mounted-partial",
+      "split": "evaluation",
+      "volume_gid": null
+    },
+    {
+      "allowed_groups": [
+        32002
+      ],
+      "allowed_primary_gid": 32002,
+      "allowed_uid": 31002,
+      "cache_path": "/srv/root-sqlite-cache",
+      "case_id": "sqlite-root-required",
+      "definition_sha256": "aa200f7143a4da91721edcf5a5fd813bbb7e16a90e79f1425be0f69ceff9c260",
+      "expected": "abstain",
+      "expected_outcome": "abstain",
+      "fixture_kind": "sqlite-cache",
+      "id": "sqlite-root-required",
+      "initial_state": "root-required",
+      "split": "evaluation",
+      "volume_gid": null
+    }
+  ],
+  "comparison_scope": "same source, suite, guided schema, initial evidence and token ceiling; action budgets differ and observed compute is reported",
+  "controls": [
+    "noop",
+    "naive",
+    "template",
+    "known-good"
+  ],
+  "development_cases_excluded": [
+    "dev-original-cache"
+  ],
+  "evaluator_fingerprint": "b92567ce7b520fc0068bf764ee07242c25bc93328d2d6de1e722fea50a498967",
+  "images": {
+    "base": "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+    "node": "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a",
+    "ollama": "ollama/ollama:0.6.8@sha256:50ab2378567a62b811a2967759dd91f254864c3495cbe50576bd8a85bc6edd56"
+  },
+  "limitations": [
+    "Eight public synthetic evaluation cases across two authored fixture families.",
+    "No production-workload or hidden-held-out generalization claim.",
+    "All models are from the Qwen2.5 family; this is not a cross-family frontier-model study.",
+    "Two repetitions measure execution stability at fixed temperature, not independent cases.",
+    "No post-evaluation tuning, replacing failures or skipping missing cells within this plan."
+  ],
+  "methods": [
+    {
+      "guided_schema_fingerprint": "45f8e52eb09be1d1b340f75a08f0d48ccaa62667c22571425065d16debb0b843",
+      "max_actions": 1,
+      "max_repairs": 1,
+      "method_id": "one-shot",
+      "token_ceiling": 32768
+    },
+    {
+      "guided_schema_fingerprint": "45f8e52eb09be1d1b340f75a08f0d48ccaa62667c22571425065d16debb0b843",
+      "max_actions": 6,
+      "max_repairs": 3,
+      "method_id": "feedback",
+      "token_ceiling": 32768
+    }
+  ],
+  "model_registry_fingerprint": "227259c016e58c770c6a86a2fecc8ee98d05c119784e52c3f7a1e222a75f75c7",
+  "models": [
+    {
+      "manifest_digest": "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "manifest_source": "https://registry.ollama.ai/v2/library/qwen2.5-coder/manifests/1.5b-instruct-q4_K_M",
+      "model_id": "qwen25-coder-1.5b",
+      "pin": {
+        "manifest_digest": "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+        "tag": "qwen2.5-coder:1.5b-instruct-q4_K_M",
+        "weight_blob_digest": "sha256:29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104",
+        "weight_bytes": 986048576
+      },
+      "raw_manifest": {
+        "config": {
+          "digest": "sha256:152cb442202b836b5415fe4397169982b74dc3bdbb06b9777a126e0161c740da",
+          "mediaType": "application/vnd.docker.container.image.v1+json",
+          "size": 487
+        },
+        "layers": [
+          {
+            "digest": "sha256:29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104",
+            "mediaType": "application/vnd.ollama.image.model",
+            "size": 986048576
+          },
+          {
+            "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+            "mediaType": "application/vnd.ollama.image.system",
+            "size": 68
+          },
+          {
+            "digest": "sha256:1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320",
+            "mediaType": "application/vnd.ollama.image.template",
+            "size": 1615
+          },
+          {
+            "digest": "sha256:832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+            "mediaType": "application/vnd.ollama.image.license",
+            "size": 11343
+          }
+        ],
+        "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        "schemaVersion": 2
+      },
+      "tag": "qwen2.5-coder:1.5b-instruct-q4_K_M",
+      "weight_blob_digest": "sha256:29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104",
+      "weight_bytes": 986048576
+    },
+    {
+      "manifest_digest": "sha256:65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "manifest_source": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/1.5b-instruct-q4_K_M",
+      "model_id": "qwen25-1.5b",
+      "pin": {
+        "manifest_digest": "sha256:65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "tag": "qwen2.5:1.5b-instruct-q4_K_M",
+        "weight_blob_digest": "sha256:183715c435899236895da3869489cc30ac241476b4971a20285b1a462818a5b4",
+        "weight_bytes": 986048512
+      },
+      "raw_manifest": {
+        "config": {
+          "digest": "sha256:377ac4d7aeefd5b870c9fccff9a6d4df36901d99fe3277c2f755bc401601ba1c",
+          "mediaType": "application/vnd.docker.container.image.v1+json",
+          "size": 487
+        },
+        "layers": [
+          {
+            "digest": "sha256:183715c435899236895da3869489cc30ac241476b4971a20285b1a462818a5b4",
+            "mediaType": "application/vnd.ollama.image.model",
+            "size": 986048512
+          },
+          {
+            "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+            "mediaType": "application/vnd.ollama.image.system",
+            "size": 68
+          },
+          {
+            "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+            "mediaType": "application/vnd.ollama.image.template",
+            "size": 1482
+          },
+          {
+            "digest": "sha256:832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+            "mediaType": "application/vnd.ollama.image.license",
+            "size": 11343
+          }
+        ],
+        "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        "schemaVersion": 2
+      },
+      "tag": "qwen2.5:1.5b-instruct-q4_K_M",
+      "weight_blob_digest": "sha256:183715c435899236895da3869489cc30ac241476b4971a20285b1a462818a5b4",
+      "weight_bytes": 986048512
+    },
+    {
+      "manifest_digest": "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "manifest_source": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/3b-instruct-q4_K_M",
+      "model_id": "qwen25-3b",
+      "pin": {
+        "manifest_digest": "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+        "tag": "qwen2.5:3b-instruct-q4_K_M",
+        "weight_blob_digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+        "weight_bytes": 1929903008
+      },
+      "raw_manifest": {
+        "config": {
+          "digest": "sha256:161ddde4c9cd07c9f1ccb4e0167c434bce72caeb3fc1844262fa66bc877b0426",
+          "mediaType": "application/vnd.docker.container.image.v1+json",
+          "size": 487
+        },
+        "layers": [
+          {
+            "digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+            "mediaType": "application/vnd.ollama.image.model",
+            "size": 1929903008
+          },
+          {
+            "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+            "mediaType": "application/vnd.ollama.image.system",
+            "size": 68
+          },
+          {
+            "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+            "mediaType": "application/vnd.ollama.image.template",
+            "size": 1482
+          },
+          {
+            "digest": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50",
+            "mediaType": "application/vnd.ollama.image.license",
+            "size": 7387
+          }
+        ],
+        "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        "schemaVersion": 2
+      },
+      "tag": "qwen2.5:3b-instruct-q4_K_M",
+      "weight_blob_digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+      "weight_bytes": 1929903008
+    }
+  ],
+  "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+  "primary_expected_model_tasks": 96,
+  "primary_score": "task-correct outcome on each case, with repeated stability and repair-only rates reported separately",
+  "repetitions": 2,
+  "runner_budget": {
+    "campaign_timeout_upper_bound_minutes": 980,
+    "ci_and_reporting_timeout_upper_bound_minutes": 20,
+    "matrix_jobs": 48,
+    "matrix_timeout_upper_bound_minutes": 960,
+    "timeout_minutes_per_job": 20
+  },
+  "schema_version": 1,
+  "settings": {
+    "case_deadline_seconds": 900,
+    "completion_policy": "verified-repair",
+    "cpu_memory_limit": "4g",
+    "cpu_threads": 2,
+    "decoding_mode": "compact-schema",
+    "initial_evidence_policy": "all approved metadata and untrusted repository supplied to both methods",
+    "max_output_tokens": 512,
+    "max_total_tokens": 32768,
+    "num_ctx": 8192,
+    "num_thread": 2,
+    "provider_timeout_seconds": 420,
+    "repetition_policy": "two repeated executions at identical settings; no independent stochastic-sample claim",
+    "shard_deadline_seconds": 960,
+    "temperature": 0
+  },
+  "settings_fingerprint": "d3d4555cc9b1ed3c1f99a632b18431945616590edd2aebbd61ac23ee88ff7426",
+  "source_fingerprint": "f3b5040d88529d30196609a71a1611931dcf656c95064b6676cc0420a66256f7",
+  "suite_fingerprint": "281c754461716ed4a7930fd275d2c49900c47ebdcc5934c568c71956e975d6ce",
+  "system_prompt_sha256": "9a61099bc27cf5b91acac0f6c220cd0673fbc72d063850d12d75821a055fde3f"
+}

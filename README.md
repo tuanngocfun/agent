@@ -2,6 +2,10 @@
 
 A runnable first project for the question: **can an agent harden a container without breaking its required behavior?**
 
+**Benchmark v1:** eight public synthetic cases, file-backed and SQLite services, three pinned Qwen models, one-shot versus feedback methods, and two repeated executions (**96 planned model tasks**). Read the [registered protocol](docs/BENCHMARK_V1.md) and [metric definitions](docs/BENCHMARK_METRICS.md). Evaluation results are pending; the historical successful run below is a separate development demonstration.
+
+[Source CI](https://github.com/tuanngocfun/agent/actions/workflows/ci.yml?query=branch%3Akube-remediation-demo) · [Benchmark Actions](https://github.com/tuanngocfun/agent/actions/workflows/benchmark.yml?query=branch%3Akube-remediation-demo) · [Demo branch](https://github.com/tuanngocfun/agent/tree/kube-remediation-demo)
+
 **LLM thật + Kubernetes thật đã chạy thành công:** [GitHub Actions run #14](https://github.com/tuanngocfun/agent/actions/runs/38528564033), source commit `d770c0e`. Qwen2.5 **3B Instruct** chạy CPU, tạo **1 patch** qua **14/14 kiểm tra** trên Kubernetes v1.34.0; bundle cuối `accepted: true`. Raw model response, patch, runtime probes, hashes và cleanup đã được audit lại. Đây là một repair với schema hướng dẫn trên một fixture tổng hợp.
 
 Đọc [kết quả LLM, lỗi đã sửa và evidence](docs/REAL_LLM_KUBERNETES_RESULT_VI.md), rồi dùng [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md) để chạy lại. Controller giờ có thể kết thúc sau khi verifier xác nhận patch của model; kết quả ghi rõ `completion_actor: trusted_engine`.

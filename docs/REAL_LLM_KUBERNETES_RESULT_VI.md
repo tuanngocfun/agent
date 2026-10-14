@@ -59,12 +59,16 @@ Artifact GitHub hết hạn sau 7 ngày, nên 41 file report được lưu nguy�
 
 ```bash
 cd /home/ngocnt/agents/kube-security-remediation
+git worktree add --detach runs/historical-llm-evidence fbd441b4686d1c833a1247a29f6ced1ff99597ad
+cd runs/historical-llm-evidence
 mkdir -p runs/evidence-review
 PYTHONDONTWRITEBYTECODE=1 python3 \
   evidence/llm-kubernetes-2026-10-14/audit_llm_evidence.py \
   evidence/llm-kubernetes-2026-10-14/reports \
   --output runs/evidence-review/audit.json
 ```
+
+Worktree dùng đúng source của kết quả lịch sử. Source benchmark mới có fingerprint khác; audit cố ý từ chối dùng nó để xác nhận lại bundle cũ. Chọn tên worktree mới nếu đường dẫn đã tồn tại.
 
 Để chạy lại workload/model thật, dùng **Re-run all jobs** trên GitHub Actions run đã dẫn ở trên, hoặc [worker guide](GITHUB_KUBERNETES_DEMO.md) trên máy lab có Docker/kind/kubectl. Host hiện tại chưa có môi trường Kubernetes; evidence này đến từ GitHub worker.
 

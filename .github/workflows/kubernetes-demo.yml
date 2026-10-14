@@ -2,9 +2,6 @@ name: Real LLM Kubernetes remediation demo
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - kube-remediation-demo
 
 permissions:
   contents: read

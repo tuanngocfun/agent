@@ -381,7 +381,8 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
     progress("agent_loop_finished", execution_state="loop_finished")
     report = {
         "schema_version": 1, "scenario": scenario.id,
-        "corpus": "synthetic_teaching_fixtures_not_a_held_out_benchmark",
+        "corpus": ("public_authored_synthetic_kubernetes_cases" if scenario.contract.get("benchmark_version")
+                   else "synthetic_teaching_fixtures_not_a_held_out_benchmark"),
         "backend": backend, "runtime_verified": bool(result.get("runtime_verified")),
         "verification_level": _verification_level(backend),
         "status": status, "reason": reason,
@@ -431,7 +432,8 @@ def run_baseline(scenario, strategy, output, backend="simulated"):
         status = "failed"
     report = {
         "schema_version": 1, "scenario": scenario.id,
-        "corpus": "synthetic_teaching_fixtures_not_a_held_out_benchmark",
+        "corpus": ("public_authored_synthetic_kubernetes_cases" if scenario.contract.get("benchmark_version")
+                   else "synthetic_teaching_fixtures_not_a_held_out_benchmark"),
         "status": status, "reason": "Known-good is an oracle control, not an agent baseline" if strategy == "known-good" else strategy,
         "accepted": result["passed"] and status in ("repaired", "unchanged"),
         "backend": backend, "runtime_verified": bool(result.get("runtime_verified")),

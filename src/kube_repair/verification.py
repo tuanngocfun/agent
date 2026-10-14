@@ -202,6 +202,53 @@ print(json.dumps(results, sort_keys=True))
 '''
 
 
+# The SQLite probe opens the actual database read-only, independently computes
+# the result and observes a committed hit-count change after a repeat request.
+# The original file-cache probe is kept byte-for-byte for historical fixtures.
+_SQLITE_PROBE = r'''
+import errno, hashlib, json, os, sqlite3, sys, urllib.error, urllib.parse, urllib.request
+cache = sys.argv[1]
+results = {}
+try:
+    database_uri = "file:" + urllib.parse.quote(os.path.join(cache, "cache.sqlite3"), safe="/") + "?mode=ro"
+    value = "sqlite-independent-probe-v1"
+    expected = hashlib.sha256(value.encode()).hexdigest()
+    with sqlite3.connect(database_uri, uri=True, timeout=1) as database:
+        contract_value = database.execute("SELECT value FROM metadata WHERE key = 'contract'").fetchone()
+        initial = database.execute("SELECT result, hits FROM results WHERE input = ?", (value,)).fetchone()
+        integrity = database.execute("PRAGMA integrity_check").fetchone()
+    with urllib.request.urlopen("http://127.0.0.1:8080/health", timeout=1) as response:
+        healthy = response.status == 200 and json.loads(response.read(4096)).get("ready") is True
+    endpoint = "http://127.0.0.1:8080/compute?value=" + value
+    with urllib.request.urlopen(endpoint, timeout=1) as response:
+        first = json.loads(response.read(4096))
+    with sqlite3.connect(database_uri, uri=True, timeout=1) as database:
+        stored_first = database.execute("SELECT result, hits FROM results WHERE input = ?", (value,)).fetchone()
+    with urllib.request.urlopen(endpoint, timeout=1) as response:
+        second = json.loads(response.read(4096))
+    with sqlite3.connect(database_uri, uri=True, timeout=1) as database:
+        stored_second = database.execute("SELECT result, hits FROM results WHERE input = ?", (value,)).fetchone()
+    initial_hits = initial[1] if initial else -1
+    valid = (healthy and contract_value == ("kube-repair-sqlite-contract-v1",) and integrity == ("ok",)
+             and first.get("result") == expected and second.get("result") == expected
+             and first.get("cached") is (initial is not None) and second.get("cached") is True
+             and stored_first == (expected, initial_hits + 1) and stored_second == (expected, initial_hits + 2))
+    results["application-cache"] = [valid, "HTTP health, independently computed SHA-256, actual read-only SQLite queries, integrity and committed cache-hit increment checked"]
+except (OSError, ValueError, sqlite3.Error, urllib.error.URLError) as exc:
+    results["application-cache"] = [False, "SQLite service or persisted cache behavior failed: " + str(exc)]
+''' + _PROBE[_PROBE.index("status = {}\n"):]
+
+
+def _probe_for_contract(contract):
+    """Select only trusted, versioned fixture probes; model output cannot edit kind."""
+    kind = contract.get("fixture_kind", "file-cache")
+    if kind == "file-cache":
+        return _PROBE
+    if kind == "sqlite-cache":
+        return _SQLITE_PROBE
+    raise ValueError("Unsupported trusted fixture kind")
+
+
 def _docker_args(docker: str, name: str, pod: dict, container: dict, contract: dict) -> list[str]:
     image = container.get("image", "")
     if not _IMAGE_ID.fullmatch(image):
