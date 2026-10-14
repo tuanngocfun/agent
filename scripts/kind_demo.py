@@ -35,6 +35,7 @@ def main(argv=None):
     parser.add_argument("--model")
     parser.add_argument("--endpoint", default="http://localhost:11434")
     parser.add_argument("--decoding-mode", choices=("json", "schema", "compact-schema"), default="json")
+    parser.add_argument("--stop-on-verified-repair", action="store_true")
     parser.add_argument("--exchange-dir", type=Path)
     args = parser.parse_args(argv)
     if not PIN.fullmatch(args.base_image) or not PIN.fullmatch(args.node_image):
@@ -134,6 +135,8 @@ def main(argv=None):
         agent_args = [sys.executable, "-m", "kube_repair", "run", *common, "--provider", args.provider,
                       "--output", output / "results" / "agent",
                       "--progress-output", output / "results" / "agent-progress.json"]
+        if args.stop_on_verified_repair:
+            agent_args += ["--stop-on-verified-repair"]
         if args.provider == "ollama":
             agent_args += ["--model", args.model, "--endpoint", args.endpoint, "--decoding-mode", args.decoding_mode]
         elif args.provider == "session":

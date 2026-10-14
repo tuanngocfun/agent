@@ -134,6 +134,8 @@ def parser():
     run.add_argument("--max-actions", type=int, default=12)
     run.add_argument("--max-repairs", type=int, default=3)
     run.add_argument("--progress-output", type=Path, help="Fresh file for nonexportable, incremental action evidence")
+    run.add_argument("--stop-on-verified-repair", action="store_true",
+                     help="Let the trusted engine complete after a changed proposal passes every required test")
     baseline.add_argument("--strategy", choices=("noop", "naive", "template", "known-good"), required=True)
     review = sub.add_parser("review", help="Verify review bundle contents and print bound hash")
     review.add_argument("--bundle", type=Path, required=True)
@@ -168,7 +170,8 @@ def main(argv=None):
         output = args.output or _output(args.scenario)
         if args.command == "run":
             report, binding = run_task(scenario, _provider(args), output, args.backend,
-                                       args.max_actions, args.max_repairs, progress_output=args.progress_output)
+                                       args.max_actions, args.max_repairs, progress_output=args.progress_output,
+                                       stop_on_verified_repair=args.stop_on_verified_repair)
         else:
             report, binding = run_baseline(scenario, args.strategy, output, args.backend)
         _print_run(report, binding, output)

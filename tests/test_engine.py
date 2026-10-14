@@ -5,9 +5,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from kube_repair.artifacts import digest
+from kube_repair.artifacts import digest, load_bundle
 from kube_repair.engine import run_baseline, run_task
-from kube_repair.policy import harden
+from kube_repair.policy import harden, repair_storage
 from kube_repair.providers import ProviderError, ScriptedProvider
 from kube_repair.scenarios import get_scenario
 
@@ -21,6 +21,24 @@ class ActionsProvider:
 
     def metadata(self):
         return {"name": "test-provider", "uses_llm": False}
+
+
+class CountingProvider(ActionsProvider):
+    def __init__(self, actions):
+        super().__init__(actions)
+        self.calls = 0
+        self.contexts = []
+
+    def next_action(self, context):
+        self.calls += 1
+        self.contexts.append(copy.deepcopy(context))
+        try:
+            return super().next_action(context)
+        except StopIteration as exc:
+            raise AssertionError("The provider was called after its planned decisions") from exc
+
+    def metadata(self):
+        return {"name": "counting-test-provider", "uses_llm": False, "calls": self.calls}
 
 
 class EngineTests(unittest.TestCase):
@@ -84,6 +102,180 @@ class EngineTests(unittest.TestCase):
         self.assertTrue(report["accepted"])
         self.assertEqual(report["budget"]["candidate_repairs"], 1)
         self.assertEqual(report["budget"]["test_runs"], 2)
+
+    def test_verified_repair_completion_binds_exact_candidate_without_fabricated_finish(self):
+        scenario = get_scenario("cache-path")
+        candidate = repair_storage(harden(scenario.base), scenario.contract)
+        provider = CountingProvider([
+            {"action": "propose", "manifest": candidate, "reason": "Preserve cache while hardening"},
+        ])
+        with tempfile.TemporaryDirectory() as temp:
+            output, progress = Path(temp) / "bundle", Path(temp) / "progress.json"
+            report, binding = run_task(scenario, provider, output, progress_output=progress,
+                                      stop_on_verified_repair=True)
+            checked_binding, contents = load_bundle(output)
+            trace = json.loads(contents["trace.json"])
+            self.assertTrue(report["accepted"])
+            self.assertEqual(report["status"], "repaired")
+            self.assertEqual(provider.calls, 1)
+            self.assertEqual(report["budget"]["actions"], 1)
+            self.assertEqual(report["budget"]["test_runs"], 2)
+            self.assertEqual(report["completion_policy"], "verified-repair")
+            self.assertEqual(report["completion_actor"], "trusted_engine")
+            self.assertEqual(provider.contexts[0]["task"]["completion_policy"], "verified-repair")
+            self.assertEqual(json.loads(contents["candidate.json"]), candidate)
+            self.assertEqual(checked_binding, binding)
+            self.assertEqual(binding["candidate_hash"], digest(candidate))
+            self.assertEqual(trace[-2]["event"], "candidate_verification")
+            self.assertIs(trace[-2]["result"]["passed"], True)
+            self.assertEqual(trace[-1], {"event": "trusted_completion", "actor": "trusted_engine",
+                                       "manifest_hash": binding["candidate_hash"]})
+            self.assertEqual(trace[-2]["manifest_hash"], trace[-1]["manifest_hash"])
+            self.assertEqual([item["action"]["action"] for item in trace if item["event"] == "decision"],
+                             ["propose"])
+            snapshot = json.loads(progress.read_text())
+            self.assertFalse(snapshot["accepted"])
+            self.assertFalse(snapshot["exportable"])
+            self.assertEqual(snapshot["completion_actor"], "trusted_engine")
+            self.assertEqual(snapshot["trace"], trace)
+            self.assertEqual(snapshot["provider"]["calls"], 1)
+            self.assertEqual(snapshot["final_bundle_review_hash"], binding["review_hash"])
+
+    def test_verified_repair_waits_for_behavior_preserving_revision(self):
+        scenario = get_scenario("cache-path")
+        hardened = harden(scenario.base)
+        repaired = repair_storage(hardened, scenario.contract)
+        provider = CountingProvider([
+            {"action": "propose", "manifest": hardened, "reason": "First hardening attempt"},
+            {"action": "propose", "manifest": repaired, "reason": "Revise after cache failure"},
+        ])
+        report = self.run_one("cache-path", provider, stop_on_verified_repair=True)
+        trace = json.loads((self.output / "trace.json").read_text())
+        candidates = [item for item in trace if item["event"] == "candidate_verification"]
+        self.assertTrue(report["accepted"])
+        self.assertEqual(provider.calls, 2)
+        self.assertEqual(report["budget"]["candidate_repairs"], 2)
+        self.assertEqual(report["budget"]["test_runs"], 3)
+        self.assertFalse(candidates[0]["result"]["behavior_pass"])
+        self.assertFalse(candidates[0]["result"]["passed"])
+        self.assertTrue(candidates[1]["result"]["passed"])
+        self.assertFalse(provider.contexts[1]["observations"][-1]["passed"])
+        self.assertEqual(trace[-1]["manifest_hash"], digest(repaired))
+        self.assertEqual(sum(item["event"] == "trusted_completion" for item in trace), 1)
+
+    def test_verified_repair_can_complete_after_requested_verification(self):
+        scenario = get_scenario("cache-path")
+        candidate = repair_storage(harden(scenario.base), scenario.contract)
+        provider = CountingProvider([
+            {"action": "propose", "manifest": candidate, "reason": "Repair the application"},
+            {"action": "test", "reason": "Retry the transient application readiness failure"},
+        ])
+        from kube_repair.verification import verify as trusted_verify
+        calls = []
+
+        def temporarily_unready(manifest, contract, backend):
+            calls.append(copy.deepcopy(manifest))
+            result = trusted_verify(manifest, contract, backend)
+            if len(calls) == 2:
+                result.update({"passed": False, "behavior_pass": False,
+                               "feedback": ["Application temporarily unready"]})
+                for check in result["checks"]:
+                    if check["name"] == "application-cache":
+                        check.update({"passed": False, "detail": "Application temporarily unready"})
+            return result
+
+        with patch("kube_repair.engine.verify", side_effect=temporarily_unready):
+            report = self.run_one("cache-path", provider, stop_on_verified_repair=True)
+        trace = json.loads((self.output / "trace.json").read_text())
+        self.assertTrue(report["accepted"])
+        self.assertEqual(provider.calls, 2)
+        self.assertEqual(len(calls), 3)
+        self.assertEqual(calls[1], calls[2])
+        self.assertEqual(report["budget"]["candidate_repairs"], 1)
+        self.assertEqual(trace[-2]["event"], "requested_verification")
+        self.assertTrue(trace[-2]["result"]["passed"])
+        self.assertEqual(trace[-1]["event"], "trusted_completion")
+        self.assertEqual(trace[-1]["manifest_hash"], digest(candidate))
+
+    def test_verified_completion_leaves_unchanged_workloads_under_provider_control(self):
+        scenario = get_scenario("already-secure")
+        provider = CountingProvider([
+            {"action": "test", "reason": "Verify unchanged workload"},
+            {"action": "propose", "manifest": scenario.base, "reason": "Retain the original manifest"},
+            {"action": "finish", "reason": "The unchanged workload is verified"},
+        ])
+        report = self.run_one("already-secure", provider, stop_on_verified_repair=True)
+        trace = json.loads((self.output / "trace.json").read_text())
+        self.assertTrue(report["accepted"])
+        self.assertEqual(report["status"], "unchanged")
+        self.assertEqual(provider.calls, 3)
+        self.assertEqual(report["completion_actor"], "decision_provider")
+        self.assertFalse(any(item["event"] == "trusted_completion" for item in trace))
+        self.assertEqual((self.output / "patch.diff").read_text(), "")
+
+    def test_default_completion_still_requires_an_actual_provider_finish(self):
+        scenario = get_scenario("cache-path")
+        candidate = repair_storage(harden(scenario.base), scenario.contract)
+        proposal = {"action": "propose", "manifest": candidate, "reason": "Repair the application"}
+        for finish in (False, True):
+            with self.subTest(finish=finish):
+                actions = [proposal] + ([{"action": "finish", "reason": "Trusted verification passed"}]
+                                        if finish else [])
+                provider = CountingProvider(actions)
+                report = self.run_one("cache-path", provider, max_actions=2 if finish else 1)
+                trace = json.loads((self.output / "trace.json").read_text())
+                self.assertTrue(report["verification"]["passed"])
+                self.assertEqual(report["accepted"], finish)
+                self.assertEqual(report["completion_policy"], "model-finish")
+                self.assertEqual(report["completion_actor"], "decision_provider" if finish else None)
+                self.assertEqual(provider.calls, 2 if finish else 1)
+                self.assertNotIn("completion_policy", provider.contexts[0]["task"])
+                self.assertFalse(any(item["event"] == "trusted_completion" for item in trace))
+                if not finish:
+                    self.assertEqual(report["status"], "budget_exhausted")
+                    self.assertEqual(json.loads((self.output / "candidate.json").read_text()), scenario.base)
+
+    def test_verified_completion_never_accepts_policy_cleanup_or_runner_failure(self):
+        scenario = get_scenario("cache-path")
+        candidate = repair_storage(harden(scenario.base), scenario.contract)
+        unsafe = copy.deepcopy(candidate)
+        unsafe["spec"]["template"]["spec"]["containers"][0]["image"] = "attacker/app:latest"
+        from kube_repair.verification import verify as trusted_verify
+        for failure in ("policy", "cleanup", "runner"):
+            with self.subTest(failure=failure):
+                provider = CountingProvider([
+                    {"action": "propose", "manifest": unsafe if failure == "policy" else candidate,
+                     "reason": "Propose a candidate"},
+                    {"action": "abstain", "reason": "No verified repair is available"},
+                ])
+                calls = []
+
+                def failed_verify(manifest, contract, backend):
+                    calls.append(copy.deepcopy(manifest))
+                    if len(calls) == 2 and failure == "runner":
+                        raise RuntimeError("Cluster connection unavailable")
+                    result = trusted_verify(manifest, contract, backend)
+                    if len(calls) == 2 and failure == "cleanup":
+                        result.update({"passed": False, "infrastructure_error": "Container cleanup failed",
+                                       "feedback": ["Container cleanup failed"]})
+                        result["checks"].append({"name": "container-cleanup", "passed": False,
+                                                 "detail": "Container cleanup failed"})
+                    return result
+
+                with patch("kube_repair.engine.verify", side_effect=failed_verify):
+                    report = self.run_one("cache-path", provider, stop_on_verified_repair=True)
+                trace = json.loads((self.output / "trace.json").read_text())
+                self.assertFalse(report["accepted"])
+                self.assertIsNone(report["completion_actor"])
+                self.assertFalse(any(item["event"] == "trusted_completion" for item in trace))
+                self.assertEqual(json.loads((self.output / "candidate.json").read_text()), scenario.base)
+                if failure == "policy":
+                    self.assertEqual(len(calls), 1)
+                    self.assertEqual(report["rejected_actions"], 1)
+                else:
+                    self.assertEqual(len(calls), 2)
+                    self.assertEqual(report["status"], "runner_error")
+                    self.assertEqual(provider.calls, 1)
 
     def test_invalid_typed_changes_have_no_effect(self):
         report = self.run_one("cache-path", ActionsProvider([

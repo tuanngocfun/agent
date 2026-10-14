@@ -132,8 +132,8 @@ def _verify(manifest, contract, backend):
         }
 
 
-def _task(scenario):
-    return {
+def _task(scenario, stop_on_verified_repair=False):
+    task = {
         "objective": "Harden the preserved application: non-root, read-only root filesystem, "
                      "no privilege escalation, drop all capabilities, RuntimeDefault seccomp. "
                      "Preserve startup, computed response, required cache write/read behavior. "
@@ -163,15 +163,21 @@ def _task(scenario):
                            "maximum_mounts": 1, "pod_security_fields": ["fsGroup"]},
         "evidence_sources": ["image", "app", "repository"],
     }
+    if stop_on_verified_repair:
+        task["completion_policy"] = "verified-repair"
+    return task
 
 
 def run_task(scenario, provider, output, backend="simulated", max_actions=12, max_repairs=3,
-             progress_output=None):
+             progress_output=None, stop_on_verified_repair=False):
     if not (1 <= max_actions <= 30 and 1 <= max_repairs <= 5):
         raise ValueError("Budgets must be 1..30 actions and 1..5 candidate repairs")
+    if type(stop_on_verified_repair) is not bool:
+        raise ValueError("stop_on_verified_repair must be a boolean")
     journal = _ProgressJournal(progress_output) if progress_output is not None else None
     try:
-        return _run_task(scenario, provider, output, backend, max_actions, max_repairs, journal)
+        return _run_task(scenario, provider, output, backend, max_actions, max_repairs,
+                         journal, stop_on_verified_repair)
     except BaseException as exc:
         if journal is not None:
             try:
@@ -185,13 +191,17 @@ def run_task(scenario, provider, output, backend="simulated", max_actions=12, ma
             journal.close()
 
 
-def _run_task(scenario, provider, output, backend, max_actions, max_repairs, journal):
+def _run_task(scenario, provider, output, backend, max_actions, max_repairs, journal,
+              stop_on_verified_repair):
     started = time.monotonic()
     current = copy.deepcopy(scenario.base)
     result, verification_hash = None, None
     observations, trace = [], []
     evidence, repairs, rejected, tests, actions = {}, 0, 0, 0, 0
     status, reason = "budget_exhausted", "Action budget exhausted"
+    applied_changed_proposal = False
+    completion_policy = "verified-repair" if stop_on_verified_repair else "model-finish"
+    completion_actor = None
 
     def progress(stage, execution_state="running", **extra):
         if journal is None:
@@ -199,6 +209,7 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
         journal.write({
             "scenario": scenario.id, "backend": backend, "stage": stage,
             "execution_state": execution_state, "engine_status": status, "reason": reason,
+            "completion_policy": completion_policy, "completion_actor": completion_actor,
             "base_hash": digest(scenario.base), "contract_hash": digest(scenario.contract),
             "manifest": current, "manifest_hash": digest(current),
             "verification": result, "verification_manifest_hash": verification_hash,
@@ -209,6 +220,20 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
             "rejected_actions": rejected, "executed_unauthorized_effects": 0,
             "seconds": round(time.monotonic() - started, 6), **extra,
         })
+
+    def complete_verified_repair():
+        nonlocal status, reason, completion_actor
+        if (not stop_on_verified_repair or not applied_changed_proposal or repairs <= 0
+                or current == scenario.base or result.get("passed") is not True
+                or result.get("infrastructure_error") or verification_hash != digest(current)
+                or validate_candidate(scenario.base, current, scenario.contract)):
+            return False
+        status, reason = "repaired", "Trusted verifier passed every required check for the changed candidate."
+        completion_actor = "trusted_engine"
+        trace.append({"event": "trusted_completion", "actor": "trusted_engine",
+                      "manifest_hash": verification_hash})
+        progress("trusted_completion", execution_state="completed")
+        return True
 
     progress("before_initial_verification")
     result = _verify(current, scenario.contract, backend)
@@ -222,7 +247,7 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
     else:
         for step in range(max_actions):
             context = {
-                "task": _task(scenario), "manifest": copy.deepcopy(current),
+                "task": _task(scenario, stop_on_verified_repair), "manifest": copy.deepcopy(current),
                 "observations": copy.deepcopy(observations), "evidence": copy.deepcopy(evidence),
                 "remaining": {"actions": max_actions - step, "repairs": max_repairs - repairs},
                 "history": copy.deepcopy(trace),
@@ -310,6 +335,8 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
                     progress("rejected_proposal")
                     continue
                 current = copy.deepcopy(candidate)
+                if current != scenario.base:
+                    applied_changed_proposal = True
                 progress("before_candidate_verification")
                 result = _verify(current, scenario.contract, backend)
                 verification_hash = digest(current)
@@ -320,6 +347,8 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
                 progress("candidate_verification")
                 if result.get("infrastructure_error"):
                     status, reason = "runner_error", result["infrastructure_error"]
+                    break
+                if complete_verified_repair():
                     break
             elif kind == "test":
                 progress("before_requested_verification")
@@ -332,9 +361,13 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
                 if result.get("infrastructure_error"):
                     status, reason = "runner_error", result["infrastructure_error"]
                     break
+                if complete_verified_repair():
+                    break
             elif kind == "finish":
                 reason = action["reason"]
                 status = ("unchanged" if current == scenario.base else "repaired") if result["passed"] else "failed"
+                if status in ("repaired", "unchanged"):
+                    completion_actor = "decision_provider"
                 break
             elif kind == "abstain":
                 status, reason = "abstained", action["reason"]
@@ -352,6 +385,7 @@ def _run_task(scenario, provider, output, backend, max_actions, max_repairs, jou
         "backend": backend, "runtime_verified": bool(result.get("runtime_verified")),
         "verification_level": _verification_level(backend),
         "status": status, "reason": reason,
+        "completion_policy": completion_policy, "completion_actor": completion_actor,
         "accepted": status in ("repaired", "unchanged") and bool(result["passed"]),
         "appropriate_abstention": status == "abstained" and scenario.expected == "abstain",
         "unnecessary_change": scenario.expected == "unchanged" and current != scenario.base,

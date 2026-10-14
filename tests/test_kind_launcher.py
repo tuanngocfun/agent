@@ -53,6 +53,17 @@ class KindLauncherTests(unittest.TestCase):
                 with patch("builtins.print"):
                     return launcher.main(["--base-image", BASE, "--output", str(output), *extra])
 
+    def test_verified_repair_completion_is_opt_in_and_only_reaches_agent(self):
+        for enabled in (False, True):
+            with self.subTest(enabled=enabled), tempfile.TemporaryDirectory() as temporary:
+                output, worker = Path(temporary) / "run", Worker()
+                extra = ["--stop-on-verified-repair"] if enabled else []
+                self.assertEqual(self.invoke(output, worker, *extra), 0)
+                commands = [a for a in worker.calls if len(a) > 3 and a[1:3] == ["-m", "kube_repair"]]
+                self.assertEqual(len(commands), 4)
+                for command in commands:
+                    self.assertEqual("--stop-on-verified-repair" in command, enabled and command[3] == "run")
+
     def test_ollama_decoding_selection_reaches_worker_cli(self):
         for mode in ("json", "schema", "compact-schema"):
             with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temporary:
