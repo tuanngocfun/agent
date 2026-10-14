@@ -1,0 +1,930 @@
+{
+  "accepted": false,
+  "artifact_kind": "partial_agent_progress",
+  "backend": "kubernetes",
+  "base_hash": "00a54c469311d0ba40387d776d6a03bda267d9d22e2636cc3aeb8b20604a2df9",
+  "budget": {
+    "actions": 1,
+    "candidate_repairs": 1,
+    "max_actions": 12,
+    "max_repairs": 3,
+    "test_runs": 2
+  },
+  "completion_actor": "trusted_engine",
+  "completion_policy": "verified-repair",
+  "contract_hash": "caac40ab89fa097cc1ad606c5ade63fc59b509e6c4c9324f4c48c52a31b4fd61",
+  "engine_status": "repaired",
+  "evidence": {},
+  "executed_unauthorized_effects": 0,
+  "execution_state": "completed",
+  "exportable": false,
+  "final_bundle_review_hash": "d2bb6085c6a294de33245abebe8a121e6931e3c9ead53299f93546dadd0168ad",
+  "limitation": "Partial diagnostics only; completion and acceptance require the final hash-bound review bundle.",
+  "manifest": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app": "repair-cache-app"
+      },
+      "name": "repair-cache-app"
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "repair-cache-app"
+        }
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "repair-cache-app"
+          }
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "CACHE_DIR",
+                  "value": "/var/cache/repair-app"
+                },
+                {
+                  "name": "FIXTURE_REQUIRES_ROOT",
+                  "value": "0"
+                }
+              ],
+              "image": "repair-cache-app:demo-a8fb2b5c655e52ea-a781c15d",
+              "imagePullPolicy": "Never",
+              "name": "app",
+              "ports": [
+                {
+                  "containerPort": 8080
+                }
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8080
+                }
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "128Mi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "32Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true,
+                "runAsGroup": 10001,
+                "runAsNonRoot": true,
+                "runAsUser": 10001,
+                "seccompProfile": {
+                  "type": "RuntimeDefault"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/cache/repair-app",
+                  "name": "cache-data"
+                }
+              ]
+            }
+          ],
+          "securityContext": {
+            "fsGroup": 2000
+          },
+          "volumes": [
+            {
+              "emptyDir": {
+                "sizeLimit": "16Mi"
+              },
+              "name": "cache-data"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "manifest_hash": "953c2d37d936efd3211559d52a66333fd6afeb3c863f9d881acb0048ecff1e22",
+  "observations": [
+    {
+      "backend": "kubernetes",
+      "behavior_pass": true,
+      "checks": [
+        {
+          "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+          "name": "static-non-root",
+          "passed": false
+        },
+        {
+          "detail": "readOnlyRootFilesystem must be true",
+          "name": "static-read-only",
+          "passed": false
+        },
+        {
+          "detail": "allowPrivilegeEscalation must be false",
+          "name": "static-no-escalation",
+          "passed": false
+        },
+        {
+          "detail": "Drop ALL capabilities without adding any",
+          "name": "static-capabilities",
+          "passed": false
+        },
+        {
+          "detail": "Use RuntimeDefault seccomp",
+          "name": "static-seccomp",
+          "passed": false
+        },
+        {
+          "detail": "Privileged containers are forbidden",
+          "name": "static-unprivileged",
+          "passed": true
+        },
+        {
+          "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+          "name": "runtime-image-identity",
+          "passed": true
+        },
+        {
+          "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+          "name": "application-cache",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 effective UID=0",
+          "name": "runtime-non-root",
+          "passed": false
+        },
+        {
+          "detail": "Writing outside the allowed cache volume succeeded",
+          "name": "runtime-read-only",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 NoNewPrivs=0",
+          "name": "runtime-no-new-privileges",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+          "name": "runtime-capabilities",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 Seccomp=0; expected filter mode 2",
+          "name": "runtime-seccomp",
+          "passed": false
+        },
+        {
+          "detail": "Only this run's namespace was deleted",
+          "name": "namespace-cleanup",
+          "passed": true
+        }
+      ],
+      "feedback": [
+        "runAsNonRoot must be true and runAsUser must be a positive integer",
+        "readOnlyRootFilesystem must be true",
+        "allowPrivilegeEscalation must be false",
+        "Drop ALL capabilities without adding any",
+        "Use RuntimeDefault seccomp",
+        "PID 1 effective UID=0",
+        "Writing outside the allowed cache volume succeeded",
+        "PID 1 NoNewPrivs=0",
+        "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+        "PID 1 Seccomp=0; expected filter mode 2"
+      ],
+      "infrastructure_error": null,
+      "kubernetes_execution_observed": true,
+      "negative_pass": false,
+      "passed": false,
+      "runtime": {
+        "container_waiting": {
+          "message": "",
+          "reason": "ContainerCreating"
+        },
+        "context": "kind-repair-demo-e1c354f30bcd",
+        "deployment_uid": "fb1e320e-9d36-4601-bdd3-b96ce031f7db",
+        "generation": 1,
+        "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+        "namespace": "kube-repair-36f539bc79fd4a09",
+        "pod_name": "repair-cache-app-7fd4ff7986-whbjl",
+        "pod_uid": "135ce351-ff97-4f00-a31f-dc9a7cf9a897",
+        "server_version": {
+          "buildDate": "2025-08-27T10:09:04Z",
+          "compiler": "gc",
+          "emulationMajor": "1",
+          "emulationMinor": "34",
+          "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+          "gitTreeState": "clean",
+          "gitVersion": "v1.34.0",
+          "goVersion": "go1.24.6",
+          "major": "1",
+          "minCompatibilityMajor": "1",
+          "minCompatibilityMinor": "33",
+          "minor": "34",
+          "platform": "linux/amd64"
+        }
+      },
+      "runtime_verified": true,
+      "static_pass": false,
+      "trust": "trusted_verifier"
+    },
+    {
+      "backend": "kubernetes",
+      "behavior_pass": true,
+      "checks": [
+        {
+          "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+          "name": "static-non-root",
+          "passed": true
+        },
+        {
+          "detail": "readOnlyRootFilesystem must be true",
+          "name": "static-read-only",
+          "passed": true
+        },
+        {
+          "detail": "allowPrivilegeEscalation must be false",
+          "name": "static-no-escalation",
+          "passed": true
+        },
+        {
+          "detail": "Drop ALL capabilities without adding any",
+          "name": "static-capabilities",
+          "passed": true
+        },
+        {
+          "detail": "Use RuntimeDefault seccomp",
+          "name": "static-seccomp",
+          "passed": true
+        },
+        {
+          "detail": "Privileged containers are forbidden",
+          "name": "static-unprivileged",
+          "passed": true
+        },
+        {
+          "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+          "name": "runtime-image-identity",
+          "passed": true
+        },
+        {
+          "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+          "name": "application-cache",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 effective UID=10001",
+          "name": "runtime-non-root",
+          "passed": true
+        },
+        {
+          "detail": "Root write denied with errno=30; expected EROFS",
+          "name": "runtime-read-only",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 NoNewPrivs=1",
+          "name": "runtime-no-new-privileges",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 capabilities={\"CapBnd\": 0, \"CapEff\": 0, \"CapPrm\": 0}",
+          "name": "runtime-capabilities",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 Seccomp=2; expected filter mode 2",
+          "name": "runtime-seccomp",
+          "passed": true
+        },
+        {
+          "detail": "Only this run's namespace was deleted",
+          "name": "namespace-cleanup",
+          "passed": true
+        }
+      ],
+      "feedback": [],
+      "infrastructure_error": null,
+      "kubernetes_execution_observed": true,
+      "negative_pass": true,
+      "passed": true,
+      "runtime": {
+        "container_waiting": {
+          "message": "",
+          "reason": "ContainerCreating"
+        },
+        "context": "kind-repair-demo-e1c354f30bcd",
+        "deployment_uid": "de26e462-9b2d-48e3-adbd-7cfacd52fdec",
+        "generation": 1,
+        "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+        "namespace": "kube-repair-29339622bf2245f0",
+        "pod_name": "repair-cache-app-64c8964f89-7glpp",
+        "pod_uid": "f707d452-ae92-423b-9fca-0c221271ac78",
+        "server_version": {
+          "buildDate": "2025-08-27T10:09:04Z",
+          "compiler": "gc",
+          "emulationMajor": "1",
+          "emulationMinor": "34",
+          "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+          "gitTreeState": "clean",
+          "gitVersion": "v1.34.0",
+          "goVersion": "go1.24.6",
+          "major": "1",
+          "minCompatibilityMajor": "1",
+          "minCompatibilityMinor": "33",
+          "minor": "34",
+          "platform": "linux/amd64"
+        }
+      },
+      "runtime_verified": true,
+      "static_pass": true,
+      "trust": "trusted_verifier"
+    }
+  ],
+  "provider": {
+    "action_enforcement": {
+      "proposal_authority": "trusted engine change policy and independent verifier",
+      "protocol": "strict Python validation of every model action"
+    },
+    "calls": 1,
+    "context_compaction": {
+      "calls": [
+        {
+          "historical_evidence_records_hashed": 0,
+          "historical_manifests_hashed": 0,
+          "historical_verifier_results_summarized": 1,
+          "latest_verifier_history_duplicates_omitted": 1,
+          "older_verifier_observations_omitted": 0,
+          "original_context_bytes": 8453,
+          "sent_context_bytes": 5585
+        }
+      ],
+      "method": "Retain task, current manifest, inspected evidence, latest trusted verifier and every policy observation; hash historical proposal manifests and evidence duplicates; summarize historical verifier results; retain every decision and rejection."
+    },
+    "decoding_constraints": {
+      "proposal_shape": "changes only",
+      "repair_values": "raw model output; no inferred or inserted identity values",
+      "security_context_required_fields": [
+        "runAsNonRoot",
+        "runAsUser",
+        "runAsGroup",
+        "readOnlyRootFilesystem",
+        "allowPrivilegeEscalation",
+        "capabilities",
+        "seccompProfile"
+      ],
+      "string_maximum_length_enforcement": "strict Python action validation"
+    },
+    "decoding_mode": "compact-schema",
+    "elapsed_seconds": 289.157746,
+    "endpoint": "http://127.0.0.1:32768",
+    "errors": [],
+    "identity_lookup_calls": 1,
+    "inference_calls": [
+      {
+        "action": {
+          "action": "propose",
+          "changes": {
+            "podSecurityContext": {
+              "fsGroup": 2000
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true,
+              "runAsGroup": 10001,
+              "runAsNonRoot": true,
+              "runAsUser": 10001,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/var/cache/repair-app",
+                "name": "cache-data"
+              }
+            ],
+            "volumes": [
+              {
+                "emptyDir": {
+                  "sizeLimit": "16Mi"
+                },
+                "name": "cache-data"
+              }
+            ]
+          },
+          "reason": "Preserve application behavior while enforcing required security controls."
+        },
+        "call": 1,
+        "context_compaction": {
+          "historical_evidence_records_hashed": 0,
+          "historical_manifests_hashed": 0,
+          "historical_verifier_results_summarized": 1,
+          "latest_verifier_history_duplicates_omitted": 1,
+          "older_verifier_observations_omitted": 0,
+          "original_context_bytes": 8453,
+          "sent_context_bytes": 5585
+        },
+        "elapsed_seconds": 289.131822,
+        "prompt_text_bytes": 7858,
+        "raw_server_response": "{\"model\":\"qwen2.5:3b-instruct-q4_K_M\",\"created_at\":\"2026-10-14T07:36:46.092669432Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"action\\\": \\\"propose\\\",\\n  \\\"changes\\\": {\\n    \\\"securityContext\\\": {\\n      \\\"runAsNonRoot\\\": true,\\n      \\\"runAsUser\\\": 10001,\\n      \\\"runAsGroup\\\": 10001,\\n      \\\"readOnlyRootFilesystem\\\": true,\\n      \\\"allowPrivilegeEscalation\\\": false,\\n      \\\"capabilities\\\": {\\\"drop\\\":[\\\"ALL\\\"]},\\n      \\\"seccompProfile\\\": {\\\"type\\\":\\\"RuntimeDefault\\\"}\\n    },\\n    \\\"podSecurityContext\\\": {\\n      \\\"fsGroup\\\": 2000\\n    },\\n    \\\"volumes\\\": [\\n      {\\\"name\\\":\\\"cache-data\\\",\\\"emptyDir\\\":{\\\"sizeLimit\\\":\\\"16Mi\\\"}}\\n    ],\\n    \\\"volumeMounts\\\": [\\n      { \\\"name\\\": \\\"cache-data\\\", \\\"mountPath\\\": \\\"/var/cache/repair-app\\\" }\\n    ]\\n  },\\n  \\\"reason\\\": \\\"Preserve application behavior while enforcing required security controls.\\\"\\n}\"},\"done_reason\":\"stop\",\"done\":true,\"total_duration\":289109765808,\"load_duration\":19530134,\"prompt_eval_count\":2205,\"prompt_eval_duration\":257720418729,\"eval_count\":197,\"eval_duration\":31360054255}",
+        "reported_usage": {
+          "completion_tokens": 197,
+          "prompt_tokens": 2205,
+          "total_tokens": 2402
+        },
+        "request_bytes": 10431,
+        "request_sha256": "83cfc2381ee89b2e30490e003cc75593c352a094a8bad4d72d9db573143b6269",
+        "response_bytes_received": 1059,
+        "response_sha256": "885bd3a250ee41ea42e626d8aa8077dfbd8c81d4e353776f6358416d0e9ee3f8",
+        "response_truncated": false,
+        "status": "action_returned",
+        "system_prompt_bytes": 2273
+      }
+    ],
+    "is_language_model": true,
+    "kind": "local language model",
+    "limits": {
+      "max_context_bytes": 65536,
+      "max_output_tokens": 512,
+      "max_response_bytes": 131072,
+      "messages_per_request": 2,
+      "num_ctx": 8192,
+      "num_thread": 2,
+      "reason_length_enforcement": "strict Python validation; decoding-only string bounds may be omitted",
+      "reason_max_characters": 2000,
+      "timeout_seconds": 420.0
+    },
+    "model": "qwen2.5:3b-instruct-q4_K_M",
+    "model_identity": {
+      "details": {
+        "families": [
+          "qwen2"
+        ],
+        "family": "qwen2",
+        "format": "gguf",
+        "parameter_size": "3.1B",
+        "parent_model": "",
+        "quantization_level": "Q4_K_M"
+      },
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "modified_at": "2026-10-14T07:29:56.97885722Z",
+      "requested_model": "qwen2.5:3b-instruct-q4_K_M",
+      "resolved_model": "qwen2.5:3b-instruct-q4_K_M",
+      "scope": "server-reported tag snapshot before first inference",
+      "size": 1929912432,
+      "source": "/api/tags"
+    },
+    "model_reported": "qwen2.5:3b-instruct-q4_K_M",
+    "model_revision": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "model_revision_available": true,
+    "model_revision_source": "local /api/tags snapshot",
+    "name": "ollama",
+    "prompt_mode": "concise typed action guide with compact decoding schema",
+    "provider": "ollama",
+    "token_usage": {
+      "budget_method": "UTF-8 prompt bytes plus requested output tokens; conservative reservation",
+      "counts_available_calls": 1,
+      "counts_complete": true,
+      "max_total_tokens": 131072,
+      "reported_completion_tokens": 197,
+      "reported_prompt_tokens": 2205,
+      "reported_total_tokens": 2402,
+      "reserved_token_upper_bound": 9394
+    },
+    "uses_llm": true
+  },
+  "reason": "Trusted verifier passed every required check for the changed candidate.",
+  "rejected_actions": 0,
+  "scenario": "cache-path",
+  "schema_version": 1,
+  "seconds": 315.677056,
+  "sequence": 9,
+  "snapshot_hash": "b1b1357f8dcd90a4d7ca92d0ebc465df2503b7ca6876998fdcea988c1317f2d0",
+  "source_fingerprint": "a8fb2b5c655e52eaf1b7939b1098b4d7239bcc7cb9a6067b8c8b461e4bff16b0",
+  "stage": "final_bundle_written",
+  "status": "in_progress",
+  "trace": [
+    {
+      "event": "initial_verification",
+      "manifest_hash": "00a54c469311d0ba40387d776d6a03bda267d9d22e2636cc3aeb8b20604a2df9",
+      "result": {
+        "backend": "kubernetes",
+        "behavior_pass": true,
+        "checks": [
+          {
+            "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+            "name": "static-non-root",
+            "passed": false
+          },
+          {
+            "detail": "readOnlyRootFilesystem must be true",
+            "name": "static-read-only",
+            "passed": false
+          },
+          {
+            "detail": "allowPrivilegeEscalation must be false",
+            "name": "static-no-escalation",
+            "passed": false
+          },
+          {
+            "detail": "Drop ALL capabilities without adding any",
+            "name": "static-capabilities",
+            "passed": false
+          },
+          {
+            "detail": "Use RuntimeDefault seccomp",
+            "name": "static-seccomp",
+            "passed": false
+          },
+          {
+            "detail": "Privileged containers are forbidden",
+            "name": "static-unprivileged",
+            "passed": true
+          },
+          {
+            "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+            "name": "runtime-image-identity",
+            "passed": true
+          },
+          {
+            "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+            "name": "application-cache",
+            "passed": true
+          },
+          {
+            "detail": "PID 1 effective UID=0",
+            "name": "runtime-non-root",
+            "passed": false
+          },
+          {
+            "detail": "Writing outside the allowed cache volume succeeded",
+            "name": "runtime-read-only",
+            "passed": false
+          },
+          {
+            "detail": "PID 1 NoNewPrivs=0",
+            "name": "runtime-no-new-privileges",
+            "passed": false
+          },
+          {
+            "detail": "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+            "name": "runtime-capabilities",
+            "passed": false
+          },
+          {
+            "detail": "PID 1 Seccomp=0; expected filter mode 2",
+            "name": "runtime-seccomp",
+            "passed": false
+          },
+          {
+            "detail": "Only this run's namespace was deleted",
+            "name": "namespace-cleanup",
+            "passed": true
+          }
+        ],
+        "feedback": [
+          "runAsNonRoot must be true and runAsUser must be a positive integer",
+          "readOnlyRootFilesystem must be true",
+          "allowPrivilegeEscalation must be false",
+          "Drop ALL capabilities without adding any",
+          "Use RuntimeDefault seccomp",
+          "PID 1 effective UID=0",
+          "Writing outside the allowed cache volume succeeded",
+          "PID 1 NoNewPrivs=0",
+          "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+          "PID 1 Seccomp=0; expected filter mode 2"
+        ],
+        "infrastructure_error": null,
+        "kubernetes_execution_observed": true,
+        "negative_pass": false,
+        "passed": false,
+        "runtime": {
+          "container_waiting": {
+            "message": "",
+            "reason": "ContainerCreating"
+          },
+          "context": "kind-repair-demo-e1c354f30bcd",
+          "deployment_uid": "fb1e320e-9d36-4601-bdd3-b96ce031f7db",
+          "generation": 1,
+          "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+          "namespace": "kube-repair-36f539bc79fd4a09",
+          "pod_name": "repair-cache-app-7fd4ff7986-whbjl",
+          "pod_uid": "135ce351-ff97-4f00-a31f-dc9a7cf9a897",
+          "server_version": {
+            "buildDate": "2025-08-27T10:09:04Z",
+            "compiler": "gc",
+            "emulationMajor": "1",
+            "emulationMinor": "34",
+            "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+            "gitTreeState": "clean",
+            "gitVersion": "v1.34.0",
+            "goVersion": "go1.24.6",
+            "major": "1",
+            "minCompatibilityMajor": "1",
+            "minCompatibilityMinor": "33",
+            "minor": "34",
+            "platform": "linux/amd64"
+          }
+        },
+        "runtime_verified": true,
+        "static_pass": false
+      }
+    },
+    {
+      "action": {
+        "action": "propose",
+        "changes": {
+          "podSecurityContext": {
+            "fsGroup": 2000
+          },
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/var/cache/repair-app",
+              "name": "cache-data"
+            }
+          ],
+          "volumes": [
+            {
+              "emptyDir": {
+                "sizeLimit": "16Mi"
+              },
+              "name": "cache-data"
+            }
+          ]
+        },
+        "reason": "Preserve application behavior while enforcing required security controls."
+      },
+      "event": "decision",
+      "step": 1
+    },
+    {
+      "candidate": 1,
+      "event": "candidate_verification",
+      "manifest_hash": "953c2d37d936efd3211559d52a66333fd6afeb3c863f9d881acb0048ecff1e22",
+      "result": {
+        "backend": "kubernetes",
+        "behavior_pass": true,
+        "checks": [
+          {
+            "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+            "name": "static-non-root",
+            "passed": true
+          },
+          {
+            "detail": "readOnlyRootFilesystem must be true",
+            "name": "static-read-only",
+            "passed": true
+          },
+          {
+            "detail": "allowPrivilegeEscalation must be false",
+            "name": "static-no-escalation",
+            "passed": true
+          },
+          {
+            "detail": "Drop ALL capabilities without adding any",
+            "name": "static-capabilities",
+            "passed": true
+          },
+          {
+            "detail": "Use RuntimeDefault seccomp",
+            "name": "static-seccomp",
+            "passed": true
+          },
+          {
+            "detail": "Privileged containers are forbidden",
+            "name": "static-unprivileged",
+            "passed": true
+          },
+          {
+            "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+            "name": "runtime-image-identity",
+            "passed": true
+          },
+          {
+            "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+            "name": "application-cache",
+            "passed": true
+          },
+          {
+            "detail": "PID 1 effective UID=10001",
+            "name": "runtime-non-root",
+            "passed": true
+          },
+          {
+            "detail": "Root write denied with errno=30; expected EROFS",
+            "name": "runtime-read-only",
+            "passed": true
+          },
+          {
+            "detail": "PID 1 NoNewPrivs=1",
+            "name": "runtime-no-new-privileges",
+            "passed": true
+          },
+          {
+            "detail": "PID 1 capabilities={\"CapBnd\": 0, \"CapEff\": 0, \"CapPrm\": 0}",
+            "name": "runtime-capabilities",
+            "passed": true
+          },
+          {
+            "detail": "PID 1 Seccomp=2; expected filter mode 2",
+            "name": "runtime-seccomp",
+            "passed": true
+          },
+          {
+            "detail": "Only this run's namespace was deleted",
+            "name": "namespace-cleanup",
+            "passed": true
+          }
+        ],
+        "feedback": [],
+        "infrastructure_error": null,
+        "kubernetes_execution_observed": true,
+        "negative_pass": true,
+        "passed": true,
+        "runtime": {
+          "container_waiting": {
+            "message": "",
+            "reason": "ContainerCreating"
+          },
+          "context": "kind-repair-demo-e1c354f30bcd",
+          "deployment_uid": "de26e462-9b2d-48e3-adbd-7cfacd52fdec",
+          "generation": 1,
+          "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+          "namespace": "kube-repair-29339622bf2245f0",
+          "pod_name": "repair-cache-app-64c8964f89-7glpp",
+          "pod_uid": "f707d452-ae92-423b-9fca-0c221271ac78",
+          "server_version": {
+            "buildDate": "2025-08-27T10:09:04Z",
+            "compiler": "gc",
+            "emulationMajor": "1",
+            "emulationMinor": "34",
+            "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+            "gitTreeState": "clean",
+            "gitVersion": "v1.34.0",
+            "goVersion": "go1.24.6",
+            "major": "1",
+            "minCompatibilityMajor": "1",
+            "minCompatibilityMinor": "33",
+            "minor": "34",
+            "platform": "linux/amd64"
+          }
+        },
+        "runtime_verified": true,
+        "static_pass": true
+      }
+    },
+    {
+      "actor": "trusted_engine",
+      "event": "trusted_completion",
+      "manifest_hash": "953c2d37d936efd3211559d52a66333fd6afeb3c863f9d881acb0048ecff1e22"
+    }
+  ],
+  "verification": {
+    "backend": "kubernetes",
+    "behavior_pass": true,
+    "checks": [
+      {
+        "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+        "name": "static-non-root",
+        "passed": true
+      },
+      {
+        "detail": "readOnlyRootFilesystem must be true",
+        "name": "static-read-only",
+        "passed": true
+      },
+      {
+        "detail": "allowPrivilegeEscalation must be false",
+        "name": "static-no-escalation",
+        "passed": true
+      },
+      {
+        "detail": "Drop ALL capabilities without adding any",
+        "name": "static-capabilities",
+        "passed": true
+      },
+      {
+        "detail": "Use RuntimeDefault seccomp",
+        "name": "static-seccomp",
+        "passed": true
+      },
+      {
+        "detail": "Privileged containers are forbidden",
+        "name": "static-unprivileged",
+        "passed": true
+      },
+      {
+        "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+        "name": "runtime-image-identity",
+        "passed": true
+      },
+      {
+        "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+        "name": "application-cache",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 effective UID=10001",
+        "name": "runtime-non-root",
+        "passed": true
+      },
+      {
+        "detail": "Root write denied with errno=30; expected EROFS",
+        "name": "runtime-read-only",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 NoNewPrivs=1",
+        "name": "runtime-no-new-privileges",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 capabilities={\"CapBnd\": 0, \"CapEff\": 0, \"CapPrm\": 0}",
+        "name": "runtime-capabilities",
+        "passed": true
+      },
+      {
+        "detail": "PID 1 Seccomp=2; expected filter mode 2",
+        "name": "runtime-seccomp",
+        "passed": true
+      },
+      {
+        "detail": "Only this run's namespace was deleted",
+        "name": "namespace-cleanup",
+        "passed": true
+      }
+    ],
+    "feedback": [],
+    "infrastructure_error": null,
+    "kubernetes_execution_observed": true,
+    "negative_pass": true,
+    "passed": true,
+    "runtime": {
+      "container_waiting": {
+        "message": "",
+        "reason": "ContainerCreating"
+      },
+      "context": "kind-repair-demo-e1c354f30bcd",
+      "deployment_uid": "de26e462-9b2d-48e3-adbd-7cfacd52fdec",
+      "generation": 1,
+      "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+      "namespace": "kube-repair-29339622bf2245f0",
+      "pod_name": "repair-cache-app-64c8964f89-7glpp",
+      "pod_uid": "f707d452-ae92-423b-9fca-0c221271ac78",
+      "server_version": {
+        "buildDate": "2025-08-27T10:09:04Z",
+        "compiler": "gc",
+        "emulationMajor": "1",
+        "emulationMinor": "34",
+        "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+        "gitTreeState": "clean",
+        "gitVersion": "v1.34.0",
+        "goVersion": "go1.24.6",
+        "major": "1",
+        "minCompatibilityMajor": "1",
+        "minCompatibilityMinor": "33",
+        "minor": "34",
+        "platform": "linux/amd64"
+      }
+    },
+    "runtime_verified": true,
+    "static_pass": true
+  },
+  "verification_manifest_hash": "953c2d37d936efd3211559d52a66333fd6afeb3c863f9d881acb0048ecff1e22"
+}

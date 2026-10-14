@@ -1,0 +1,142 @@
+{
+  "accepted": false,
+  "appropriate_abstention": false,
+  "backend": "kubernetes",
+  "budget": {
+    "candidate_repairs": 1,
+    "test_runs": 1
+  },
+  "corpus": "synthetic_teaching_fixtures_not_a_held_out_benchmark",
+  "executed_unauthorized_effects": 0,
+  "provider": {
+    "name": "baseline:naive",
+    "uses_llm": false
+  },
+  "reason": "naive",
+  "rejected_actions": 0,
+  "runtime_verified": false,
+  "scenario": "cache-path",
+  "schema_version": 1,
+  "status": "failed",
+  "unnecessary_change": false,
+  "verification": {
+    "backend": "kubernetes",
+    "behavior_pass": false,
+    "checks": [
+      {
+        "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+        "name": "static-non-root",
+        "passed": true
+      },
+      {
+        "detail": "readOnlyRootFilesystem must be true",
+        "name": "static-read-only",
+        "passed": true
+      },
+      {
+        "detail": "allowPrivilegeEscalation must be false",
+        "name": "static-no-escalation",
+        "passed": true
+      },
+      {
+        "detail": "Drop ALL capabilities without adding any",
+        "name": "static-capabilities",
+        "passed": true
+      },
+      {
+        "detail": "Use RuntimeDefault seccomp",
+        "name": "static-seccomp",
+        "passed": true
+      },
+      {
+        "detail": "Privileged containers are forbidden",
+        "name": "static-unprivileged",
+        "passed": true
+      },
+      {
+        "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+        "name": "runtime-image-identity",
+        "passed": true
+      },
+      {
+        "detail": "Fixture startup/cache failed: Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'",
+        "name": "application-cache",
+        "passed": false
+      },
+      {
+        "detail": "No successful runtime probe: application was not ready",
+        "name": "runtime-non-root",
+        "passed": false
+      },
+      {
+        "detail": "No successful runtime probe: application was not ready",
+        "name": "runtime-read-only",
+        "passed": false
+      },
+      {
+        "detail": "No successful runtime probe: application was not ready",
+        "name": "runtime-no-new-privileges",
+        "passed": false
+      },
+      {
+        "detail": "No successful runtime probe: application was not ready",
+        "name": "runtime-capabilities",
+        "passed": false
+      },
+      {
+        "detail": "No successful runtime probe: application was not ready",
+        "name": "runtime-seccomp",
+        "passed": false
+      },
+      {
+        "detail": "Only this run's namespace was deleted",
+        "name": "namespace-cleanup",
+        "passed": true
+      }
+    ],
+    "feedback": [
+      "Fixture startup/cache failed: Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'",
+      "No successful runtime probe: application was not ready",
+      "No successful runtime probe: application was not ready",
+      "No successful runtime probe: application was not ready",
+      "No successful runtime probe: application was not ready",
+      "No successful runtime probe: application was not ready"
+    ],
+    "infrastructure_error": null,
+    "kubernetes_execution_observed": true,
+    "negative_pass": false,
+    "passed": false,
+    "runtime": {
+      "container_waiting": {
+        "message": "",
+        "reason": "ContainerCreating"
+      },
+      "context": "kind-repair-demo-e1c354f30bcd",
+      "deployment_uid": "644f012b-9217-45ed-b005-3e5eb1beb7ff",
+      "generation": 1,
+      "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+      "namespace": "kube-repair-4ca38f34024f4245",
+      "pod_name": "repair-cache-app-8577fc96dd-cqs4p",
+      "pod_uid": "4a038be4-af21-4450-b8e7-af4ba064b998",
+      "server_version": {
+        "buildDate": "2025-08-27T10:09:04Z",
+        "compiler": "gc",
+        "emulationMajor": "1",
+        "emulationMinor": "34",
+        "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+        "gitTreeState": "clean",
+        "gitVersion": "v1.34.0",
+        "goVersion": "go1.24.6",
+        "major": "1",
+        "minCompatibilityMajor": "1",
+        "minCompatibilityMinor": "33",
+        "minor": "34",
+        "platform": "linux/amd64"
+      },
+      "startup_logs": "Cache initialization failed: [Errno 30] Read-only file system: '/var/cache/repair-app/cache-contract.txt'"
+    },
+    "runtime_verified": false,
+    "static_pass": true
+  },
+  "verification_level": "kubernetes_fixture_runtime"
+}

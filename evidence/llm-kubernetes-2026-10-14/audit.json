@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "reports_directory": "/home/ngocnt/agents/kube-security-remediation/evidence/llm-kubernetes-2026-10-14/reports",
+  "assumptions": [
+    "Checked-out source, runner and verifier are trusted.",
+    "Recorded API responses and command results are trusted worker evidence, not cryptographic remote attestation.",
+    "One synthetic fixture establishes execution and internal consistency, not generalization or benchmark performance."
+  ],
+  "request_replay_order_source": "Current Python source plus Kubernetes v1.34 version.Info Go field order. Raw response and engine-effect checks are mandatory; exact request-hash reproduction is reported separately when canonical serialization lost ordering.",
+  "error": null,
+  "source_fingerprint": "a8fb2b5c655e52eaf1b7939b1098b4d7239bcc7cb9a6067b8c8b461e4bff16b0",
+  "model_parameters_and_license": {
+    "parameter_count": 3085938688,
+    "parameter_count_available": true,
+    "parameter_count_source": "actual server-reported GGUF general.parameter_count",
+    "license_text_verified": true,
+    "author_license_reference": "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct/blob/main/LICENSE",
+    "embedded_license_link_available": true,
+    "limitation": "The author license URL was verified from primary documentation during audit preparation; absent GGUF metadata is not fabricated."
+  },
+  "model_identity_and_cpu_verified": true,
+  "smoke_tokens": {
+    "prompt": 40,
+    "completion": 6
+  },
+  "review_hashes": {
+    "noop": "ad261466d5ed998e48423021b2a54b46af706ded27644df8db1692cce9e219ee",
+    "naive": "2030975b60b546cd824a1ae72bc8273423e017dea8cfa74c3c8c6303b321def1",
+    "known-good": "fc80aa3856eca9e774414b7725e2db5c92f2dfd3f9adb37cf81e66115640937c",
+    "agent": "d2bb6085c6a294de33245abebe8a121e6931e3c9ead53299f93546dadd0168ad"
+  },
+  "explicit_task_security_targets": {
+    "required": {
+      "runAsNonRoot": true,
+      "readOnlyRootFilesystem": true,
+      "runAsUser": 10001,
+      "runAsGroup": 10001,
+      "allowPrivilegeEscalation": false,
+      "capabilities": {
+        "drop": [
+          "ALL"
+        ]
+      },
+      "seccompProfile": {
+        "type": "RuntimeDefault"
+      }
+    },
+    "missing_fields": [],
+    "incorrect_fields": [],
+    "all_targets_met": true
+  },
+  "actual_decoding_mode": "compact-schema",
+  "compact_decoder_scope": {
+    "required_security_fields": [
+      "runAsNonRoot",
+      "runAsUser",
+      "runAsGroup",
+      "readOnlyRootFilesystem",
+      "allowPrivilegeEscalation",
+      "capabilities",
+      "seccompProfile"
+    ],
+    "identity_values_injected_by_schema": false,
+    "limitation": "Schema-constrained generation requires the envelope and security field names; correctness is not attributed solely to unconstrained model instruction following."
+  },
+  "replay": {
+    "calls": [
+      {
+        "call": 1,
+        "action": "propose",
+        "protocol_rejected_before_execution": false,
+        "request_hash_reconstructed": true,
+        "request_hash_diagnostic": "exact",
+        "response_hash_verified": true,
+        "prompt_tokens": 2205,
+        "completion_tokens": 197,
+        "total_tokens": 2402
+      }
+    ],
+    "actual_prompt_tokens": 2205,
+    "actual_completion_tokens": 197,
+    "actual_total_tokens": 2402,
+    "candidate_repairs": 1,
+    "test_runs": 2,
+    "actions_replayed": 1,
+    "model_actions_returned": 1,
+    "rejected_actions": 0,
+    "completion_policy": "verified-repair",
+    "completion_actor": "trusted_engine",
+    "model_origin_finish": false,
+    "model_origin_changed_proposal_independently_verified": true,
+    "exact_request_hashes_reconstructed": 1,
+    "all_requests_exactly_reconstructed": true,
+    "model_response_and_engine_effects_consistent": true
+  },
+  "all_14_protected_checks_passed": true,
+  "progress_snapshot_hash": "b1b1357f8dcd90a4d7ca92d0ebc465df2503b7ca6876998fdcea988c1317f2d0",
+  "recorded_model_and_cluster_cleanup_succeeded": true
+}

@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "provider": "ollama",
+  "uses_llm": true,
+  "model": "qwen2.5:3b-instruct-q4_K_M",
+  "model_digest": "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "cpu_only": true,
+  "backend": "kubernetes",
+  "error": null,
+  "model_cleanup_requested": true,
+  "claim": "Real model-generated actions on one synthetic workload with protected Kubernetes verification."
+}

@@ -1,0 +1,129 @@
+[
+  {
+    "errors": [],
+    "event": "baseline_verification",
+    "result": {
+      "backend": "kubernetes",
+      "behavior_pass": true,
+      "checks": [
+        {
+          "detail": "runAsNonRoot must be true and runAsUser must be a positive integer",
+          "name": "static-non-root",
+          "passed": false
+        },
+        {
+          "detail": "readOnlyRootFilesystem must be true",
+          "name": "static-read-only",
+          "passed": false
+        },
+        {
+          "detail": "allowPrivilegeEscalation must be false",
+          "name": "static-no-escalation",
+          "passed": false
+        },
+        {
+          "detail": "Drop ALL capabilities without adding any",
+          "name": "static-capabilities",
+          "passed": false
+        },
+        {
+          "detail": "Use RuntimeDefault seccomp",
+          "name": "static-seccomp",
+          "passed": false
+        },
+        {
+          "detail": "Privileged containers are forbidden",
+          "name": "static-unprivileged",
+          "passed": true
+        },
+        {
+          "detail": "Expected sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4; observed sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+          "name": "runtime-image-identity",
+          "passed": true
+        },
+        {
+          "detail": "HTTP health, independently computed SHA-256 result, cache read-back and repeated cached request checked",
+          "name": "application-cache",
+          "passed": true
+        },
+        {
+          "detail": "PID 1 effective UID=0",
+          "name": "runtime-non-root",
+          "passed": false
+        },
+        {
+          "detail": "Writing outside the allowed cache volume succeeded",
+          "name": "runtime-read-only",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 NoNewPrivs=0",
+          "name": "runtime-no-new-privileges",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+          "name": "runtime-capabilities",
+          "passed": false
+        },
+        {
+          "detail": "PID 1 Seccomp=0; expected filter mode 2",
+          "name": "runtime-seccomp",
+          "passed": false
+        },
+        {
+          "detail": "Only this run's namespace was deleted",
+          "name": "namespace-cleanup",
+          "passed": true
+        }
+      ],
+      "feedback": [
+        "runAsNonRoot must be true and runAsUser must be a positive integer",
+        "readOnlyRootFilesystem must be true",
+        "allowPrivilegeEscalation must be false",
+        "Drop ALL capabilities without adding any",
+        "Use RuntimeDefault seccomp",
+        "PID 1 effective UID=0",
+        "Writing outside the allowed cache volume succeeded",
+        "PID 1 NoNewPrivs=0",
+        "PID 1 capabilities={\"CapBnd\": 2818844155, \"CapEff\": 2818844155, \"CapPrm\": 2818844155}",
+        "PID 1 Seccomp=0; expected filter mode 2"
+      ],
+      "infrastructure_error": null,
+      "kubernetes_execution_observed": true,
+      "negative_pass": false,
+      "passed": false,
+      "runtime": {
+        "container_waiting": {
+          "message": "",
+          "reason": "ContainerCreating"
+        },
+        "context": "kind-repair-demo-e1c354f30bcd",
+        "deployment_uid": "ac6fa5fb-2a1a-4a3a-8921-b8db35cf1937",
+        "generation": 1,
+        "image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+        "namespace": "kube-repair-55971694333548db",
+        "pod_name": "repair-cache-app-7fd4ff7986-5p7vc",
+        "pod_uid": "a0127439-b599-4c28-b238-0b83596755b7",
+        "server_version": {
+          "buildDate": "2025-08-27T10:09:04Z",
+          "compiler": "gc",
+          "emulationMajor": "1",
+          "emulationMinor": "34",
+          "gitCommit": "f28b4c9efbca5c5c0af716d9f2d5702667ee8a45",
+          "gitTreeState": "clean",
+          "gitVersion": "v1.34.0",
+          "goVersion": "go1.24.6",
+          "major": "1",
+          "minCompatibilityMajor": "1",
+          "minCompatibilityMinor": "33",
+          "minor": "34",
+          "platform": "linux/amd64"
+        }
+      },
+      "runtime_verified": true,
+      "static_pass": false
+    },
+    "strategy": "noop"
+  }
+]

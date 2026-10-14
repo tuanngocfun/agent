@@ -1,0 +1,23 @@
+{
+  "repository": "tuanngocfun/agent",
+  "branch": "kube-remediation-demo",
+  "workflow_run_id": 38528564033,
+  "workflow_run_number": 14,
+  "workflow_run_url": "https://github.com/tuanngocfun/agent/actions/runs/38528564033",
+  "job_id": 115734662237,
+  "artifact_id": 11877357516,
+  "artifact_name": "real-llm-kubernetes-evidence",
+  "artifact_archive_sha256": "72a5ae2561aa4dddaf137777abc4bc47bdd578139486b10f705d429801fc5bdf",
+  "artifact_archive_bytes": 53071,
+  "artifact_files": 41,
+  "source_commit": "d770c0efea239754e221606a8f76ff16fcc5aedb",
+  "source_tree": "b638ec7739b41b9651cceba12f2ee2bb37f1c8f6",
+  "source_fingerprint": "a8fb2b5c655e52eaf1b7939b1098b4d7239bcc7cb9a6067b8c8b461e4bff16b0",
+  "workflow_created_at": "2026-10-14T07:28:38Z",
+  "workflow_completed_at": "2026-10-14T07:37:07Z",
+  "workflow_conclusion": "success",
+  "local_attempt": 13,
+  "completion_policy": "verified-repair",
+  "local_unit_tests": 139,
+  "retention_note": "GitHub artifact expires after 7 days; these reports are preserved without changing their bytes. Archive itself, weights and cluster credentials are not included."
+}

@@ -1,0 +1,98 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "labels": {
+      "app": "repair-cache-app"
+    },
+    "name": "repair-cache-app"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "repair-cache-app"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "repair-cache-app"
+        }
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "CACHE_DIR",
+                "value": "/var/cache/repair-app"
+              },
+              {
+                "name": "FIXTURE_REQUIRES_ROOT",
+                "value": "0"
+              }
+            ],
+            "image": "repair-cache-app:demo-a8fb2b5c655e52ea-a781c15d",
+            "imagePullPolicy": "Never",
+            "name": "app",
+            "ports": [
+              {
+                "containerPort": 8080
+              }
+            ],
+            "readinessProbe": {
+              "httpGet": {
+                "path": "/health",
+                "port": 8080
+              }
+            },
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "128Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "32Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true,
+              "runAsGroup": 10001,
+              "runAsNonRoot": true,
+              "runAsUser": 10001,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/var/cache/repair-app",
+                "name": "cache-data"
+              }
+            ]
+          }
+        ],
+        "securityContext": {
+          "fsGroup": 2000
+        },
+        "volumes": [
+          {
+            "emptyDir": {
+              "sizeLimit": "16Mi"
+            },
+            "name": "cache-data"
+          }
+        ]
+      }
+    }
+  }
+}

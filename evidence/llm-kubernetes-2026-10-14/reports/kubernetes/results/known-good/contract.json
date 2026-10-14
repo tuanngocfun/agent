@@ -1,0 +1,18 @@
+{
+  "allowed_cache_paths": [
+    "/var/cache/repair-app"
+  ],
+  "allowed_mount_paths": [
+    "/var/cache/repair-app"
+  ],
+  "cache_path": "/var/cache/repair-app",
+  "kubernetes": {
+    "context": "kind-repair-demo-e1c354f30bcd",
+    "expected_image_id": "sha256:33a542e97364862cb8acc95eb57cb330af93c86fc2909de5c7d7557fc233efe4",
+    "kubeconfig": "/home/runner/work/agent/agent/runs/github-llm-kubernetes-demo/kubernetes/private-kubeconfig",
+    "kubectl": "/home/runner/work/agent/agent/.tools/bin/kubectl"
+  },
+  "requires_root": false,
+  "version": "fixture-contract-v1",
+  "volume_gid": null
+}

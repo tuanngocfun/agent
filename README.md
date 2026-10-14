@@ -2,9 +2,11 @@
 
 A runnable first project for the question: **can an agent harden a container without breaking its required behavior?**
 
-**Demo Kubernetes thật đã chạy thành công:** [xem GitHub Actions run](https://github.com/tuanngocfun/agent/actions/runs/38408621533) trên repo riêng `tuanngocfun/agent`, nhánh `kube-remediation-demo`, source commit `4461388`. Cluster `kind` chạy Kubernetes **v1.34.0**; artifact chứa patch, trace và kiểm tra runtime. Bản hardening đơn giản làm cache lỗi; vòng `scripted` sửa được sau **2 ứng viên, 3 lượt test**. Đây là bộ điều khiển viết tay trên Kubernetes thật, chưa phải thí nghiệm LLM.
+**LLM thật + Kubernetes thật đã chạy thành công:** [GitHub Actions run #14](https://github.com/tuanngocfun/agent/actions/runs/38528564033), source commit `d770c0e`. Qwen2.5 **3B Instruct** chạy CPU, tạo **1 patch** qua **14/14 kiểm tra** trên Kubernetes v1.34.0; bundle cuối `accepted: true`. Raw model response, patch, runtime probes, hashes và cleanup đã được audit lại. Đây là một repair với schema hướng dẫn trên một fixture tổng hợp.
 
-Đọc [kết quả và giới hạn](docs/REAL_KUBERNETES_RESULT_VI.md), rồi dùng [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md) để chạy lại.
+Đọc [kết quả LLM, lỗi đã sửa và evidence](docs/REAL_LLM_KUBERNETES_RESULT_VI.md), rồi dùng [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md) để chạy lại. Controller giờ có thể kết thúc sau khi verifier xác nhận patch của model; kết quả ghi rõ `completion_actor: trusted_engine`.
+
+[Demo Kubernetes scripted trước đó](docs/REAL_KUBERNETES_RESULT_VI.md) sửa được sau 2 ứng viên và 3 lượt test, dùng quy tắc viết tay. Kết quả đó được giữ riêng với thí nghiệm LLM mới.
 
 See the [GitHub worker guide](docs/GITHUB_KUBERNETES_DEMO.md) for the workflow and evidence to inspect.
 
@@ -36,7 +38,7 @@ The engine asks a provider to inspect approved evidence, propose a bounded manif
 
 | Component | Current scope |
 |---|---|
-| Decision provider | Hand-authored `scripted` teaching baseline; optional local Ollama LLM adapter |
+| Decision provider | Hand-authored `scripted` teaching baseline; Ollama model-generated actions with inference audit |
 | Repair policy | One fixture Deployment; named security-context fields, approved group and bounded cache `emptyDir` |
 | Verifier | Explicit simulation; Docker fixture runtime; Kubernetes namespaces on an explicit lab context |
 | Cases | Required cache path; volume group permissions; image requires root; already secure |
@@ -49,6 +51,16 @@ The `naive` baseline enables hardening flags but cannot write its cache. The `te
 
 ## Use an actual LLM
 
+The GitHub workflow runs pinned **Qwen2.5 3B Instruct Q4_K_M** on CPU with protected tests on real Kubernetes. It downloads the public weights to the disposable worker, verifies their SHA-256, and records the exact model responses and reported token usage. No API key is required. The model metadata records the Qwen Research License Agreement. See the [worker guide](docs/GITHUB_KUBERNETES_DEMO.md) and [verified LLM result](docs/REAL_LLM_KUBERNETES_RESULT_VI.md).
+
+On a dedicated Docker lab worker with the verified `kind` and `kubectl` tools installed:
+
+```bash
+python3 scripts/llm_kubernetes_demo.py --output runs/real-llm-kubernetes
+```
+
+This launcher starts Ollama and a temporary Kubernetes cluster, runs the controls and LLM agent, and removes both containers/cluster afterward. It requires network access for pinned images and model weights. It selects `compact-schema` decoding and `verified-repair` completion explicitly. The model has a typed action protocol; the trusted engine applies policy and evaluates each proposal. After a changed model proposal passes verification, the engine records trusted completion without another inference. It never substitutes scripted decisions when inference fails.
+
 With a local Ollama server and an already installed model:
 
 ```bash
@@ -57,7 +69,7 @@ PYTHONPATH=src python3 -m kube_repair run \
   --backend simulated --output runs/local-model-trial
 ```
 
-The adapter calls the loopback `/api/chat` endpoint with a structured JSON schema, disables HTTP proxies/redirects, enforces bounded response/context/time budgets, and records reported tokens separately from its conservative byte-based reservation. No model is downloaded or server started by this project. A model name is not an immutable revision; reports mark revision pinning unavailable. Resolve and record model digests before a research comparison. See the [Ollama chat API](https://docs.ollama.com/api/chat).
+The adapter calls the loopback `/api/chat` endpoint. The local command above uses default JSON decoding and waits for a model `finish`. Add `--decoding-mode compact-schema --stop-on-verified-repair` to select the demonstrated guided decoding and verifier completion policy. Full `schema` decoding also remains available. Compact decoding requires the action envelope and security field names; UID/GID values remain raw model output. Strict Python validation and the trusted change policy enforce which actions are accepted. The adapter disables HTTP proxies/redirects, enforces bounded response/context/time budgets, and records reported tokens separately from its conservative byte-based reservation. The CLI command uses your existing server. The adapter resolves its model digest from `/api/tags` before inference; the launcher additionally verifies the pinned weight blob and unchanged digest after the task. Raw responses, hashes, parsed actions, timings and token counts are retained in `provider.inference_calls` in `report.json`. See the [Ollama chat API](https://docs.ollama.com/api/chat).
 
 Add `--attacked` to include malicious repository instructions, and inspect `trace.json` to confirm whether the provider actually read that source. The attack is not exposed unless an `inspect repository` action occurs. There are no hidden tests or adaptive attacks in this starter.
 
@@ -104,10 +116,10 @@ Tests exercise unauthorized edits, forged success claims, runtime failures, malf
 
 Read source in this order: [fixtures](src/kube_repair/scenarios.py), [allowed edits](src/kube_repair/policy.py), [verification](src/kube_repair/verification.py), [decision providers](src/kube_repair/providers.py), [engine](src/kube_repair/engine.py), [review artifacts](src/kube_repair/artifacts.py).
 
-The next milestone is an LLM-driven repair on the demonstrated Kubernetes runtime, followed by several independent workload histories. Freeze evaluator/model versions, establish competent one-shot/fixed-workflow baselines, protect held-out tests and compare at matched budgets before claiming a research contribution. Persistence here is an auditable trace, not resumable agent execution.
+The next milestone is several independent workload histories and repairs that require investigation or revision. Freeze evaluator/model/completion-policy versions, establish competent one-shot/fixed-workflow baselines, protect held-out tests and compare at matched budgets before claiming a research contribution. The current LLM result is one guided first-proposal repair. Persistence here is an auditable trace, not resumable agent execution.
 
 ## Environment record
 
 The required workspace preflight was attempted on 13 October 2026. This host lacks `/workspace`, and the host counterpart reports `/data` mounted read/write. This task only creates the user-requested project and validates software with synthetic fixtures; shared data is unused. Docker, kubectl and kind were absent during implementation. The shared ChatGPT URL could not be retrieved; the supplied quotation and saved strategy files were used instead.
 
-Read [validation record](docs/VALIDATION.md) for executed checks and their limits. Historical files under `runs/` and the separate strategy package are local-only; the GitHub workflow uploads new runtime evidence as an Actions artifact.
+Read [validation record](docs/VALIDATION.md) for executed checks and their limits. Historical files under `runs/` and the separate strategy package are local-only. Verified scripted and LLM runtime reports are preserved under `evidence/`; fresh worker outputs are uploaded as expiring Actions artifacts.

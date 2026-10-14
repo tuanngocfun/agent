@@ -1,4 +1,20 @@
-# Validation — 13 October 2026
+# Validation records
+
+## Real LLM and Kubernetes — 14 October 2026
+
+The current full unit suite passed **139 tests** before [workflow #14](https://github.com/tuanngocfun/agent/actions/runs/38528564033) ran source commit `d770c0efea239754e221606a8f76ff16fcc5aedb`. The GitHub job completed successfully. Actual Qwen2.5 3B Instruct Q4_K_M CPU inference generated one changed candidate, accepted after **14/14 protected checks on Kubernetes v1.34.0**. The agent made 1 model call and 2 verifier runs, with 2,205 prompt + 197 completion = 2,402 reported agent tokens. Model/server smoke inference is recorded separately.
+
+Completion uses the explicitly enabled `verified-repair` policy: the engine records `trusted_completion` after the changed, policy-valid candidate passes verification with a matching hash and no infrastructure error. The default still requires model `finish`. New tests cover successful termination without another provider call, revision after failed cache behavior, requested verification, default/no-op/initial behavior and policy/cleanup/hash guards. Verifier predicates and budgets were not relaxed.
+
+The downloaded archive matches GitHub digest `72a5ae2561aa4dddaf137777abc4bc47bdd578139486b10f705d429801fc5bdf`. A local consistency audit passed for source fingerprint, four review bundles, raw model response/action/candidate replay, exact request hash, model/weight/CPU identity, explicit task UID/GID targets, all protected checks, nonexportable progress journal and recorded cleanup. A second read-only review found no discrepancy. The same audit passed again on the durable copy of evidence.
+
+See [LLM result and limitations](REAL_LLM_KUBERNETES_RESULT_VI.md), [audit](../evidence/llm-kubernetes-2026-10-14/audit.json) and [artifact metadata](../evidence/llm-kubernetes-2026-10-14/artifact-info.json). One schema-guided synthetic fixture does not establish iterative investigation, adversarial robustness or held-out reliability. Checkov was not run. Worker records are trusted evidence, not remote attestation.
+
+Historical workflow #13 had an intermediate LLM candidate that passed all 14 checks but ended with a token-budget error after repeated tests. Its final result remains failed. The fresh run demonstrates the controller fix; earlier attempts varied prompts/models/protocol settings and are development history, not a benchmark success rate.
+
+The host workspace preflight was repeated on 14 October: the same missing `/workspace` and read/write `/data` discrepancy remains. Shared datasets and GPUs were not used. No local cluster was started; the real model/Kubernetes execution occurred on the authorized GitHub worker.
+
+## Starter validation — 13 October 2026
 
 This records software validation of the starter, not a reliability study.
 
@@ -17,7 +33,7 @@ This records software validation of the starter, not a reliability study.
 
 The unit suite also exercises hostPath/image/suppression edits, workload deletion, forged success, malformed actions, protected JSON types, stale base/source, model transport limits, Docker start/cleanup failures and trusted probe parsing. Ollama and Docker protocol tests use mocks. One fixture handler test calls application logic locally without opening a socket; command deadline/output tests run small local Python subprocesses.
 
-No real LLM inference, Docker container, Kubernetes cluster, Checkov scanner, GPU job or held-out evaluation was executed. Runtime and inference adapters remain unvalidated on actual services. Simulation proves only the behavior of this model of the fixtures.
+At this initial stage, no real LLM inference, Docker container, Kubernetes cluster, Checkov scanner, GPU job or held-out evaluation had been executed. Simulation proved only the behavior of this model of the fixtures. Later runtime/model results are recorded separately above and below.
 
 The record directory was created using the existing `new_experiment.sh` convention with its output root explicitly inside the requested project:
 
