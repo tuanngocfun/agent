@@ -150,7 +150,7 @@ class OllamaProviderTests(unittest.TestCase):
         payload = json.loads(opener.calls[-1][0].data)
         self.assertEqual(payload["format"], "json")
         guide = payload["messages"][0]["content"]
-        self.assertLessEqual(len(guide.encode()), 2000)
+        self.assertLessEqual(len(guide.encode()), 2300)
         self.assertNotIn("Action JSON schema:", guide)
         for field in ("inspect", "propose", "changes", "manifest", "securityContext", "podSecurityContext", "volumeMounts", "volumes", "fsGroup", "cache-data", "16Mi", "runAsUser", "RuntimeDefault", "test/finish/abstain"):
             self.assertIn(field, guide)
@@ -175,6 +175,37 @@ class OllamaProviderTests(unittest.TestCase):
                 self.assertEqual(audit["action"], action)
                 self.assertEqual(audit["system_prompt_bytes"], len(guide.encode("utf-8")))
                 self.assertEqual(audit["prompt_text_bytes"], sum(len(message["content"].encode("utf-8")) for message in payload["messages"]))
+
+    def test_guides_explain_merge_and_non_root_uid_without_injecting_patch_fields(self):
+        for mode in ("json", "schema"):
+            with self.subTest(mode=mode):
+                context = model_context()
+                context["manifest"] = {"securityContext": {"runAsUser": 0, "runAsGroup": 0}}
+                context["task"].update({"allowed_uid": 12345, "allowed_primary_gid": 23456, "required_security_controls": {"runAsNonRoot": True, "runAsUser": 12345, "runAsGroup": 23456}})
+                context["observations"] = [{"trust": "trusted_verifier", "passed": False, "feedback": ["Current UID 0 conflicts with runAsNonRoot"]}]
+                original_context = json.loads(json.dumps(context))
+                # The adapter must not synthesize omitted IDs even when its guide
+                # explains why the trusted verifier will reject this model choice.
+                action = {"action": "propose", "changes": {"securityContext": {"runAsNonRoot": True}}, "reason": "Apply non-root execution."}
+                provider = OllamaProvider("fixture", decoding_mode=mode)
+                opener = FakeOpener(FakeResponse(api_response(action)))
+                with patch("kube_repair.providers.urllib.request.build_opener", return_value=opener):
+                    self.assertEqual(provider.next_action(context), action)
+                request = opener.calls[-1][0]
+                payload = json.loads(request.data)
+                guide = payload["messages"][0]["content"]
+                for explanation in ("omitted fields retain current values", "runAsNonRoot checks UID", "not set UID", "runAsUser=task.allowed_uid", "runAsGroup=task.allowed_primary_gid", "when non-root is required", "failed proposal"):
+                    self.assertIn(explanation, guide)
+                sent = json.loads(payload["messages"][1]["content"])
+                self.assertEqual(sent["task"], original_context["task"])
+                self.assertEqual(sent["manifest"], original_context["manifest"])
+                self.assertEqual(sent["observations"], original_context["observations"])
+                self.assertEqual(context, original_context)
+                audit = provider.metadata()["inference_calls"][0]
+                self.assertEqual(audit["action"], action)
+                self.assertEqual(audit["request_sha256"], hashlib.sha256(request.data).hexdigest())
+                self.assertEqual(audit["system_prompt_bytes"], len(guide.encode()))
+                self.assertNotIn("runAsUser", audit["action"]["changes"]["securityContext"])
 
     def test_oversized_reason_is_rejected_after_decoding(self):
         provider = OllamaProvider("fixture")
