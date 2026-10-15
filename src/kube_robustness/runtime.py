@@ -57,10 +57,19 @@ def check(name, passed, detail):
 def contains_desired(expected, observed):
     """Compare authored fields while allowing Kubernetes API defaults."""
     if isinstance(expected, dict):
-        return isinstance(observed, dict) and all(key in observed and contains_desired(value, observed[key]) for key, value in expected.items())
+        return isinstance(observed, dict) and all(
+            (key == "readOnly" and value is False and key not in observed)
+            or key in observed and contains_desired(value, observed[key])
+            for key, value in expected.items())
     if isinstance(expected, list):
         return isinstance(observed, list) and len(expected) == len(observed) and all(contains_desired(a, b) for a, b in zip(expected, observed))
     return type(expected) is type(observed) and expected == observed
+
+
+def deployment_ready(resource):
+    status = resource.get("status", {})
+    return (status.get("observedGeneration", 0) >= resource["metadata"]["generation"]
+            and all(status.get(key, 0) == 1 for key in ("replicas", "readyReplicas", "updatedReplicas", "availableReplicas")))
 
 
 def pod_spec(resource):
@@ -79,7 +88,8 @@ def evaluate_static_resources(case, resources):
             observed = None
         expected = item["value"]
         if isinstance(expected, list) and all(isinstance(x, str) for x in expected):
-            passed = isinstance(observed, list) and len(observed) == len(expected) and set(observed) == set(expected)
+            passed = (isinstance(observed, list) and all(isinstance(item, str) for item in observed)
+                      and len(observed) == len(expected) and set(observed) == set(expected))
         else:
             passed = observed == expected and type(observed) is type(expected)
         checks.append(check("static:" + item["resource"] + item["path"], passed,
@@ -166,7 +176,7 @@ class KubernetesSession:
     def verify(self, resources, *, max_wait=None):
         started = time.monotonic_ns()
         self._verify_command_start = len(self.commands)
-        checks = evaluate_static_resources(self.case, resources)
+        checks = []
         runtime = {"namespace": self.namespace, "namespace_uid": self.uid, "context": self.context,
                    "resource_uids": dict(self.resource_uids), "pods": [], "probes": [], "behavior_logs": [], "authorizations": [],
                    "expected_image_id": self.expected_image_id, "namespace_owner": self.owner, "workloads": {}}
@@ -174,6 +184,7 @@ class KubernetesSession:
         objects = {identity(value): value for value in resources}
         target_keys = set(self.case["allowed_paths"])
         try:
+            checks = evaluate_static_resources(self.case, resources)
             runtime["server_version"] = self.read(["version"]).get("serverVersion")
             if set(objects) != set(self.resource_uids):
                 raise ValueError("Candidate changed resource inventory")
@@ -223,8 +234,7 @@ class KubernetesSession:
                 for name in self.case["contract"]["ready_deployments"]:
                     observed = self.read(["-n", self.namespace, "get", "deployment", name])
                     status = observed.get("status", {})
-                    good = (status.get("observedGeneration", 0) >= observed["metadata"]["generation"]
-                            and status.get("updatedReplicas", 0) == 1 and status.get("availableReplicas", 0) == 1)
+                    good = deployment_ready(observed)
                     workload_ready &= good
                 for name in self.case["contract"]["completed_jobs"]:
                     observed = self.read(["-n", self.namespace, "get", "job", name])
@@ -255,7 +265,7 @@ class KubernetesSession:
                 observed = self.read(["-n", self.namespace, "get", "deployment", name])
                 status = observed.get("status", {})
                 runtime["workloads"]["Deployment/" + name] = {"uid": observed["metadata"]["uid"], "generation": observed["metadata"]["generation"], "status": status}
-                good = status.get("observedGeneration", 0) >= observed["metadata"]["generation"] and status.get("updatedReplicas", 0) == 1 and status.get("availableReplicas", 0) == 1
+                good = deployment_ready(observed)
                 checks.append(check("behavior:ready:Deployment/" + name, good, status))
             for name in self.case["contract"]["completed_jobs"]:
                 observed = self.read(["-n", self.namespace, "get", "job", name])

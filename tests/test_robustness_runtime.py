@@ -61,7 +61,7 @@ def synthetic_verification(case_id="already-secure-cache"):
             continue
         key = identity(obj)
         is_job = obj["kind"] == "Job"
-        status = {"succeeded": 1} if is_job else {"observedGeneration": 1, "updatedReplicas": 1, "availableReplicas": 1}
+        status = {"succeeded": 1} if is_job else {"observedGeneration": 1, "updatedReplicas": 1, "availableReplicas": 1, "readyReplicas": 1, "replicas": 1}
         runtime["workloads"][key] = {"uid": uids[key], "generation": 1, "status": status}
         check(("behavior:complete:" if is_job else "behavior:ready:") + key, True, status)
         owner = {"kind": "Job" if is_job else "ReplicaSet", "uid": uids[key] if is_job else "unit-rs-" + obj["metadata"]["name"], "controller": True}
@@ -74,9 +74,11 @@ def synthetic_verification(case_id="already-secure-cache"):
         for container in pod_spec.get("initContainers", []):
             pod["container_statuses"].append({"name": container["name"], "image_id": "containerd://" + IMAGE_ID,
                                                "ready": False, "state": {"terminated": {"exitCode": 0}}, "init": True})
+            check("security:image:" + pod_name + "/" + container["name"], True, "containerd://" + IMAGE_ID)
         for container in pod_spec["containers"]:
             pod["container_statuses"].append({"name": container["name"], "image_id": "containerd://" + IMAGE_ID,
                                                "ready": not is_job, "state": {"terminated": {"exitCode": 0}} if is_job else {"running": {}}, "init": False})
+            check("security:image:" + pod_name + "/" + container["name"], True, "containerd://" + IMAGE_ID)
             if is_job:
                 continue
             values = {"uid": container["securityContext"]["runAsUser"], "gid": container["securityContext"]["runAsGroup"],
@@ -194,6 +196,12 @@ class RuntimeEvidenceAuditTests(unittest.TestCase):
         workload["generation"] = 2
         self.assert_rejected(case, resources, result, "behavior:ready")
 
+    def test_old_healthy_replica_cannot_make_unready_replacement_pass(self):
+        case, resources, result = synthetic_verification()
+        workload = result["runtime"]["workloads"]["Deployment/filesystem-app"]
+        workload["status"]["replicas"] = 2
+        self.assert_rejected(case, resources, result, "behavior:ready")
+
     def test_duplicate_check_inventory_is_rejected(self):
         case, resources, result = synthetic_verification()
         result["checks"].append(copy.deepcopy(result["checks"][0]))
@@ -242,6 +250,22 @@ class RuntimeEvidenceAuditTests(unittest.TestCase):
         case, resources, result = synthetic_verification("rbac-list-configmaps")
         result["runtime"]["pods"][0]["container_statuses"].clear()
         self.assert_rejected(case, resources, result, "status inventory")
+
+    def test_wrong_actual_image_cannot_retain_a_passing_image_check(self):
+        case, resources, result = synthetic_verification()
+        result["runtime"]["pods"][0]["container_statuses"][0]["image_id"] = "containerd://sha256:" + "b" * 64
+        self.assert_rejected(case, resources, result, "security:image:")
+
+    def test_correct_image_cannot_retain_a_fabricated_failing_image_check(self):
+        case, resources, result = synthetic_verification()
+        row = next(row for row in result["checks"] if row["name"].startswith("security:image:"))
+        row["passed"] = False
+        self.assert_rejected(case, resources, result, "security:image:")
+
+    def test_every_observed_image_requires_its_explicit_identity_check(self):
+        case, resources, result = synthetic_verification()
+        result["checks"] = [row for row in result["checks"] if not row["name"].startswith("security:image:")]
+        self.assert_rejected(case, resources, result, "Missing check: security:image:")
 
     def test_observed_application_failure_can_skip_racy_process_exec(self):
         case, resources, result = synthetic_verification()

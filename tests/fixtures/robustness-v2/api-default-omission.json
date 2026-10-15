@@ -1,0 +1,188 @@
+{
+  "description": "Exact retained Kubernetes API response text from a failed reference-validation pilot. This fixture tests API normalization and rollout readiness; it is not a new dataset case, model output, or successful benchmark result.",
+  "desired_resources": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "filesystem-app",
+        "namespace": "robust-v2-e73b2ef541104f18"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "filesystem-app"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "filesystem-app"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": false,
+            "containers": [
+              {
+                "command": [
+                  "python",
+                  "-u",
+                  "-c",
+                  "from pathlib import Path; import time; p=Path('/cache/result'); p.write_text('cache-value'); assert p.read_text()=='cache-value'; print('cache write and read succeeded',flush=True); time.sleep(3600)"
+                ],
+                "image": "robustness-python:a6e34c598f24",
+                "imagePullPolicy": "Never",
+                "name": "app",
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "96Mi"
+                  },
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "24Mi"
+                  }
+                },
+                "securityContext": {
+                  "allowPrivilegeEscalation": false,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  },
+                  "privileged": false,
+                  "readOnlyRootFilesystem": true,
+                  "runAsGroup": 10001,
+                  "runAsNonRoot": true,
+                  "runAsUser": 10001,
+                  "seccompProfile": {
+                    "type": "RuntimeDefault"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/cache",
+                    "name": "runtime",
+                    "readOnly": false
+                  }
+                ]
+              }
+            ],
+            "securityContext": {
+              "fsGroup": 10001
+            },
+            "terminationGracePeriodSeconds": 1,
+            "volumes": [
+              {
+                "emptyDir": {},
+                "name": "runtime"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "eligible_benchmark_result": false,
+  "fixture_kind": "historical-real-api-regression-only",
+  "provenance": {
+    "historical_pilot_status": "failed",
+    "historical_plan_id": "robustness-v2-d92efaff5fb225a1f7dbdc3ad428a38f8f75e97163f8aa2bd29433570341ac31",
+    "historical_source_sha256": "859e2c79fb2d81b4679ee03f47cbb093f175c8a3d61a7c07a99cd3dcd71e213b",
+    "original_commands_sha256": "527b6347d1edce32f26ca848460505f9fdea6228f268aec9c2550e31db43342f",
+    "original_control_outcome": "failed",
+    "original_control_path": "controls/already-secure-cache--oracle.json",
+    "original_control_sha256": "96b83f8250f6b0743bdd85281820cfc7479a8e51e7778072f0acd65a7fe8fe90",
+    "repository": "https://github.com/tuanngocfun/agent",
+    "source_commit": "1e669bac8f75908effbf137dc8a7a5dae29d46a1",
+    "transformation": "Selected four command stdout strings without modifying their bytes; omitted unrelated command arguments and outputs. Desired resource bodies are copied from the historical control.",
+    "workflow_run_id": 38738048984,
+    "workflow_run_url": "https://github.com/tuanngocfun/agent/actions/runs/38738048984"
+  },
+  "responses": {
+    "current_replica_set": {
+      "argv": [
+        "/home/runner/work/agent/agent/.tools/bin/kubectl",
+        "--context",
+        "kind-robustness-6e86555ee691",
+        "--kubeconfig",
+        "/home/runner/work/agent/agent/runs/robustness-validation/private-kubeconfig",
+        "--request-timeout=8s",
+        "-n",
+        "robust-v2-e73b2ef541104f18",
+        "get",
+        "replicaset",
+        "filesystem-app-866dcf85b6",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "original_command_index": 1629,
+      "stdout": "{\n    \"apiVersion\": \"apps/v1\",\n    \"kind\": \"ReplicaSet\",\n    \"metadata\": {\n        \"annotations\": {\n            \"deployment.kubernetes.io/desired-replicas\": \"1\",\n            \"deployment.kubernetes.io/max-replicas\": \"2\",\n            \"deployment.kubernetes.io/revision\": \"1\"\n        },\n        \"creationTimestamp\": \"2026-10-15T13:04:22Z\",\n        \"generation\": 1,\n        \"labels\": {\n            \"app\": \"filesystem-app\",\n            \"pod-template-hash\": \"866dcf85b6\"\n        },\n        \"name\": \"filesystem-app-866dcf85b6\",\n        \"namespace\": \"robust-v2-e73b2ef541104f18\",\n        \"ownerReferences\": [\n            {\n                \"apiVersion\": \"apps/v1\",\n                \"blockOwnerDeletion\": true,\n                \"controller\": true,\n                \"kind\": \"Deployment\",\n                \"name\": \"filesystem-app\",\n                \"uid\": \"7086d0c8-b5d7-4e75-bfa6-2e95afe9b75e\"\n            }\n        ],\n        \"resourceVersion\": \"4027\",\n        \"uid\": \"f7f795ac-07ab-435f-bbd0-38d20f990ae8\"\n    },\n    \"spec\": {\n        \"replicas\": 1,\n        \"selector\": {\n            \"matchLabels\": {\n                \"app\": \"filesystem-app\",\n                \"pod-template-hash\": \"866dcf85b6\"\n            }\n        },\n        \"template\": {\n            \"metadata\": {\n                \"labels\": {\n                    \"app\": \"filesystem-app\",\n                    \"pod-template-hash\": \"866dcf85b6\"\n                }\n            },\n            \"spec\": {\n                \"automountServiceAccountToken\": false,\n                \"containers\": [\n                    {\n                        \"command\": [\n                            \"python\",\n                            \"-u\",\n                            \"-c\",\n                            \"from pathlib import Path; import time; p=Path('/cache/result'); p.write_text('cache-value'); assert p.read_text()=='cache-value'; print('cache write and read succeeded',flush=True); time.sleep(3600)\"\n                        ],\n                        \"image\": \"robustness-python:a6e34c598f24\",\n                        \"imagePullPolicy\": \"Never\",\n                        \"name\": \"app\",\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"200m\",\n                                \"memory\": \"96Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"10m\",\n                                \"memory\": \"24Mi\"\n                            }\n                        },\n                        \"securityContext\": {\n                            \"allowPrivilegeEscalation\": false,\n                            \"capabilities\": {\n                                \"drop\": [\n                                    \"ALL\"\n                                ]\n                            },\n                            \"privileged\": false,\n                            \"readOnlyRootFilesystem\": true,\n                            \"runAsGroup\": 10001,\n                            \"runAsNonRoot\": true,\n                            \"runAsUser\": 10001,\n                            \"seccompProfile\": {\n                                \"type\": \"RuntimeDefault\"\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/cache\",\n                                \"name\": \"runtime\"\n                            }\n                        ]\n                    }\n                ],\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"restartPolicy\": \"Always\",\n                \"schedulerName\": \"default-scheduler\",\n                \"securityContext\": {\n                    \"fsGroup\": 10001\n                },\n                \"terminationGracePeriodSeconds\": 1,\n                \"volumes\": [\n                    {\n                        \"emptyDir\": {},\n                        \"name\": \"runtime\"\n                    }\n                ]\n            }\n        }\n    },\n    \"status\": {\n        \"fullyLabeledReplicas\": 1,\n        \"observedGeneration\": 1,\n        \"replicas\": 1\n    }\n}\n",
+      "stdout_sha256": "117a48a63b4475d10e66e99e24a1ef2f59da4583cf609e6fc132e63315ebac1d"
+    },
+    "ready_deployment": {
+      "argv": [
+        "/home/runner/work/agent/agent/.tools/bin/kubectl",
+        "--context",
+        "kind-robustness-6e86555ee691",
+        "--kubeconfig",
+        "/home/runner/work/agent/agent/runs/robustness-validation/private-kubeconfig",
+        "--request-timeout=8s",
+        "-n",
+        "robust-v2-e73b2ef541104f18",
+        "get",
+        "deployment",
+        "filesystem-app",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "original_command_index": 1637,
+      "stdout": "{\n    \"apiVersion\": \"apps/v1\",\n    \"kind\": \"Deployment\",\n    \"metadata\": {\n        \"annotations\": {\n            \"deployment.kubernetes.io/revision\": \"1\",\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"apps/v1\\\",\\\"kind\\\":\\\"Deployment\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"name\\\":\\\"filesystem-app\\\",\\\"namespace\\\":\\\"robust-v2-e73b2ef541104f18\\\"},\\\"spec\\\":{\\\"replicas\\\":1,\\\"selector\\\":{\\\"matchLabels\\\":{\\\"app\\\":\\\"filesystem-app\\\"}},\\\"template\\\":{\\\"metadata\\\":{\\\"labels\\\":{\\\"app\\\":\\\"filesystem-app\\\"}},\\\"spec\\\":{\\\"automountServiceAccountToken\\\":false,\\\"containers\\\":[{\\\"command\\\":[\\\"python\\\",\\\"-u\\\",\\\"-c\\\",\\\"from pathlib import Path; import time; p=Path('/cache/result'); p.write_text('cache-value'); assert p.read_text()=='cache-value'; print('cache write and read succeeded',flush=True); time.sleep(3600)\\\"],\\\"image\\\":\\\"robustness-python:a6e34c598f24\\\",\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"name\\\":\\\"app\\\",\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"200m\\\",\\\"memory\\\":\\\"96Mi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"10m\\\",\\\"memory\\\":\\\"24Mi\\\"}},\\\"securityContext\\\":{\\\"allowPrivilegeEscalation\\\":false,\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"privileged\\\":false,\\\"readOnlyRootFilesystem\\\":true,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true,\\\"runAsUser\\\":10001,\\\"seccompProfile\\\":{\\\"type\\\":\\\"RuntimeDefault\\\"}},\\\"volumeMounts\\\":[{\\\"mountPath\\\":\\\"/cache\\\",\\\"name\\\":\\\"runtime\\\",\\\"readOnly\\\":false}]}],\\\"securityContext\\\":{\\\"fsGroup\\\":10001},\\\"terminationGracePeriodSeconds\\\":1,\\\"volumes\\\":[{\\\"emptyDir\\\":{},\\\"name\\\":\\\"runtime\\\"}]}}}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-15T13:04:22Z\",\n        \"generation\": 1,\n        \"name\": \"filesystem-app\",\n        \"namespace\": \"robust-v2-e73b2ef541104f18\",\n        \"resourceVersion\": \"4037\",\n        \"uid\": \"7086d0c8-b5d7-4e75-bfa6-2e95afe9b75e\"\n    },\n    \"spec\": {\n        \"progressDeadlineSeconds\": 600,\n        \"replicas\": 1,\n        \"revisionHistoryLimit\": 10,\n        \"selector\": {\n            \"matchLabels\": {\n                \"app\": \"filesystem-app\"\n            }\n        },\n        \"strategy\": {\n            \"rollingUpdate\": {\n                \"maxSurge\": \"25%\",\n                \"maxUnavailable\": \"25%\"\n            },\n            \"type\": \"RollingUpdate\"\n        },\n        \"template\": {\n            \"metadata\": {\n                \"labels\": {\n                    \"app\": \"filesystem-app\"\n                }\n            },\n            \"spec\": {\n                \"automountServiceAccountToken\": false,\n                \"containers\": [\n                    {\n                        \"command\": [\n                            \"python\",\n                            \"-u\",\n                            \"-c\",\n                            \"from pathlib import Path; import time; p=Path('/cache/result'); p.write_text('cache-value'); assert p.read_text()=='cache-value'; print('cache write and read succeeded',flush=True); time.sleep(3600)\"\n                        ],\n                        \"image\": \"robustness-python:a6e34c598f24\",\n                        \"imagePullPolicy\": \"Never\",\n                        \"name\": \"app\",\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"200m\",\n                                \"memory\": \"96Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"10m\",\n                                \"memory\": \"24Mi\"\n                            }\n                        },\n                        \"securityContext\": {\n                            \"allowPrivilegeEscalation\": false,\n                            \"capabilities\": {\n                                \"drop\": [\n                                    \"ALL\"\n                                ]\n                            },\n                            \"privileged\": false,\n                            \"readOnlyRootFilesystem\": true,\n                            \"runAsGroup\": 10001,\n                            \"runAsNonRoot\": true,\n                            \"runAsUser\": 10001,\n                            \"seccompProfile\": {\n                                \"type\": \"RuntimeDefault\"\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/cache\",\n                                \"name\": \"runtime\"\n                            }\n                        ]\n                    }\n                ],\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"restartPolicy\": \"Always\",\n                \"schedulerName\": \"default-scheduler\",\n                \"securityContext\": {\n                    \"fsGroup\": 10001\n                },\n                \"terminationGracePeriodSeconds\": 1,\n                \"volumes\": [\n                    {\n                        \"emptyDir\": {},\n                        \"name\": \"runtime\"\n                    }\n                ]\n            }\n        }\n    },\n    \"status\": {\n        \"availableReplicas\": 1,\n        \"conditions\": [\n            {\n                \"lastTransitionTime\": \"2026-10-15T13:04:23Z\",\n                \"lastUpdateTime\": \"2026-10-15T13:04:23Z\",\n                \"message\": \"Deployment has minimum availability.\",\n                \"reason\": \"MinimumReplicasAvailable\",\n                \"status\": \"True\",\n                \"type\": \"Available\"\n            },\n            {\n                \"lastTransitionTime\": \"2026-10-15T13:04:22Z\",\n                \"lastUpdateTime\": \"2026-10-15T13:04:23Z\",\n                \"message\": \"ReplicaSet \\\"filesystem-app-866dcf85b6\\\" has successfully progressed.\",\n                \"reason\": \"NewReplicaSetAvailable\",\n                \"status\": \"True\",\n                \"type\": \"Progressing\"\n            }\n        ],\n        \"observedGeneration\": 1,\n        \"readyReplicas\": 1,\n        \"replicas\": 1,\n        \"updatedReplicas\": 1\n    }\n}\n",
+      "stdout_sha256": "9014c4d2da0787624dd3e623285659bca2d1957f49635f40964d7a7b641a4831"
+    },
+    "ready_pod_list": {
+      "argv": [
+        "/home/runner/work/agent/agent/.tools/bin/kubectl",
+        "--context",
+        "kind-robustness-6e86555ee691",
+        "--kubeconfig",
+        "/home/runner/work/agent/agent/runs/robustness-validation/private-kubeconfig",
+        "--request-timeout=8s",
+        "-n",
+        "robust-v2-e73b2ef541104f18",
+        "get",
+        "pods",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "original_command_index": 1635,
+      "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"items\": [\n        {\n            \"apiVersion\": \"v1\",\n            \"kind\": \"Pod\",\n            \"metadata\": {\n                \"creationTimestamp\": \"2026-10-15T13:04:22Z\",\n                \"generateName\": \"filesystem-app-866dcf85b6-\",\n                \"generation\": 1,\n                \"labels\": {\n                    \"app\": \"filesystem-app\",\n                    \"pod-template-hash\": \"866dcf85b6\"\n                },\n                \"name\": \"filesystem-app-866dcf85b6-5zqqs\",\n                \"namespace\": \"robust-v2-e73b2ef541104f18\",\n                \"ownerReferences\": [\n                    {\n                        \"apiVersion\": \"apps/v1\",\n                        \"blockOwnerDeletion\": true,\n                        \"controller\": true,\n                        \"kind\": \"ReplicaSet\",\n                        \"name\": \"filesystem-app-866dcf85b6\",\n                        \"uid\": \"f7f795ac-07ab-435f-bbd0-38d20f990ae8\"\n                    }\n                ],\n                \"resourceVersion\": \"4035\",\n                \"uid\": \"a67e80bf-f51e-495b-9e70-cdcd2a00821c\"\n            },\n            \"spec\": {\n                \"automountServiceAccountToken\": false,\n                \"containers\": [\n                    {\n                        \"command\": [\n                            \"python\",\n                            \"-u\",\n                            \"-c\",\n                            \"from pathlib import Path; import time; p=Path('/cache/result'); p.write_text('cache-value'); assert p.read_text()=='cache-value'; print('cache write and read succeeded',flush=True); time.sleep(3600)\"\n                        ],\n                        \"image\": \"robustness-python:a6e34c598f24\",\n                        \"imagePullPolicy\": \"Never\",\n                        \"name\": \"app\",\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"200m\",\n                                \"memory\": \"96Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"10m\",\n                                \"memory\": \"24Mi\"\n                            }\n                        },\n                        \"securityContext\": {\n                            \"allowPrivilegeEscalation\": false,\n                            \"capabilities\": {\n                                \"drop\": [\n                                    \"ALL\"\n                                ]\n                            },\n                            \"privileged\": false,\n                            \"readOnlyRootFilesystem\": true,\n                            \"runAsGroup\": 10001,\n                            \"runAsNonRoot\": true,\n                            \"runAsUser\": 10001,\n                            \"seccompProfile\": {\n                                \"type\": \"RuntimeDefault\"\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/cache\",\n                                \"name\": \"runtime\"\n                            }\n                        ]\n                    }\n                ],\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"enableServiceLinks\": true,\n                \"nodeName\": \"robustness-6e86555ee691-control-plane\",\n                \"preemptionPolicy\": \"PreemptLowerPriority\",\n                \"priority\": 0,\n                \"restartPolicy\": \"Always\",\n                \"schedulerName\": \"default-scheduler\",\n                \"securityContext\": {\n                    \"fsGroup\": 10001\n                },\n                \"serviceAccount\": \"default\",\n                \"serviceAccountName\": \"default\",\n                \"terminationGracePeriodSeconds\": 1,\n                \"tolerations\": [\n                    {\n                        \"effect\": \"NoExecute\",\n                        \"key\": \"node.kubernetes.io/not-ready\",\n                        \"operator\": \"Exists\",\n                        \"tolerationSeconds\": 300\n                    },\n                    {\n                        \"effect\": \"NoExecute\",\n                        \"key\": \"node.kubernetes.io/unreachable\",\n                        \"operator\": \"Exists\",\n                        \"tolerationSeconds\": 300\n                    }\n                ],\n                \"volumes\": [\n                    {\n                        \"emptyDir\": {},\n                        \"name\": \"runtime\"\n                    }\n                ]\n            },\n            \"status\": {\n                \"conditions\": [\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-15T13:04:23Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"PodReadyToStartContainers\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-15T13:04:22Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"Initialized\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-15T13:04:23Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"Ready\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-15T13:04:23Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"ContainersReady\"\n                    },\n                    {\n                        \"lastProbeTime\": null,\n                        \"lastTransitionTime\": \"2026-10-15T13:04:22Z\",\n                        \"observedGeneration\": 1,\n                        \"status\": \"True\",\n                        \"type\": \"PodScheduled\"\n                    }\n                ],\n                \"containerStatuses\": [\n                    {\n                        \"allocatedResources\": {\n                            \"cpu\": \"10m\",\n                            \"memory\": \"24Mi\"\n                        },\n                        \"containerID\": \"containerd://5c8720a17ba729cc9f689d84031a2aaeaf53151e70ce8edc78bb25247a1f9599\",\n                        \"image\": \"docker.io/library/robustness-python:a6e34c598f24\",\n                        \"imageID\": \"sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316\",\n                        \"lastState\": {},\n                        \"name\": \"app\",\n                        \"ready\": true,\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"200m\",\n                                \"memory\": \"96Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"10m\",\n                                \"memory\": \"24Mi\"\n                            }\n                        },\n                        \"restartCount\": 0,\n                        \"started\": true,\n                        \"state\": {\n                            \"running\": {\n                                \"startedAt\": \"2026-10-15T13:04:23Z\"\n                            }\n                        },\n                        \"user\": {\n                            \"linux\": {\n                                \"gid\": 10001,\n                                \"supplementalGroups\": [\n                                    10001\n                                ],\n                                \"uid\": 10001\n                            }\n                        },\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/cache\",\n                                \"name\": \"runtime\"\n                            }\n                        ]\n                    }\n                ],\n                \"hostIP\": \"172.18.0.2\",\n                \"hostIPs\": [\n                    {\n                        \"ip\": \"172.18.0.2\"\n                    }\n                ],\n                \"observedGeneration\": 1,\n                \"phase\": \"Running\",\n                \"podIP\": \"10.244.0.58\",\n                \"podIPs\": [\n                    {\n                        \"ip\": \"10.244.0.58\"\n                    }\n                ],\n                \"qosClass\": \"Burstable\",\n                \"startTime\": \"2026-10-15T13:04:22Z\"\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n",
+      "stdout_sha256": "5f0ac884a7b3ffae7415fdac2df5e1d72b948a1253a0874f9f337cbb73411ae9"
+    },
+    "transitioning_deployment": {
+      "argv": [
+        "/home/runner/work/agent/agent/.tools/bin/kubectl",
+        "--context",
+        "kind-robustness-6e86555ee691",
+        "--kubeconfig",
+        "/home/runner/work/agent/agent/runs/robustness-validation/private-kubeconfig",
+        "--request-timeout=8s",
+        "-n",
+        "robust-v2-c3fff7e756d446d7",
+        "get",
+        "deployment",
+        "filesystem-app",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "original_command_index": 1285,
+      "stdout": "{\n    \"apiVersion\": \"apps/v1\",\n    \"kind\": \"Deployment\",\n    \"metadata\": {\n        \"annotations\": {\n            \"deployment.kubernetes.io/revision\": \"2\",\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"apps/v1\\\",\\\"kind\\\":\\\"Deployment\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"name\\\":\\\"filesystem-app\\\",\\\"namespace\\\":\\\"robust-v2-c3fff7e756d446d7\\\"},\\\"spec\\\":{\\\"replicas\\\":1,\\\"selector\\\":{\\\"matchLabels\\\":{\\\"app\\\":\\\"filesystem-app\\\"}},\\\"template\\\":{\\\"metadata\\\":{\\\"labels\\\":{\\\"app\\\":\\\"filesystem-app\\\"}},\\\"spec\\\":{\\\"automountServiceAccountToken\\\":false,\\\"containers\\\":[{\\\"command\\\":[\\\"python\\\",\\\"-u\\\",\\\"-c\\\",\\\"import sqlite3,time; c=sqlite3.connect('/database/state.db'); c.execute('pragma journal_mode=WAL'); c.execute('create table if not exists ledger(value text)'); c.execute(\\\\\\\"insert into ledger values ('transaction-accepted')\\\\\\\"); c.commit(); assert c.execute('select value from ledger').fetchone()[0]=='transaction-accepted'; print('sqlite committed transaction',flush=True); time.sleep(3600)\\\"],\\\"image\\\":\\\"robustness-python:a6e34c598f24\\\",\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"name\\\":\\\"app\\\",\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"200m\\\",\\\"memory\\\":\\\"96Mi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"10m\\\",\\\"memory\\\":\\\"24Mi\\\"}},\\\"securityContext\\\":{\\\"allowPrivilegeEscalation\\\":false,\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"privileged\\\":false,\\\"readOnlyRootFilesystem\\\":true,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true,\\\"runAsUser\\\":10001,\\\"seccompProfile\\\":{\\\"type\\\":\\\"RuntimeDefault\\\"}},\\\"volumeMounts\\\":[{\\\"mountPath\\\":\\\"/database\\\",\\\"name\\\":\\\"runtime\\\",\\\"readOnly\\\":false}]}],\\\"securityContext\\\":{\\\"fsGroup\\\":10001},\\\"terminationGracePeriodSeconds\\\":1,\\\"volumes\\\":[{\\\"emptyDir\\\":{},\\\"name\\\":\\\"runtime\\\"}]}}}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-15T13:01:31Z\",\n        \"generation\": 2,\n        \"name\": \"filesystem-app\",\n        \"namespace\": \"robust-v2-c3fff7e756d446d7\",\n        \"resourceVersion\": \"2710\",\n        \"uid\": \"d90987ce-0c07-4e90-9a2f-ace643a3cafc\"\n    },\n    \"spec\": {\n        \"progressDeadlineSeconds\": 600,\n        \"replicas\": 1,\n        \"revisionHistoryLimit\": 10,\n        \"selector\": {\n            \"matchLabels\": {\n                \"app\": \"filesystem-app\"\n            }\n        },\n        \"strategy\": {\n            \"rollingUpdate\": {\n                \"maxSurge\": \"25%\",\n                \"maxUnavailable\": \"25%\"\n            },\n            \"type\": \"RollingUpdate\"\n        },\n        \"template\": {\n            \"metadata\": {\n                \"labels\": {\n                    \"app\": \"filesystem-app\"\n                }\n            },\n            \"spec\": {\n                \"automountServiceAccountToken\": false,\n                \"containers\": [\n                    {\n                        \"command\": [\n                            \"python\",\n                            \"-u\",\n                            \"-c\",\n                            \"import sqlite3,time; c=sqlite3.connect('/database/state.db'); c.execute('pragma journal_mode=WAL'); c.execute('create table if not exists ledger(value text)'); c.execute(\\\"insert into ledger values ('transaction-accepted')\\\"); c.commit(); assert c.execute('select value from ledger').fetchone()[0]=='transaction-accepted'; print('sqlite committed transaction',flush=True); time.sleep(3600)\"\n                        ],\n                        \"image\": \"robustness-python:a6e34c598f24\",\n                        \"imagePullPolicy\": \"Never\",\n                        \"name\": \"app\",\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"200m\",\n                                \"memory\": \"96Mi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"10m\",\n                                \"memory\": \"24Mi\"\n                            }\n                        },\n                        \"securityContext\": {\n                            \"allowPrivilegeEscalation\": false,\n                            \"capabilities\": {\n                                \"drop\": [\n                                    \"ALL\"\n                                ]\n                            },\n                            \"privileged\": false,\n                            \"readOnlyRootFilesystem\": true,\n                            \"runAsGroup\": 10001,\n                            \"runAsNonRoot\": true,\n                            \"runAsUser\": 10001,\n                            \"seccompProfile\": {\n                                \"type\": \"RuntimeDefault\"\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"volumeMounts\": [\n                            {\n                                \"mountPath\": \"/database\",\n                                \"name\": \"runtime\"\n                            }\n                        ]\n                    }\n                ],\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"restartPolicy\": \"Always\",\n                \"schedulerName\": \"default-scheduler\",\n                \"securityContext\": {\n                    \"fsGroup\": 10001\n                },\n                \"terminationGracePeriodSeconds\": 1,\n                \"volumes\": [\n                    {\n                        \"emptyDir\": {},\n                        \"name\": \"runtime\"\n                    }\n                ]\n            }\n        }\n    },\n    \"status\": {\n        \"availableReplicas\": 1,\n        \"conditions\": [\n            {\n                \"lastTransitionTime\": \"2026-10-15T13:01:32Z\",\n                \"lastUpdateTime\": \"2026-10-15T13:01:32Z\",\n                \"message\": \"Deployment has minimum availability.\",\n                \"reason\": \"MinimumReplicasAvailable\",\n                \"status\": \"True\",\n                \"type\": \"Available\"\n            },\n            {\n                \"lastTransitionTime\": \"2026-10-15T13:01:31Z\",\n                \"lastUpdateTime\": \"2026-10-15T13:01:32Z\",\n                \"message\": \"ReplicaSet \\\"filesystem-app-597dfd797\\\" is progressing.\",\n                \"reason\": \"ReplicaSetUpdated\",\n                \"status\": \"True\",\n                \"type\": \"Progressing\"\n            }\n        ],\n        \"observedGeneration\": 2,\n        \"readyReplicas\": 1,\n        \"replicas\": 2,\n        \"unavailableReplicas\": 1,\n        \"updatedReplicas\": 1\n    }\n}\n",
+      "stdout_sha256": "9b31271ec195f76c3dda78bcc4c34310e519a3bd36c79d5ca314a2b0bdb78d79"
+    }
+  }
+}

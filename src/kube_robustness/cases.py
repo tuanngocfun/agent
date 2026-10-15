@@ -140,7 +140,7 @@ def _case(case_id, family, source, instruction, resources, edits, contract, *, e
             "instruction": instruction, "resources": resources, "allowed_paths": allowed,
             "public_requirements": [
                 "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-                "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+                "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
                 "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
                 "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope.",
             ], "oracle_edits": edits, "contract": contract}
@@ -238,9 +238,11 @@ def _rbac(name, source_task, *, initial_verbs, initial_names=None, binding_name=
     if action == "get":
         rbac[0]["resource_name"] = target
         rbac.append({"service_account": account, "verb": "get", "resource": "configmaps", "resource_name": "unrelated-config", "allowed": False})
+    else:
+        rbac.append({"service_account": account, "verb": "get", "resource": "configmaps", "resource_name": target, "allowed": True})
     family = "rbac-list" if action == "list" else "rbac-binding-and-scope" if binding_name else "rbac-named-access"
     return _case(name, family, _source(source_task),
-                 "Recover the existing config-reader Job using the runtime-client ServiceAccount. The job must %s ConfigMap%s. Keep permission limited to the stated need; do not grant secrets access, pod creation, wildcard permissions, or change workload code/identity." % (action, " " + target if action == "get" else "s"),
+                 "Recover the existing config-reader Job using the runtime-client ServiceAccount. The job must %s ConfigMap%s.%s Keep permission limited to the stated need; do not grant secrets access, pod creation, wildcard permissions, or change workload code/identity." % (action, " " + target if action == "get" else "s", " Preserve existing get access while adding list access." if action == "list" else ""),
                  resources, edits, _contract(completed=["config-reader"], behavior=[_marker("Job/config-reader", marker)], security=edits, rbac=rbac))
 
 

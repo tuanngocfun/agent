@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from kube_robustness.cases import all_cases
 from kube_robustness.methods import apply_edits
-from kube_robustness.runtime import KubernetesSession, contains_desired
+from kube_robustness.runtime import KubernetesSession, contains_desired, deployment_ready, evaluate_static_resources
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("robustness_worker_test", ROOT / "scripts/robustness_worker.py")
@@ -17,6 +17,29 @@ SPEC.loader.exec_module(WORKER)
 
 
 class RobustnessWorkerTests(unittest.TestCase):
+    def test_an_old_healthy_pod_cannot_hide_an_unready_replacement(self):
+        resource = {"metadata": {"generation": 2}, "status": {"observedGeneration": 2, "replicas": 2, "readyReplicas": 1, "updatedReplicas": 1, "availableReplicas": 1}}
+        self.assertFalse(deployment_ready(resource))
+        resource["status"]["replicas"] = 1
+        self.assertTrue(deployment_ready(resource))
+        resource["status"]["observedGeneration"] = 1
+        self.assertFalse(deployment_ready(resource))
+
+    def test_malformed_model_list_values_fail_static_checks_without_crashing(self):
+        case = all_cases()[0]
+        path = "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        candidate = apply_edits(case["resources"], [{"resource": "Deployment/reporting", "path": path, "value": [{}]}], case["allowed_paths"])
+        checks = evaluate_static_resources(case, candidate)
+        self.assertTrue(any(not row["passed"] and row["name"].endswith("capabilities/drop") for row in checks))
+
+    def test_kubernetes_omitted_false_mount_matches_but_omitted_true_does_not(self):
+        observed = {"volumeMounts": [{"name": "runtime", "mountPath": "/cache"}]}
+        expected = copy.deepcopy(observed)
+        expected["volumeMounts"][0]["readOnly"] = False
+        self.assertTrue(contains_desired(expected, observed))
+        expected["volumeMounts"][0]["readOnly"] = True
+        self.assertFalse(contains_desired(expected, observed))
+
     def test_old_replicaset_security_and_mount_state_cannot_match_current_candidate(self):
         case = all_cases()[0]
         initial = case["resources"][0]["spec"]["template"]["spec"]

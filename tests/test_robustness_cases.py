@@ -32,6 +32,13 @@ def inventory(case):
 
 
 class RobustnessCasesTests(unittest.TestCase):
+    def test_list_case_discloses_and_checks_preservation_of_existing_get_access(self):
+        case = next(case for case in all_cases() if case["id"] == "rbac-list-configmaps")
+        self.assertIn("Preserve existing get access while adding list access", model_view(case)["instruction"])
+        checks = case["contract"]["rbac_checks"]
+        self.assertTrue(any(row["verb"] == "get" and row["resource"] == "configmaps" and row["allowed"] for row in checks))
+        self.assertTrue(any(row["verb"] == "list" and row["resource"] == "configmaps" and row["allowed"] for row in checks))
+
     def test_disposable_workloads_have_short_immutable_shutdown_grace(self):
         for case in all_cases():
             for resource in case["resources"]:

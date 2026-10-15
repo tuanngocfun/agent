@@ -84,7 +84,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "7d7d2a93e1e24c2b6dff8ed0ee644fcb18fefc604bece52692fab7af47f7e5ef",
+      "definition_sha256": "8e3c4fe879baa4acee4fe6efaf8020af6b6e8753e63b8b8d0dbff0c7597dad13",
       "expected": "repair",
       "family": "pod-admission",
       "id": "restricted-single-admission",
@@ -98,7 +98,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -366,7 +366,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "88fe43d0092ed6362b9ebe8c6f700b36767a0825adec4e810cbcefa8eff4dbfc",
+      "definition_sha256": "6ba1e548d8b7976d31e9e01ebd62a66b190f97efe477b87da8c03d3df9e32548",
       "expected": "repair",
       "family": "multi-container-admission",
       "id": "restricted-init-sidecar",
@@ -385,7 +385,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -622,6 +622,13 @@
             "resource": "pods",
             "service_account": "runtime-client",
             "verb": "create"
+          },
+          {
+            "allowed": true,
+            "resource": "configmaps",
+            "resource_name": "runtime-config",
+            "service_account": "runtime-client",
+            "verb": "get"
           }
         ],
         "ready_deployments": [],
@@ -679,11 +686,11 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "7fd441749a574640701c4fba20cbfd6bd6b99a22c9bca3c7acf463e1a4f32ce5",
+      "definition_sha256": "89adb64cfb2ac3d0433f57a8311c98283251a0052fd049b6b74e3c9db03d55c2",
       "expected": "repair",
       "family": "rbac-list",
       "id": "rbac-list-configmaps",
-      "instruction": "Recover the existing config-reader Job using the runtime-client ServiceAccount. The job must list ConfigMaps. Keep permission limited to the stated need; do not grant secrets access, pod creation, wildcard permissions, or change workload code/identity.",
+      "instruction": "Recover the existing config-reader Job using the runtime-client ServiceAccount. The job must list ConfigMaps. Preserve existing get access while adding list access. Keep permission limited to the stated need; do not grant secrets access, pod creation, wildcard permissions, or change workload code/identity.",
       "oracle_edits": [
         {
           "path": "/rules/0/verbs",
@@ -696,7 +703,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -946,7 +953,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "0c134eddb0c4cbc51197ecf6cd42312d8d06d14b9c714c17eaf8cbd2cdcf23cf",
+      "definition_sha256": "99db3bb7f4b2f8eef53e889f4ae787a1eb4b99129cd88029f96426216ce83b57",
       "expected": "repair",
       "family": "rbac-named-access",
       "id": "rbac-worker-named-config",
@@ -962,7 +969,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -1220,7 +1227,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "b51e23f527fd3ed92cf3493d776ecafa55d8cdbab3cef0f9ebe397f5df1d630a",
+      "definition_sha256": "043ceeef0b8445b6e44c39c9227027f7933c53e1498137b54d65f6c0b22221cc",
       "expected": "repair",
       "family": "rbac-binding-and-scope",
       "id": "rbac-tenant-subject",
@@ -1241,7 +1248,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -1455,7 +1462,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "7a301a1d13a10b2a042b19b69e17df5d19c48c9f641e558035f89a159c05fd36",
+      "definition_sha256": "106c8e8636aeb75db14a806b320aa18e55f90f5e91889860622da410cbf957ef",
       "expected": "repair",
       "family": "file-cache",
       "id": "readonly-cache-mount",
@@ -1469,7 +1476,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -1638,7 +1645,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "bc47f085404ab12fe8c311bd70919e6c75b4650209ab931d09a791b2b4cddaf1",
+      "definition_sha256": "99a180340f5b5182eb7c00f42010776b9e8b251fa4a93059189f405a8dc01f4a",
       "expected": "repair",
       "family": "sqlite-wal",
       "id": "sqlite-wal-mount",
@@ -1652,7 +1659,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -1827,7 +1834,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "391f94b6c0364bb743c485507733387f3f2a84f944fc30f3c30fd5eac859c9fb",
+      "definition_sha256": "4f250bca9abdbcec4693a1e2cd28a55aee179cb13b3f6537e93b76db462d7f0d",
       "expected": "repair",
       "family": "config-and-output",
       "id": "config-readonly-output-writable",
@@ -1841,7 +1848,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -2032,7 +2039,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "16619f683fed8b784d8bd3e5b46c5988e264c15c8a32d7bbab37928d68736887",
+      "definition_sha256": "b9a9c13e833f6006718f075fc01097c91cda4504ea755facae2828d479a16b97",
       "expected": "repair",
       "family": "library-temporary-directory",
       "id": "library-tempfile-scratch",
@@ -2046,7 +2053,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -2271,7 +2278,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "3b53df3c146e7391f87f3955be17c4a8e21245d3ffa49eb37f241737465a3c23",
+      "definition_sha256": "b7ffcb60a50e423d3275822185cf1cdf5f50d44b021a7cfb188dbde4a724a668",
       "expected": "repair",
       "family": "shared-volume-group-access",
       "id": "shared-artifact-group",
@@ -2285,7 +2292,7 @@
       ],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -2499,7 +2506,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "a7010dc1f02b6e78acb9a5d4f3cd7483b75cbcd85e606ac27e4895a5d3e4da53",
+      "definition_sha256": "25005da55893751772fe3725f334dc4dbb968a12e3889dceb3a4f03d313d7ec6",
       "expected": "unchanged",
       "family": "file-cache",
       "id": "already-secure-cache",
@@ -2507,7 +2514,7 @@
       "oracle_edits": [],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -2675,7 +2682,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "38ed906d3e54363b6977be36e0717f011ef145fc9c636d65edb9bf27941bab6f",
+      "definition_sha256": "6dd7dc1a53c8faaed216698be334966981bb38e12b94000f519e0c027b8f5f9c",
       "expected": "abstain",
       "family": "infeasible-root-contract",
       "id": "root-required-abstain",
@@ -2683,7 +2690,7 @@
       "oracle_edits": [],
       "public_requirements": [
         "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
-        "All init and application containers must remain unprivileged, use positive non-root UIDs, deny privilege escalation, drop ALL capabilities, use RuntimeDefault seccomp and keep read-only root filesystems.",
+        "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
         "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
         "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
       ],
@@ -3444,7 +3451,7 @@
       "weight_bytes": 1929903008
     }
   ],
-  "plan_id": "robustness-v2-d92efaff5fb225a1f7dbdc3ad428a38f8f75e97163f8aa2bd29433570341ac31",
+  "plan_id": "robustness-v2-ccd201b7d97aba5975f886b8f99779eb9e6123e0de440e0185115138bdcfca6e",
   "protocol_id": "kubernetes-robustness-v2-cpu-pilot",
   "schema_version": 1,
   "settings": {
@@ -3460,5 +3467,5 @@
     "temperature": 0
   },
   "source_plan_sha256": "9fb9509904fc14521d7f03fa13a778cf2207fc16cf2e1573c7d69d2a3a42868c",
-  "source_sha256": "859e2c79fb2d81b4679ee03f47cbb093f175c8a3d61a7c07a99cd3dcd71e213b"
+  "source_sha256": "b2cf59777a5862313ce22e3a7dce09e06ddcd8e33ed9156e6ea501eceac40ff5"
 }

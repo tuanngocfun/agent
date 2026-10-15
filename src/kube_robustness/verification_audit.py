@@ -163,7 +163,9 @@ def _audit(case, resources, result, errors):
         ready = (type(generation) is int and type(status.get("observedGeneration")) is int
                  and status["observedGeneration"] >= generation
                  and type(status.get("updatedReplicas")) is int and status["updatedReplicas"] == 1
-                 and type(status.get("availableReplicas")) is int and status["availableReplicas"] == 1)
+                 and type(status.get("availableReplicas")) is int and status["availableReplicas"] == 1
+                 and type(status.get("readyReplicas")) is int and status["readyReplicas"] == 1
+                 and type(status.get("replicas")) is int and status["replicas"] == 1)
         replay("behavior:ready:" + key, ready, detail=status, compare_detail=True)
         if workload.get("uid") != uids.get(key):
             errors.append("Workload UID differs from resource binding: " + key)
@@ -260,6 +262,11 @@ def _audit(case, resources, result, errors):
             if name not in container_names:
                 errors.append("Container status has no protected container binding")
             state = status.get("state", {})
+            actual_image = status.get("image_id")
+            if actual_image and runtime.get("expected_image_id"):
+                replay("security:image:" + str(pod_name) + "/" + str(name),
+                       expected_digest is not None and _image_digest(actual_image) == expected_digest,
+                       detail=actual_image, compare_detail=True)
             if state.get("running") is not None and name not in init_names:
                 running.add((resource_key, name))
             if name in init_names and result.get("passed"):
