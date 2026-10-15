@@ -1,0 +1,1657 @@
+{
+  "control_records": 384,
+  "expected_shards": 48,
+  "missing_shards": [],
+  "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+  "received_shards": 48,
+  "shards": [
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 500.958789,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 532.790436,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 499.464584,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 532.144746,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 536.881619,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 568.372866,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 502.322132,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-feedback-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 414.322738,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 562.107873,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 524.539027,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 518.40652,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 416.347941,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 521.909233,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 429.755673,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 525.711035,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-1.5b-one-shot-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 521.972064,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 715.678398,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 957.73796,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [
+          "Case deadline: file-already-secure",
+          "WorkerDeadline: Worker interrupted by signal 14"
+        ],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 962.32086,
+        "status": "failed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [
+          "Case deadline: sqlite-root-required",
+          "WorkerDeadline: Worker interrupted by signal 14"
+        ],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 963.316677,
+        "status": "failed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 656.632553,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [
+          "Case deadline: file-root-required",
+          "WorkerDeadline: Worker interrupted by signal 14"
+        ],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 962.528979,
+        "status": "failed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [
+          "Case deadline: file-already-secure",
+          "WorkerDeadline: Worker interrupted by signal 14"
+        ],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 961.540611,
+        "status": "failed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-feedback-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [
+          "Case deadline: sqlite-root-required",
+          "WorkerDeadline: Worker interrupted by signal 14"
+        ],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 961.430394,
+        "status": "failed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 822.095577,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 840.226376,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 888.234159,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 902.341691,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 912.639497,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 900.18747,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 900.539726,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-3b-one-shot-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-3b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 907.832286,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 600.053904,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 884.807405,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 679.789423,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 761.824692,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 813.00659,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 873.68156,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 652.371052,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-feedback-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "feedback",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 768.845215,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r0-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 609.650306,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r0-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 600.447321,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r0-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 583.893123,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r0-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 0,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 469.688211,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r1-s0",
+      "summary": {
+        "case_shard": 0,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "recorded_case_ids": [
+          "file-new-path",
+          "sqlite-new-path"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 620.533642,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r1-s1",
+      "summary": {
+        "case_shard": 1,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-already-secure",
+          "file-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 573.610645,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r1-s2",
+      "summary": {
+        "case_shard": 2,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "recorded_case_ids": [
+          "file-mounted-hardening",
+          "file-already-secure"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 585.266411,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    },
+    {
+      "shard": "benchmark-qwen25-coder-1.5b-one-shot-r1-s3",
+      "summary": {
+        "case_shard": 3,
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_container_removed": true
+        },
+        "cpu_only_verified": true,
+        "errors": [],
+        "kubernetes_fixture_execution_observed": true,
+        "method_id": "one-shot",
+        "model_id": "qwen25-coder-1.5b",
+        "model_inference_observed": true,
+        "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+        "planned_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "recorded_case_ids": [
+          "sqlite-mounted-hardening",
+          "sqlite-root-required"
+        ],
+        "repetition": 1,
+        "requires_real_kubernetes": true,
+        "requires_real_llm": true,
+        "schema_version": 1,
+        "seconds": 602.343364,
+        "status": "passed",
+        "task_success_required_for_shard_pass": false
+      }
+    }
+  ],
+  "task_records": 96
+}

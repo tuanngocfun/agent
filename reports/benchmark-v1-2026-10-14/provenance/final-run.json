@@ -1,0 +1,14 @@
+{
+  "id": 38587061935,
+  "name": "Kubernetes model benchmark v1",
+  "head_sha": "b5fc820e9ef857a82a0861132d5c41faef025002",
+  "head_branch": "kube-remediation-demo",
+  "status": "completed",
+  "conclusion": "failure",
+  "created_at": "2026-10-14T15:10:54Z",
+  "updated_at": "2026-10-14T17:35:06Z",
+  "run_started_at": "2026-10-14T15:10:54Z",
+  "run_attempt": 1,
+  "html_url": "https://github.com/tuanngocfun/agent/actions/runs/38587061935",
+  "path": ".github/workflows/benchmark.yml"
+}

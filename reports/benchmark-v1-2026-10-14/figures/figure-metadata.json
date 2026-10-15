@@ -1,0 +1,18 @@
+{
+  "plan_id": "kube-benchmark-v1-6d443fe84fc92e8f5de93cdb8fe01754dcee0cc529ebff32965abdc6af8b83fe",
+  "input_summary_sha256": "58452e4d4ee81b97f865b0bb9838aa672e0a4815bf7fc3dab9a078fdf06147b7",
+  "matplotlib": "3.10.8",
+  "coverage": {
+    "expected_trials": 96,
+    "invalid_evidence_trials": 4,
+    "missing_trials": 0,
+    "observed_trials": 96,
+    "verified_trials": 87
+  },
+  "figure_names": [
+    "trial-outcomes",
+    "case-completion",
+    "task-cost"
+  ],
+  "interpretation": "Descriptive visualization of frozen outcomes; no new primary score or significance claim."
+}

@@ -1,5 +1,7 @@
 # Kubernetes remediation benchmark v1
 
+The campaign is complete. Read the [audited results and preserved artifacts](../reports/benchmark-v1-2026-10-14/README.md), including timing-validation errata and deadline censoring. The frozen source/plan were not rewritten. The identical-evidence policy means the same approved task/evidence categories; UUID image tags and runtime metadata cause actual prompt bytes to vary between executions.
+
 This version turns the single-workload demo into a **registered public synthetic benchmark**. It has eight cases across two independently implemented services, three pinned models, two methods and two repeated executions: **96 model tasks**. It is not a production-workload benchmark or a hidden held-out evaluation.
 
 The plan is frozen in [plan-v1.json](../benchmark/plan-v1.json) before evaluation inference. The [freeze validator](../scripts/freeze_benchmark_plan.py) recomputes case, fixture, probe, source, evaluator, prompt, schema, model-registry and settings bindings. Changing any evaluated code requires a new plan; results from different plans are not combined as one comparison.

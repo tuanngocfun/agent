@@ -1,0 +1,281 @@
+diff --git a/scripts/benchmark_worker.py b/scripts/benchmark_worker.py
+index d110b1e..fcd6e09 100644
+--- a/scripts/benchmark_worker.py
++++ b/scripts/benchmark_worker.py
+@@ -24,6 +24,7 @@ import uuid
+ ROOT = Path(__file__).resolve().parents[1]
+ sys.path.insert(0, str(ROOT / "src"))
+ from kube_repair.artifacts import canonical, digest, load_bundle, source_fingerprint
++from kube_repair.benchmark_metrics import generation_seconds_from_responses
+ from kube_repair.engine import run_baseline, run_task
+ from kube_repair.kubernetes_backend import image_digest
+ from kube_repair.policy import apply_changes, validate_candidate
+@@ -45,6 +46,12 @@ class WorkerDeadline(BaseException):
+     """Interrupt the engine without disguising a timeout as a model decision."""
+ 
+ 
++def restore_shard_timer(deadline):
++    """Restore the remaining shard timer; an expired deadline stays disarmed."""
++    remaining = deadline - time.monotonic()
++    signal.setitimer(signal.ITIMER_REAL, remaining if remaining > 0 else 0)
++
++
+ def atomic_json(path, value):
+     path = Path(path)
+     temporary = path.with_name("." + path.name + "." + uuid.uuid4().hex + ".tmp")
+@@ -329,16 +336,6 @@ def record_from_bundle(plan, model, method, case, repetition, bundle, audit, roo
+     provider, verification = report["provider"], report["verification"]
+     usage = provider.get("token_usage") or {}
+     complete = usage.get("counts_complete") is True and usage.get("counts_available_calls", 0) > 0
+-    generation_durations = []
+-    for call in provider.get("inference_calls", []):
+-        try:
+-            duration = json.loads(call.get("raw_server_response") or "null").get("eval_duration")
+-        except (ValueError, AttributeError):
+-            duration = None
+-        if type(duration) is not int or duration < 0:
+-            generation_durations = None
+-            break
+-        generation_durations.append(duration / 1e9)
+     metrics = {"inspections": sum(event["event"] == "evidence" for event in trace),
+         "repairs": report["budget"]["candidate_repairs"], "tests": report["budget"]["test_runs"],
+         "model_calls": provider.get("calls"), "prompt_tokens": usage.get("reported_prompt_tokens") if complete else None,
+@@ -346,7 +343,7 @@ def record_from_bundle(plan, model, method, case, repetition, bundle, audit, roo
+         "total_tokens": usage.get("reported_total_tokens") if complete else None,
+         "reserved_tokens": usage.get("reserved_token_upper_bound"), "wall_seconds": report.get("seconds"),
+         "inference_seconds": provider.get("elapsed_seconds"),
+-        "generation_seconds": sum(generation_durations) if generation_durations and complete else None,
++        "generation_seconds": generation_seconds_from_responses(provider.get("inference_calls", []), complete),
+         "protocol_rejections": sum(event["event"] == "rejected_provider_output" for event in trace),
+         "policy_rejections": sum(event["event"] == "rejected_proposal" for event in trace)}
+     audit_path = Path(bundle).parent / "audit.json"
+@@ -603,7 +600,7 @@ def main(argv=None):
+                 if time.monotonic() >= deadline:
+                     raise
+             finally:
+-                signal.setitimer(signal.ITIMER_REAL, max(0.01, deadline - time.monotonic()))
++                restore_shard_timer(deadline)
+             progress("case_finished", case_id=case_id)
+         after_tags, after_ps = http(endpoint + "/api/tags"), http(endpoint + "/api/ps")
+         matching = [entry for entry in after_tags.get("models", []) if entry.get("name") == model["tag"] or entry.get("model") == model["tag"]]
+diff --git a/src/kube_repair/benchmark_reporting.py b/src/kube_repair/benchmark_reporting.py
+index 5d5fa22..23dde5a 100644
+--- a/src/kube_repair/benchmark_reporting.py
++++ b/src/kube_repair/benchmark_reporting.py
+@@ -19,6 +19,7 @@ from pathlib import Path
+ from typing import Any
+ 
+ from .artifacts import canonical, load_bundle
++from .benchmark_metrics import generation_seconds_from_responses
+ from .providers import _validate_action
+ 
+ 
+@@ -247,16 +248,8 @@ def verify_record_evidence(record: dict[str, Any], root: Path, method: dict[str,
+             "protocol_rejections": sum(row.get("event") == "rejected_provider_output" for row in trace),
+             "policy_rejections": sum(row.get("event") == "rejected_proposal" for row in trace),
+         }
+-        durations = []
+-        for call in provider.get("inference_calls", []):
+-            try:
+-                server = json.loads(call.get("raw_server_response") or "null")
+-                value = server.get("eval_duration") if isinstance(server, dict) else None
+-            except json.JSONDecodeError:
+-                value = None
+-            durations.append(value)
+-        generation_available = counts_complete and bool(durations) and all(type(value) is int and value >= 0 for value in durations)
+-        observed_metrics["generation_seconds"] = sum(durations) / 1_000_000_000 if generation_available else None
++        observed_metrics["generation_seconds"] = generation_seconds_from_responses(
++            provider.get("inference_calls", []), counts_complete)
+         for name, observed_value in observed_metrics.items():
+             if name in metrics:
+                 _same_nullable(metrics[name], observed_value, name)
+diff --git a/tests/test_benchmark_reporting.py b/tests/test_benchmark_reporting.py
+index 8523d2f..0e42053 100644
+--- a/tests/test_benchmark_reporting.py
++++ b/tests/test_benchmark_reporting.py
+@@ -1,12 +1,14 @@
+ """Synthetic unit records test reporting guards; they are never benchmark data."""
+ import copy
+ import hashlib
++import importlib.util
+ import json
+ import tempfile
+ import unittest
+ from pathlib import Path
+ 
+ from kube_repair.artifacts import canonical, digest, source_fingerprint, write_bundle
++from kube_repair.benchmark_metrics import generation_seconds_from_responses
+ from kube_repair.benchmark_reporting import (
+     build_summary, expected_cells, generate_reports, render_html, verify_record_evidence,
+     wilson_interval, write_reports,
+@@ -179,6 +181,65 @@ class BenchmarkReportingTests(unittest.TestCase):
+         record["metrics"]["generation_seconds"] = 0.01
+         self.assertFalse(verify_record_evidence(record, self.root)["verified"])
+ 
++    def test_multicall_worker_timing_passes_exact_evidence_check_without_tolerance(self):
++        # This pair exposes the v1 divide-then-sum mismatch by one float ULP.
++        durations = (12_186_673_388, 2_086_699_643)
++        legacy_seconds = sum(value / 1_000_000_000 for value in durations)
++        canonical_seconds = sum(durations) / 1_000_000_000
++        self.assertNotEqual(legacy_seconds, canonical_seconds)
++        initial = self.record(method="feedback")
++        original_bundle = self.root / initial["evidence"]["bundle_path"]
++        values = {name: json.loads((original_bundle / (name + ".json")).read_text())
++                  for name in ("base", "candidate", "report", "trace", "contract")}
++        report, trace = values["report"], values["trace"]
++        provider = report["provider"]
++        first_call = provider["inference_calls"][0]
++        calls = []
++        for index, duration in enumerate(durations):
++            call = copy.deepcopy(first_call)
++            server = json.loads(call["raw_server_response"])
++            if index:
++                call["action"] = {"action": "finish", "reason": "Offline regression fixture"}
++                server["message"]["content"] = json.dumps(call["action"])
++                trace.append({"event": "decision", "action": call["action"]})
++            server["eval_duration"] = duration
++            call["raw_server_response"] = json.dumps(server)
++            call["response_sha256"] = hashlib.sha256(call["raw_server_response"].encode()).hexdigest()
++            calls.append(call)
++        provider.update(inference_calls=calls, calls=2)
++        provider["token_usage"].update(counts_available_calls=2, reported_prompt_tokens=26,
++                                       reported_completion_tokens=14, reported_total_tokens=40)
++        bundle = self.root / "multicall-regression" / "bundle"
++        binding = write_bundle(bundle, values["base"], values["candidate"], report, trace, values["contract"])
++        audit = json.loads((self.root / initial["evidence"]["audit_path"]).read_text())
++        audit["bundle_review_hash"] = binding["review_hash"]
++        path = Path(__file__).resolve().parents[1] / "scripts/benchmark_worker.py"
++        spec = importlib.util.spec_from_file_location("benchmark_worker_timing_regression", path)
++        worker = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(worker)
++        record = worker.record_from_bundle(self.plan, self.model, self.plan["methods"][1],
++            self.plan["cases"][0], 0, bundle, audit, self.root)
++        # Match the worker's later cleanup finalization without running a cluster.
++        record["checks"]["cleanup"] = True
++        record["provenance"]["worker_cleanup"] = audit["worker_cleanup"]
++        self.assertEqual(record["metrics"]["generation_seconds"], canonical_seconds)
++        self.assertTrue(verify_record_evidence(record, self.root)["verified"])
++        record["metrics"]["generation_seconds"] = legacy_seconds
++        rejected = verify_record_evidence(record, self.root)
++        self.assertFalse(rejected["verified"])
++        self.assertIn("generation_seconds", rejected["error"])
++
++    def test_unavailable_generation_timing_is_not_treated_as_zero(self):
++        valid = {"raw_server_response": json.dumps({"eval_duration": 0})}
++        self.assertEqual(generation_seconds_from_responses([valid], True), 0.0)
++        for calls, complete in (([], True), ([valid], False),
++                                ([valid, {"raw_server_response": "{}"}], True),
++                                ([{"raw_server_response": "not json"}], True),
++                                ([{"raw_server_response": '{"eval_duration":true}'}], True),
++                                ([{"raw_server_response": '{"eval_duration":-1}'}], True)):
++            with self.subTest(calls=calls, complete=complete):
++                self.assertIsNone(generation_seconds_from_responses(calls, complete))
++
+     def test_optional_model_pin_file_hash_is_rechecked(self):
+         record = self.record()
+         pin_path = self.root / "model-pin.json"
+diff --git a/tests/test_benchmark_worker.py b/tests/test_benchmark_worker.py
+index 08f00a1..7d766f5 100644
+--- a/tests/test_benchmark_worker.py
++++ b/tests/test_benchmark_worker.py
+@@ -191,6 +191,21 @@ class BenchmarkWorkerAuditTests(unittest.TestCase):
+ 
+ 
+ class BenchmarkWorkerEvidenceTests(unittest.TestCase):
++    def test_expired_shard_timer_stays_disarmed_during_unwind(self):
++        for now in (100.0, 101.0):
++            with self.subTest(now=now), patch.object(worker.time, "monotonic", return_value=now), \
++                    patch.object(worker.signal, "setitimer") as timer:
++                worker.restore_shard_timer(100.0)
++                timer.assert_called_once_with(worker.signal.ITIMER_REAL, 0)
++
++    def test_remaining_shard_timer_uses_actual_time_without_retrigger_floor(self):
++        with patch.object(worker.time, "monotonic", return_value=99.999), \
++                patch.object(worker.signal, "setitimer") as timer:
++            worker.restore_shard_timer(100.0)
++            self.assertEqual(timer.call_args.args[0], worker.signal.ITIMER_REAL)
++            self.assertGreater(timer.call_args.args[1], 0)
++            self.assertLess(timer.call_args.args[1], 0.01)
++
+     def test_interruption_keeps_null_missing_usage_and_nonexportable_progress(self):
+         with tempfile.TemporaryDirectory() as directory:
+             root = Path(directory)
+diff --git a/src/kube_repair/benchmark_metrics.py b/src/kube_repair/benchmark_metrics.py
+new file mode 100644
+index 0000000..4f58339
+--- /dev/null
++++ b/src/kube_repair/benchmark_metrics.py
+@@ -0,0 +1,28 @@
++"""Canonical derived metrics for benchmark recording and evidence checking."""
++from __future__ import annotations
++
++import json
++from typing import Any
++
++
++def generation_seconds_from_responses(
++    calls: list[dict[str, Any]], counts_complete: bool,
++) -> float | None:
++    """Sum original integer nanoseconds before converting once to seconds.
++
++    Missing or invalid timing remains unavailable. Exact agreement between a
++    worker record and its verifier must not depend on float summation order.
++    """
++    if counts_complete is not True or not calls:
++        return None
++    nanoseconds = 0
++    for call in calls:
++        try:
++            response = json.loads(call.get("raw_server_response") or "null")
++        except (TypeError, ValueError):
++            return None
++        duration = response.get("eval_duration") if isinstance(response, dict) else None
++        if type(duration) is not int or duration < 0:
++            return None
++        nanoseconds += duration
++    return nanoseconds / 1_000_000_000
+diff --git a/docs/BENCHMARK_V2_PREPARATION.md b/docs/BENCHMARK_V2_PREPARATION.md
+new file mode 100644
+index 0000000..f174448
+--- /dev/null
++++ b/docs/BENCHMARK_V2_PREPARATION.md
+@@ -0,0 +1,39 @@
++# V2 preparation: fixes only, no registered or executed campaign
++
++This checkout prepares two fixes after the frozen v1 campaign. It contains no
++new model inference or Kubernetes execution results. The evaluated v1 source,
++`benchmark/plan-v1.json`, original outcomes and evidence remain preserved in the
++`kube-remediation-demo` checkout and its evaluated commit.
++
++The worker and reporter now derive generation time through one helper: sum
++server-reported integer nanoseconds, then divide once. Exact evidence equality
++remains enforced. No general float tolerance, hash relaxation or task-outcome
++change is introduced. A two-call regression reproduces the v1 rounding mismatch
++and checks worker-to-reporter agreement; replacing the canonical value with the
++old value still fails evidence verification.
++
++When a case unwinds after the shared shard deadline has expired, its timer
++restoration now leaves SIGALRM disarmed instead of scheduling a new signal in
++10ms. The outer cleanup already disabled the timer before cleanup commands;
++this fix removes the unnecessary interval before reaching that cancellation.
++It does not establish that v1 cleanup failed.
++
++The conservative UTF-8 reservation budget, actual token counters, model prompts,
++completion policy, CPU allocation, case ordering and deadlines are unchanged.
++In particular, reservations are not reset to reported usage: interrupted calls
++can have unknown token usage.
++
++Before any future campaign, register a distinct v2 plan against the final v2
++source and state its budget explicitly. Possible operational changes need a
++measured pilot: independent per-case time allowances, setup accounted separately,
++or one case per worker. The v1 artifacts record the actual CPU inventory; do not
++assume four available CPUs or a twofold speedup. Increasing every existing
++worker timeout to 35 minutes would permit 1,680 runner-minutes before CI and
++reporting, exceeding the previously authorized 1,000-minute campaign ceiling.
++
++No v2 plan has been frozen. Consequently, checking the preserved v1 plan against
++this modified source must fail. Offline tests that construct a temporary plan
++test consistency of the preparation source; they do not register a campaign.
++Do not delete or regenerate `benchmark/plan-v1.json` to make this checkout pass
++the v1 freeze check, and do not execute its existing v1 benchmark workflow from
++this preparation branch.

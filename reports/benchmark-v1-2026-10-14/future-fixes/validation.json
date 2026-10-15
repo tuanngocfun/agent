@@ -1,0 +1,72 @@
+{
+  "status": "offline_preparation_validated_not_registered_or_executed",
+  "base_commit": "b5fc820e9ef857a82a0861132d5c41faef025002",
+  "full_offline_suite": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -v",
+    "tests": 189,
+    "seconds": 3.482,
+    "result": "passed"
+  },
+  "legacy_mutation_checks": {
+    "old_float_sum_rejected": true,
+    "old_expired_timer_rejected": true,
+    "in_memory_only": true,
+    "expected_regression_failures": 3
+  },
+  "preserved_v1_plan_check": {
+    "exit_code": 1,
+    "expected_rejection": true,
+    "differing_keys": [
+      "evaluator_fingerprint",
+      "plan_id",
+      "source_fingerprint"
+    ]
+  },
+  "unchanged_files_byte_verified_against_frozen_checkout": [
+    "benchmark/plan-v1.json",
+    "src/kube_repair/providers.py",
+    "src/kube_repair/engine.py",
+    "src/kube_repair/benchmark_protocol.py",
+    ".github/workflows/benchmark.yml",
+    ".github/workflows/ci.yml"
+  ],
+  "changed_files": [
+    {
+      "path": "scripts/benchmark_worker.py",
+      "sha256": "231b1f8ee3d18eced13d4ea0f705bcc825b56b4f3dcd13aebb034855150e6360",
+      "bytes": 44019
+    },
+    {
+      "path": "src/kube_repair/benchmark_reporting.py",
+      "sha256": "4a580fed82b7f01d5d6a6a43f5e5465e35aafec5fc823e4ba4f3178c503947ac",
+      "bytes": 44471
+    },
+    {
+      "path": "src/kube_repair/benchmark_metrics.py",
+      "sha256": "a0ae5bc04ee38f8367b836409d6b7958babdb03fe85d092f8095be3c9436af8a",
+      "bytes": 1008
+    },
+    {
+      "path": "tests/test_benchmark_reporting.py",
+      "sha256": "6f68b1c99da1a6a147d2580ce75db8068222757994e2f9e0e1c205a8b72ce1c7",
+      "bytes": 20262
+    },
+    {
+      "path": "tests/test_benchmark_worker.py",
+      "sha256": "46d8b36c334b71cb1aa053409570bc4aa7d722e3b3bc498472478c4d43142cab",
+      "bytes": 16751
+    },
+    {
+      "path": "docs/BENCHMARK_V2_PREPARATION.md",
+      "sha256": "b7154a7e73dce1f4de4a99da3219e967f6ac32137550ab088a110df64dca2ec0",
+      "bytes": 2391
+    }
+  ],
+  "patch_sha256": "64a8d18929df37657b0a8fbe61f4b7612f98d4b000f3b899c67e6703da0cdb1f",
+  "patch_bytes": 15660,
+  "model_calls": 0,
+  "kubernetes_runs": 0,
+  "github_actions_runs": 0,
+  "git_commits_created": 0,
+  "remote_publication_performed": false
+}
