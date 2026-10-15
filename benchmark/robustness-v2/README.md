@@ -25,7 +25,7 @@ This campaign uses the previously pinned **Qwen2.5 3B Instruct** CPU model. It s
 
 ## Execution and success criteria
 
-The manual [workflow](../../.github/workflows/robustness-v2.yml) has two stages. First, it runs no-op, naive hardening, fixed-template and reference controls on disposable Kubernetes. Initial states and all feasible reference repairs must be validated with clean namespace/cluster cleanup. The model stage requires that successful validation artifact from the exact evaluated Git commit and protocol.
+The explicitly requested [workflow](../../.github/workflows/robustness-v2.yml) has two stages. First, it runs no-op, naive hardening, fixed-template and reference controls on disposable Kubernetes. Initial states and all feasible reference repairs must be validated with clean namespace/cluster cleanup. The model stage requires that successful validation artifact from the exact registered source and protocol. Only the run-request file may differ between validation and model-dispatch commits.
 
 Each trial creates an owned namespace. Subsequent proposals update the original resources, preserving their UIDs. Only explicitly approved resource paths may change; images, application commands, evaluation settings and resource identities are protected. Security checks cover namespace admission, container controls, live process UID/GID, no-new-privileges, capabilities, seccomp, root mount flags, workload ownership and image identity. RBAC cases include actual authenticated application API operations and separate allow/deny authorization checks.
 
@@ -44,7 +44,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -
 python3 -B scripts/freeze_robustness_plan.py --check benchmark/robustness-v2/plan.json
 ```
 
-Start `Kubernetes robustness v2` on `kube-remediation-demo` with stage `validate`. After it succeeds, start stage `models` with that actual validation run ID. Model execution is manual to avoid accidental repeated campaigns. Do not dispatch another campaign without reconciling the cumulative budget ledger.
+The default branch does not contain this workflow, so GitHub's manual-dispatch endpoint cannot start it there. On `kube-remediation-demo`, commit an explicit [request.json](request.json) with stage `validate`. After it succeeds, change only that file to stage `models` with the actual `validation_run_id` and a new request ID. Only changes to this request path trigger execution; ordinary code or documentation pushes do not start model campaigns. The workflow also supports manual dispatch if it is later registered on the default branch. Do not dispatch another campaign without reconciling the cumulative budget ledger.
 
 The registered workload caps are 20 runner-minutes for reference validation, five model shards of 32 minutes each, and five minutes for reporting. Protocol and ordinary CI jobs consume additional minutes. Before this work, all visible repository jobs totaled 767 minutes after per-job rounding, leaving 233 of the user's authorized 1,000; that is a conservative job-duration proxy, not a billing invoice. Reconcile actual usage before each dispatch.
 

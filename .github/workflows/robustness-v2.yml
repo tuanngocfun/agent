@@ -1,6 +1,9 @@
 name: Kubernetes robustness v2
 
 on:
+  push:
+    branches: [kube-remediation-demo]
+    paths: [benchmark/robustness-v2/request.json]
   workflow_dispatch:
     inputs:
       stage:
@@ -25,20 +28,46 @@ jobs:
   protocol:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    outputs:
+      stage: ${{ steps.request.outputs.stage }}
+      validation_run_id: ${{ steps.request.outputs.validation_run_id }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+      - name: Read the explicit, bounded run request
+        id: request
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          MANUAL_STAGE: ${{ inputs.stage }}
+          MANUAL_VALIDATION_RUN: ${{ inputs.validation_run_id }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re
+          if os.environ['EVENT_NAME'] == 'push':
+              request = json.loads(pathlib.Path('benchmark/robustness-v2/request.json').read_text())
+              if request.get('schema_version') != 1:
+                  raise SystemExit('Unknown run-request schema')
+              stage, run_id = request.get('stage'), str(request.get('validation_run_id') or '')
+          else:
+              stage, run_id = os.environ['MANUAL_STAGE'], os.environ['MANUAL_VALIDATION_RUN']
+          if stage not in ('validate','models') or run_id and not re.fullmatch(r'[0-9]{1,20}', run_id):
+              raise SystemExit('Invalid bounded run request')
+          if stage == 'models' and not run_id:
+              raise SystemExit('Models require an actual successful validation run ID')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+              output.write('stage='+stage+'\nvalidation_run_id='+run_id+'\n')
+          PY
       - name: Verify the registered source and meaningful harness tests
         run: |
           PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_robustness_plan.py --check benchmark/robustness-v2/plan.json
           PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_robustness_*.py' -v
           PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_benchmark_plan.py --check benchmark/plan-v1.json
       - name: Require successful reference validation on this commit before models
-        if: inputs.stage == 'models'
+        if: steps.request.outputs.stage == 'models'
         env:
           GH_TOKEN: ${{ github.token }}
-          PILOT_RUN_ID: ${{ inputs.validation_run_id }}
+          PILOT_RUN_ID: ${{ steps.request.outputs.validation_run_id }}
           EXPECTED_SHA: ${{ github.sha }}
         run: |
           python3 - <<'PY'
@@ -48,8 +77,12 @@ jobs:
               raise SystemExit('An actual successful validation run ID is required')
           repo = os.environ['GITHUB_REPOSITORY']
           run = json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run_id}']))
-          if run['conclusion'] != 'success' or run['head_sha'] != os.environ['EXPECTED_SHA'] or run['name'] != 'Kubernetes robustness v2':
-              raise SystemExit('Validation must succeed on the exact evaluated commit')
+          if run['conclusion'] != 'success' or run['name'] != 'Kubernetes robustness v2':
+              raise SystemExit('An actual successful reference validation is required')
+          if run['head_sha'] != os.environ['EXPECTED_SHA']:
+              comparison = json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/compare/{run['head_sha']}...{os.environ['EXPECTED_SHA']}"]))
+              if comparison['status'] not in ('ahead','identical') or any(item['filename'] != 'benchmark/robustness-v2/request.json' for item in comparison.get('files',[])):
+                  raise SystemExit('Only the run-request file may differ from the validated source commit')
           subprocess.run(['gh','run','download',run_id,'--repo',repo,'--name','robustness-validation','--dir','runs/validated-reference'],check=True)
           root = pathlib.Path('runs/validated-reference')
           plan = json.loads(pathlib.Path('benchmark/robustness-v2/plan.json').read_text())
@@ -71,7 +104,7 @@ jobs:
           PY
 
   validate:
-    if: inputs.stage == 'validate'
+    if: needs.protocol.outputs.stage == 'validate'
     needs: protocol
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -99,7 +132,7 @@ jobs:
           if-no-files-found: warn
 
   models:
-    if: inputs.stage == 'models'
+    if: needs.protocol.outputs.stage == 'models'
     needs: protocol
     runs-on: ubuntu-24.04
     timeout-minutes: 32
@@ -133,7 +166,7 @@ jobs:
           if-no-files-found: warn
 
   report:
-    if: always() && inputs.stage == 'models'
+    if: always() && needs.protocol.outputs.stage == 'models'
     needs: [protocol, models]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -148,7 +181,7 @@ jobs:
       - name: Download the independently executed reference controls
         env:
           GH_TOKEN: ${{ github.token }}
-          PILOT_RUN_ID: ${{ inputs.validation_run_id }}
+          PILOT_RUN_ID: ${{ needs.protocol.outputs.validation_run_id }}
         run: gh run download "$PILOT_RUN_ID" --repo "$GITHUB_REPOSITORY" --name robustness-validation --dir runs/validated-reference
       - name: Recompute all registered cells, costs and paired comparisons
         run: |
