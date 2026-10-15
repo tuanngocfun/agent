@@ -135,6 +135,18 @@ def _case(case_id, family, source, instruction, resources, edits, contract, *, e
     allowed = _authority(resources)
     controls = {(item["resource"], item["path"]): item for item in _protected_container_controls(resources)}
     controls.update({(item["resource"], item["path"]): item for item in contract["security_checks"]})
+    repair_targets = {(item["resource"], item["path"]) for item in edits}
+    for obj in resources:
+        if obj["kind"] not in {"Deployment", "Job"}:
+            continue
+        key = obj["kind"] + "/" + obj["metadata"]["name"]
+        pod = obj["spec"]["template"]["spec"]
+        for collection in ("containers", "initContainers"):
+            for index, container in enumerate(pod.get(collection, [])):
+                for mount_index, mount in enumerate(container.get("volumeMounts", [])):
+                    path = "/spec/template/spec/%s/%s/volumeMounts/%s/readOnly" % (collection, index, mount_index)
+                    if mount.get("readOnly") is True and (key, path) not in repair_targets:
+                        controls[(key, path)] = _edit(key, path, True)
     contract["security_checks"] = list(controls.values())
     return {"id": case_id, "family": family, "source": source, "expected": expected,
             "instruction": instruction, "resources": resources, "allowed_paths": allowed,

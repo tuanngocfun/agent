@@ -39,6 +39,20 @@ class RobustnessCasesTests(unittest.TestCase):
         self.assertTrue(any(row["verb"] == "get" and row["resource"] == "configmaps" and row["allowed"] for row in checks))
         self.assertTrue(any(row["verb"] == "list" and row["resource"] == "configmaps" and row["allowed"] for row in checks))
 
+    def test_readonly_consumers_remain_protected_while_defective_write_mounts_can_change(self):
+        from kube_robustness.methods import apply_edits
+        from kube_robustness.runtime import evaluate_static_resources
+        for case in all_cases():
+            candidate = apply_edits(case["resources"], case["oracle_edits"], case["allowed_paths"])
+            if case["expected"] != "abstain":
+                self.assertTrue(all(row["passed"] for row in evaluate_static_resources(case, candidate)), case["id"])
+            for required in case["contract"]["security_checks"]:
+                if not required["path"].endswith("/readOnly") or required["value"] is not True:
+                    continue
+                changed = copy.deepcopy(candidate)
+                set_pointer(inventory({"resources": changed})[required["resource"]], required["path"], False)
+                self.assertFalse(all(row["passed"] for row in evaluate_static_resources(case, changed)), (case["id"], required))
+
     def test_disposable_workloads_have_short_immutable_shutdown_grace(self):
         for case in all_cases():
             for resource in case["resources"]:

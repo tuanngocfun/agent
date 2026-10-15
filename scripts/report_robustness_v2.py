@@ -540,6 +540,9 @@ def verify_image_setup(plan: dict, shard: Path, documents: dict) -> None:
 def audit_controls(plan: dict, shard: Path | None) -> dict:
     if shard is None:
         return {"provided": False, "rows": [], "groups": [], "limitations": ["No deterministic-control artifact was supplied."]}
+    if shard.is_symlink() or not shard.is_dir():
+        raise ValueError("Control artifact must be a regular directory")
+    shard = shard.resolve()
     from kube_robustness.protocol import validate_plan as validate_source_plan
     validate_source_plan(plan)
     if read_json(evidence_path(shard, "plan.json")) != plan:
@@ -743,6 +746,7 @@ def build_summary(plan: dict, shard_dirs: list[Path], *, auditor: Callable = aud
     for shard in shard_dirs:
         if shard.is_symlink() or not shard.is_dir():
             raise ValueError(f"Shard is not a regular directory: {shard}")
+        shard = shard.resolve()
         if read_json(evidence_path(shard, "plan.json")) != plan:
             raise ValueError("Shard frozen plan differs from the requested experiment")
         summary_path = evidence_path(shard, "summary.json")

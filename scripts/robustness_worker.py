@@ -246,6 +246,7 @@ def main(argv=None):
                 correct = (final["passed"] and result["resources"] != active_session.case["resources"] and decision.get("action") in {"patch", "finish"}) if expected == "repair" else (
                     final["passed"] and result["resources"] == active_session.case["resources"] and decision.get("action") == "finish") if expected == "unchanged" else (
                     not final["passed"] and decision.get("action") == "abstain" and bool(decision.get("reason", "").strip()))
+                correct = correct and result["status"] not in {"model-error", "policy-error"}
                 row = {"schema_version": "robustness-v2-record-v1", **cell, "plan_id": plan["plan_id"], "source_sha256": plan["source_sha256"],
                        "case_definition_sha256": case["definition_sha256"], "namespace": active_session.namespace, "fixture_image": fixture_image,
                        "expected": expected, "status": "infrastructure_failure" if initial["infrastructure_error"] or final["infrastructure_error"] else "provider_failure" if result["status"] == "model-error" and not any(call.get("raw_server_response") for call in result["calls"]) else "completed",

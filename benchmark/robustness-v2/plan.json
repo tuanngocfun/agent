@@ -362,11 +362,21 @@
             "path": "/spec/template/spec/initContainers/0/securityContext/seccompProfile/type",
             "resource": "Deployment/activity-api",
             "value": "RuntimeDefault"
+          },
+          {
+            "path": "/spec/template/spec/containers/0/volumeMounts/0/readOnly",
+            "resource": "Deployment/activity-api",
+            "value": true
+          },
+          {
+            "path": "/spec/template/spec/containers/1/volumeMounts/0/readOnly",
+            "resource": "Deployment/activity-api",
+            "value": true
           }
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "6ba1e548d8b7976d31e9e01ebd62a66b190f97efe477b87da8c03d3df9e32548",
+      "definition_sha256": "57f8eabe03320296d4d0cdf2543114e81365c62bf538f516b579386b2f608243",
       "expected": "repair",
       "family": "multi-container-admission",
       "id": "restricted-init-sidecar",
@@ -2274,11 +2284,16 @@
             "path": "/spec/template/spec/securityContext/fsGroup",
             "resource": "Deployment/shared-artifact",
             "value": 10001
+          },
+          {
+            "path": "/spec/template/spec/containers/0/volumeMounts/0/readOnly",
+            "resource": "Deployment/shared-artifact",
+            "value": true
           }
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "b7ffcb60a50e423d3275822185cf1cdf5f50d44b021a7cfb188dbde4a724a668",
+      "definition_sha256": "1a82c6c03203f0948ffecf3e065bcf6d9d37270f29650766d51e8e7b1840c5b3",
       "expected": "repair",
       "family": "shared-volume-group-access",
       "id": "shared-artifact-group",
@@ -3451,7 +3466,7 @@
       "weight_bytes": 1929903008
     }
   ],
-  "plan_id": "robustness-v2-ccd201b7d97aba5975f886b8f99779eb9e6123e0de440e0185115138bdcfca6e",
+  "plan_id": "robustness-v2-0b2666e6ec62a843d35dcabe14599e9f55340e92404749322dff95b46f8d8333",
   "protocol_id": "kubernetes-robustness-v2-cpu-pilot",
   "schema_version": 1,
   "settings": {
@@ -3467,5 +3482,5 @@
     "temperature": 0
   },
   "source_plan_sha256": "9fb9509904fc14521d7f03fa13a778cf2207fc16cf2e1573c7d69d2a3a42868c",
-  "source_sha256": "b2cf59777a5862313ce22e3a7dce09e06ddcd8e33ed9156e6ea501eceac40ff5"
+  "source_sha256": "f49a4550e31d63dcd4fd949a52aaeef617c63c08e0196747ebca62b1c931ca0b"
 }

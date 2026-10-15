@@ -78,6 +78,21 @@ def pod_spec(resource):
     return None
 
 
+def selected_log_pod(assertion, pods, replicas):
+    """Select only a caller-filtered current pod owned by the stated workload."""
+    for pod in pods:
+        owner = next((value for value in pod["metadata"].get("ownerReferences", []) if value.get("controller")), {})
+        resource = "Job/" + owner.get("name", "")
+        if owner.get("kind") == "ReplicaSet":
+            replica = replicas.get(owner.get("name"), {})
+            deployment = next((value for value in replica.get("metadata", {}).get("ownerReferences", [])
+                               if value.get("kind") == "Deployment" and value.get("controller")), {})
+            resource = "Deployment/" + deployment.get("name", "")
+        if resource == assertion["resource"]:
+            return pod["metadata"]["name"]
+    return None
+
+
 def evaluate_static_resources(case, resources):
     checks = []
     objects = {identity(item): item for item in resources}
@@ -173,6 +188,17 @@ class KubernetesSession:
         self.current = copy.deepcopy(self.case["resources"])
         return self
 
+    def _behavior_log_observations(self, pods, replicas):
+        observations = []
+        for assertion in self.case["contract"]["behavior_checks"]:
+            selected_name = selected_log_pod(assertion, pods, replicas)
+            target = selected_name or assertion["resource"]
+            row = self.call(["-n", self.namespace, "logs", target, "-c", assertion["container"],
+                             "--tail=40", "--pod-running-timeout=1s"], timeout=5, allow_failure=True)
+            observations.append({**assertion, "pod": selected_name, "stdout": row.get("stdout", ""),
+                                 "stderr": row.get("stderr", ""), "exit_code": row["exit_code"]})
+        return observations
+
     def verify(self, resources, *, max_wait=None):
         started = time.monotonic_ns()
         self._verify_command_start = len(self.commands)
@@ -209,6 +235,7 @@ class KubernetesSession:
             self.current = copy.deepcopy(resources)
             deadline = time.monotonic() + (max_wait if max_wait is not None else self.case["contract"]["timeout_seconds"])
             last_pods = []
+            last_logs = None
             replicas = {}
             def current_replica(name):
                 if name not in replicas:
@@ -249,7 +276,14 @@ class KubernetesSession:
                         terminated = status.get("state", {}).get("terminated", {})
                         fatal_workload |= bool(terminated and terminated.get("exitCode") != 0)
                         fatal_workload |= waiting.get("reason") in {"CrashLoopBackOff", "CreateContainerConfigError"}
-                if workload_ready or fatal_workload or time.monotonic() >= deadline:
+                # Running/Ready does not guarantee that startup output has
+                # reached the CRI log endpoint yet. Observe protected markers
+                # within the existing readiness window; never reapply repairs.
+                if workload_ready and not fatal_workload and time.monotonic() < deadline:
+                    last_logs = self._behavior_log_observations(last_pods, replicas)
+                    if all(row["exit_code"] == 0 and row["contains"] in row["stdout"] for row in last_logs):
+                        break
+                if fatal_workload or time.monotonic() >= deadline:
                     break
                 # Explicit admission denials are task feedback rather than an infrastructure outage.
                 if not last_pods:
@@ -260,7 +294,7 @@ class KubernetesSession:
                     if denied:
                         runtime["admission_errors"] = denied
                         break
-                time.sleep(0.35)
+                time.sleep(min(0.35, max(0, deadline - time.monotonic())))
             for name in self.case["contract"]["ready_deployments"]:
                 observed = self.read(["-n", self.namespace, "get", "deployment", name])
                 status = observed.get("status", {})
@@ -271,23 +305,14 @@ class KubernetesSession:
                 observed = self.read(["-n", self.namespace, "get", "job", name])
                 runtime["workloads"]["Job/" + name] = {"uid": observed["metadata"]["uid"], "generation": observed["metadata"].get("generation", 1), "status": observed.get("status", {})}
                 checks.append(check("behavior:complete:Job/" + name, observed.get("status", {}).get("succeeded", 0) == 1, observed.get("status", {})))
-            # Read actual workload logs through its controller, not a caller-supplied pod name.
-            for assertion in self.case["contract"]["behavior_checks"]:
-                selected_name = None
-                for pod in last_pods:
-                    owner = next((o for o in pod["metadata"].get("ownerReferences", []) if o.get("controller")), {})
-                    key = "Job/" + owner.get("name", "")
-                    if owner.get("kind") == "ReplicaSet":
-                        replica = replicas[owner["name"]]
-                        deployment_owner = next((o for o in replica["metadata"].get("ownerReferences", []) if o.get("controller")), {})
-                        key = "Deployment/" + deployment_owner.get("name", "")
-                    if key == assertion["resource"]:
-                        selected_name = pod["metadata"]["name"]
-                        break
-                log_target = selected_name or assertion["resource"]
-                row = self.call(["-n", self.namespace, "logs", log_target, "-c", assertion["container"], "--tail=40", "--pod-running-timeout=1s"], timeout=5, allow_failure=True)
-                runtime["behavior_logs"].append({**assertion, "pod": selected_name, "stdout": row.get("stdout", ""), "stderr": row.get("stderr", ""), "exit_code": row["exit_code"]})
-                checks.append(check("behavior:log:" + assertion["resource"] + "/" + assertion["container"], row["exit_code"] == 0 and assertion["contains"] in row["stdout"], row.get("stdout", "")[-2000:]))
+            # Reuse actual observations only while still bound to the selected
+            # current pod. Fatal/admission/deadline exits keep one diagnostic read.
+            if last_logs is None or any(row["pod"] != selected_log_pod(row, last_pods, replicas) for row in last_logs):
+                last_logs = self._behavior_log_observations(last_pods, replicas)
+            runtime["behavior_logs"] = last_logs
+            for row in last_logs:
+                checks.append(check("behavior:log:" + row["resource"] + "/" + row["container"],
+                                    row["exit_code"] == 0 and row["contains"] in row["stdout"], row["stdout"][-2000:]))
             for assertion in self.case["contract"]["rbac_checks"]:
                 target = assertion["resource"] + ("/" + assertion["resource_name"] if assertion.get("resource_name") else "")
                 row = self.call(["-n", self.namespace, "auth", "can-i", assertion["verb"], target,
