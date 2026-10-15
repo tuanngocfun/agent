@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"pod-default-automount","namespace":"k8s-opa-static-cis-516"},"spec":{"containers":[{"image":"nginx:latest","name":"nginx","ports":[{"containerPort":80}]}],"serviceAccountName":"sa-default"}}
+
+      '
+  creationTimestamp: '2026-03-06T12:56:28Z'
+  name: pod-default-automount
+  namespace: k8s-opa-static-cis-516
+  resourceVersion: '3033694'
+  uid: e19cf7a3-5fbd-4084-a269-66f7a0eb56e6
+spec:
+  containers:
+  - image: nginx:latest
+    imagePullPolicy: Always
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-c6jks
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-1-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: sa-default
+  serviceAccountName: sa-default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-c6jks
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:56:29Z'
+    status: 'True'
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:56:28Z'
+    status: 'True'
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:56:29Z'
+    status: 'True'
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:56:29Z'
+    status: 'True'
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:56:28Z'
+    status: 'True'
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://dcd1306c1511f86b831bfc160ceefb8a2ff1a3b42bee6caf860eba38ea708efd
+    image: docker.io/library/nginx:latest
+    imageID: docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e
+    lastState: {}
+    name: nginx
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: '2026-03-06T12:56:29Z'
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-c6jks
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  phase: Running
+  podIP: 10.244.0.172
+  podIPs:
+  - ip: 10.244.0.172
+  qosClass: BestEffort
+  startTime: '2026-03-06T12:56:28Z'

@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"labels":{"app":"reader"},"name":"specific-rolebinding","namespace":"k8s-opa-static-cis-513"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"specific-role"},"subjects":[{"kind":"ServiceAccount","name":"reader-sa","namespace":"k8s-opa-static-cis-513"}]}
+
+      '
+  creationTimestamp: '2026-03-06T11:33:14Z'
+  labels:
+    app: reader
+  name: specific-rolebinding
+  namespace: k8s-opa-static-cis-513
+  resourceVersion: '3016029'
+  uid: e04989f1-7d15-4313-ae75-f57052442591
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: specific-role
+subjects:
+- kind: ServiceAccount
+  name: reader-sa
+  namespace: k8s-opa-static-cis-513

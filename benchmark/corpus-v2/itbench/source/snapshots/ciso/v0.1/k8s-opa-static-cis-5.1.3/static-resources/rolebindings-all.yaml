@@ -1,0 +1,69 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"labels":{"app":"benchmark","component":"benchmark-service"},"name":"benchmark-rolebinding","namespace":"k8s-opa-static-cis-513"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"benchmark-role"},"subjects":[{"kind":"ServiceAccount","name":"benchmark-sa","namespace":"k8s-opa-static-cis-513"}]}
+    creationTimestamp: "2026-03-06T11:33:10Z"
+    labels:
+      app: benchmark
+      component: benchmark-service
+    name: benchmark-rolebinding
+    namespace: k8s-opa-static-cis-513
+    resourceVersion: "3016010"
+    uid: 72bd8b63-1372-4e8b-8927-94c2ec30ae69
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: benchmark-role
+  subjects:
+  - kind: ServiceAccount
+    name: benchmark-sa
+    namespace: k8s-opa-static-cis-513
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"labels":{"app":"reader"},"name":"specific-rolebinding","namespace":"k8s-opa-static-cis-513"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"specific-role"},"subjects":[{"kind":"ServiceAccount","name":"reader-sa","namespace":"k8s-opa-static-cis-513"}]}
+    creationTimestamp: "2026-03-06T11:33:14Z"
+    labels:
+      app: reader
+    name: specific-rolebinding
+    namespace: k8s-opa-static-cis-513
+    resourceVersion: "3016029"
+    uid: e04989f1-7d15-4313-ae75-f57052442591
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: specific-role
+  subjects:
+  - kind: ServiceAccount
+    name: reader-sa
+    namespace: k8s-opa-static-cis-513
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"labels":{"app":"myapp"},"name":"wildcard-rolebinding","namespace":"k8s-opa-static-cis-513"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"wildcard-role"},"subjects":[{"kind":"ServiceAccount","name":"app-sa","namespace":"k8s-opa-static-cis-513"}]}
+    creationTimestamp: "2026-03-06T11:33:12Z"
+    labels:
+      app: myapp
+    name: wildcard-rolebinding
+    namespace: k8s-opa-static-cis-513
+    resourceVersion: "3016019"
+    uid: 939d5ba7-69a9-42e3-8b8d-8c7b8baec48b
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: wildcard-role
+  subjects:
+  - kind: ServiceAccount
+    name: app-sa
+    namespace: k8s-opa-static-cis-513
+kind: List
+metadata:
+  resourceVersion: ""

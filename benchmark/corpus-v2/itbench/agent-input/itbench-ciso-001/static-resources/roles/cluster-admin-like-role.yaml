@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"cluster-admin-like-role","namespace":"k8s-opa-static-cis-511"},"rules":[{"apiGroups":["*"],"resources":["*"],"verbs":["*"]}]}
+
+      '
+  creationTimestamp: '2026-03-06T10:39:32Z'
+  name: cluster-admin-like-role
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: '3004927'
+  uid: 005d5031-42ad-4112-8eda-ea71632ea38a
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'

@@ -1,0 +1,1 @@
+{"resources":[{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"labels":{"app.kubernetes.io/part-of":"resource-0233c98a1acba18b","corpus.example/group":"group-b0eb9d906834c56a"},"name":"resource-b547f7474d9850d3","namespace":"resource-0233c98a1acba18b"},"rules":[{"apiGroups":[""],"resources":["jobs"],"verbs":["*"]}]}],"schema_version":"kalm-static-input-v1"}

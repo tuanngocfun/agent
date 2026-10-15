@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"compliant-pod","namespace":"k8s-opa-static-cis-515"},"spec":{"containers":[{"image":"nginx:1.20","name":"nginx","ports":[{"containerPort":80}]}],"serviceAccountName":"custom-service-account"}}
+
+      '
+  creationTimestamp: '2026-03-06T12:25:40Z'
+  name: compliant-pod
+  namespace: k8s-opa-static-cis-515
+  resourceVersion: '3027175'
+  uid: e805c1ca-2095-487e-ac8a-f79084f03403
+spec:
+  containers:
+  - image: nginx:1.20
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mp92g
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-1-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: custom-service-account
+  serviceAccountName: custom-service-account
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-mp92g
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:25:41Z'
+    status: 'True'
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:25:40Z'
+    status: 'True'
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:25:41Z'
+    status: 'True'
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:25:41Z'
+    status: 'True'
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T12:25:40Z'
+    status: 'True'
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://42fb38c06fcddcfc3e40aff4f9f15b3f2c2f6f8bd6b1f2a6e2a07fb671f92db7
+    image: docker.io/library/nginx:1.20
+    imageID: docker.io/library/nginx@sha256:38f8c1d9613f3f42e7969c3b1dd5c3277e635d4576713e6453c6193e66270a6d
+    lastState: {}
+    name: nginx
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: '2026-03-06T12:25:41Z'
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mp92g
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  phase: Running
+  podIP: 10.244.0.165
+  podIPs:
+  - ip: 10.244.0.165
+  qosClass: BestEffort
+  startTime: '2026-03-06T12:25:40Z'

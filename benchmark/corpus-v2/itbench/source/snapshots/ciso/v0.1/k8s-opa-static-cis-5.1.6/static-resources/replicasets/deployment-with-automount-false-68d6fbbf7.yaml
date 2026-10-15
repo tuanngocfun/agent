@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '1'
+  creationTimestamp: '2026-03-06T12:56:29Z'
+  generation: 1
+  labels:
+    app: test-app-false
+    pod-template-hash: 68d6fbbf7
+  name: deployment-with-automount-false-68d6fbbf7
+  namespace: k8s-opa-static-cis-516
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: deployment-with-automount-false
+    uid: 1a8954ea-e395-420f-ad0b-5cfd04653e9a
+  resourceVersion: '3033720'
+  uid: 1df89545-2a25-4245-ade4-24ad7a92c747
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app-false
+      pod-template-hash: 68d6fbbf7
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: test-app-false
+        pod-template-hash: 68d6fbbf7
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - image: nginx:latest
+        imagePullPolicy: Always
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: sa-with-automount-false
+      serviceAccountName: sa-with-automount-false
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

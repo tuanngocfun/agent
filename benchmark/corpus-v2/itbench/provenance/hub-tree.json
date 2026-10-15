@@ -1,0 +1,3110 @@
+[
+  {
+    "oid": "7abbc40f06c6f732d4c02a1d612b25e3173174a7",
+    "path": "snapshots/ciso/v0.1/README-eval.md",
+    "size": 7686,
+    "type": "file"
+  },
+  {
+    "oid": "fb7b37d57ccab948b3175b911320ab35065c7a6a",
+    "path": "snapshots/ciso/v0.1/README.md",
+    "size": 5498,
+    "type": "file"
+  },
+  {
+    "oid": "ff645b8553e4bfc2f1a99807363ba17bb1d44dcd",
+    "path": "snapshots/ciso/v0.1/eval.py",
+    "size": 16813,
+    "type": "file"
+  },
+  {
+    "oid": "47aff7039d360bde92b2ef499772277248233312",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "3938b348f1d42782e519f7a5067e4d0f6443c268",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0236192a090762c02d38839a69a0e9630083b495",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/ground-truth/collected_data.json",
+    "size": 64,
+    "type": "file"
+  },
+  {
+    "oid": "5b13ccac546a03bbfcba3a5809c6c56b935625d1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/ground-truth/fetch.sh",
+    "size": 1627,
+    "type": "file"
+  },
+  {
+    "oid": "6cbac3e9f34281c66a04b22cb88651a881080960",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/ground-truth/policy.rego",
+    "size": 1312,
+    "type": "file"
+  },
+  {
+    "oid": "5bc9a2fcb1d91e27aa1dbacc3700b0b4ac993a56",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/problem.md",
+    "size": 2583,
+    "type": "file"
+  },
+  {
+    "oid": "1d5127434cf6441798d67d993a3d81f51ea9204c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "42a9d9268060bcb442728920a7a6b2f626ac7b53",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "95b9ad2c55e7c96d125dc0ffa26f958ef92e0e97",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2c22d68bddb864d256b7b1f18de40b3930f3384e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "size": 1714,
+    "type": "file"
+  },
+  {
+    "oid": "6e6529cb57c4fe876d60f12bc74c6b5acae0c502",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "6527d83bafa0e6a9dc5c684542e6e06b550fdb26",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/deployments/test-deployment.yaml",
+    "size": 2187,
+    "type": "file"
+  },
+  {
+    "oid": "e4d3ca342440f0b0bdc8f33872290685af07e2d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "9c14577454d82bed748ddae6c6077d6080e9acdc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/pods/test-deployment-8d799b458-pvbmp.yaml",
+    "size": 3306,
+    "type": "file"
+  },
+  {
+    "oid": "ed25509502d9071a1d8162c54f5080f0239e6b24",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ebb47bf64810368aeae142a4ac019a4f77881458",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/replicasets/test-deployment-8d799b458.yaml",
+    "size": 1530,
+    "type": "file"
+  },
+  {
+    "oid": "640bb23c8de9c32468c164f8925f12e77ee0ebf1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "95ed5650958762dd39d3ca2a035598548ba7c4ef",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/benchmark-admin-binding.yaml",
+    "size": 882,
+    "type": "file"
+  },
+  {
+    "oid": "0dd256dfbc2ef48523df579d6a3d7363047eb4f0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/benchmark-binding.yaml",
+    "size": 844,
+    "type": "file"
+  },
+  {
+    "oid": "7fded9fef151e0004d26d9a4fe9d58a39031caa7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/compliant-binding.yaml",
+    "size": 852,
+    "type": "file"
+  },
+  {
+    "oid": "fb2dfe44240770f447b6f71c2b3af5be2d8aedc4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e1a3c70f46b75f3edbb966468f919ec57e54ebcc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/benchmark-admin-role.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "bc5ddbcdbc5e2f5d54cbae80525eb60df0a3d9d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/cluster-admin-like-role.yaml",
+    "size": 612,
+    "type": "file"
+  },
+  {
+    "oid": "bfef5aa6b502e062a3ead5e50dafddc799d3492d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/limited-role.yaml",
+    "size": 610,
+    "type": "file"
+  },
+  {
+    "oid": "c9dd77b4979066cf10af80d56a4fa55a59dbfb07",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/wildcard-role.yaml",
+    "size": 592,
+    "type": "file"
+  },
+  {
+    "oid": "4b85e37d1436a4d6d823d3f9289f40455a77adf8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "bf799f59ce20abe0c1b3e934388b368c9450789e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/benchmark-admin-sa.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "ae01f40e3d52add0dd72caf0395a339a54525225",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/benchmark-sa.yaml",
+    "size": 430,
+    "type": "file"
+  },
+  {
+    "oid": "c8d4f8b1ec4ddecf17b85a81a3a1775f62b073e4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "b781e2ebc473f76be1105b05983dd0cada5aa23f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/test-sa-compliant.yaml",
+    "size": 440,
+    "type": "file"
+  },
+  {
+    "oid": "84a2e740dcce7458e924d9227401269d7d74db02",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/test-sa-violation.yaml",
+    "size": 440,
+    "type": "file"
+  },
+  {
+    "oid": "0071eaa55c31aed08409022a415fd15e0cb71144",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/violating-sa.yaml",
+    "size": 430,
+    "type": "file"
+  },
+  {
+    "oid": "03147cad1f7311fdde180e5e2b62ab4e6f7c6eff",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "df64515fd5214dbdd911cdd106bc6bfeafe952c9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/services/test-service.yaml",
+    "size": 807,
+    "type": "file"
+  },
+  {
+    "oid": "95b9ad2c55e7c96d125dc0ffa26f958ef92e0e97",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2c22d68bddb864d256b7b1f18de40b3930f3384e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "size": 1714,
+    "type": "file"
+  },
+  {
+    "oid": "6e6529cb57c4fe876d60f12bc74c6b5acae0c502",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "6527d83bafa0e6a9dc5c684542e6e06b550fdb26",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/deployments/test-deployment.yaml",
+    "size": 2187,
+    "type": "file"
+  },
+  {
+    "oid": "e4d3ca342440f0b0bdc8f33872290685af07e2d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "9c14577454d82bed748ddae6c6077d6080e9acdc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/pods/test-deployment-8d799b458-pvbmp.yaml",
+    "size": 3306,
+    "type": "file"
+  },
+  {
+    "oid": "ed25509502d9071a1d8162c54f5080f0239e6b24",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ebb47bf64810368aeae142a4ac019a4f77881458",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/replicasets/test-deployment-8d799b458.yaml",
+    "size": 1530,
+    "type": "file"
+  },
+  {
+    "oid": "27e14a1ffe79a40299733c6a5ca7cb3536de9b00",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "95ed5650958762dd39d3ca2a035598548ba7c4ef",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/benchmark-admin-binding.yaml",
+    "size": 882,
+    "type": "file"
+  },
+  {
+    "oid": "0dd256dfbc2ef48523df579d6a3d7363047eb4f0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/benchmark-binding.yaml",
+    "size": 844,
+    "type": "file"
+  },
+  {
+    "oid": "7fded9fef151e0004d26d9a4fe9d58a39031caa7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/compliant-binding.yaml",
+    "size": 852,
+    "type": "file"
+  },
+  {
+    "oid": "ca0db9787ef2c091bfa0fb765bad1a849229f8a8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/violating-binding.yaml",
+    "size": 858,
+    "type": "file"
+  },
+  {
+    "oid": "0cea1bc8b02627bed097c9cc79023c8522df5607",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/violation-binding.yaml",
+    "size": 874,
+    "type": "file"
+  },
+  {
+    "oid": "fb2dfe44240770f447b6f71c2b3af5be2d8aedc4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e1a3c70f46b75f3edbb966468f919ec57e54ebcc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/benchmark-admin-role.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "bc5ddbcdbc5e2f5d54cbae80525eb60df0a3d9d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/cluster-admin-like-role.yaml",
+    "size": 612,
+    "type": "file"
+  },
+  {
+    "oid": "bfef5aa6b502e062a3ead5e50dafddc799d3492d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/limited-role.yaml",
+    "size": 610,
+    "type": "file"
+  },
+  {
+    "oid": "c9dd77b4979066cf10af80d56a4fa55a59dbfb07",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/wildcard-role.yaml",
+    "size": 592,
+    "type": "file"
+  },
+  {
+    "oid": "4b85e37d1436a4d6d823d3f9289f40455a77adf8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "bf799f59ce20abe0c1b3e934388b368c9450789e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/benchmark-admin-sa.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "ae01f40e3d52add0dd72caf0395a339a54525225",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/benchmark-sa.yaml",
+    "size": 430,
+    "type": "file"
+  },
+  {
+    "oid": "c8d4f8b1ec4ddecf17b85a81a3a1775f62b073e4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "b781e2ebc473f76be1105b05983dd0cada5aa23f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/test-sa-compliant.yaml",
+    "size": 440,
+    "type": "file"
+  },
+  {
+    "oid": "84a2e740dcce7458e924d9227401269d7d74db02",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/test-sa-violation.yaml",
+    "size": 440,
+    "type": "file"
+  },
+  {
+    "oid": "0071eaa55c31aed08409022a415fd15e0cb71144",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/violating-sa.yaml",
+    "size": 430,
+    "type": "file"
+  },
+  {
+    "oid": "03147cad1f7311fdde180e5e2b62ab4e6f7c6eff",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "df64515fd5214dbdd911cdd106bc6bfeafe952c9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/services/test-service.yaml",
+    "size": 807,
+    "type": "file"
+  },
+  {
+    "oid": "4a7e073ee6768c58e88e39a2b11d741b19be0791",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "642e1ff226f5a6f76f74375ade0a2489f0f5fa64",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7bbcd14c10a5ed5da22967dff2a94c24768e21c0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/ground-truth/fetch.sh",
+    "size": 965,
+    "type": "file"
+  },
+  {
+    "oid": "9f5bb83f8d46967336e4fcac0f5bd35222d5165f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/ground-truth/policy.rego",
+    "size": 1000,
+    "type": "file"
+  },
+  {
+    "oid": "7f6266986897be375d23db1578e48e9594150a39",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/problem.md",
+    "size": 2100,
+    "type": "file"
+  },
+  {
+    "oid": "67b05c873371fd87f1e45482c7fe8b5041accbf5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d8f552c0e3de877c6030d6a94b44ff19be832c5f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "448a7adce227d9908f57e8d31da191a44961db76",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ea104392eefa9290e1b7aba0e83ef834acb0331e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/deployments-all.yaml",
+    "size": 2435,
+    "type": "file"
+  },
+  {
+    "oid": "56c2db0c22ab2e3c8f6c0cd45c9869ac10ea8a0b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/deployments/test-deployment.yaml",
+    "size": 2234,
+    "type": "file"
+  },
+  {
+    "oid": "b9c5d5b26e42efab96ffd9a11e37452e39f223c3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "57c08f095210440d75501383f38e9ea99cedb809",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/pods-all.yaml",
+    "size": 3601,
+    "type": "file"
+  },
+  {
+    "oid": "ead1fef4c9e5d689ac857517604e858e3f5405e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/pods/test-deployment-647f6b8c5d-2qfxq.yaml",
+    "size": 3294,
+    "type": "file"
+  },
+  {
+    "oid": "b4b56fe4d5e193e762f8ce9b67e3774f4ee38cdc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7b55a1b53f5f6693bbf3bf3aa1802560567a1a6a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/replicasets-all.yaml",
+    "size": 1711,
+    "type": "file"
+  },
+  {
+    "oid": "d569e700825d2e668dec6351de9c2b4d6b001ec3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/replicasets/test-deployment-647f6b8c5d.yaml",
+    "size": 1528,
+    "type": "file"
+  },
+  {
+    "oid": "cff925266ee217e3f11bba3dd09d42366f0d6338",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "45d3a629ac35f65335bb7d5034d1c7517f187163",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings-all.yaml",
+    "size": 2954,
+    "type": "file"
+  },
+  {
+    "oid": "9c1cbb277b27ce38f7d64ae903b73a509076caab",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/benchmark-rolebinding.yaml",
+    "size": 979,
+    "type": "file"
+  },
+  {
+    "oid": "562a11763ca2e069725b5fa8bf915e61ea536dcc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/specific-rolebinding.yaml",
+    "size": 898,
+    "type": "file"
+  },
+  {
+    "oid": "8fc19dd448a6ef8f7cdda16fb86be83b1ff44050",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/wildcard-rolebinding.yaml",
+    "size": 890,
+    "type": "file"
+  },
+  {
+    "oid": "6476f174d79cc27f3b523367ee05c2a78c93f31f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "1798a6f3fe09610122ad1fdac6aadd5e89cc3525",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles-all.yaml",
+    "size": 2796,
+    "type": "file"
+  },
+  {
+    "oid": "b498ce7ee25b94734fa7e78bc5eae0be3281b844",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/benchmark-role.yaml",
+    "size": 719,
+    "type": "file"
+  },
+  {
+    "oid": "8d0f76b9b84eda87474599d31beaf7e51c77a97b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/specific-role.yaml",
+    "size": 859,
+    "type": "file"
+  },
+  {
+    "oid": "191bb9fb8fa074cc7bfbcd3f66384cfe7ee8aa52",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/wildcard-role.yaml",
+    "size": 977,
+    "type": "file"
+  },
+  {
+    "oid": "98e0247bf79361de85d619329a050f3e37e9e9a5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c39ffc3a6b0c565cf9a7c9d1ab0daafe434ad814",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts-all.yaml",
+    "size": 1873,
+    "type": "file"
+  },
+  {
+    "oid": "f9a8dd8e559d6aafbcef4f76f406050cc422de4f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/app-sa.yaml",
+    "size": 470,
+    "type": "file"
+  },
+  {
+    "oid": "d1686a7f2fa1c289e323daaedc48e5f97208fc62",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/benchmark-sa.yaml",
+    "size": 555,
+    "type": "file"
+  },
+  {
+    "oid": "19190f49275c2d40c90ad7cca383cf31559ed83c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "e2a5ee80ada28f1d3626ea6d85eaca7c989e4734",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/reader-sa.yaml",
+    "size": 478,
+    "type": "file"
+  },
+  {
+    "oid": "fbc0fcde280568978888366ddefd7f641ba1cf40",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7c5c543b048e963dfd2a018147f8e9224dbf2e5e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/services-all.yaml",
+    "size": 985,
+    "type": "file"
+  },
+  {
+    "oid": "3705858989f6f0e250a05a7c15dd955c59daa2af",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/services/test-service.yaml",
+    "size": 860,
+    "type": "file"
+  },
+  {
+    "oid": "448a7adce227d9908f57e8d31da191a44961db76",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ea104392eefa9290e1b7aba0e83ef834acb0331e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/deployments-all.yaml",
+    "size": 2435,
+    "type": "file"
+  },
+  {
+    "oid": "56c2db0c22ab2e3c8f6c0cd45c9869ac10ea8a0b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/deployments/test-deployment.yaml",
+    "size": 2234,
+    "type": "file"
+  },
+  {
+    "oid": "b9c5d5b26e42efab96ffd9a11e37452e39f223c3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "57c08f095210440d75501383f38e9ea99cedb809",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/pods-all.yaml",
+    "size": 3601,
+    "type": "file"
+  },
+  {
+    "oid": "ead1fef4c9e5d689ac857517604e858e3f5405e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/pods/test-deployment-647f6b8c5d-2qfxq.yaml",
+    "size": 3294,
+    "type": "file"
+  },
+  {
+    "oid": "b4b56fe4d5e193e762f8ce9b67e3774f4ee38cdc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7b55a1b53f5f6693bbf3bf3aa1802560567a1a6a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/replicasets-all.yaml",
+    "size": 1711,
+    "type": "file"
+  },
+  {
+    "oid": "d569e700825d2e668dec6351de9c2b4d6b001ec3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/replicasets/test-deployment-647f6b8c5d.yaml",
+    "size": 1528,
+    "type": "file"
+  },
+  {
+    "oid": "cff925266ee217e3f11bba3dd09d42366f0d6338",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "45d3a629ac35f65335bb7d5034d1c7517f187163",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings-all.yaml",
+    "size": 2954,
+    "type": "file"
+  },
+  {
+    "oid": "9c1cbb277b27ce38f7d64ae903b73a509076caab",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/benchmark-rolebinding.yaml",
+    "size": 979,
+    "type": "file"
+  },
+  {
+    "oid": "562a11763ca2e069725b5fa8bf915e61ea536dcc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/specific-rolebinding.yaml",
+    "size": 898,
+    "type": "file"
+  },
+  {
+    "oid": "8fc19dd448a6ef8f7cdda16fb86be83b1ff44050",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/wildcard-rolebinding.yaml",
+    "size": 890,
+    "type": "file"
+  },
+  {
+    "oid": "49c7e2ee43faab122efadedb6bd19997363cf6cc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "bd57c6a62b5b8dd805351528dc29e57da274ac02",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles-all.yaml",
+    "size": 2586,
+    "type": "file"
+  },
+  {
+    "oid": "b498ce7ee25b94734fa7e78bc5eae0be3281b844",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/benchmark-role.yaml",
+    "size": 719,
+    "type": "file"
+  },
+  {
+    "oid": "8d0f76b9b84eda87474599d31beaf7e51c77a97b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/specific-role.yaml",
+    "size": 859,
+    "type": "file"
+  },
+  {
+    "oid": "6566d63144fb22ca70d27c8fcb665a4971e4501c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/wildcard-role.yaml",
+    "size": 793,
+    "type": "file"
+  },
+  {
+    "oid": "98e0247bf79361de85d619329a050f3e37e9e9a5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c39ffc3a6b0c565cf9a7c9d1ab0daafe434ad814",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts-all.yaml",
+    "size": 1873,
+    "type": "file"
+  },
+  {
+    "oid": "f9a8dd8e559d6aafbcef4f76f406050cc422de4f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/app-sa.yaml",
+    "size": 470,
+    "type": "file"
+  },
+  {
+    "oid": "d1686a7f2fa1c289e323daaedc48e5f97208fc62",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/benchmark-sa.yaml",
+    "size": 555,
+    "type": "file"
+  },
+  {
+    "oid": "19190f49275c2d40c90ad7cca383cf31559ed83c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "e2a5ee80ada28f1d3626ea6d85eaca7c989e4734",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/reader-sa.yaml",
+    "size": 478,
+    "type": "file"
+  },
+  {
+    "oid": "fbc0fcde280568978888366ddefd7f641ba1cf40",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7c5c543b048e963dfd2a018147f8e9224dbf2e5e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/services-all.yaml",
+    "size": 985,
+    "type": "file"
+  },
+  {
+    "oid": "3705858989f6f0e250a05a7c15dd955c59daa2af",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/services/test-service.yaml",
+    "size": 860,
+    "type": "file"
+  },
+  {
+    "oid": "6f8a31bae38e5d99e2dfc50e289648c6600f7789",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "4f408fc18443610977c0b623531537b84ff32c04",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f882259d37b0582caa29a23c7e5fac8a92272342",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/ground-truth/fetch.sh",
+    "size": 1620,
+    "type": "file"
+  },
+  {
+    "oid": "14b2e11a64a5c0da201ef9eedc1d91cbcdac5057",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/ground-truth/policy.rego",
+    "size": 936,
+    "type": "file"
+  },
+  {
+    "oid": "5bf0acb3a37f08f75a43b566db452493e6f966a4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/problem.md",
+    "size": 2364,
+    "type": "file"
+  },
+  {
+    "oid": "c2412441886c36de58167dce242a61b407162315",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a2e05bf2dc2d41c886829bcc20d171b035c87463",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5c312c9be2bbbe613cf382ca9b5f99c967765fe5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ca6c2914489e2415ac199e2a6b73b643e40e430e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "size": 2251,
+    "type": "file"
+  },
+  {
+    "oid": "14080987ffafddc0787c09e22bb1d765cbb00471",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0d38abac21a728bbba02863d07c149561693cb2a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/pods/compliant-deployment-d6f597bf6-pm2tm.yaml",
+    "size": 3336,
+    "type": "file"
+  },
+  {
+    "oid": "6cfdb53a226bec75a511c640bef88cc0ea787e63",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 3339,
+    "type": "file"
+  },
+  {
+    "oid": "addc421f74585be5f75894813751403d40fe1db1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d27539b4f575972bdb37eff132c966bb11798b39",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/replicasets/compliant-deployment-d6f597bf6.yaml",
+    "size": 1575,
+    "type": "file"
+  },
+  {
+    "oid": "73d1dc65c2bc7180eb577b88f0229a4ddb90814e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0a5a8c0051126c5998e53ef3befaeb5740f1d0b8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "size": 856,
+    "type": "file"
+  },
+  {
+    "oid": "95caa0e5375367d7bf8d484802f38605d27d5454",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "34dc6d274c464243575b3ed6ce71604accee11e0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/roles/test-role.yaml",
+    "size": 624,
+    "type": "file"
+  },
+  {
+    "oid": "45e16910405b1855dd9cbcfe20e191ac4bc5e00f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "39f6b65f5b607370e049dc83bc2cd94df4b96e4b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/serviceaccounts/custom-service-account.yaml",
+    "size": 452,
+    "type": "file"
+  },
+  {
+    "oid": "484c400a61c5e804e177057b9bc961841b4cd0df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "7375a71446994e3dad8ca0ea30a8c8d1fc7a0841",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "626b9107bfb081220bec7f9b517c29b2d568260f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/services/test-service.yaml",
+    "size": 848,
+    "type": "file"
+  },
+  {
+    "oid": "293fe67756ba066dbf2f67c46f78f98fcd29b60b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ca6c2914489e2415ac199e2a6b73b643e40e430e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/deployments/compliant-deployment.yaml",
+    "size": 2251,
+    "type": "file"
+  },
+  {
+    "oid": "06d63a4f03cf4b230dc4f5a7eea47c2fdb07abf0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/deployments/non-compliant-deployment.yaml",
+    "size": 2235,
+    "type": "file"
+  },
+  {
+    "oid": "c278dd787de2bae1464a7c1357f9cb023b9f5fa3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0d38abac21a728bbba02863d07c149561693cb2a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/compliant-deployment-d6f597bf6-pm2tm.yaml",
+    "size": 3336,
+    "type": "file"
+  },
+  {
+    "oid": "6cfdb53a226bec75a511c640bef88cc0ea787e63",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/compliant-pod.yaml",
+    "size": 3339,
+    "type": "file"
+  },
+  {
+    "oid": "cf2a36d6a1352ab6b5b2eee01a67a4a9e5a2d99c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/non-compliant-deployment-57f9ff944b-7d8k7.yaml",
+    "size": 3326,
+    "type": "file"
+  },
+  {
+    "oid": "6b8cd295477991979d3c38e579506da8ea901374",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/non-compliant-pod.yaml",
+    "size": 3302,
+    "type": "file"
+  },
+  {
+    "oid": "1410223a92b8d51079c8d6c34545039787cfe8d4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/unspecified-sa-pod.yaml",
+    "size": 3273,
+    "type": "file"
+  },
+  {
+    "oid": "b6afe4b8a8eb49d2f03a9935adeb524169641d97",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d27539b4f575972bdb37eff132c966bb11798b39",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/replicasets/compliant-deployment-d6f597bf6.yaml",
+    "size": 1575,
+    "type": "file"
+  },
+  {
+    "oid": "88d1d755155667c6e1029367eeb35897aae74f9b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/replicasets/non-compliant-deployment-57f9ff944b.yaml",
+    "size": 1569,
+    "type": "file"
+  },
+  {
+    "oid": "73d1dc65c2bc7180eb577b88f0229a4ddb90814e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0a5a8c0051126c5998e53ef3befaeb5740f1d0b8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/rolebindings/test-rolebinding.yaml",
+    "size": 856,
+    "type": "file"
+  },
+  {
+    "oid": "95caa0e5375367d7bf8d484802f38605d27d5454",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "34dc6d274c464243575b3ed6ce71604accee11e0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/roles/test-role.yaml",
+    "size": 624,
+    "type": "file"
+  },
+  {
+    "oid": "45e16910405b1855dd9cbcfe20e191ac4bc5e00f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "39f6b65f5b607370e049dc83bc2cd94df4b96e4b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/serviceaccounts/custom-service-account.yaml",
+    "size": 452,
+    "type": "file"
+  },
+  {
+    "oid": "484c400a61c5e804e177057b9bc961841b4cd0df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "7375a71446994e3dad8ca0ea30a8c8d1fc7a0841",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "626b9107bfb081220bec7f9b517c29b2d568260f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/services/test-service.yaml",
+    "size": 848,
+    "type": "file"
+  },
+  {
+    "oid": "6264f2a0b3f268ceaef4796f9b9a9fcb21722570",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "251ecb2f1ade620bcab5c955fb4f086ff851e151",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "6bbba537b3a922693738cec5d06b3239077d9e40",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/ground-truth/fetch.sh",
+    "size": 4422,
+    "type": "file"
+  },
+  {
+    "oid": "be6059ac87fc2039a900b16590640009aff1b23c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/ground-truth/policy.rego",
+    "size": 1303,
+    "type": "file"
+  },
+  {
+    "oid": "5e701402faba04eaade179e22afce42f35ad53e0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/problem.md",
+    "size": 2743,
+    "type": "file"
+  },
+  {
+    "oid": "0fad0bbee8b16a0a9bbc25b80eea723cb83993f3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "dc8603a73d288ea135256ed6d99932bf08b1db7f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d4543cf0e20b9f74cfaaf1b81da9fb119e9d9ff7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a84e2cf7de73e5040ab30d891e404904ff1f13cc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/deployments/deployment-default-automount.yaml",
+    "size": 2256,
+    "type": "file"
+  },
+  {
+    "oid": "226c216381f30c63e7afa1364dca24b34b7d481d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/deployments/deployment-with-automount-false.yaml",
+    "size": 2374,
+    "type": "file"
+  },
+  {
+    "oid": "d7069f18bbc8dd02ffc064f9a8abe6afd71a7296",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f2c51716c436d48f06d9d4fed663dcd73b22b038",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/deployment-default-automount-658c955889-kk6sk.yaml",
+    "size": 3341,
+    "type": "file"
+  },
+  {
+    "oid": "b6f5571a6783357fbe71587c768b6e7f1d5553e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/deployment-with-automount-false-68d6fbbf7-qd466.yaml",
+    "size": 2642,
+    "type": "file"
+  },
+  {
+    "oid": "14d1b3f3f031b1adc08d5e60bc20b2e5b133f4d5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/pod-default-automount.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "4cc1887990edf19d42ad8d4878f100ea17b387f4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/pod-with-automount-false.yaml",
+    "size": 2634,
+    "type": "file"
+  },
+  {
+    "oid": "ac53b895c1ea4857cc8eb850112b3a4e90904748",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "09abd8ca5e839faaacdc20de250c37ae60b98e31",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/replicasets/deployment-default-automount-658c955889.yaml",
+    "size": 1576,
+    "type": "file"
+  },
+  {
+    "oid": "8e1dbb24f403ad70124b43de693885a5387208c8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/replicasets/deployment-with-automount-false-68d6fbbf7.yaml",
+    "size": 1640,
+    "type": "file"
+  },
+  {
+    "oid": "4ed7e242ba27e1caeae97b448526593d057a9f68",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a0b94a74da571b2034325610ea261855e09ac3e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "size": 858,
+    "type": "file"
+  },
+  {
+    "oid": "5d35bf4e4b8153f63e975b1f40110fa947f06b1b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5383574aead8c790fb2f23eac7feacb570aa8fe4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/roles/test-role.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "a53a488988231c8428d97df116a050a9d25c74e4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "89a0ebc8e99a3434a64d7b58c4c2b4ab39a21094",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "2fcacbefcda932e157f4e5644425fbc8980f9ad1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/sa-default.yaml",
+    "size": 428,
+    "type": "file"
+  },
+  {
+    "oid": "af21682a9bf768ffa399e5d813a3aed518069d17",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/sa-with-automount-false.yaml",
+    "size": 527,
+    "type": "file"
+  },
+  {
+    "oid": "44acda6b797d661e35bb3ca2081bccdf50b6037d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "929b545220438472945eacd9196d8e599f0e46c7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/services/test-service.yaml",
+    "size": 848,
+    "type": "file"
+  },
+  {
+    "oid": "6539b720d01bc22a950ab6c29600fa4e3e193fa1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a84e2cf7de73e5040ab30d891e404904ff1f13cc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-default-automount.yaml",
+    "size": 2256,
+    "type": "file"
+  },
+  {
+    "oid": "226c216381f30c63e7afa1364dca24b34b7d481d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-with-automount-false.yaml",
+    "size": 2374,
+    "type": "file"
+  },
+  {
+    "oid": "2a12ed18a74384bcb0557facab13a6457b35d613",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-with-automount-true.yaml",
+    "size": 2325,
+    "type": "file"
+  },
+  {
+    "oid": "df089fa3970f4531341dc021f161f2c4e9857e9a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f2c51716c436d48f06d9d4fed663dcd73b22b038",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-default-automount-658c955889-kk6sk.yaml",
+    "size": 3341,
+    "type": "file"
+  },
+  {
+    "oid": "b6f5571a6783357fbe71587c768b6e7f1d5553e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-with-automount-false-68d6fbbf7-qd466.yaml",
+    "size": 2642,
+    "type": "file"
+  },
+  {
+    "oid": "d49bc6ddb69496d0648b5b9b5fee24fbe7e4e4d0",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-with-automount-true-f576bb55-ws5pb.yaml",
+    "size": 3373,
+    "type": "file"
+  },
+  {
+    "oid": "14d1b3f3f031b1adc08d5e60bc20b2e5b133f4d5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-default-automount.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "4cc1887990edf19d42ad8d4878f100ea17b387f4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-with-automount-false.yaml",
+    "size": 2634,
+    "type": "file"
+  },
+  {
+    "oid": "5c80baaad0122cd8d06b4a032ff6fec9e707bf25",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-with-automount-true.yaml",
+    "size": 3396,
+    "type": "file"
+  },
+  {
+    "oid": "978a3cf6002012c8a622d8ff2868ad4764801367",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "09abd8ca5e839faaacdc20de250c37ae60b98e31",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-default-automount-658c955889.yaml",
+    "size": 1576,
+    "type": "file"
+  },
+  {
+    "oid": "8e1dbb24f403ad70124b43de693885a5387208c8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-with-automount-false-68d6fbbf7.yaml",
+    "size": 1640,
+    "type": "file"
+  },
+  {
+    "oid": "411d8c96e0fcc265f8e7f9123baa7953db76baff",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-with-automount-true-f576bb55.yaml",
+    "size": 1604,
+    "type": "file"
+  },
+  {
+    "oid": "4ed7e242ba27e1caeae97b448526593d057a9f68",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a0b94a74da571b2034325610ea261855e09ac3e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/rolebindings/test-rolebinding.yaml",
+    "size": 858,
+    "type": "file"
+  },
+  {
+    "oid": "5d35bf4e4b8153f63e975b1f40110fa947f06b1b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5383574aead8c790fb2f23eac7feacb570aa8fe4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/roles/test-role.yaml",
+    "size": 606,
+    "type": "file"
+  },
+  {
+    "oid": "18c3ba4c65c2e47ff4f79af87e91074065a4d7ee",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "89a0ebc8e99a3434a64d7b58c4c2b4ab39a21094",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "2fcacbefcda932e157f4e5644425fbc8980f9ad1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-default.yaml",
+    "size": 428,
+    "type": "file"
+  },
+  {
+    "oid": "af21682a9bf768ffa399e5d813a3aed518069d17",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-with-automount-false.yaml",
+    "size": 527,
+    "type": "file"
+  },
+  {
+    "oid": "39ff27a0fa64f564253388de1f22727e995acf2b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-with-automount-true.yaml",
+    "size": 523,
+    "type": "file"
+  },
+  {
+    "oid": "44acda6b797d661e35bb3ca2081bccdf50b6037d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "929b545220438472945eacd9196d8e599f0e46c7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/services/test-service.yaml",
+    "size": 848,
+    "type": "file"
+  },
+  {
+    "oid": "ebde7e13f675b0a70b3308e399f59a12247c7a68",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d224b8338687b648c7c839f0a0168aa4737058d4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "826dd6686fa50d58d076dc553db0079039ef1df7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/ground-truth/fetch.sh",
+    "size": 2141,
+    "type": "file"
+  },
+  {
+    "oid": "40fcf39cf4d38b4f49c98b836ab289fa1822ed42",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/ground-truth/policy.rego",
+    "size": 1216,
+    "type": "file"
+  },
+  {
+    "oid": "ce150ae77b7a48abccc659e33973c4e156f513a6",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/problem.md",
+    "size": 2424,
+    "type": "file"
+  },
+  {
+    "oid": "494a0bfe6215e4e326e73281b66cbcfd5fa1d7e3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5cd559f56fcfe32fca60c3fad5e6409f82a5c7e8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "b7bdacb8c73ac9408ef43fbbe5b6dafb5b2d16de",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/configmap",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a117eaf837afac39591961e4752ba65fcff5f731",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/configmap/kube-root-ca.crt.yaml",
+    "size": 1617,
+    "type": "file"
+  },
+  {
+    "oid": "1ace85c9a7c655626d6a2064e364aadeabdfb8b4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/configmap/test-configmap.yaml",
+    "size": 441,
+    "type": "file"
+  },
+  {
+    "oid": "91656ba58a64ad84d161f4156a2b980b09e756dc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/deployment",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "1eaeca6127a96f56ab3a96fda3261a1c82b1fe85",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/deployment/test-deployment.yaml",
+    "size": 1495,
+    "type": "file"
+  },
+  {
+    "oid": "12fe1433889ce8df706e0aadc1124147def87f44",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/pod",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d33cab8db2d256ff8fad898f2853e43526d07fa7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/pod/test-deployment-79c6cd4b46-99fkw.yaml",
+    "size": 1583,
+    "type": "file"
+  },
+  {
+    "oid": "efb2b963bc5c2d285a3ba5332807d105562455a7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/pod/test-pod-1.yaml",
+    "size": 1876,
+    "type": "file"
+  },
+  {
+    "oid": "3e41b511b33039411234f5b2a0b8bb8490370764",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ce7d163914ce8ae503aa657bc0d1000290ade6f9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/compliant-role.yaml",
+    "size": 778,
+    "type": "file"
+  },
+  {
+    "oid": "735fde0abb843980ad68b1d105ec898f6642cd0c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-create-role.yaml",
+    "size": 531,
+    "type": "file"
+  },
+  {
+    "oid": "84fcf345a7e434fedf5c57495a7a0f59b3e8dcf7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-delete-role.yaml",
+    "size": 531,
+    "type": "file"
+  },
+  {
+    "oid": "c4ccae7728a890809bdc36e46435c5841b5dea5b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-update-role.yaml",
+    "size": 531,
+    "type": "file"
+  },
+  {
+    "oid": "bcbc7195b5ca56c979aa395d1ae8f1848e0846b6",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/violating-role.yaml",
+    "size": 778,
+    "type": "file"
+  },
+  {
+    "oid": "0580c4d48067768470fa1158c16dd0cfd528f6a7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0357b7c7a846926d05ca483aa9b99fd292faf6c7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/compliant-binding.yaml",
+    "size": 731,
+    "type": "file"
+  },
+  {
+    "oid": "b07e3c2203383125e009ddbf8d8090630f4c6cea",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-create-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "97ab37a6484e7fdde51ca4f62951d8669674a614",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-delete-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "9223927212b1f8c79b6cf5a85165137863568915",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-update-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "1bf3c53f94f1a8ec0e4e714ec6b82597dc387620",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/violating-binding.yaml",
+    "size": 731,
+    "type": "file"
+  },
+  {
+    "oid": "2e145f4f12be7dde838c940dc659f01d0cf7f0f7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/secret",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ba9598838a77c4614812805b94247385723b69ab",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/secret/test-secret-1.yaml",
+    "size": 456,
+    "type": "file"
+  },
+  {
+    "oid": "03e512e39433177bff5526a15c68baef007fdf89",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/secret/test-secret-2.yaml",
+    "size": 427,
+    "type": "file"
+  },
+  {
+    "oid": "c476dc9f7175e6c9e3efc7b69570beccec5c86be",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/service",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f75668f2b9519baaf835754ceeb1d2ec1ea7a759",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/service/test-service.yaml",
+    "size": 677,
+    "type": "file"
+  },
+  {
+    "oid": "7a2259eddd65c70d603f3d3c148b33f33b1aebe9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0070de2d143c50f442dce286fc524fbd60ca1989",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/compliant-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "7f563963a7b24baaa261c23343fc7310193db100",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/default.yaml",
+    "size": 140,
+    "type": "file"
+  },
+  {
+    "oid": "4eeff35979c4fdb4591bed77984594b001a7f5ba",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/read-only-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "df1dae0acf1c3c3169d95f00265ae92b51ced580",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/violating-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "b7bdacb8c73ac9408ef43fbbe5b6dafb5b2d16de",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/configmap",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a117eaf837afac39591961e4752ba65fcff5f731",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/configmap/kube-root-ca.crt.yaml",
+    "size": 1617,
+    "type": "file"
+  },
+  {
+    "oid": "1ace85c9a7c655626d6a2064e364aadeabdfb8b4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/configmap/test-configmap.yaml",
+    "size": 441,
+    "type": "file"
+  },
+  {
+    "oid": "91656ba58a64ad84d161f4156a2b980b09e756dc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/deployment",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "1eaeca6127a96f56ab3a96fda3261a1c82b1fe85",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/deployment/test-deployment.yaml",
+    "size": 1495,
+    "type": "file"
+  },
+  {
+    "oid": "12fe1433889ce8df706e0aadc1124147def87f44",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/pod",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d33cab8db2d256ff8fad898f2853e43526d07fa7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/pod/test-deployment-79c6cd4b46-99fkw.yaml",
+    "size": 1583,
+    "type": "file"
+  },
+  {
+    "oid": "efb2b963bc5c2d285a3ba5332807d105562455a7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/pod/test-pod-1.yaml",
+    "size": 1876,
+    "type": "file"
+  },
+  {
+    "oid": "76f822640b2ffbeb35dee39d9d3f5dbe1f1a0d31",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ce7d163914ce8ae503aa657bc0d1000290ade6f9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/compliant-role.yaml",
+    "size": 778,
+    "type": "file"
+  },
+  {
+    "oid": "dfabcd3bbb53af48f4ec50bb553770886e139dde",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-create-role.yaml",
+    "size": 533,
+    "type": "file"
+  },
+  {
+    "oid": "6f735136a56c122af3d989d1e7b37e8d37ba1566",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-delete-role.yaml",
+    "size": 533,
+    "type": "file"
+  },
+  {
+    "oid": "bb9577c0df039f81abf44c723aba162ef7aa069c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-update-role.yaml",
+    "size": 551,
+    "type": "file"
+  },
+  {
+    "oid": "02181d2d83b3c5ba08a8c85093a2a99746a0665b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/violating-role.yaml",
+    "size": 645,
+    "type": "file"
+  },
+  {
+    "oid": "0580c4d48067768470fa1158c16dd0cfd528f6a7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0357b7c7a846926d05ca483aa9b99fd292faf6c7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/compliant-binding.yaml",
+    "size": 731,
+    "type": "file"
+  },
+  {
+    "oid": "b07e3c2203383125e009ddbf8d8090630f4c6cea",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-create-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "97ab37a6484e7fdde51ca4f62951d8669674a614",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-delete-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "9223927212b1f8c79b6cf5a85165137863568915",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-update-binding.yaml",
+    "size": 747,
+    "type": "file"
+  },
+  {
+    "oid": "1bf3c53f94f1a8ec0e4e714ec6b82597dc387620",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/violating-binding.yaml",
+    "size": 731,
+    "type": "file"
+  },
+  {
+    "oid": "2e145f4f12be7dde838c940dc659f01d0cf7f0f7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/secret",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "ba9598838a77c4614812805b94247385723b69ab",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/secret/test-secret-1.yaml",
+    "size": 456,
+    "type": "file"
+  },
+  {
+    "oid": "03e512e39433177bff5526a15c68baef007fdf89",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/secret/test-secret-2.yaml",
+    "size": 427,
+    "type": "file"
+  },
+  {
+    "oid": "c476dc9f7175e6c9e3efc7b69570beccec5c86be",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/service",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f75668f2b9519baaf835754ceeb1d2ec1ea7a759",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/service/test-service.yaml",
+    "size": 677,
+    "type": "file"
+  },
+  {
+    "oid": "7a2259eddd65c70d603f3d3c148b33f33b1aebe9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0070de2d143c50f442dce286fc524fbd60ca1989",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/compliant-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "7f563963a7b24baaa261c23343fc7310193db100",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/default.yaml",
+    "size": 140,
+    "type": "file"
+  },
+  {
+    "oid": "4eeff35979c4fdb4591bed77984594b001a7f5ba",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/read-only-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "df1dae0acf1c3c3169d95f00265ae92b51ced580",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/violating-sa.yaml",
+    "size": 357,
+    "type": "file"
+  },
+  {
+    "oid": "8b5e0d15fbe53f74ac3ad5d03d4d09c36b029b30",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "29bff0c712b6e08dcfbbbb5bf44562af9ba4a536",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "46925fd1edfd307190a9ddf6a533eee542c5dd14",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/ground-truth/fetch.sh",
+    "size": 1989,
+    "type": "file"
+  },
+  {
+    "oid": "30756737b19e2d413c4bd6553ab76b0aacd48a0b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/ground-truth/policy.rego",
+    "size": 1797,
+    "type": "file"
+  },
+  {
+    "oid": "434db33dbacfc4de28fbaeb3bb6d38666712d696",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/problem.md",
+    "size": 2357,
+    "type": "file"
+  },
+  {
+    "oid": "c4ca9d7c4e70d9c998932147f9d74c13332a2207",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "83707671f9b7c6494c3aef51c46b9cc4fcb358e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2759e6b8aa0e280f99eed7eac1c50ab0708663c9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "32b120cfd742b3382feb0750c30ee2af554a4e91",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/deployments/test-deployment.yaml",
+    "size": 1700,
+    "type": "file"
+  },
+  {
+    "oid": "1f32de198a5574d636c77da3cc3ff6e23327bf41",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "dd3319896d27bef2ec42e7464b40eeb6366652d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 1953,
+    "type": "file"
+  },
+  {
+    "oid": "c769a0a2a52d274b668ff94d41d24de26856f214",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0be26a49529fab2b77b754a003f8b3dbcb33e3c2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "size": 735,
+    "type": "file"
+  },
+  {
+    "oid": "71658a28bcf608613e1ee4518e53d150a2962e69",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "769cf78580bbd7e36a785d9530a78842f6624ca2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/roles/test-role.yaml",
+    "size": 700,
+    "type": "file"
+  },
+  {
+    "oid": "a3474d854e62011f34c0a8374a0c8b75c08099e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "214b8330fb6d6aa8312d1784945af702b4bf02ee",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 98,
+    "type": "file"
+  },
+  {
+    "oid": "5a51d71537d5ff56c997e54810c71f9262531b2d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/serviceaccounts/test-service-account.yaml",
+    "size": 331,
+    "type": "file"
+  },
+  {
+    "oid": "3fa5af6196d2d36789208db5ae86ed40f6369d7d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2365e2ab00db225105b69ec2faa28df738536600",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/services/test-service.yaml",
+    "size": 752,
+    "type": "file"
+  },
+  {
+    "oid": "2ea0daea4cf87990f7e197ae06cbab37af1b22e5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "caf68eb2416f2cf258667050c3b09211286919c4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/deployments/test-deployment.yaml",
+    "size": 1644,
+    "type": "file"
+  },
+  {
+    "oid": "7a3814062ab90301a04b0546923b511036562401",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "dd3319896d27bef2ec42e7464b40eeb6366652d8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/compliant-pod.yaml",
+    "size": 1953,
+    "type": "file"
+  },
+  {
+    "oid": "f183eedc598570b2ffa586a763bd01567e6f211f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/privileged-pod.yaml",
+    "size": 1871,
+    "type": "file"
+  },
+  {
+    "oid": "1b0809136ca1d867e7c0c95b2d6086d286192791",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/test-deployment-695d4dcd89-6jsmh.yaml",
+    "size": 1896,
+    "type": "file"
+  },
+  {
+    "oid": "6b10e58f81844a0fe91a6aaf38e9a9ccd123f1af",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/test-deployment-695d4dcd89-d7sd9.yaml",
+    "size": 1896,
+    "type": "file"
+  },
+  {
+    "oid": "3b67acabdc683bfc0026b8ea2a9cbbbbe6d643b7",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "1f3664d44c80d37498b59f928a211e81c8ee3503",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/replicasets/test-deployment-695d4dcd89.yaml",
+    "size": 1348,
+    "type": "file"
+  },
+  {
+    "oid": "c769a0a2a52d274b668ff94d41d24de26856f214",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0be26a49529fab2b77b754a003f8b3dbcb33e3c2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/rolebindings/test-rolebinding.yaml",
+    "size": 735,
+    "type": "file"
+  },
+  {
+    "oid": "71658a28bcf608613e1ee4518e53d150a2962e69",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "769cf78580bbd7e36a785d9530a78842f6624ca2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/roles/test-role.yaml",
+    "size": 700,
+    "type": "file"
+  },
+  {
+    "oid": "a3474d854e62011f34c0a8374a0c8b75c08099e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "214b8330fb6d6aa8312d1784945af702b4bf02ee",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/serviceaccounts/default.yaml",
+    "size": 98,
+    "type": "file"
+  },
+  {
+    "oid": "5a51d71537d5ff56c997e54810c71f9262531b2d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/serviceaccounts/test-service-account.yaml",
+    "size": 331,
+    "type": "file"
+  },
+  {
+    "oid": "3fa5af6196d2d36789208db5ae86ed40f6369d7d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2365e2ab00db225105b69ec2faa28df738536600",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/services/test-service.yaml",
+    "size": 752,
+    "type": "file"
+  },
+  {
+    "oid": "ac1f4e555b959703aa3b3fcfaca80a26731c2659",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "b92a8cc58153f6850c213f07e5ddb2fde3bedfca",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "4762eed03c10bb3d1f8be0c5408846f2a465bff9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/ground-truth/fetch.sh",
+    "size": 384,
+    "type": "file"
+  },
+  {
+    "oid": "670a54ea9a4cbf7495f9a5eebb49375c86fd47ce",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/ground-truth/policy.rego",
+    "size": 248,
+    "type": "file"
+  },
+  {
+    "oid": "7a6fab7e1b06047e9a93da285cd9bd54b6e4f2bb",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/problem.md",
+    "size": 2009,
+    "type": "file"
+  },
+  {
+    "oid": "1b80de6ddef56d6be4bd18a1b2140abead5bebc4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f2ad554d68b8234a97117d7864d5dee662c0b63a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "f21a4b248fe9f48bdea465a1016f2a994d0f4643",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "3180c76246b252aad1b84275b3b3b26e02e8939b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/deployments/deployments-all.yaml",
+    "size": 2509,
+    "type": "file"
+  },
+  {
+    "oid": "59c99a7dafe1633624a80129c180804667a2b598",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/deployments/test-deployment.yaml",
+    "size": 2308,
+    "type": "file"
+  },
+  {
+    "oid": "5435b34a77434e425f1a3d385b529dbccfb9329a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "32a25d38479879166341c3ca296bb8ef7d644986",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 3436,
+    "type": "file"
+  },
+  {
+    "oid": "05283b875e716a93dda4850d0b3dcf963e095acc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/pods-all.yaml",
+    "size": 10853,
+    "type": "file"
+  },
+  {
+    "oid": "0bcd29a382c154c189e8d416a9638f721de767ce",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/test-deployment-df55759c5-66r2x.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "353e21ca0835b1b453674f4978ddedc667f492df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/test-deployment-df55759c5-m5wrh.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "2c2e57369c6a6cf889861af45b4172627cd9baec",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "8baf81010cce9bbccfd5bb42caa1421344a5686f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/replicasets/replicasets-all.yaml",
+    "size": 1750,
+    "type": "file"
+  },
+  {
+    "oid": "77b96cf7f6ea10d564ee2aec3693be69ac6e78be",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/replicasets/test-deployment-df55759c5.yaml",
+    "size": 1567,
+    "type": "file"
+  },
+  {
+    "oid": "d275ba219e45cfa172826e409010c9ddb6f4d95a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e248b785d87925320771874f4cbaca177df514e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/rolebindings/benchmark-rolebinding.yaml",
+    "size": 872,
+    "type": "file"
+  },
+  {
+    "oid": "db53a9a7bb0c26e414746d1a025920a8c8589b95",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/rolebindings/rolebindings-all.yaml",
+    "size": 973,
+    "type": "file"
+  },
+  {
+    "oid": "29353058d187d910ddcd76aa16682723dcae0d97",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "80f6879dd1b7b75ed9c913e6cd9443930a3c5581",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/roles/benchmark-role.yaml",
+    "size": 634,
+    "type": "file"
+  },
+  {
+    "oid": "44747e94155344f94fa9af0a90abe1ccb1627eb1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/roles/roles-all.yaml",
+    "size": 737,
+    "type": "file"
+  },
+  {
+    "oid": "c4cddfdb70098384051139cf411ec8aa166af920",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2f321ba340ed128f37314351e55dfd59e4279425",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "b0edc49d5a523a46e83a64c13ec87012cb6775e2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/serviceaccounts-all.yaml",
+    "size": 764,
+    "type": "file"
+  },
+  {
+    "oid": "b55095556ed7dd661b80baaa87c74abbaa7c50eb",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/test-service-account.yaml",
+    "size": 448,
+    "type": "file"
+  },
+  {
+    "oid": "60264f2a8c45de59a01bbe4abc66469c11241a89",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5a0c71c2f181dc58306f10f631dd3c5c48192053",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/services/services-all.yaml",
+    "size": 954,
+    "type": "file"
+  },
+  {
+    "oid": "c5ae4994980fce0911e39447af8ab07e770d2f3a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/services/test-service.yaml",
+    "size": 833,
+    "type": "file"
+  },
+  {
+    "oid": "f21a4b248fe9f48bdea465a1016f2a994d0f4643",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "3180c76246b252aad1b84275b3b3b26e02e8939b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/deployments/deployments-all.yaml",
+    "size": 2509,
+    "type": "file"
+  },
+  {
+    "oid": "59c99a7dafe1633624a80129c180804667a2b598",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/deployments/test-deployment.yaml",
+    "size": 2308,
+    "type": "file"
+  },
+  {
+    "oid": "c7da389f3f7b5dca3f7d78fa998c1e5bba65b561",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "32a25d38479879166341c3ca296bb8ef7d644986",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/compliant-pod.yaml",
+    "size": 3436,
+    "type": "file"
+  },
+  {
+    "oid": "d8f3d11a2e5bda0a2dbc9d3ce00a223de28b217f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/pods-all.yaml",
+    "size": 14552,
+    "type": "file"
+  },
+  {
+    "oid": "0bcd29a382c154c189e8d416a9638f721de767ce",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/test-deployment-df55759c5-66r2x.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "353e21ca0835b1b453674f4978ddedc667f492df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/test-deployment-df55759c5-m5wrh.yaml",
+    "size": 3319,
+    "type": "file"
+  },
+  {
+    "oid": "dcf8f9bb47ee10d07af75831d0f77af1c526a692",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/violating-pod.yaml",
+    "size": 3467,
+    "type": "file"
+  },
+  {
+    "oid": "2c2e57369c6a6cf889861af45b4172627cd9baec",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "8baf81010cce9bbccfd5bb42caa1421344a5686f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/replicasets/replicasets-all.yaml",
+    "size": 1750,
+    "type": "file"
+  },
+  {
+    "oid": "77b96cf7f6ea10d564ee2aec3693be69ac6e78be",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/replicasets/test-deployment-df55759c5.yaml",
+    "size": 1567,
+    "type": "file"
+  },
+  {
+    "oid": "d275ba219e45cfa172826e409010c9ddb6f4d95a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e248b785d87925320771874f4cbaca177df514e1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/rolebindings/benchmark-rolebinding.yaml",
+    "size": 872,
+    "type": "file"
+  },
+  {
+    "oid": "db53a9a7bb0c26e414746d1a025920a8c8589b95",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/rolebindings/rolebindings-all.yaml",
+    "size": 973,
+    "type": "file"
+  },
+  {
+    "oid": "29353058d187d910ddcd76aa16682723dcae0d97",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "80f6879dd1b7b75ed9c913e6cd9443930a3c5581",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/roles/benchmark-role.yaml",
+    "size": 634,
+    "type": "file"
+  },
+  {
+    "oid": "44747e94155344f94fa9af0a90abe1ccb1627eb1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/roles/roles-all.yaml",
+    "size": 737,
+    "type": "file"
+  },
+  {
+    "oid": "c4cddfdb70098384051139cf411ec8aa166af920",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "2f321ba340ed128f37314351e55dfd59e4279425",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "b0edc49d5a523a46e83a64c13ec87012cb6775e2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/serviceaccounts-all.yaml",
+    "size": 764,
+    "type": "file"
+  },
+  {
+    "oid": "b55095556ed7dd661b80baaa87c74abbaa7c50eb",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/test-service-account.yaml",
+    "size": 448,
+    "type": "file"
+  },
+  {
+    "oid": "60264f2a8c45de59a01bbe4abc66469c11241a89",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5a0c71c2f181dc58306f10f631dd3c5c48192053",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/services/services-all.yaml",
+    "size": 954,
+    "type": "file"
+  },
+  {
+    "oid": "c5ae4994980fce0911e39447af8ab07e770d2f3a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/services/test-service.yaml",
+    "size": 833,
+    "type": "file"
+  },
+  {
+    "oid": "52f0e59a3c67cf92886d1b1ab4c2c889390ac89d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "37dd7c3dd3cfc71bf5e04280dfb794567a2e0bfa",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "06f51f4ce5e2c6637c5c9953641023075347b908",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/ground-truth/fetch.sh",
+    "size": 1175,
+    "type": "file"
+  },
+  {
+    "oid": "b93290ee1f5dfc1de57638b1b7943c5c5e99900e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/ground-truth/policy.rego",
+    "size": 741,
+    "type": "file"
+  },
+  {
+    "oid": "604d09a5de63923a45e7c101ab602173c4a1e78c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/problem.md",
+    "size": 2014,
+    "type": "file"
+  },
+  {
+    "oid": "c459f9dc2def7f9f2ffb036470fa1890d8e0ac65",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a20bc34f1d3b73e9c5c3e285be979b3c48a1ebaa",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "968370170e9458687694b7c804781c6edd492c2b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7fd657a9e7d00bb47dd915f69275f250902f1e65",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "size": 102,
+    "type": "file"
+  },
+  {
+    "oid": "2af8469cd57169507e55d4bf775214038f4308e8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "4cca15d8f61239e5f40a22e16fb8ed1031426610",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/deployments/non-compliant-deployment.yaml",
+    "size": 941,
+    "type": "file"
+  },
+  {
+    "oid": "f5752887c3f694099999bbe1bdcb7a21fdb37b15",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "979c4b138c144d660deab69d61ad586514f40790",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 1535,
+    "type": "file"
+  },
+  {
+    "oid": "9ec1bf8b27caf9e1505f614d72fc83730f18758e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-deployment-59fb8444b8-5phbz.yaml",
+    "size": 1582,
+    "type": "file"
+  },
+  {
+    "oid": "5ddfcdec6eff12835afc7ec0b9e163bf7e60d53d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-deployment-59fb8444b8-6rdvq.yaml",
+    "size": 1582,
+    "type": "file"
+  },
+  {
+    "oid": "882d700fe70b45fea36f81300932ccc2ddf4b900",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-pod.yaml",
+    "size": 1540,
+    "type": "file"
+  },
+  {
+    "oid": "d3e815011db43d5f2ce39383453fc2a520ccd833",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "8abeb52dbb6376793a9e706c1dd5a28fd22a6198",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/replicasets/non-compliant-deployment-59fb8444b8.yaml",
+    "size": 901,
+    "type": "file"
+  },
+  {
+    "oid": "e5b6f95d44624741f64dec28688b172400f6b6df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "8a99fb097b165899d104a395760e4242095f9d2c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 98,
+    "type": "file"
+  },
+  {
+    "oid": "34a32209fc60718e649c2302e030c3dc0a703c80",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/serviceaccounts/test-serviceaccount.yaml",
+    "size": 110,
+    "type": "file"
+  },
+  {
+    "oid": "bbcf6de6abf1da7a0531807de06ceee500df9c2d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "9139e20755ae7384337d835eb6766c7a39845691",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/services/test-service.yaml",
+    "size": 376,
+    "type": "file"
+  },
+  {
+    "oid": "968370170e9458687694b7c804781c6edd492c2b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "7fd657a9e7d00bb47dd915f69275f250902f1e65",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "size": 102,
+    "type": "file"
+  },
+  {
+    "oid": "e06d45dc382efc6480237b843c56b98ed759f241",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "3386f7bc82065610e61d638ff1ab7711d76e0c75",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/deployments/non-compliant-deployment.yaml",
+    "size": 961,
+    "type": "file"
+  },
+  {
+    "oid": "14708613252233669364b768230d4ea6a0bc0a86",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "979c4b138c144d660deab69d61ad586514f40790",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/compliant-pod.yaml",
+    "size": 1535,
+    "type": "file"
+  },
+  {
+    "oid": "07c30d144049c4e1f0de99febf2c09e028311f1f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-deployment-59fb8444b8-5phbz.yaml",
+    "size": 1598,
+    "type": "file"
+  },
+  {
+    "oid": "8d27f44e2666e3d236a7ef1ca017bcef2928b332",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-deployment-59fb8444b8-6rdvq.yaml",
+    "size": 1598,
+    "type": "file"
+  },
+  {
+    "oid": "e407c4e9b3a9d6be17fbc070739a851bbb0c9d09",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-pod.yaml",
+    "size": 1556,
+    "type": "file"
+  },
+  {
+    "oid": "87cbac953a61b0dd02d1ef0d4a6ee2c70b2458a2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c1da8cae799b33c7f67b2467c7890794daa911c3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/replicasets/non-compliant-deployment-59fb8444b8.yaml",
+    "size": 921,
+    "type": "file"
+  },
+  {
+    "oid": "e5b6f95d44624741f64dec28688b172400f6b6df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "8a99fb097b165899d104a395760e4242095f9d2c",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/serviceaccounts/default.yaml",
+    "size": 98,
+    "type": "file"
+  },
+  {
+    "oid": "34a32209fc60718e649c2302e030c3dc0a703c80",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/serviceaccounts/test-serviceaccount.yaml",
+    "size": 110,
+    "type": "file"
+  },
+  {
+    "oid": "bbcf6de6abf1da7a0531807de06ceee500df9c2d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "9139e20755ae7384337d835eb6766c7a39845691",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/services/test-service.yaml",
+    "size": 376,
+    "type": "file"
+  },
+  {
+    "oid": "24d88f046e390185789744830ca9ec97b518f862",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c3dbe23a2441bc8a07e1d54cbd245a4af79eda4f",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/__pycache__",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "d949ef6c6c17646ea9d7e47b96c35950b96a75c2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/__pycache__/eval.cpython-314.pyc",
+    "size": 21749,
+    "type": "file"
+  },
+  {
+    "oid": "70f10bdd5f974c5913fe122ecdfd4d4d5020e3b1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0000abd18250e829edc0daaa41d49fbbda1c3bbd",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/ground-truth/fetch.sh",
+    "size": 4059,
+    "type": "file"
+  },
+  {
+    "oid": "70854f167fcfc16986bb5dfd5de17a847509cda5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/ground-truth/policy.rego",
+    "size": 1289,
+    "type": "file"
+  },
+  {
+    "oid": "0c8af5c3fd4d575495ffb8ac457b2b77617646df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/problem.md",
+    "size": 2134,
+    "type": "file"
+  },
+  {
+    "oid": "2f995b2c678b74c88bbe5cc5d06799a26963f560",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5f87bd0193be354822c3041e86c78129f7d2281b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "92d9e13620cefc58e7621f1adb7779f8883b07bf",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "31fd0a18eba41ef394c07fce39385752d9756792",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "size": 1449,
+    "type": "file"
+  },
+  {
+    "oid": "afcd73a774780345453296c1c3a0fb9fb1a44664",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/namespace",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "fb627e2e2c1db095d02289a97bb15221137c7790",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/namespace/k8s-opa-static-cis-525.yaml",
+    "size": 314,
+    "type": "file"
+  },
+  {
+    "oid": "9a28f199451b0c62a99c121cbbcbe6a2ff72ddbb",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "82f6b21b670f3b7010ba017c2570221950371d34",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-deployment-6b9fbfcbf5-ng4zw.yaml",
+    "size": 1574,
+    "type": "file"
+  },
+  {
+    "oid": "4b6bf39d80aa29d1496cbed6f8131509b811e13d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-deployment-6b9fbfcbf5-zvmm7.yaml",
+    "size": 1574,
+    "type": "file"
+  },
+  {
+    "oid": "7a055d767292ed4b52fd6cce8b3bcf3da8f7d457",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 1912,
+    "type": "file"
+  },
+  {
+    "oid": "5cd2913b92a0aeda474fc2dcb2fb69bcc3a80e4b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e695487d1ebe23cce8c3aa40c5de587522fb6922",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/replicasets/compliant-deployment-6b9fbfcbf5.yaml",
+    "size": 1045,
+    "type": "file"
+  },
+  {
+    "oid": "5817493574698608a1794266280f7d716a64548a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c7047cc24002a66091a4bc3c04691aac3b589e4d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "size": 722,
+    "type": "file"
+  },
+  {
+    "oid": "41794f0f741ace8f314db0a35ed1950e9c6e98c5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e8c1a74d8ce884da2510c9d08af831737e5db0b3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/roles/test-role.yaml",
+    "size": 671,
+    "type": "file"
+  },
+  {
+    "oid": "ddad9234c1f81ccd177b20a65c4f1a5f44e54411",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "35518bd7fd48a1b7799aa012b6c3c55a7ae8aa3a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 111,
+    "type": "file"
+  },
+  {
+    "oid": "7fc88a451d747154f8c205a3ebe0919271e5b31e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/serviceaccounts/test-sa.yaml",
+    "size": 361,
+    "type": "file"
+  },
+  {
+    "oid": "8501095da2547a4558b28c1a1e9d20bb24cecc86",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "aef76388d2544053e912402fd16d2ced71ff75ad",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/services/web-service.yaml",
+    "size": 766,
+    "type": "file"
+  },
+  {
+    "oid": "24b775eec28f80eb4e313ea6620fac58c3c3e233",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "31fd0a18eba41ef394c07fce39385752d9756792",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/deployments/compliant-deployment.yaml",
+    "size": 1449,
+    "type": "file"
+  },
+  {
+    "oid": "8c13cd10c89f4c823d91e6ddf5678962d8cffda3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/deployments/non-compliant-deployment.yaml",
+    "size": 1518,
+    "type": "file"
+  },
+  {
+    "oid": "afcd73a774780345453296c1c3a0fb9fb1a44664",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/namespace",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "fb627e2e2c1db095d02289a97bb15221137c7790",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/namespace/k8s-opa-static-cis-525.yaml",
+    "size": 314,
+    "type": "file"
+  },
+  {
+    "oid": "21f840df8271c013899a88b03b43f68412d6c6e8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "82f6b21b670f3b7010ba017c2570221950371d34",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-deployment-6b9fbfcbf5-ng4zw.yaml",
+    "size": 1574,
+    "type": "file"
+  },
+  {
+    "oid": "4b6bf39d80aa29d1496cbed6f8131509b811e13d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-deployment-6b9fbfcbf5-zvmm7.yaml",
+    "size": 1574,
+    "type": "file"
+  },
+  {
+    "oid": "7a055d767292ed4b52fd6cce8b3bcf3da8f7d457",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-pod.yaml",
+    "size": 1912,
+    "type": "file"
+  },
+  {
+    "oid": "58fffb49a8b79a863437ae345590bf736e6f23e2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/non-compliant-deployment-845fbc676b-77zcx.yaml",
+    "size": 1620,
+    "type": "file"
+  },
+  {
+    "oid": "717541dee5fb8f6115d6e08d7052f77388478a5d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/non-compliant-pod.yaml",
+    "size": 1969,
+    "type": "file"
+  },
+  {
+    "oid": "af43da0daf46a0bc11462736c96fd0af000cc188",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e695487d1ebe23cce8c3aa40c5de587522fb6922",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/replicasets/compliant-deployment-6b9fbfcbf5.yaml",
+    "size": 1045,
+    "type": "file"
+  },
+  {
+    "oid": "c32eb1a5d417c3212055290d3e9b31e4929deef2",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/replicasets/non-compliant-deployment-845fbc676b.yaml",
+    "size": 1082,
+    "type": "file"
+  },
+  {
+    "oid": "5817493574698608a1794266280f7d716a64548a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/rolebindings",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "c7047cc24002a66091a4bc3c04691aac3b589e4d",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/rolebindings/test-rolebinding.yaml",
+    "size": 722,
+    "type": "file"
+  },
+  {
+    "oid": "41794f0f741ace8f314db0a35ed1950e9c6e98c5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/roles",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e8c1a74d8ce884da2510c9d08af831737e5db0b3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/roles/test-role.yaml",
+    "size": 671,
+    "type": "file"
+  },
+  {
+    "oid": "ddad9234c1f81ccd177b20a65c4f1a5f44e54411",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "35518bd7fd48a1b7799aa012b6c3c55a7ae8aa3a",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/serviceaccounts/default.yaml",
+    "size": 111,
+    "type": "file"
+  },
+  {
+    "oid": "7fc88a451d747154f8c205a3ebe0919271e5b31e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/serviceaccounts/test-sa.yaml",
+    "size": 361,
+    "type": "file"
+  },
+  {
+    "oid": "8501095da2547a4558b28c1a1e9d20bb24cecc86",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "aef76388d2544053e912402fd16d2ced71ff75ad",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/services/web-service.yaml",
+    "size": 766,
+    "type": "file"
+  },
+  {
+    "oid": "ef5b29c15d754b626a923efa750703f0e47efc42",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "5ad43448de8aaad1b78d557dbf6c81afb748dbb4",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/ground-truth",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "0f2a962edebbc166ecf578596904047d6e4179e9",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/ground-truth/fetch.sh",
+    "size": 2327,
+    "type": "file"
+  },
+  {
+    "oid": "e5a67424d28493f6f90f217ed0378162ffb161bd",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/ground-truth/policy.rego",
+    "size": 501,
+    "type": "file"
+  },
+  {
+    "oid": "1cdd6259042375a1894d5a408218d210d45d63bd",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/problem.md",
+    "size": 2386,
+    "type": "file"
+  },
+  {
+    "oid": "8d90553a7c4e09b178489ec1ce29ac15feed835e",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "4f05b7ba96f66a603fb77513483d7073e19f8400",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "fe57b0d7bd73ee591b538a0d1732df2c459d4b90",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "fb259938b616e1289fa038d5454f3d0cba6debe8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "size": 1714,
+    "type": "file"
+  },
+  {
+    "oid": "b0771e08cc0352d1239cd83c91cc6380b443ba12",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "70e40beb756d214459a8f47b8fe84e4c8d37df3b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "size": 2425,
+    "type": "file"
+  },
+  {
+    "oid": "78181fbbbbbd99be855c9747f96fe4331093b9c1",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "eda6e8e963b316b5dcead48eb2878b885f414b81",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-deployment-6db8746456-k4lcb.yaml",
+    "size": 4019,
+    "type": "file"
+  },
+  {
+    "oid": "44110d3629596d3262477e4be4efecdad73533df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-deployment-6db8746456-lw8hf.yaml",
+    "size": 4048,
+    "type": "file"
+  },
+  {
+    "oid": "8adc2d7686db42336e75d2eb61007a25f9c95ccc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-pod.yaml",
+    "size": 4082,
+    "type": "file"
+  },
+  {
+    "oid": "236f7632498ac070321afd52103f5b9923a45fd6",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "025b9b9bb5fccf7e83e040ad273e711c22c5ffb3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/replicasets/compliant-deployment-6db8746456.yaml",
+    "size": 1623,
+    "type": "file"
+  },
+  {
+    "oid": "e1ce75ad0ed53845b54ad213c621f7ac841529ba",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a19924a9bd19fbeeed614c13df077ba05cccfa56",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "129ce34610dd057fe45a5e01b2362762602c6492",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/serviceaccounts/test-serviceaccount.yaml",
+    "size": 498,
+    "type": "file"
+  },
+  {
+    "oid": "217217656b1689f98db21fcf400710abc1ca3f47",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e72760799707218e342ba72d0537dd398b21d866",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/services/test-service.yaml",
+    "size": 916,
+    "type": "file"
+  },
+  {
+    "oid": "fe57b0d7bd73ee591b538a0d1732df2c459d4b90",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/configmaps",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "fb259938b616e1289fa038d5454f3d0cba6debe8",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "size": 1714,
+    "type": "file"
+  },
+  {
+    "oid": "30aa89ff44ca98c677d259fd9b2d5e3ba61ee938",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/deployments",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "70e40beb756d214459a8f47b8fe84e4c8d37df3b",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/deployments/compliant-deployment.yaml",
+    "size": 2425,
+    "type": "file"
+  },
+  {
+    "oid": "37cf5f3b36d3c55c05cf4bffc094ca7518819a38",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/deployments/non-compliant-deployment.yaml",
+    "size": 2389,
+    "type": "file"
+  },
+  {
+    "oid": "e62f6f43a7c6c90b7e4e141bed8d2c4851bb56fe",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "eda6e8e963b316b5dcead48eb2878b885f414b81",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-deployment-6db8746456-k4lcb.yaml",
+    "size": 4019,
+    "type": "file"
+  },
+  {
+    "oid": "44110d3629596d3262477e4be4efecdad73533df",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-deployment-6db8746456-lw8hf.yaml",
+    "size": 4048,
+    "type": "file"
+  },
+  {
+    "oid": "8adc2d7686db42336e75d2eb61007a25f9c95ccc",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-pod.yaml",
+    "size": 4082,
+    "type": "file"
+  },
+  {
+    "oid": "e20fa6cbb67d2e277cea27558ca43380bcb36851",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/non-compliant-deployment-86587588d8-pgnj4.yaml",
+    "size": 3412,
+    "type": "file"
+  },
+  {
+    "oid": "a7dda01ebd14016219e70939685cebf3ac3304a5",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/non-compliant-pod.yaml",
+    "size": 4043,
+    "type": "file"
+  },
+  {
+    "oid": "26fc8bceff4e549a36b68d0e4807f4549263d013",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/replicasets",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "025b9b9bb5fccf7e83e040ad273e711c22c5ffb3",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/replicasets/compliant-deployment-6db8746456.yaml",
+    "size": 1623,
+    "type": "file"
+  },
+  {
+    "oid": "df5d8f2b175242c6729f842627a0806e60646031",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/replicasets/non-compliant-deployment-86587588d8.yaml",
+    "size": 1629,
+    "type": "file"
+  },
+  {
+    "oid": "e1ce75ad0ed53845b54ad213c621f7ac841529ba",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/serviceaccounts",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "a19924a9bd19fbeeed614c13df077ba05cccfa56",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/serviceaccounts/default.yaml",
+    "size": 215,
+    "type": "file"
+  },
+  {
+    "oid": "129ce34610dd057fe45a5e01b2362762602c6492",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/serviceaccounts/test-serviceaccount.yaml",
+    "size": 498,
+    "type": "file"
+  },
+  {
+    "oid": "217217656b1689f98db21fcf400710abc1ca3f47",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/services",
+    "size": 0,
+    "type": "directory"
+  },
+  {
+    "oid": "e72760799707218e342ba72d0537dd398b21d866",
+    "path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/services/test-service.yaml",
+    "size": 916,
+    "type": "file"
+  }
+]

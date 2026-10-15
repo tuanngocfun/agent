@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"test-role","namespace":"k8s-opa-static-cis-516"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get","list"]}]}
+
+      '
+  creationTimestamp: '2026-03-06T12:56:31Z'
+  name: test-role
+  namespace: k8s-opa-static-cis-516
+  resourceVersion: '3033733'
+  uid: 25a00c0d-5ce3-4838-b0d1-dc4fe8c91ad9
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - get
+  - list

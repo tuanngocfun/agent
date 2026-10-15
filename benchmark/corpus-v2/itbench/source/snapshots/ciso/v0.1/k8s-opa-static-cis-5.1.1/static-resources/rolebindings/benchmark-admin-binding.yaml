@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"name":"benchmark-admin-binding","namespace":"k8s-opa-static-cis-511"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"benchmark-admin-role"},"subjects":[{"kind":"ServiceAccount","name":"benchmark-admin-sa","namespace":"k8s-opa-static-cis-511"}]}
+  creationTimestamp: "2026-03-06T10:39:34Z"
+  name: benchmark-admin-binding
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: "3004940"
+  uid: a3798d24-cce4-4bc9-8982-731a8fa1b790
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: benchmark-admin-role
+subjects:
+- kind: ServiceAccount
+  name: benchmark-admin-sa
+  namespace: k8s-opa-static-cis-511

@@ -1,0 +1,1764 @@
+[
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"deployment-default-automount\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"test-app-default\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"test-app-default\"}},\"spec\":{\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-default\"}}}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:30Z",
+          "generation": 1,
+          "name": "deployment-default-automount",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033736",
+          "uid": "d3e468a6-e2dc-4cda-83c8-c47bf8fc5c4d"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-default"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": "25%",
+              "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-default"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-default",
+              "serviceAccountName": "sa-default",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-03-06T12:56:31Z",
+              "lastUpdateTime": "2026-03-06T12:56:31Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "lastUpdateTime": "2026-03-06T12:56:31Z",
+              "message": "ReplicaSet \"deployment-default-automount-658c955889\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "filename": "deployments/deployment-default-automount.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"deployment-with-automount-false\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"test-app-false\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"test-app-false\"}},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-with-automount-false\"}}}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:29Z",
+          "generation": 1,
+          "name": "deployment-with-automount-false",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033722",
+          "uid": "1a8954ea-e395-420f-ad0b-5cfd04653e9a"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-false"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": "25%",
+              "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-false"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": false,
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-with-automount-false",
+              "serviceAccountName": "sa-with-automount-false",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "lastUpdateTime": "2026-03-06T12:56:30Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "lastUpdateTime": "2026-03-06T12:56:30Z",
+              "message": "ReplicaSet \"deployment-with-automount-false-68d6fbbf7\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "filename": "deployments/deployment-with-automount-false.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"deployment-with-automount-true\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"test-app-true\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"test-app-true\"}},\"spec\":{\"automountServiceAccountToken\":true,\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-default\"}}}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:28Z",
+          "generation": 1,
+          "name": "deployment-with-automount-true",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033724",
+          "uid": "e573c6a4-5826-4c3a-b577-d1948573f7e1"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-true"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": "25%",
+              "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-true"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": true,
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-default",
+              "serviceAccountName": "sa-default",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "lastUpdateTime": "2026-03-06T12:56:30Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "lastUpdateTime": "2026-03-06T12:56:30Z",
+              "message": "ReplicaSet \"deployment-with-automount-true-f576bb55\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "filename": "deployments/deployment-with-automount-true.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T12:56:30Z",
+          "generateName": "deployment-default-automount-658c955889-",
+          "labels": {
+            "app": "test-app-default",
+            "pod-template-hash": "658c955889"
+          },
+          "name": "deployment-default-automount-658c955889-kk6sk",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "deployment-default-automount-658c955889",
+              "uid": "86e2f9ad-c630-4879-b959-6aa1e9a95aae"
+            }
+          ],
+          "resourceVersion": "3033734",
+          "uid": "a3e914dd-90e3-43f0-afb4-ca5423455b6d"
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-tvlln",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-default",
+          "serviceAccountName": "sa-default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-tvlln",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:31Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:31Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:31Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://357770435ce2e16f8a6207d4885fb547320a3f182dd37db127cacb94ed3c1cf7",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:31Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-tvlln",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.175",
+          "podIPs": [
+            {
+              "ip": "10.244.0.175"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:30Z"
+        }
+      }
+    ],
+    "filename": "pods/deployment-default-automount-658c955889-kk6sk.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T12:56:29Z",
+          "generateName": "deployment-with-automount-false-68d6fbbf7-",
+          "labels": {
+            "app": "test-app-false",
+            "pod-template-hash": "68d6fbbf7"
+          },
+          "name": "deployment-with-automount-false-68d6fbbf7-qd466",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "deployment-with-automount-false-68d6fbbf7",
+              "uid": "1df89545-2a25-4245-ade4-24ad7a92c747"
+            }
+          ],
+          "resourceVersion": "3033719",
+          "uid": "782b03f5-cdfe-44eb-9fe7-faadd35a2cae"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-with-automount-false",
+          "serviceAccountName": "sa-with-automount-false",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://ee44b2200b62af71513530c6b60483b1f9a1123845ecf3b0c1cbb6bc0672513a",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:30Z"
+                }
+              }
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.174",
+          "podIPs": [
+            {
+              "ip": "10.244.0.174"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:29Z"
+        }
+      }
+    ],
+    "filename": "pods/deployment-with-automount-false-68d6fbbf7-qd466.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T12:56:28Z",
+          "generateName": "deployment-with-automount-true-f576bb55-",
+          "labels": {
+            "app": "test-app-true",
+            "pod-template-hash": "f576bb55"
+          },
+          "name": "deployment-with-automount-true-f576bb55-ws5pb",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "deployment-with-automount-true-f576bb55",
+              "uid": "1d29de6d-976d-485a-bb3b-2a868bc25e24"
+            }
+          ],
+          "resourceVersion": "3033721",
+          "uid": "960a37eb-fbc3-4ffa-952b-7d21ae3c3df8"
+        },
+        "spec": {
+          "automountServiceAccountToken": true,
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-bl6tv",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-default",
+          "serviceAccountName": "sa-default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-bl6tv",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:30Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://29f5e6607d58092fb407c61d91086e6906fcd67bc62ad35dae5b4e0e9fc96054",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:29Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-bl6tv",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.173",
+          "podIPs": [
+            {
+              "ip": "10.244.0.173"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:28Z"
+        }
+      }
+    ],
+    "filename": "pods/deployment-with-automount-true-f576bb55-ws5pb.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"pod-default-automount\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-default\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:28Z",
+          "name": "pod-default-automount",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033694",
+          "uid": "e19cf7a3-5fbd-4084-a269-66f7a0eb56e6"
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-c6jks",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-default",
+          "serviceAccountName": "sa-default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-c6jks",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:29Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://dcd1306c1511f86b831bfc160ceefb8a2ff1a3b42bee6caf860eba38ea708efd",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:29Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-c6jks",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.172",
+          "podIPs": [
+            {
+              "ip": "10.244.0.172"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:28Z"
+        }
+      }
+    ],
+    "filename": "pods/pod-default-automount.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"pod-with-automount-false\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-default\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:27Z",
+          "name": "pod-with-automount-false",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033658",
+          "uid": "33ad54fc-9954-4a05-ac75-c093d9c12df1"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-default",
+          "serviceAccountName": "sa-default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:27Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:27Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://32dcf5472849c2d3f705d986d648198ec363e54f7240ed885e0ce2766896b959",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:28Z"
+                }
+              }
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.171",
+          "podIPs": [
+            {
+              "ip": "10.244.0.171"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:27Z"
+        }
+      }
+    ],
+    "filename": "pods/pod-with-automount-false.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"pod-with-automount-true\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"automountServiceAccountToken\":true,\"containers\":[{\"image\":\"nginx:latest\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"sa-default\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:26Z",
+          "name": "pod-with-automount-true",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033659",
+          "uid": "5e64531b-b7c6-4afd-849d-5e326a5f7918"
+        },
+        "spec": {
+          "automountServiceAccountToken": true,
+          "containers": [
+            {
+              "image": "nginx:latest",
+              "imagePullPolicy": "Always",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-7d4l5",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "sa-default",
+          "serviceAccountName": "sa-default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-7d4l5",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:26Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:28Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T12:56:26Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://dbc0195b6fffc8d9ee722c7435a5bc16d0560cf1a877df96a679415ad9a66638",
+              "image": "docker.io/library/nginx:latest",
+              "imageID": "docker.io/library/nginx@sha256:0236ee02dcbce00b9bd83e0f5fbc51069e7e1161bd59d99885b3ae1734f3392e",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T12:56:27Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-7d4l5",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.170",
+          "podIPs": [
+            {
+              "ip": "10.244.0.170"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T12:56:26Z"
+        }
+      }
+    ],
+    "filename": "pods/pod-with-automount-true.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/desired-replicas": "1",
+            "deployment.kubernetes.io/max-replicas": "2",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-03-06T12:56:30Z",
+          "generation": 1,
+          "labels": {
+            "app": "test-app-default",
+            "pod-template-hash": "658c955889"
+          },
+          "name": "deployment-default-automount-658c955889",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Deployment",
+              "name": "deployment-default-automount",
+              "uid": "d3e468a6-e2dc-4cda-83c8-c47bf8fc5c4d"
+            }
+          ],
+          "resourceVersion": "3033735",
+          "uid": "86e2f9ad-c630-4879-b959-6aa1e9a95aae"
+        },
+        "spec": {
+          "replicas": 1,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-default",
+              "pod-template-hash": "658c955889"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-default",
+                "pod-template-hash": "658c955889"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-default",
+              "serviceAccountName": "sa-default",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "fullyLabeledReplicas": 1,
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1
+        }
+      }
+    ],
+    "filename": "replicasets/deployment-default-automount-658c955889.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/desired-replicas": "1",
+            "deployment.kubernetes.io/max-replicas": "2",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-03-06T12:56:29Z",
+          "generation": 1,
+          "labels": {
+            "app": "test-app-false",
+            "pod-template-hash": "68d6fbbf7"
+          },
+          "name": "deployment-with-automount-false-68d6fbbf7",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Deployment",
+              "name": "deployment-with-automount-false",
+              "uid": "1a8954ea-e395-420f-ad0b-5cfd04653e9a"
+            }
+          ],
+          "resourceVersion": "3033720",
+          "uid": "1df89545-2a25-4245-ade4-24ad7a92c747"
+        },
+        "spec": {
+          "replicas": 1,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-false",
+              "pod-template-hash": "68d6fbbf7"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-false",
+                "pod-template-hash": "68d6fbbf7"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": false,
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-with-automount-false",
+              "serviceAccountName": "sa-with-automount-false",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "fullyLabeledReplicas": 1,
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1
+        }
+      }
+    ],
+    "filename": "replicasets/deployment-with-automount-false-68d6fbbf7.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/desired-replicas": "1",
+            "deployment.kubernetes.io/max-replicas": "2",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-03-06T12:56:28Z",
+          "generation": 1,
+          "labels": {
+            "app": "test-app-true",
+            "pod-template-hash": "f576bb55"
+          },
+          "name": "deployment-with-automount-true-f576bb55",
+          "namespace": "k8s-opa-static-cis-516",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Deployment",
+              "name": "deployment-with-automount-true",
+              "uid": "e573c6a4-5826-4c3a-b577-d1948573f7e1"
+            }
+          ],
+          "resourceVersion": "3033723",
+          "uid": "1d29de6d-976d-485a-bb3b-2a868bc25e24"
+        },
+        "spec": {
+          "replicas": 1,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app-true",
+              "pod-template-hash": "f576bb55"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test-app-true",
+                "pod-template-hash": "f576bb55"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": true,
+              "containers": [
+                {
+                  "image": "nginx:latest",
+                  "imagePullPolicy": "Always",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "sa-default",
+              "serviceAccountName": "sa-default",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "fullyLabeledReplicas": 1,
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1
+        }
+      }
+    ],
+    "filename": "replicasets/deployment-with-automount-true-f576bb55.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"test-rolebinding\",\"namespace\":\"k8s-opa-static-cis-516\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"test-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"sa-with-automount-false\",\"namespace\":\"k8s-opa-static-cis-516\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:32Z",
+          "name": "test-rolebinding",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033738",
+          "uid": "1f790ec3-ec03-4cc7-b422-5b909e5465b4"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "test-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "sa-with-automount-false",
+            "namespace": "k8s-opa-static-cis-516"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/test-rolebinding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"test-role\",\"namespace\":\"k8s-opa-static-cis-516\"},\"rules\":[{\"apiGroups\":[\"\"],\"resources\":[\"pods\"],\"verbs\":[\"get\",\"list\"]}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:31Z",
+          "name": "test-role",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033733",
+          "uid": "25a00c0d-5ce3-4838-b0d1-dc4fe8c91ad9"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              ""
+            ],
+            "resources": [
+              "pods"
+            ],
+            "verbs": [
+              "get",
+              "list"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/test-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T12:55:55Z",
+          "name": "default",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033516",
+          "uid": "07f094c4-a532-4e9e-94f7-97546656b477"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/default.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"sa-default\",\"namespace\":\"k8s-opa-static-cis-516\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:26Z",
+          "name": "sa-default",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033623",
+          "uid": "88ed605b-d317-441c-96b4-59e47adfbabd"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/sa-default.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "automountServiceAccountToken": false,
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"automountServiceAccountToken\":false,\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"sa-with-automount-false\",\"namespace\":\"k8s-opa-static-cis-516\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:25Z",
+          "name": "sa-with-automount-false",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033621",
+          "uid": "4b7fada0-d3cd-46b6-854c-5c5cd48aba38"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/sa-with-automount-false.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "automountServiceAccountToken": true,
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"automountServiceAccountToken\":true,\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"sa-with-automount-true\",\"namespace\":\"k8s-opa-static-cis-516\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:24Z",
+          "name": "sa-with-automount-true",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033619",
+          "uid": "1671edcf-4213-4b65-838e-c47be559bb09"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/sa-with-automount-true.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"name\":\"test-service\",\"namespace\":\"k8s-opa-static-cis-516\"},\"spec\":{\"ports\":[{\"port\":80,\"protocol\":\"TCP\",\"targetPort\":80}],\"selector\":{\"app\":\"test-app-false\"},\"type\":\"ClusterIP\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T12:56:30Z",
+          "name": "test-service",
+          "namespace": "k8s-opa-static-cis-516",
+          "resourceVersion": "3033727",
+          "uid": "1b1ec9df-c46f-4126-8af9-83b176e1a7f8"
+        },
+        "spec": {
+          "clusterIP": "10.96.18.61",
+          "clusterIPs": [
+            "10.96.18.61"
+          ],
+          "internalTrafficPolicy": "Cluster",
+          "ipFamilies": [
+            "IPv4"
+          ],
+          "ipFamilyPolicy": "SingleStack",
+          "ports": [
+            {
+              "port": 80,
+              "protocol": "TCP",
+              "targetPort": 80
+            }
+          ],
+          "selector": {
+            "app": "test-app-false"
+          },
+          "sessionAffinity": "None",
+          "type": "ClusterIP"
+        },
+        "status": {
+          "loadBalancer": {}
+        }
+      }
+    ],
+    "filename": "services/test-service.yaml"
+  }
+]

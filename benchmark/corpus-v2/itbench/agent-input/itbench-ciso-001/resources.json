@@ -1,0 +1,842 @@
+[
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "data": {
+          "ca.crt": "-----BEGIN CERTIFICATE-----\nMIIDBTCCAe2gAwIBAgIIUAOla/7ups4wDQYJKoZIhvcNAQELBQAwFTETMBEGA1UE\nAxMKa3ViZXJuZXRlczAeFw0yNjAyMjQwNTQzMTVaFw0zNjAyMjIwNTQ4MTVaMBUx\nEzARBgNVBAMTCmt1YmVybmV0ZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK\nAoIBAQDQZNy0hQ3zl5/RVSHLpdu6fvGiGqQPGHujHphY3B7kcKmE6G7gSWQfIWzp\nHsFQ2vXRGHfhS5rJDAwPAiEEIoWz7FN+ibpvjyj91NNidHP4LrDVZyhJHFxjB2Lw\nxy1Mw6ok5ZONsHZ7KcW6pKonSM176tzktiirNbFFcaTc02xFyWEbuyrXbSm9NraX\ndw5q9bfPjJXAyy9o3Ymh5TGpFmU/OpLpcpiZqQ6uPNHaU63T8qevGQccj5YFo7IG\nTLOxI3DSNseuafzVnmVmU4Wo7gVdnsKcSlP9hZSBlmV70BGsLmyGmu5r9cQhWJq3\nCe1/LyEI6qAx74GvGX1G3VIB7nrfAgMBAAGjWTBXMA4GA1UdDwEB/wQEAwICpDAP\nBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTQA7DAIo8ti8JuvwZD2Z2n53xQRzAV\nBgNVHREEDjAMggprdWJlcm5ldGVzMA0GCSqGSIb3DQEBCwUAA4IBAQCxUrhLUzvk\nCMeO295/IESvdLCHXhfVZDQO3xZQtrFAjlOl6MBuhN+6aucRBbu/RY9vo81nG7Ra\n8rixgCh2NkQfggMloKWGXzlD9XGBokmf41tF+zr3RbBQaBmyKCv/CSt/Q6j0dibN\n+2T6za09YoYY2unAnuP6fdJvbdAPPU9h6DchFGvzG7WtUbZEa+ueQ1O6VOfgVHLX\ndL1Mva85Q02flEr2mj2YxYfODgOvN/SEccb7nKR7rhbGItupb8T88y8MZjPFvnp5\n3yG4gmIDnJDx+mcM978zEyyzDwniGL5GHCZMhBOP6ZLbv3j8klVXJbbFeFi4GD2g\nCk+42sANlYhq\n-----END CERTIFICATE-----\n"
+        },
+        "kind": "ConfigMap",
+        "metadata": {
+          "annotations": {
+            "kubernetes.io/description": "Contains a CA bundle that can be used to verify the kube-apiserver when using internal endpoints such as the internal service IP or kubernetes.default.svc. No other usage is guaranteed across distributions of Kubernetes clusters."
+          },
+          "creationTimestamp": "2026-03-06T10:04:21Z",
+          "name": "kube-root-ca.crt",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997707",
+          "uid": "0660e796-ad03-45d5-97bd-1501ea8b51bd"
+        }
+      }
+    ],
+    "filename": "configmaps/kube-root-ca.crt.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"test-deployment\",\"namespace\":\"k8s-opa-static-cis-511\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"test\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"test\"}},\"spec\":{\"containers\":[{\"image\":\"nginx:1.14.2\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}]}],\"serviceAccountName\":\"test-sa-violation\"}}}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:36Z",
+          "generation": 1,
+          "name": "test-deployment",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004985",
+          "uid": "e7156952-e611-4230-8334-04fc90232e65"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "test"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": "25%",
+              "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:1.14.2",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "test-sa-violation",
+              "serviceAccountName": "test-sa-violation",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-03-06T10:39:40Z",
+              "lastUpdateTime": "2026-03-06T10:39:40Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-03-06T10:39:36Z",
+              "lastUpdateTime": "2026-03-06T10:39:40Z",
+              "message": "ReplicaSet \"test-deployment-8d799b458\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "filename": "deployments/test-deployment.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T10:39:36Z",
+          "generateName": "test-deployment-8d799b458-",
+          "labels": {
+            "app": "test",
+            "pod-template-hash": "8d799b458"
+          },
+          "name": "test-deployment-8d799b458-pvbmp",
+          "namespace": "k8s-opa-static-cis-511",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "test-deployment-8d799b458",
+              "uid": "6b95f96c-dddc-44e8-bd5c-9faee0518482"
+            }
+          ],
+          "resourceVersion": "3004981",
+          "uid": "88f11ec0-d90a-422b-b9a4-60e4cc4b1f0f"
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:1.14.2",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-l467j",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "test-sa-violation",
+          "serviceAccountName": "test-sa-violation",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-l467j",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T10:39:40Z",
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T10:39:36Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T10:39:40Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T10:39:40Z",
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-03-06T10:39:36Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://5e7c0e16527a5fc3096d786d41348b70ea8f4bafda1b7884fc09db096c9104dc",
+              "image": "docker.io/library/nginx:1.14.2",
+              "imageID": "docker.io/library/nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d",
+              "lastState": {},
+              "name": "nginx",
+              "ready": true,
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-03-06T10:39:39Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-l467j",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.18.0.2",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.2"
+            }
+          ],
+          "phase": "Running",
+          "podIP": "10.244.0.151",
+          "podIPs": [
+            {
+              "ip": "10.244.0.151"
+            }
+          ],
+          "qosClass": "BestEffort",
+          "startTime": "2026-03-06T10:39:36Z"
+        }
+      }
+    ],
+    "filename": "pods/test-deployment-8d799b458-pvbmp.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/desired-replicas": "1",
+            "deployment.kubernetes.io/max-replicas": "2",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-03-06T10:39:36Z",
+          "generation": 1,
+          "labels": {
+            "app": "test",
+            "pod-template-hash": "8d799b458"
+          },
+          "name": "test-deployment-8d799b458",
+          "namespace": "k8s-opa-static-cis-511",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Deployment",
+              "name": "test-deployment",
+              "uid": "e7156952-e611-4230-8334-04fc90232e65"
+            }
+          ],
+          "resourceVersion": "3004984",
+          "uid": "6b95f96c-dddc-44e8-bd5c-9faee0518482"
+        },
+        "spec": {
+          "replicas": 1,
+          "selector": {
+            "matchLabels": {
+              "app": "test",
+              "pod-template-hash": "8d799b458"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "app": "test",
+                "pod-template-hash": "8d799b458"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:1.14.2",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "test-sa-violation",
+              "serviceAccountName": "test-sa-violation",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "fullyLabeledReplicas": 1,
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1
+        }
+      }
+    ],
+    "filename": "replicasets/test-deployment-8d799b458.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"benchmark-admin-binding\",\"namespace\":\"k8s-opa-static-cis-511\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"benchmark-admin-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"benchmark-admin-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:34Z",
+          "name": "benchmark-admin-binding",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004940",
+          "uid": "a3798d24-cce4-4bc9-8982-731a8fa1b790"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "benchmark-admin-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "benchmark-admin-sa",
+            "namespace": "k8s-opa-static-cis-511"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/benchmark-admin-binding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"benchmark-binding\",\"namespace\":\"k8s-opa-static-cis-511\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"wildcard-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"benchmark-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:04:28Z",
+          "name": "benchmark-binding",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997732",
+          "uid": "3498f326-7bcd-4a66-ab1f-24e52d09fb15"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "wildcard-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "benchmark-sa",
+            "namespace": "k8s-opa-static-cis-511"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/benchmark-binding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"compliant-binding\",\"namespace\":\"k8s-opa-static-cis-511\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"limited-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"test-sa-compliant\",\"namespace\":\"k8s-opa-static-cis-511\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:35Z",
+          "name": "compliant-binding",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004944",
+          "uid": "923431de-c28e-4f6f-9c56-034e835133bc"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "limited-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "test-sa-compliant",
+            "namespace": "k8s-opa-static-cis-511"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/compliant-binding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"violating-binding\",\"namespace\":\"k8s-opa-static-cis-511\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"ClusterRole\",\"name\":\"cluster-admin\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"violating-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:04:30Z",
+          "name": "violating-binding",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997740",
+          "uid": "69ff635b-a18a-441a-bb5d-b04d8657ce82"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "ClusterRole",
+          "name": "cluster-admin"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "violating-sa",
+            "namespace": "k8s-opa-static-cis-511"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/violating-binding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"violation-binding\",\"namespace\":\"k8s-opa-static-cis-511\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"cluster-admin-like-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"test-sa-violation\",\"namespace\":\"k8s-opa-static-cis-511\"}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:34Z",
+          "name": "violation-binding",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004937",
+          "uid": "0c443714-9b7d-4fc5-bffc-bd535b48b328"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "cluster-admin-like-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "test-sa-violation",
+            "namespace": "k8s-opa-static-cis-511"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/violation-binding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"benchmark-admin-role\",\"namespace\":\"k8s-opa-static-cis-511\"},\"rules\":[{\"apiGroups\":[\"*\"],\"resources\":[\"*\"],\"verbs\":[\"*\"]}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:32Z",
+          "name": "benchmark-admin-role",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004931",
+          "uid": "2fde6bdc-1128-43c3-af22-3d3624eba656"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              "*"
+            ],
+            "resources": [
+              "*"
+            ],
+            "verbs": [
+              "*"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/benchmark-admin-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"cluster-admin-like-role\",\"namespace\":\"k8s-opa-static-cis-511\"},\"rules\":[{\"apiGroups\":[\"*\"],\"resources\":[\"*\"],\"verbs\":[\"*\"]}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:32Z",
+          "name": "cluster-admin-like-role",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004927",
+          "uid": "005d5031-42ad-4112-8eda-ea71632ea38a"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              "*"
+            ],
+            "resources": [
+              "*"
+            ],
+            "verbs": [
+              "*"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/cluster-admin-like-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"limited-role\",\"namespace\":\"k8s-opa-static-cis-511\"},\"rules\":[{\"apiGroups\":[\"\"],\"resources\":[\"pods\"],\"verbs\":[\"get\",\"list\"]}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:33Z",
+          "name": "limited-role",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004935",
+          "uid": "2b1bb058-ba29-4874-b30f-e539fc303477"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              ""
+            ],
+            "resources": [
+              "pods"
+            ],
+            "verbs": [
+              "get",
+              "list"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/limited-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"wildcard-role\",\"namespace\":\"k8s-opa-static-cis-511\"},\"rules\":[{\"apiGroups\":[\"*\"],\"resources\":[\"*\"],\"verbs\":[\"*\"]}]}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:04:26Z",
+          "name": "wildcard-role",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997724",
+          "uid": "3a280021-0099-43f0-83ab-ed7288aa14cf"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              "*"
+            ],
+            "resources": [
+              "*"
+            ],
+            "verbs": [
+              "*"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/wildcard-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "description": "Benchmark system service account - should be excluded from checks",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{\"description\":\"Benchmark system service account - should be excluded from checks\"},\"name\":\"benchmark-admin-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:31Z",
+          "name": "benchmark-admin-sa",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004925",
+          "uid": "57cfb9cf-e7c6-4150-819c-fa7919564a52"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/benchmark-admin-sa.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"benchmark-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:04:23Z",
+          "name": "benchmark-sa",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997710",
+          "uid": "1d566c0c-2cbd-4e91-bd20-cb1a79d86dfc"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/benchmark-sa.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "creationTimestamp": "2026-03-06T10:04:21Z",
+          "name": "default",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997706",
+          "uid": "34e63ab9-3aea-4684-9bce-46a6051053b8"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/default.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"test-sa-compliant\",\"namespace\":\"k8s-opa-static-cis-511\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:30Z",
+          "name": "test-sa-compliant",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004921",
+          "uid": "49418e80-ad61-49b9-98c6-0e1572bfa59e"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/test-sa-compliant.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"test-sa-violation\",\"namespace\":\"k8s-opa-static-cis-511\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:30Z",
+          "name": "test-sa-violation",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004918",
+          "uid": "0291260d-03c5-4259-b8e8-eb2911f89438"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/test-sa-violation.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"violating-sa\",\"namespace\":\"k8s-opa-static-cis-511\"}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:04:25Z",
+          "name": "violating-sa",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "2997716",
+          "uid": "aa8d64b8-b961-44a4-b1e9-d8da0d04f3f6"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/violating-sa.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"name\":\"test-service\",\"namespace\":\"k8s-opa-static-cis-511\"},\"spec\":{\"ports\":[{\"port\":80,\"protocol\":\"TCP\",\"targetPort\":80}],\"selector\":{\"app\":\"test\"}}}\n"
+          },
+          "creationTimestamp": "2026-03-06T10:39:36Z",
+          "name": "test-service",
+          "namespace": "k8s-opa-static-cis-511",
+          "resourceVersion": "3004963",
+          "uid": "4021ba47-f3d2-439d-a341-0efa61c1dffb"
+        },
+        "spec": {
+          "clusterIP": "10.96.84.93",
+          "clusterIPs": [
+            "10.96.84.93"
+          ],
+          "internalTrafficPolicy": "Cluster",
+          "ipFamilies": [
+            "IPv4"
+          ],
+          "ipFamilyPolicy": "SingleStack",
+          "ports": [
+            {
+              "port": 80,
+              "protocol": "TCP",
+              "targetPort": 80
+            }
+          ],
+          "selector": {
+            "app": "test"
+          },
+          "sessionAffinity": "None",
+          "type": "ClusterIP"
+        },
+        "status": {
+          "loadBalancer": {}
+        }
+      }
+    ],
+    "filename": "services/test-service.yaml"
+  }
+]

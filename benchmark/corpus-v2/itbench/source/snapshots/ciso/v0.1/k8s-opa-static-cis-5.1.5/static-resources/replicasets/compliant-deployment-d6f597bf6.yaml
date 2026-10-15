@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '1'
+  creationTimestamp: '2026-03-06T12:25:28Z'
+  generation: 1
+  labels:
+    app: compliant-app
+    pod-template-hash: d6f597bf6
+  name: compliant-deployment-d6f597bf6
+  namespace: k8s-opa-static-cis-515
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: compliant-deployment
+    uid: b9d6a68b-d0c4-4278-97f5-cfac3022837a
+  resourceVersion: '3027124'
+  uid: 732a7bab-46bc-4f4e-a7ff-6f2a31691393
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compliant-app
+      pod-template-hash: d6f597bf6
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: compliant-app
+        pod-template-hash: d6f597bf6
+    spec:
+      containers:
+      - image: nginx:1.20
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: custom-service-account
+      serviceAccountName: custom-service-account
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

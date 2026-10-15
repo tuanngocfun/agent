@@ -1,0 +1,75 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: '1'
+      kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"test-deployment"},"name":"test-deployment","namespace":"k8s-opa-static-cis-523"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"test-deployment"}},"template":{"metadata":{"labels":{"app":"test-deployment"}},"spec":{"containers":[{"image":"nginx:1.20","name":"nginx","ports":[{"containerPort":80}]}],"serviceAccountName":"test-service-account"}}}}
+
+        '
+    creationTimestamp: '2026-03-06T12:14:36Z'
+    generation: 1
+    labels:
+      app: test-deployment
+    name: test-deployment
+    namespace: k8s-opa-static-cis-523
+    resourceVersion: '3024765'
+    uid: d22451e8-2ea1-47ce-a976-37d9aad152ab
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 2
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: test-deployment
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: test-deployment
+      spec:
+        containers:
+        - image: nginx:1.20
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: test-service-account
+        serviceAccountName: test-service-account
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 2
+    conditions:
+    - lastTransitionTime: '2026-03-06T12:14:42Z'
+      lastUpdateTime: '2026-03-06T12:14:42Z'
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2026-03-06T12:14:36Z'
+      lastUpdateTime: '2026-03-06T12:14:42Z'
+      message: ReplicaSet "test-deployment-df55759c5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: 'True'
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 2
+    replicas: 2
+    updatedReplicas: 2
+kind: List
+metadata:
+  resourceVersion: ''

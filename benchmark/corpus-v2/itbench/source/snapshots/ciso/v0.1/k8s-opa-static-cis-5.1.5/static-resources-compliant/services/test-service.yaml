@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"test-service","namespace":"k8s-opa-static-cis-515"},"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":80}],"selector":{"app":"compliant-app"},"type":"ClusterIP"}}
+
+      '
+  creationTimestamp: '2026-03-06T12:25:33Z'
+  name: test-service
+  namespace: k8s-opa-static-cis-515
+  resourceVersion: '3027129'
+  uid: 63db0a0d-65b0-41fb-87bc-296d5fa80e4e
+spec:
+  clusterIP: 10.96.30.110
+  clusterIPs:
+  - 10.96.30.110
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: compliant-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,2 @@
+# Optional corpus tooling only; v1 execution source remains standard-library based.
+PyYAML==6.0.3

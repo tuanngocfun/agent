@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"name":"violating-binding","namespace":"k8s-opa-static-cis-511"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"cluster-admin"},"subjects":[{"kind":"ServiceAccount","name":"violating-sa","namespace":"k8s-opa-static-cis-511"}]}
+  creationTimestamp: "2026-03-06T10:04:30Z"
+  name: violating-binding
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: "2997740"
+  uid: 69ff635b-a18a-441a-bb5d-b04d8657ce82
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: violating-sa
+  namespace: k8s-opa-static-cis-511

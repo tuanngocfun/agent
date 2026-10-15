@@ -1,0 +1,26 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"test-role","namespace":"k8s-opa-static-cis-525"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get","list","watch"]},{"apiGroups":["apps"],"resources":["deployments"],"verbs":["get","list"]}]}
+
+      '
+  labels: {}
+  name: test-role
+  namespace: k8s-opa-static-cis-525
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list

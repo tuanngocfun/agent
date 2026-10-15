@@ -1,0 +1,755 @@
+[
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"test-app\"},\"name\":\"test-deployment\",\"namespace\":\"k8s-opa-static-cis-522\"},\"spec\":{\"replicas\":2,\"selector\":{\"matchLabels\":{\"app\":\"test-app\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"test-app\"}},\"spec\":{\"containers\":[{\"image\":\"nginx:1.21\",\"name\":\"nginx\",\"ports\":[{\"containerPort\":80}],\"securityContext\":{\"privileged\":true,\"runAsUser\":0}}],\"serviceAccountName\":\"test-service-account\"}}}}\n"
+          },
+          "labels": {
+            "app": "test-app"
+          },
+          "name": "test-deployment",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 2,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": "25%",
+              "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "test-app"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:1.21",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "securityContext": {
+                    "privileged": true,
+                    "runAsUser": 0
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "test-service-account",
+              "serviceAccountName": "test-service-account",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        }
+      }
+    ],
+    "filename": "deployments/test-deployment.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"test-compliant\"},\"name\":\"compliant-pod\",\"namespace\":\"k8s-opa-static-cis-522\"},\"spec\":{\"containers\":[{\"image\":\"nginx:1.21\",\"name\":\"nginx\",\"securityContext\":{\"privileged\":false,\"runAsNonRoot\":true,\"runAsUser\":1000}}],\"restartPolicy\":\"Never\"}}\n"
+          },
+          "labels": {
+            "app": "test-compliant"
+          },
+          "name": "compliant-pod",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:1.21",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "nginx",
+              "resources": {},
+              "securityContext": {
+                "privileged": false,
+                "runAsNonRoot": true,
+                "runAsUser": 1000
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-5dsvg",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Never",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-5dsvg",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "filename": "pods/compliant-pod.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"test-privileged\"},\"name\":\"privileged-pod\",\"namespace\":\"k8s-opa-static-cis-522\"},\"spec\":{\"containers\":[{\"image\":\"nginx:1.21\",\"name\":\"nginx\",\"securityContext\":{\"privileged\":true}}],\"restartPolicy\":\"Never\"}}\n"
+          },
+          "labels": {
+            "app": "test-privileged"
+          },
+          "name": "privileged-pod",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:1.21",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "nginx",
+              "resources": {},
+              "securityContext": {
+                "privileged": true
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-zt4rj",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Never",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-zt4rj",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "filename": "pods/privileged-pod.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "generateName": "test-deployment-695d4dcd89-",
+          "labels": {
+            "app": "test-app",
+            "pod-template-hash": "695d4dcd89"
+          },
+          "name": "test-deployment-695d4dcd89-6jsmh",
+          "namespace": "k8s-opa-static-cis-522",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "test-deployment-695d4dcd89",
+              "uid": "bb7e8f54-1307-49c5-915c-bf4f82ba8c86"
+            }
+          ]
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:1.21",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "securityContext": {
+                "privileged": true,
+                "runAsUser": 0
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-sxxf9",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "test-service-account",
+          "serviceAccountName": "test-service-account",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-sxxf9",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "filename": "pods/test-deployment-695d4dcd89-6jsmh.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "generateName": "test-deployment-695d4dcd89-",
+          "labels": {
+            "app": "test-app",
+            "pod-template-hash": "695d4dcd89"
+          },
+          "name": "test-deployment-695d4dcd89-d7sd9",
+          "namespace": "k8s-opa-static-cis-522",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "test-deployment-695d4dcd89",
+              "uid": "bb7e8f54-1307-49c5-915c-bf4f82ba8c86"
+            }
+          ]
+        },
+        "spec": {
+          "containers": [
+            {
+              "image": "nginx:1.21",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "nginx",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {},
+              "securityContext": {
+                "privileged": true,
+                "runAsUser": 0
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-8fw48",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "kind-1-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "test-service-account",
+          "serviceAccountName": "test-service-account",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-8fw48",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "filename": "pods/test-deployment-695d4dcd89-d7sd9.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/desired-replicas": "2",
+            "deployment.kubernetes.io/max-replicas": "3",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "labels": {
+            "app": "test-app",
+            "pod-template-hash": "695d4dcd89"
+          },
+          "name": "test-deployment-695d4dcd89",
+          "namespace": "k8s-opa-static-cis-522",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Deployment",
+              "name": "test-deployment",
+              "uid": "460f574f-0f27-41b6-8433-9467512412b2"
+            }
+          ]
+        },
+        "spec": {
+          "replicas": 2,
+          "selector": {
+            "matchLabels": {
+              "app": "test-app",
+              "pod-template-hash": "695d4dcd89"
+            }
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "test-app",
+                "pod-template-hash": "695d4dcd89"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "nginx:1.21",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "nginx",
+                  "ports": [
+                    {
+                      "containerPort": 80,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "resources": {},
+                  "securityContext": {
+                    "privileged": true,
+                    "runAsUser": 0
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "test-service-account",
+              "serviceAccountName": "test-service-account",
+              "terminationGracePeriodSeconds": 30
+            }
+          }
+        }
+      }
+    ],
+    "filename": "replicasets/test-deployment-695d4dcd89.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "RoleBinding",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"RoleBinding\",\"metadata\":{\"annotations\":{},\"name\":\"test-rolebinding\",\"namespace\":\"k8s-opa-static-cis-522\"},\"roleRef\":{\"apiGroup\":\"rbac.authorization.k8s.io\",\"kind\":\"Role\",\"name\":\"test-role\"},\"subjects\":[{\"kind\":\"ServiceAccount\",\"name\":\"test-service-account\",\"namespace\":\"k8s-opa-static-cis-522\"}]}\n"
+          },
+          "name": "test-rolebinding",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "roleRef": {
+          "apiGroup": "rbac.authorization.k8s.io",
+          "kind": "Role",
+          "name": "test-role"
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "test-service-account",
+            "namespace": "k8s-opa-static-cis-522"
+          }
+        ]
+      }
+    ],
+    "filename": "rolebindings/test-rolebinding.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "Role",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"name\":\"test-role\",\"namespace\":\"k8s-opa-static-cis-522\"},\"rules\":[{\"apiGroups\":[\"\"],\"resources\":[\"pods\",\"services\"],\"verbs\":[\"get\",\"list\",\"watch\"]},{\"apiGroups\":[\"apps\"],\"resources\":[\"deployments\"],\"verbs\":[\"get\",\"list\",\"watch\"]}]}\n"
+          },
+          "name": "test-role",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "rules": [
+          {
+            "apiGroups": [
+              ""
+            ],
+            "resources": [
+              "pods",
+              "services"
+            ],
+            "verbs": [
+              "get",
+              "list",
+              "watch"
+            ]
+          },
+          {
+            "apiGroups": [
+              "apps"
+            ],
+            "resources": [
+              "deployments"
+            ],
+            "verbs": [
+              "get",
+              "list",
+              "watch"
+            ]
+          }
+        ]
+      }
+    ],
+    "filename": "roles/test-role.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "name": "default",
+          "namespace": "k8s-opa-static-cis-522"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/default.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "ServiceAccount",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"annotations\":{},\"name\":\"test-service-account\",\"namespace\":\"k8s-opa-static-cis-522\"}}\n"
+          },
+          "name": "test-service-account",
+          "namespace": "k8s-opa-static-cis-522"
+        }
+      }
+    ],
+    "filename": "serviceaccounts/test-service-account.yaml"
+  },
+  {
+    "documents": [
+      {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"test-app\"},\"name\":\"test-service\",\"namespace\":\"k8s-opa-static-cis-522\"},\"spec\":{\"ports\":[{\"port\":80,\"protocol\":\"TCP\",\"targetPort\":80}],\"selector\":{\"app\":\"test-app\"},\"type\":\"ClusterIP\"}}\n"
+          },
+          "labels": {
+            "app": "test-app"
+          },
+          "name": "test-service",
+          "namespace": "k8s-opa-static-cis-522"
+        },
+        "spec": {
+          "clusterIP": "10.96.217.175",
+          "clusterIPs": [
+            "10.96.217.175"
+          ],
+          "internalTrafficPolicy": "Cluster",
+          "ipFamilies": [
+            "IPv4"
+          ],
+          "ipFamilyPolicy": "SingleStack",
+          "ports": [
+            {
+              "port": 80,
+              "protocol": "TCP",
+              "targetPort": 80
+            }
+          ],
+          "selector": {
+            "app": "test-app"
+          },
+          "sessionAffinity": "None",
+          "type": "ClusterIP"
+        }
+      }
+    ],
+    "filename": "services/test-service.yaml"
+  }
+]

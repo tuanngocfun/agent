@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"violating-role","namespace":"k8s-opa-static-cis-517"},"rules":[{"apiGroups":[""],"resources":["pods","configmaps","secrets"],"verbs":["get","list","watch","create","update","patch","delete"]}]}
+
+      '
+  name: violating-role
+  namespace: k8s-opa-static-cis-517
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - configmaps
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete

@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: web-platform
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-bench-agent
+  namespace: web-platform
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: infra-bench-agent-token
+  namespace: web-platform
+  annotations:
+    kubernetes.io/service-account.name: infra-bench-agent
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: infra-bench-agent
+  namespace: web-platform
+rules:
+  - apiGroups: [""]
+    resources:
+      ["configmaps", "endpoints", "events", "pods", "pods/log", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["daemonsets", "deployments", "replicasets", "statefulsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["cronjobs", "jobs"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+    resourceNames: ["web"]
+    verbs: ["patch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: infra-bench-agent
+  namespace: web-platform
+subjects:
+  - kind: ServiceAccount
+    name: infra-bench-agent
+    namespace: web-platform
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: infra-bench-agent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: web-platform
+  labels:
+    app: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27
+          ports:
+            - name: http
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: web-platform
+spec:
+  selector:
+    app: api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-bench-baseline
+  namespace: web-platform
+data:
+  deployment_uid: ""
+  service_uid: ""

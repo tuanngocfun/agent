@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: '2026-03-06T13:14:06Z'
+  generateName: compliant-deployment-6db8746456-
+  labels:
+    app: compliant-app
+    pod-template-hash: 6db8746456
+  name: compliant-deployment-6db8746456-k4lcb
+  namespace: k8s-opa-static-cis-526
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: compliant-deployment-6db8746456
+    uid: 222d951d-965a-40e8-b8cd-589ec71d4754
+  resourceVersion: '3037682'
+  uid: 5ef427b3-7f02-450e-a7ef-0bfaaed9b985
+spec:
+  containers:
+  - image: nginx:1.20
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 1000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-c7srv
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-1-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-c7srv
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:08Z'
+    status: 'True'
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    status: 'True'
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    message: 'containers with unready status: [nginx]'
+    reason: ContainersNotReady
+    status: 'False'
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    message: 'containers with unready status: [nginx]'
+    reason: ContainersNotReady
+    status: 'False'
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    status: 'True'
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://42397526463e87b710d8bf1d0f67f4c28b88191e4e04f799c5d21a20f8a212ab
+    image: docker.io/library/nginx:1.20
+    imageID: docker.io/library/nginx@sha256:38f8c1d9613f3f42e7969c3b1dd5c3277e635d4576713e6453c6193e66270a6d
+    lastState:
+      terminated:
+        containerID: containerd://42397526463e87b710d8bf1d0f67f4c28b88191e4e04f799c5d21a20f8a212ab
+        exitCode: 1
+        finishedAt: '2026-03-06T13:14:24Z'
+        reason: Error
+        startedAt: '2026-03-06T13:14:24Z'
+    name: nginx
+    ready: false
+    restartCount: 2
+    started: false
+    state:
+      waiting:
+        message: back-off 20s restarting failed container=nginx pod=compliant-deployment-6db8746456-k4lcb_k8s-opa-static-cis-526(5ef427b3-7f02-450e-a7ef-0bfaaed9b985)
+        reason: CrashLoopBackOff
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-c7srv
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  phase: Running
+  podIP: 10.244.0.182
+  podIPs:
+  - ip: 10.244.0.182
+  qosClass: BestEffort
+  startTime: '2026-03-06T13:14:06Z'

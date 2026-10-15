@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '1'
+  labels:
+    app: host-network-web
+    pod-template-hash: 845fbc676b
+  name: non-compliant-deployment-845fbc676b
+  namespace: k8s-opa-static-cis-525
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: host-network-web
+      pod-template-hash: 845fbc676b
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: host-network-web
+        pod-template-hash: 845fbc676b
+    spec:
+      containers:
+      - image: nginx:1.20
+        imagePullPolicy: IfNotPresent
+        name: web
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

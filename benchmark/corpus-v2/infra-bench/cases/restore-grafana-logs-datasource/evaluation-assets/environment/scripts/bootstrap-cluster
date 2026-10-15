@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+namespace="product-observability"
+agent_secret="infra-bench-agent-token"
+
+prepare-kubeconfig
+
+kubectl apply -f /bootstrap/observability.yaml
+
+for deployment in logs-backend metrics-backend observability-ui incident-monitor docs demo-api; do
+  if ! kubectl -n "$namespace" rollout status deployment/"$deployment" --timeout=240s; then
+    kubectl -n "$namespace" get all,configmaps,secrets -o wide >&2 || true
+    kubectl -n "$namespace" describe deployment "$deployment" >&2 || true
+    exit 1
+  fi
+done
+
+for service in logs-backend metrics-backend observability-ui docs demo-api; do
+  for _ in $(seq 1 60); do
+    endpoints="$(kubectl -n "$namespace" get endpoints "$service" -o jsonpath='{.subsets[*].addresses[*].ip}' 2>/dev/null || true)"
+    if [[ -n "$endpoints" ]]; then
+      break
+    fi
+    sleep 1
+  done
+  if [[ -z "$endpoints" ]]; then
+    echo "service $service did not receive endpoints" >&2
+    kubectl -n "$namespace" get endpoints "$service" -o yaml >&2 || true
+    exit 1
+  fi
+done
+
+for _ in $(seq 1 60); do
+  if kubectl -n "$namespace" logs deployment/observability-ui --tail=20 2>/dev/null | grep -q "log panels empty"; then
+    break
+  fi
+  sleep 1
+done
+
+if ! kubectl -n "$namespace" logs deployment/observability-ui --tail=40 2>/dev/null | grep -q "log panels empty"; then
+  echo "expected observability UI to start with empty log panel status" >&2
+  kubectl -n "$namespace" logs deployment/observability-ui --tail=100 >&2 || true
+  exit 1
+fi
+
+ui_deployment_uid="$(kubectl -n "$namespace" get deployment observability-ui -o jsonpath='{.metadata.uid}')"
+ui_service_uid="$(kubectl -n "$namespace" get service observability-ui -o jsonpath='{.metadata.uid}')"
+incident_monitor_deployment_uid="$(kubectl -n "$namespace" get deployment incident-monitor -o jsonpath='{.metadata.uid}')"
+logs_backend_deployment_uid="$(kubectl -n "$namespace" get deployment logs-backend -o jsonpath='{.metadata.uid}')"
+logs_backend_service_uid="$(kubectl -n "$namespace" get service logs-backend -o jsonpath='{.metadata.uid}')"
+docs_deployment_uid="$(kubectl -n "$namespace" get deployment docs -o jsonpath='{.metadata.uid}')"
+docs_service_uid="$(kubectl -n "$namespace" get service docs -o jsonpath='{.metadata.uid}')"
+demo_deployment_uid="$(kubectl -n "$namespace" get deployment demo-api -o jsonpath='{.metadata.uid}')"
+demo_service_uid="$(kubectl -n "$namespace" get service demo-api -o jsonpath='{.metadata.uid}')"
+metrics_backend_deployment_uid="$(kubectl -n "$namespace" get deployment metrics-backend -o jsonpath='{.metadata.uid}')"
+metrics_backend_service_uid="$(kubectl -n "$namespace" get service metrics-backend -o jsonpath='{.metadata.uid}')"
+datasource_secret_uid="$(kubectl -n "$namespace" get secret observability-datasources -o jsonpath='{.metadata.uid}')"
+logs_backend_content_uid="$(kubectl -n "$namespace" get configmap logs-backend-content -o jsonpath='{.metadata.uid}')"
+metrics_backend_content_uid="$(kubectl -n "$namespace" get configmap metrics-backend-content -o jsonpath='{.metadata.uid}')"
+ui_serviceaccount_uid="$(kubectl -n "$namespace" get serviceaccount observability-ui -o jsonpath='{.metadata.uid}')"
+
+kubectl -n "$namespace" patch configmap infra-bench-baseline \
+  --type merge \
+  --patch "$(cat <<PATCH
+{
+  "data": {
+    "ui_deployment_uid": "${ui_deployment_uid}",
+    "ui_service_uid": "${ui_service_uid}",
+    "incident_monitor_deployment_uid": "${incident_monitor_deployment_uid}",
+    "logs_backend_deployment_uid": "${logs_backend_deployment_uid}",
+    "logs_backend_service_uid": "${logs_backend_service_uid}",
+    "docs_deployment_uid": "${docs_deployment_uid}",
+    "docs_service_uid": "${docs_service_uid}",
+    "demo_deployment_uid": "${demo_deployment_uid}",
+    "demo_service_uid": "${demo_service_uid}",
+    "metrics_backend_deployment_uid": "${metrics_backend_deployment_uid}",
+    "metrics_backend_service_uid": "${metrics_backend_service_uid}",
+    "datasource_secret_uid": "${datasource_secret_uid}",
+    "logs_backend_content_uid": "${logs_backend_content_uid}",
+    "metrics_backend_content_uid": "${metrics_backend_content_uid}",
+    "ui_serviceaccount_uid": "${ui_serviceaccount_uid}"
+  }
+}
+PATCH
+)"
+
+for _ in $(seq 1 60); do
+  token_data="$(
+    kubectl -n "$namespace" get secret "$agent_secret" \
+      -o jsonpath='{.data.token}' 2>/dev/null || true
+  )"
+  ca_data="$(
+    kubectl -n "$namespace" get secret "$agent_secret" \
+      -o jsonpath='{.data.ca\.crt}' 2>/dev/null || true
+  )"
+
+  if [[ -n "$token_data" && -n "$ca_data" ]]; then
+    break
+  fi
+
+  sleep 1
+done
+
+if [[ -z "${token_data:-}" || -z "${ca_data:-}" ]]; then
+  echo "failed to prepare agent ServiceAccount token" >&2
+  exit 1
+fi
+
+api_server="$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')"
+agent_token="$(printf '%s' "$token_data" | base64 --decode)"
+
+mkdir -p /kube
+cat > /kube/kubeconfig.yaml <<EOF
+apiVersion: v1
+kind: Config
+clusters:
+- name: local
+  cluster:
+    server: ${api_server}
+    certificate-authority-data: ${ca_data}
+users:
+- name: infra-bench-agent
+  user:
+    token: ${agent_token}
+contexts:
+- name: infra-bench-agent
+  context:
+    cluster: local
+    namespace: ${namespace}
+    user: infra-bench-agent
+current-context: infra-bench-agent
+EOF
+chmod 0444 /kube/kubeconfig.yaml

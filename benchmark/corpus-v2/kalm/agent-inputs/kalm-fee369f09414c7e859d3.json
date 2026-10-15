@@ -1,0 +1,1 @@
+{"resources":[{"apiVersion":"scheduling.k8s.io/v1","description":"Default priority class for all pods","globalDefault":true,"kind":"PriorityClass","metadata":{"labels":{"app.kubernetes.io/part-of":"corpus"},"name":"resource-2bdb5cabdd9a3492"},"preemptionPolicy":"Never","value":1000}],"schema_version":"kalm-static-input-v1"}

@@ -1,0 +1,31 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"labels":{"app":"reader"},"name":"specific-role","namespace":"k8s-opa-static-cis-513"},"rules":[{"apiGroups":[""],"resources":["pods","services"],"verbs":["get","list"]},{"apiGroups":["apps"],"resources":["deployments"],"verbs":["get","list","watch"]}]}
+
+      '
+  creationTimestamp: '2026-03-06T11:33:13Z'
+  labels:
+    app: reader
+  name: specific-role
+  namespace: k8s-opa-static-cis-513
+  resourceVersion: '3016028'
+  uid: 01e9998d-5155-41e6-9709-3c598809d56b
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - services
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch

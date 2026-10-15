@@ -1,0 +1,47 @@
+{
+  "commit": "6da1b2d75e7fb05a69adc632e89ad0dc84e5f115",
+  "exact_unique_files": 241,
+  "labeled_candidate_files": 238,
+  "license": "Apache-2.0",
+  "limits": [
+    "YAML files and documents are not independent runtime repair tasks.",
+    "Source labels describe expected scanner findings, not complete security or behavioral ground truth.",
+    "No cluster deployment, model evaluation, or behavioral verification was performed by this importer.",
+    "Public generated scanner fixtures share templates and can be present in model training data.",
+    "Raw YAML and records contain answers; give models only agent-inputs, never raw filenames or oracle records.",
+    "Sanitization removes non-runtime annotations and anonymizes declared identifiers; it is not a proven behavior-preserving transformation.",
+    "Structural grouping normalizes identifiers only; subtler template similarity remains possible."
+  ],
+  "manifest_file_count": 241,
+  "model_experiments_run": 0,
+  "partitions": {
+    "components": 78,
+    "method": "sha256 connected components; rule family or exact/structural duplicate links; hash modulo five development",
+    "note": "Public upstream examples; this split does not establish model-training decontamination or unseen-data generalization.",
+    "record_counts": {
+      "development": 59,
+      "evaluation": 179,
+      "support": 3
+    }
+  },
+  "repository": "dynatrace-oss/Kalm-Benchmark",
+  "resource_document_count": 445,
+  "runtime_validated_cases": 0,
+  "schema_version": "kalm-static-corpus-v1",
+  "source_categories": {
+    "cm": 1,
+    "np": 6,
+    "ns": 3,
+    "pod": 89,
+    "psa": 3,
+    "rbac": 102,
+    "rel": 6,
+    "res": 21,
+    "sc": 6,
+    "support": 3,
+    "wl": 1
+  },
+  "status": "static_candidates_only",
+  "structural_unique_inputs": 232,
+  "unique_source_rule_families": 79
+}

@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: '2026-03-06T13:14:06Z'
+  generateName: compliant-deployment-6db8746456-
+  labels:
+    app: compliant-app
+    pod-template-hash: 6db8746456
+  name: compliant-deployment-6db8746456-lw8hf
+  namespace: k8s-opa-static-cis-526
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: compliant-deployment-6db8746456
+    uid: 222d951d-965a-40e8-b8cd-589ec71d4754
+  resourceVersion: '3037753'
+  uid: 1829c346-55c4-42f9-83d9-a7735d4a9a8b
+spec:
+  containers:
+  - image: nginx:1.20
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 1000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-jbm4m
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-1-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-jbm4m
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:08Z'
+    status: 'True'
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    status: 'True'
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    message: 'containers with unready status: [nginx]'
+    reason: ContainersNotReady
+    status: 'False'
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    message: 'containers with unready status: [nginx]'
+    reason: ContainersNotReady
+    status: 'False'
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: '2026-03-06T13:14:06Z'
+    status: 'True'
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://2d62b9450c0007ec5051f3536e16152dfb2d052ba8990f251c35b336ef80a251
+    image: docker.io/library/nginx:1.20
+    imageID: docker.io/library/nginx@sha256:38f8c1d9613f3f42e7969c3b1dd5c3277e635d4576713e6453c6193e66270a6d
+    lastState:
+      terminated:
+        containerID: containerd://978c97236255cce5c0bafe15263d139546cecfe3a50284eb2834f7ef0262434a
+        exitCode: 1
+        finishedAt: '2026-03-06T13:14:21Z'
+        reason: Error
+        startedAt: '2026-03-06T13:14:21Z'
+    name: nginx
+    ready: false
+    restartCount: 3
+    started: false
+    state:
+      terminated:
+        containerID: containerd://2d62b9450c0007ec5051f3536e16152dfb2d052ba8990f251c35b336ef80a251
+        exitCode: 1
+        finishedAt: '2026-03-06T13:14:51Z'
+        reason: Error
+        startedAt: '2026-03-06T13:14:51Z'
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-jbm4m
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  phase: Running
+  podIP: 10.244.0.181
+  podIPs:
+  - ip: 10.244.0.181
+  qosClass: BestEffort
+  startTime: '2026-03-06T13:14:06Z'

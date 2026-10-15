@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"limited-role","namespace":"k8s-opa-static-cis-511"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get","list"]}]}
+
+      '
+  creationTimestamp: '2026-03-06T10:39:33Z'
+  name: limited-role
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: '3004935'
+  uid: 2b1bb058-ba29-4874-b30f-e539fc303477
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - get
+  - list

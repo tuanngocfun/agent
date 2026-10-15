@@ -1,0 +1,35 @@
+name: External corpus validation
+
+on:
+  push:
+    branches: [kube-remediation-demo]
+    paths:
+      - benchmark/corpus-v2/**
+      - scripts/import_kalm_corpus.py
+      - scripts/import_itbench_corpus.py
+      - scripts/import_runtime_corpus.py
+      - scripts/audit_external_corpus.py
+      - scripts/export_corpus_input.py
+      - tests/test_*corpus.py
+      - .github/workflows/corpus-ci.yml
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install the pinned optional YAML parser
+        run: python3 -m pip install --disable-pip-version-check --target runs/corpus-dependencies -r benchmark/corpus-v2/requirements.txt
+      - name: Run corpus integrity and import-boundary tests
+        run: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=runs/corpus-dependencies:src python3 -m unittest discover -s tests -p 'test_*corpus.py' -v
+      - name: Verify imported bytes, source pins, model-input boundaries and counts
+        run: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=runs/corpus-dependencies python3 scripts/audit_external_corpus.py --check-summary benchmark/corpus-v2/quality-summary.json
+      - name: Preserve the frozen v1 protocol
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_benchmark_plan.py --check benchmark/plan-v1.json

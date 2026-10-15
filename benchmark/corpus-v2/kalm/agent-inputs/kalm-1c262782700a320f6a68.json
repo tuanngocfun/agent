@@ -1,0 +1,1 @@
+{"resources":[{"apiVersion":"v1","kind":"ServiceAccount","metadata":{"labels":{"app.kubernetes.io/part-of":"resource-0233c98a1acba18b","corpus.example/group":"group-f7fb69473c9411fc"},"name":"resource-ef8e25b9942e0070","namespace":"resource-0233c98a1acba18b"}}],"schema_version":"kalm-static-input-v1"}

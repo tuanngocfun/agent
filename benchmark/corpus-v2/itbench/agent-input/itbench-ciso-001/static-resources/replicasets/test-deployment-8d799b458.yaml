@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '1'
+  creationTimestamp: '2026-03-06T10:39:36Z'
+  generation: 1
+  labels:
+    app: test
+    pod-template-hash: 8d799b458
+  name: test-deployment-8d799b458
+  namespace: k8s-opa-static-cis-511
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: test-deployment
+    uid: e7156952-e611-4230-8334-04fc90232e65
+  resourceVersion: '3004984'
+  uid: 6b95f96c-dddc-44e8-bd5c-9faee0518482
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+      pod-template-hash: 8d799b458
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: test
+        pod-template-hash: 8d799b458
+    spec:
+      containers:
+      - image: nginx:1.14.2
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: test-sa-violation
+      serviceAccountName: test-sa-violation
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

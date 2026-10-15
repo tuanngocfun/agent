@@ -1,0 +1,1507 @@
+[
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/deployments/test-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/pods/test-deployment-8d799b458-pvbmp.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/replicasets/test-deployment-8d799b458.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/benchmark-admin-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/benchmark-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/compliant-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/violating-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/rolebindings/violation-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/benchmark-admin-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/cluster-admin-like-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/limited-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/roles/wildcard-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/benchmark-admin-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/benchmark-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/test-sa-compliant.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/test-sa-violation.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/serviceaccounts/violating-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/deployments/test-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/pods/test-deployment-8d799b458-pvbmp.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/replicasets/test-deployment-8d799b458.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/benchmark-admin-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/benchmark-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/rolebindings/compliant-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/benchmark-admin-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/cluster-admin-like-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/limited-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/roles/wildcard-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/benchmark-admin-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/benchmark-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/test-sa-compliant.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/test-sa-violation.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/serviceaccounts/violating-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.1/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/deployments-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/deployments/test-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/pods-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/pods/test-deployment-647f6b8c5d-2qfxq.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/replicasets-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/replicasets/test-deployment-647f6b8c5d.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/benchmark-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/specific-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/rolebindings/wildcard-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/benchmark-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/specific-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/roles/wildcard-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/app-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/benchmark-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/serviceaccounts/reader-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/services-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/deployments-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/deployments/test-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/pods-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/pods/test-deployment-647f6b8c5d-2qfxq.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/replicasets-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/replicasets/test-deployment-647f6b8c5d.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/benchmark-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/specific-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/rolebindings/wildcard-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/benchmark-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/specific-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/roles/wildcard-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/app-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/benchmark-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/serviceaccounts/reader-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/services-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.3/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/deployments/compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/deployments/non-compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/compliant-deployment-d6f597bf6-pm2tm.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/non-compliant-deployment-57f9ff944b-7d8k7.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/non-compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/pods/unspecified-sa-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/replicasets/compliant-deployment-d6f597bf6.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/replicasets/non-compliant-deployment-57f9ff944b.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/rolebindings/test-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/roles/test-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/serviceaccounts/custom-service-account.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/pods/compliant-deployment-d6f597bf6-pm2tm.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/replicasets/compliant-deployment-d6f597bf6.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/roles/test-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/serviceaccounts/custom-service-account.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.5/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-default-automount.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-with-automount-false.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/deployments/deployment-with-automount-true.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-default-automount-658c955889-kk6sk.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-with-automount-false-68d6fbbf7-qd466.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/deployment-with-automount-true-f576bb55-ws5pb.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-default-automount.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-with-automount-false.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/pods/pod-with-automount-true.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-default-automount-658c955889.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-with-automount-false-68d6fbbf7.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/replicasets/deployment-with-automount-true-f576bb55.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/rolebindings/test-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/roles/test-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-with-automount-false.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/serviceaccounts/sa-with-automount-true.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/deployments/deployment-default-automount.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/deployments/deployment-with-automount-false.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/deployment-default-automount-658c955889-kk6sk.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/deployment-with-automount-false-68d6fbbf7-qd466.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/pod-default-automount.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/pods/pod-with-automount-false.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/replicasets/deployment-default-automount-658c955889.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/replicasets/deployment-with-automount-false-68d6fbbf7.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/roles/test-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/sa-default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/serviceaccounts/sa-with-automount-false.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.6/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/configmap/kube-root-ca.crt.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/configmap/test-configmap.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/deployment/test-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/pod/test-deployment-79c6cd4b46-99fkw.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/pod/test-pod-1.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/compliant-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-create-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-delete-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/secret-update-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/role/violating-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/compliant-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-create-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-delete-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/secret-update-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/rolebinding/violating-binding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/secret/test-secret-1.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/secret/test-secret-2.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/service/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/compliant-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/read-only-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources/serviceaccount/violating-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/configmap/kube-root-ca.crt.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/configmap/test-configmap.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/deployment/test-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/pod/test-deployment-79c6cd4b46-99fkw.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/pod/test-pod-1.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/compliant-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-create-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-delete-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/secret-update-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/role/violating-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/compliant-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-create-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-delete-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/secret-update-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/rolebinding/violating-binding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/secret/test-secret-1.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/secret/test-secret-2.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/service/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/compliant-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/read-only-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.1.7/static-resources-compliant/serviceaccount/violating-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/deployments/test-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/privileged-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/test-deployment-695d4dcd89-6jsmh.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/pods/test-deployment-695d4dcd89-d7sd9.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/replicasets/test-deployment-695d4dcd89.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/rolebindings/test-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/roles/test-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/serviceaccounts/test-service-account.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/deployments/test-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/roles/test-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/serviceaccounts/test-service-account.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.2/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/deployments/deployments-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/deployments/test-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/pods-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/test-deployment-df55759c5-66r2x.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/test-deployment-df55759c5-m5wrh.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/pods/violating-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/replicasets/replicasets-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/replicasets/test-deployment-df55759c5.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/rolebindings/benchmark-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/rolebindings/rolebindings-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/roles/benchmark-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/roles/roles-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/serviceaccounts-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/serviceaccounts/test-service-account.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/services/services-all.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/deployments/deployments-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/deployments/test-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/pods-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/test-deployment-df55759c5-66r2x.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/pods/test-deployment-df55759c5-m5wrh.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/replicasets/replicasets-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/replicasets/test-deployment-df55759c5.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/rolebindings/benchmark-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/rolebindings/rolebindings-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/roles/benchmark-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/roles/roles-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/serviceaccounts-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/serviceaccounts/test-service-account.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/services/services-all.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.3/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/deployments/non-compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-deployment-59fb8444b8-5phbz.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-deployment-59fb8444b8-6rdvq.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/pods/non-compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/replicasets/non-compliant-deployment-59fb8444b8.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/serviceaccounts/test-serviceaccount.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/deployments/non-compliant-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-deployment-59fb8444b8-5phbz.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-deployment-59fb8444b8-6rdvq.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/pods/non-compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/replicasets/non-compliant-deployment-59fb8444b8.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/serviceaccounts/test-serviceaccount.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.4/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/deployments/compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/deployments/non-compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/namespace/k8s-opa-static-cis-525.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-deployment-6b9fbfcbf5-ng4zw.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-deployment-6b9fbfcbf5-zvmm7.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/non-compliant-deployment-845fbc676b-77zcx.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/pods/non-compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/replicasets/compliant-deployment-6b9fbfcbf5.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/replicasets/non-compliant-deployment-845fbc676b.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/rolebindings/test-rolebinding.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/roles/test-role.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/serviceaccounts/test-sa.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources/services/web-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/namespace/k8s-opa-static-cis-525.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-deployment-6b9fbfcbf5-ng4zw.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-deployment-6b9fbfcbf5-zvmm7.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/replicasets/compliant-deployment-6b9fbfcbf5.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/rolebindings/test-rolebinding.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/roles/test-role.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/serviceaccounts/test-sa.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.5/static-resources-compliant/services/web-service.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/configmaps/kube-root-ca.crt.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/deployments/compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/deployments/non-compliant-deployment.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-deployment-6db8746456-k4lcb.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-deployment-6db8746456-lw8hf.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/non-compliant-deployment-86587588d8-pgnj4.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/pods/non-compliant-pod.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/replicasets/compliant-deployment-6db8746456.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/replicasets/non-compliant-deployment-86587588d8.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/serviceaccounts/default.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/serviceaccounts/test-serviceaccount.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources/services/test-service.yaml",
+    "variant": "insecure"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/configmaps/kube-root-ca.crt.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/deployments/compliant-deployment.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-deployment-6db8746456-k4lcb.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-deployment-6db8746456-lw8hf.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/pods/compliant-pod.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/replicasets/compliant-deployment-6db8746456.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/serviceaccounts/default.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/serviceaccounts/test-serviceaccount.yaml",
+    "variant": "compliant"
+  },
+  {
+    "documents": 1,
+    "source_path": "snapshots/ciso/v0.1/k8s-opa-static-cis-5.2.6/static-resources-compliant/services/test-service.yaml",
+    "variant": "compliant"
+  }
+]

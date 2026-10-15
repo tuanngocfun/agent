@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '1'
+  creationTimestamp: '2026-03-06T13:14:08Z'
+  generation: 1
+  labels:
+    app: non-compliant-app
+    pod-template-hash: 86587588d8
+  name: non-compliant-deployment-86587588d8
+  namespace: k8s-opa-static-cis-526
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: non-compliant-deployment
+    uid: d9029a67-969c-46ab-a08b-d45cbe4c6326
+  resourceVersion: '3037549'
+  uid: dfefd6e9-05e0-449f-a310-2e18831a0b9f
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: non-compliant-app
+      pod-template-hash: 86587588d8
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: non-compliant-app
+        pod-template-hash: 86587588d8
+    spec:
+      containers:
+      - image: nginx:1.20
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

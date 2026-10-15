@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: '2026-03-06T11:32:39Z'
+  name: default
+  namespace: k8s-opa-static-cis-513
+  resourceVersion: '3015900'
+  uid: e6f2e5e9-be32-48b4-8777-013d486d2587

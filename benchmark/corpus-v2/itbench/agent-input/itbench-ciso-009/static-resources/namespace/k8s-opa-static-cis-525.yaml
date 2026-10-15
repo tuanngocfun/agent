@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: '2026-03-06T13:13:10Z'
+  labels:
+    kubernetes.io/metadata.name: k8s-opa-static-cis-525
+  name: k8s-opa-static-cis-525
+  resourceVersion: '3037199'
+  uid: 02dea6de-bf3a-4001-91c8-68158530a5df
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

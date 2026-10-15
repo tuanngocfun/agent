@@ -1,0 +1,1462 @@
+{
+  "commit": "6da1b2d75e7fb05a69adc632e89ad0dc84e5f115",
+  "license": "Apache-2.0",
+  "repository": "dynatrace-oss/Kalm-Benchmark",
+  "source_inventory": [
+    {
+      "bytes": 249,
+      "git_blob_sha1": "408824d8c7f61cb58177fb8b102bdb7f23d79df6",
+      "path": "manifests/_default-priority-c8fbe908.yaml",
+      "sha256": "7c31415eaaf0e5372a479830f9761715943e2872525e6a7f6b3ebd0a163591c5"
+    },
+    {
+      "bytes": 940,
+      "git_blob_sha1": "3df9d463d695a8af302c7a370921b94dc5e51b39",
+      "path": "manifests/_kalm-benchmark-c882ce07.yaml",
+      "sha256": "48dc2d6d7dd7084acb78a634923f443a5e0976b54e031019b106a9258a181597"
+    },
+    {
+      "bytes": 415,
+      "git_blob_sha1": "6ce474aff2e99c033c240263cb325b2b970e8e6a",
+      "path": "manifests/_kalm-benchmark-unrestricted-ns-c849031e.yaml",
+      "sha256": "e47647f43031dac1c8e57b8fec52268511558c9450a95aa5bf2c8a8323ad1522"
+    },
+    {
+      "bytes": 1684,
+      "git_blob_sha1": "037bb37de0fad70422f2332b76731781f8a81c26",
+      "path": "manifests/cm-001-sensitive-key-referenced-in-configmap.yaml",
+      "sha256": "b38d3ee0928dd8f99224d874babc626ca52de5a995f1be0ead99167cc89527ba"
+    },
+    {
+      "bytes": 5795,
+      "git_blob_sha1": "65b1a92ed25f7e45eb2f0de31bd30559a9d1957f",
+      "path": "manifests/np-001-namespace-without-network-policy.yaml",
+      "sha256": "2d4a2ed327ff707417ea2ff36746d4e6c232158472487a6082205a9c9d7ca71b"
+    },
+    {
+      "bytes": 6692,
+      "git_blob_sha1": "11ade03d8cb963d71bc124150befcb4cf245dacc",
+      "path": "manifests/np-002-1-only-ingress-is-blocked.yaml",
+      "sha256": "3594e9a27ec5f4a72549deaabb2754edf1d09611bde171ce5904fa6c526d76da"
+    },
+    {
+      "bytes": 6682,
+      "git_blob_sha1": "51d1b17dd4653bd44df87f83ed1505a9832d4a23",
+      "path": "manifests/np-002-2-only-egress-is-blocked.yaml",
+      "sha256": "d793c764a23456b5294703ca7da70116a99e731178c3dd06bfc39efd1135db02"
+    },
+    {
+      "bytes": 6539,
+      "git_blob_sha1": "d5fb13d14d59588a83aa98430d61dede1f577ccb",
+      "path": "manifests/np-003-network-policy-allows-access-to-cloud-metadata-api.yaml",
+      "sha256": "c0d02443ea9bed38dd8912d251760393d7a7a56498f6d8c229526997c7306b61"
+    },
+    {
+      "bytes": 8124,
+      "git_blob_sha1": "e37153a3e4271ad143e4d2fd6b22ee21f27aeb32",
+      "path": "manifests/np-004-network-policy-allows-access-to-kubelet.yaml",
+      "sha256": "66e37e16c4632d57ddd4998626055eaf9052a7bd0c346001b2219297c2cf702e"
+    },
+    {
+      "bytes": 4119,
+      "git_blob_sha1": "8031e0b336ee29f56d44a87f4baf3c3952f1d5d1",
+      "path": "manifests/np-005-network-policy-refers-no-valid-workload.yaml",
+      "sha256": "0df6ac48148fcf08ceb91e818967177833eba934b8783f44834d308b647e40ac"
+    },
+    {
+      "bytes": 4100,
+      "git_blob_sha1": "d79fa1dc5bcb9d44ff485cb088d3050d97dbabca",
+      "path": "manifests/ns-001-use-default-namespace.yaml",
+      "sha256": "3ff8220de014ee1af8e1a19e54943f71abb211bfd8a3d241d647141b2ff6300d"
+    },
+    {
+      "bytes": 4111,
+      "git_blob_sha1": "adf0442af95aff1d1cee05473ea5f1b15d87fcb8",
+      "path": "manifests/ns-002-1-place-pod-in-kube-system.yaml",
+      "sha256": "16823d90bce24832b867e74f2400ab41fab15833a6f1135153d9cc504ece55c0"
+    },
+    {
+      "bytes": 4111,
+      "git_blob_sha1": "aaea02cbaa71eb7144767aa1b495ef5013a60120",
+      "path": "manifests/ns-002-2-place-pod-in-kube-public.yaml",
+      "sha256": "e97efcd80f9ec4d884c0747b4e5fe8ad1ed1dee500496f6d6e0378339ddcf17f"
+    },
+    {
+      "bytes": 5002,
+      "git_blob_sha1": "daab51fe1e2500948a56c2b6821455eb40eb3cf5",
+      "path": "manifests/pod-002-1-explicit-default-serviceaccountname.yaml",
+      "sha256": "5388f3adf0b98a31ac66d3011579e8ddc3fc0fe0fe04084f98c65af970fd2153"
+    },
+    {
+      "bytes": 4992,
+      "git_blob_sha1": "f608acba91e9fedc34d69f75b15ebf4e194d90e1",
+      "path": "manifests/pod-002-2-no-serviceaccountname-specified.yaml",
+      "sha256": "eca08594f31048bb5557309e68ee554730c88b31f64a00b0c1fbc5fce737b4f2"
+    },
+    {
+      "bytes": 5136,
+      "git_blob_sha1": "5501faeaadf627f689a387f98e87508d49e1bc41",
+      "path": "manifests/pod-003-1-automount-serviceaccounttoken-by-default.yaml",
+      "sha256": "f64cc5d01affd6ec31b87053e7e4168ebbba1743a08f977efa0fee846ac8a150"
+    },
+    {
+      "bytes": 5149,
+      "git_blob_sha1": "8bed3b6702407f8dcc828374f53fbf56c3cf5bba",
+      "path": "manifests/pod-003-2-default-pod-automount-sa.yaml",
+      "sha256": "a946c96ac592a42d7f4330d48ead0a9f3137c240b6e7f49eff830050477537f3"
+    },
+    {
+      "bytes": 5107,
+      "git_blob_sha1": "96c3b9a28a9527ad97f8819f638dbfdb3f827864",
+      "path": "manifests/pod-003-3-default-pod-no-automount-sa.yaml",
+      "sha256": "2521c4e604a325bf2f49c8a68b0dbccae72a9ba57abb5f0e83736ecc47ba7673"
+    },
+    {
+      "bytes": 5081,
+      "git_blob_sha1": "d7da41fafcc9355ddc6c4d514f4dcb78eea3caf9",
+      "path": "manifests/pod-003-4-automount-pod-default-sa.yaml",
+      "sha256": "95fa6a8e12e7faae9af4824cc1c4b023bfd6d36d912805509400ea23d4471f88"
+    },
+    {
+      "bytes": 5104,
+      "git_blob_sha1": "cf37c5c12e91fc727aabb888c94e5bfb93e3dbde",
+      "path": "manifests/pod-003-5-automount-pod-and-sa.yaml",
+      "sha256": "e9092651ea7173ae4417581f688d5fecad587c1eb0dc35ba5ffe058cb93f085d"
+    },
+    {
+      "bytes": 5132,
+      "git_blob_sha1": "3f37089745bcfc18d7e989fa542bc694a4d14f02",
+      "path": "manifests/pod-003-6-automount-pod-no-automount-sa.yaml",
+      "sha256": "2551ed87d30d0a4284680133951cf39ee2d120be1ffe6b78ff11156dfce0125b"
+    },
+    {
+      "bytes": 5091,
+      "git_blob_sha1": "0cc5ef7e1245b494385c3589dbb03ca456f174f4",
+      "path": "manifests/pod-003-7-no-automount-pod-default-sa.yaml",
+      "sha256": "6be2a93d8d2e095ce28333556377f284c1af59afebdf4b071ab78ee2ead7667d"
+    },
+    {
+      "bytes": 5132,
+      "git_blob_sha1": "c387440c33bbdfbe40cf6781e2a8f3d1541b8cd6",
+      "path": "manifests/pod-003-8-no-automount-pod-automount-sa.yaml",
+      "sha256": "a09dcb34657e1a6862bd4b1b4f4b03a211ec69de252c65009cb48414739f57fc"
+    },
+    {
+      "bytes": 5115,
+      "git_blob_sha1": "40753bab397773a1fdca26f4129f03ac8de9f092",
+      "path": "manifests/pod-003-9-no-automount-pod-and-sa.yaml",
+      "sha256": "a7f6a86cc2d9320923dc5d12b10525ea5df54ceccc76690d081881684a5c73a3"
+    },
+    {
+      "bytes": 4447,
+      "git_blob_sha1": "2590c13e382c5996a9a09c52252ca5fbe35bdd2c",
+      "path": "manifests/pod-008-1-hostpid-flag-not-set.yaml",
+      "sha256": "014e56d9087b7c0ef108a2ee52082a1f710e08083bfc15544599824b63d5ea0a"
+    },
+    {
+      "bytes": 4751,
+      "git_blob_sha1": "0579f7ac240a7730b06b937a81711207cf2f6ee2",
+      "path": "manifests/pod-008-2-hostpid-flag-set.yaml",
+      "sha256": "dcb9ad8d49bca89b73c7840e2b3559fb7c9e7eb4d9813d4f6dcdc2dfb06d6e06"
+    },
+    {
+      "bytes": 4447,
+      "git_blob_sha1": "d9c1795fcf5d64f3616f86c0e16fc3b0fdf35a72",
+      "path": "manifests/pod-009-1-hostipc-flag-not-set.yaml",
+      "sha256": "1587ef6b59ddb93322559134b54bf9e2ee24c9f38cf98fb0133a324643f39bfc"
+    },
+    {
+      "bytes": 4757,
+      "git_blob_sha1": "7c8bea6761cec63d5081962709e0e3bbc7d02bdb",
+      "path": "manifests/pod-009-2-hostipc-flag-set.yaml",
+      "sha256": "64a8efd5cb8c62b50b7d840dfd96f14e24e97b50daba67d4044658c1683fcc2a"
+    },
+    {
+      "bytes": 4855,
+      "git_blob_sha1": "0177f19b52c0a7753b003c15bbcc42b183a04e84",
+      "path": "manifests/pod-010-1-hostnetwork-flag-not-set.yaml",
+      "sha256": "a1653cc4f194812837c1ad2a59f256228414d89e5c9bc0fe3d9a0ab0417c156b"
+    },
+    {
+      "bytes": 4895,
+      "git_blob_sha1": "68a13cbb8db623390614196b58bec535a1463d01",
+      "path": "manifests/pod-010-2-hostnetwork-flag-set.yaml",
+      "sha256": "c84773c0402d08f01c8e3b190d3d37c9cb8b400f17cd02c9be231876d94c28b3"
+    },
+    {
+      "bytes": 4742,
+      "git_blob_sha1": "75beda2f3f405efcc0850694bd6305b16522232b",
+      "path": "manifests/pod-011-pod-uses-hostport.yaml",
+      "sha256": "2a7215aeddaecd02c018087dec87c9a0cbf6579cddcf57b461498fa773bd8427"
+    },
+    {
+      "bytes": 4892,
+      "git_blob_sha1": "d0fcd579a1418e6e7ee60e56aa113eb12052d9a2",
+      "path": "manifests/pod-014-no-apparmor-profile-defined.yaml",
+      "sha256": "04589788b3c7da308e73672d49e97514acfe7b515d5807a802c150b45d616918"
+    },
+    {
+      "bytes": 5172,
+      "git_blob_sha1": "8c6c29844ca0dcd176468b54437ed6e20e8deefa",
+      "path": "manifests/pod-015-seccomp-not-enabled.yaml",
+      "sha256": "7544227b58003f7f4ea7e87198c755367a14703c0563567299b810dc90903243"
+    },
+    {
+      "bytes": 3653,
+      "git_blob_sha1": "8504a5a6536f5e0f159d6411bd5aa1c9480c3f0c",
+      "path": "manifests/pod-016-no-podsecuritycontext-defined.yaml",
+      "sha256": "b8a7aeb66cbf50455256d414eee833ae03773bde722c69e10ef3996c551032b3"
+    },
+    {
+      "bytes": 5675,
+      "git_blob_sha1": "a019339492a4689442cd18ca0b0f5d1c2391fbcd",
+      "path": "manifests/pod-017-1-use-runasnonroot-flag-on-pod.yaml",
+      "sha256": "ff5c02fa3b668041b862b39ee2995b745a7549ac1f058f902a864c23ae70bdaf"
+    },
+    {
+      "bytes": 5723,
+      "git_blob_sha1": "d91993fb1822fe1bf8b3e111953f734398db14f1",
+      "path": "manifests/pod-017-2-no-runasnonroot-defaults-to-root-user.yaml",
+      "sha256": "3857c3f42d66388a2777029cb99aeda5408c2d9191d580c405aa0eaa3c72a41a"
+    },
+    {
+      "bytes": 5661,
+      "git_blob_sha1": "887d09902bb6cc27f6d8d2b27c899736714c6a6f",
+      "path": "manifests/pod-017-3-runasnonroot-is-optional.yaml",
+      "sha256": "014a75e26190c1072679629ef621c1c6b854c1f49d60f9c5a1fc828a2cb92644"
+    },
+    {
+      "bytes": 5700,
+      "git_blob_sha1": "cd69db91f19738197a0daef585023048643d1292",
+      "path": "manifests/pod-017-4-use-root-user-in-pod.yaml",
+      "sha256": "fc354a5217375ca3018b31a9b5ca0a9d5798ed28e15b9e008f5f4294f130fafa"
+    },
+    {
+      "bytes": 5697,
+      "git_blob_sha1": "e65c1707e1709637201324a7dc080ce594c298f2",
+      "path": "manifests/pod-017-5-use-runasnonroot-flag-on-container.yaml",
+      "sha256": "80f708a25f588dee4a08014150138f7cc8931e273bd82c5d68f1d04967c1b6fc"
+    },
+    {
+      "bytes": 5704,
+      "git_blob_sha1": "7138a77afd45ae8b37a129d783c838018d6a3afb",
+      "path": "manifests/pod-017-6-runasnonroot-is-optional-on-container.yaml",
+      "sha256": "47df7e83cfa60912673108f57ac1d03c1664834e32ea3b17aada059112a2ce21"
+    },
+    {
+      "bytes": 5722,
+      "git_blob_sha1": "735695cf01a88fc64e4dd28dce9bb94f31162c83",
+      "path": "manifests/pod-017-7-use-root-user-on-container.yaml",
+      "sha256": "b94859260491c73f73b58b3af017543d2ee9aecae7ef4f25dd418380b52dc56e"
+    },
+    {
+      "bytes": 5716,
+      "git_blob_sha1": "8f3a11b145ff106e1a1a58739171f8b295af408e",
+      "path": "manifests/pod-017-8-set-runasnonroot-correctly-on-container.yaml",
+      "sha256": "b9d962eab2602695abd4f4b7bde19f2136f37077dfb99bde992c9e26a92c27a5"
+    },
+    {
+      "bytes": 5730,
+      "git_blob_sha1": "e28b99517618780810ab3c205daab3ceec27043a",
+      "path": "manifests/pod-017-9-set-runasnonroot-not-correctly-on-container.yaml",
+      "sha256": "ecc7d3f7ac81c7b6c790a06e991a0c86d84aca6d41d02b6f90958ee714844832"
+    },
+    {
+      "bytes": 5760,
+      "git_blob_sha1": "ac0df95b0f9b3cfabef75c9fd3c13f8ffb575de3",
+      "path": "manifests/pod-018-1-no-runasuser-defaults-to-root-user.yaml",
+      "sha256": "7fbf21fa07cccd93d9c5f160a9e6297d09e23c84b4c2e48575909175b27d7ab0"
+    },
+    {
+      "bytes": 5719,
+      "git_blob_sha1": "e589d6dd388a9558d9da50b7e83f5c19419523d8",
+      "path": "manifests/pod-018-2-use-uid-between-1k-10k-on-pod.yaml",
+      "sha256": "684f5a7948fc85e7a1c19a2dd92508020258ad9d69dd357805fd6e0172546c83"
+    },
+    {
+      "bytes": 5741,
+      "git_blob_sha1": "8bc82ee7afa0aeda288c325b3b94f17d828173c1",
+      "path": "manifests/pod-018-3-use-uid-between-1k-10k-on-container.yaml",
+      "sha256": "88262daf725ef3222eb4712d200bffcf444254a8bccf7f165f73beb9c7ed243e"
+    },
+    {
+      "bytes": 5811,
+      "git_blob_sha1": "747b518528c1b2d425e431bccad1589e51cd66be",
+      "path": "manifests/pod-018-4-use-uid-set-in-container-takes-precedence.yaml",
+      "sha256": "cb7cf9fdb90c9a5678e538ced32c0bfd25569be911febb8cb726c0162dd7f9c1"
+    },
+    {
+      "bytes": 5813,
+      "git_blob_sha1": "356239f1cca21a3f6604a36bc9c62059970b3520",
+      "path": "manifests/pod-018-5-use-uid-set-in-container-takes-precedence.yaml",
+      "sha256": "ed7ad3671b17e37fc5a7ec8492d5d59fdb4f525beb283f0dd29474ee9925c8ea"
+    },
+    {
+      "bytes": 5708,
+      "git_blob_sha1": "3ed5bcfc4e141fa950a0a4f45fbd560c2c4dca7b",
+      "path": "manifests/pod-019-1-no-runasgroup-defaults-to-root-group.yaml",
+      "sha256": "a30d4c3503a8e9f1961d9954ee7c712417339f8293113fe332e191e6ad75e843"
+    },
+    {
+      "bytes": 5722,
+      "git_blob_sha1": "d9cd53c8dcf2a285f37ed27c57bdef005563c397",
+      "path": "manifests/pod-019-2-use-gid-between-1k-10k-on-pod.yaml",
+      "sha256": "8c252dca68ce45f8221e030dbd52938467a258fad5ebc99c8d342a6ba30b6db0"
+    },
+    {
+      "bytes": 5744,
+      "git_blob_sha1": "2dbbe6d48db8973ec7a5f598bf9e10e8e564f90c",
+      "path": "manifests/pod-019-3-use-gid-between-1k-10k-on-container.yaml",
+      "sha256": "f377b79e8271167085f32f8ce5a9faf613f8a7c6464ae717f8933c3147474275"
+    },
+    {
+      "bytes": 5815,
+      "git_blob_sha1": "d93aeea5e6ae4f07f32b737a902dbfd3e4951811",
+      "path": "manifests/pod-019-4-use-gid-set-in-container-takes-precedence.yaml",
+      "sha256": "b3bf40e81be2506679d854498f67348a385b8b274ececd19a3a621c205ff24f3"
+    },
+    {
+      "bytes": 5817,
+      "git_blob_sha1": "447310fececa26a5a0fe4b23495add8538e57671",
+      "path": "manifests/pod-019-5-use-gid-set-in-container-takes-precedence.yaml",
+      "sha256": "e25ed336c95a89a31a322250eb763b10d98d97ad54473162378bd9c0157daa77"
+    },
+    {
+      "bytes": 3404,
+      "git_blob_sha1": "1bf17fdb22f0c4de1580575b2df53678ae34f4a2",
+      "path": "manifests/pod-021-0-using-sysctl-kernel.oops-limit-c897c715.yaml",
+      "sha256": "653de148d126ae993c263a57aa3a9626e77b717a0ef96f6ac91d1e1493c41f3b"
+    },
+    {
+      "bytes": 3394,
+      "git_blob_sha1": "f28d566565ab9f42b0bb6f46089a317507c6f500",
+      "path": "manifests/pod-021-1-using-sysctl-kernel.pid-max-c8eb8be1.yaml",
+      "sha256": "4ea798dddc435f15d3aaad7a75a25db58451d7606fa337a076d0b63eda55631e"
+    },
+    {
+      "bytes": 3421,
+      "git_blob_sha1": "3855bf99cf90e5e7afe54a198abb22cf8a48ddd1",
+      "path": "manifests/pod-021-2-using-sysctl-net.core.rmem-c844ee67.yaml",
+      "sha256": "ff417913253a598394ee9eb2855a6c6c034bcef2078cf27312060541bf7db6ab"
+    },
+    {
+      "bytes": 5328,
+      "git_blob_sha1": "b9b8b6e6883658604f39b3d7566fba48f0c34c15",
+      "path": "manifests/pod-022-1-linux-is-not-hardened.yaml",
+      "sha256": "2888625fa8a63eba4e6440fe5f0861f2eae729df957f705ff5f3cbd01b308508"
+    },
+    {
+      "bytes": 5465,
+      "git_blob_sha1": "cfc2da50ddb074644dc02b0e3ea82e909cfd6a33",
+      "path": "manifests/pod-022-2-one-approach-to-hardening-linux-is-enough.yaml",
+      "sha256": "a2f823575dcf0d4f8b51547e6de6b2258a0b158a121572fc560e5e55e5a618e2"
+    },
+    {
+      "bytes": 5394,
+      "git_blob_sha1": "1b5f34efe467694672ec44cf076c970d5e767bf4",
+      "path": "manifests/pod-022-3-one-approach-to-hardening-linux-is-enough.yaml",
+      "sha256": "2b0f5d09e6aa674aeb45fb4995306a8eb81a99208cb1e577e338ba189853852d"
+    },
+    {
+      "bytes": 5266,
+      "git_blob_sha1": "ca77e3aafe24dd235c808faafe47c76a4147d427",
+      "path": "manifests/pod-023-no-seccomp-profile-defined.yaml",
+      "sha256": "f637ce0c4b089dd35212ad3fa5213b8628bf3311238e3980a01dac3a2d9f1587"
+    },
+    {
+      "bytes": 5995,
+      "git_blob_sha1": "402e28885818cbc4113bf5a6da73811182918c6a",
+      "path": "manifests/pod-025-sensitive-key-referenced-in-environment-variable.yaml",
+      "sha256": "c6e26e7e46b5a84d80f00a8be9db18a462b8255f33f333d736cfbbb2005304c4"
+    },
+    {
+      "bytes": 3463,
+      "git_blob_sha1": "4fd045c062f9a4d9e1b209ac2b6c8a1e511fae8f",
+      "path": "manifests/pod-030-no-securitycontext-defined.yaml",
+      "sha256": "915cd4f331f39fe1fcd129a5623fbf86e50e087aac06c489b9d57c9187d55da6"
+    },
+    {
+      "bytes": 4917,
+      "git_blob_sha1": "5cbb70a5dc682aebbe1eca50df230df4ca4f544e",
+      "path": "manifests/pod-031-1-allowed-privilege-escalation-by-default.yaml",
+      "sha256": "392aa9454177dced09d158afae0110a62a3e5877a43b6312ce334e6f3d4b7247"
+    },
+    {
+      "bytes": 4960,
+      "git_blob_sha1": "eb57d4f934418010b04d858a8631e35e07de85ae",
+      "path": "manifests/pod-031-2-allowed-privilege-escalation-explicitly.yaml",
+      "sha256": "46665f0ef422de9c262bd02f74b39a4f7e3a330995758f2c971c902052afd4bb"
+    },
+    {
+      "bytes": 4515,
+      "git_blob_sha1": "dc1323e340cafa440d788e1d5cd558f323629b72",
+      "path": "manifests/pod-032-1-non-privileged-container-by-default.yaml",
+      "sha256": "f038336a73d30617b7108fa5a09fd6b7b1c50bba3685071c1e79e693237a8349"
+    },
+    {
+      "bytes": 4557,
+      "git_blob_sha1": "e61a60f8f532f3dee373c3c88a1240d517ca1578",
+      "path": "manifests/pod-032-2-privileged-container.yaml",
+      "sha256": "d9743f9a2fc5fe0fd4187713cb08597b745bff2655419ad66697c86df32f7ad2"
+    },
+    {
+      "bytes": 4350,
+      "git_blob_sha1": "58413a2ad2f59f4c397400175dfbe7918697a39a",
+      "path": "manifests/pod-033-1-root-fs-is-writeable-by-default.yaml",
+      "sha256": "a0877d74625f300b7b69aeef0cc58b2f3b9ea3ae33d348fd33b75116936f9c79"
+    },
+    {
+      "bytes": 4392,
+      "git_blob_sha1": "149fa87338591411452f60fb1f4f53bfddb4751c",
+      "path": "manifests/pod-033-2-root-fs-is-explicitly-writeable.yaml",
+      "sha256": "959d1bf2349bb78e85aef53b4b3c0069adc70dd78489a8ab030c364cfc0f7a25"
+    },
+    {
+      "bytes": 5479,
+      "git_blob_sha1": "c43690de3c53fa4f0249f2adc1845afb6d0f4999",
+      "path": "manifests/pod-034-1-using-dangerous-capability-all.yaml",
+      "sha256": "2e9234ec9cf956b575535f2e14bb985935daa3a20af20d3e58489ed7475d3f09"
+    },
+    {
+      "bytes": 5503,
+      "git_blob_sha1": "7fb640340765446493c28b14db9ef013273274a1",
+      "path": "manifests/pod-034-2-using-dangerous-capability-sys-admin.yaml",
+      "sha256": "4a53da822871024a1dd4147771423b19ac4d7056e3a4d620d25034cc6ba17d18"
+    },
+    {
+      "bytes": 5503,
+      "git_blob_sha1": "e5a07a29f0994a7c7d5cce29c1985715aa061bc9",
+      "path": "manifests/pod-034-3-using-dangerous-capability-net-admin.yaml",
+      "sha256": "e3a643c50ce76c976662f621744aecb0f74b1744f3c2e00444a4f641d0698720"
+    },
+    {
+      "bytes": 5378,
+      "git_blob_sha1": "485dfc6c07b7d8a711b8be6971c38ca0dc8e1b38",
+      "path": "manifests/pod-035-1-using-insecure-capability-audit-write.yaml",
+      "sha256": "80eca86ca5b5ce9b4176088090cef0688f3bdf7a6f00e74af597bbbbbfdf23c3"
+    },
+    {
+      "bytes": 5361,
+      "git_blob_sha1": "f865cf8dfc441e80d8cf0f550f71f546e224382c",
+      "path": "manifests/pod-035-10-using-insecure-capability-mknod.yaml",
+      "sha256": "83a118f762803a12ad5edc01c5f22b6716cec32a344849e7f490d385d2761443"
+    },
+    {
+      "bytes": 5405,
+      "git_blob_sha1": "380385dadb93bd915612b507f1ff465653831080",
+      "path": "manifests/pod-035-11-using-insecure-capability-net-bind-service.yaml",
+      "sha256": "0df915db620cbf0fffbf99af1249f60a0c08d93a5c2f7fa2b094a6eb55dc4cb8"
+    },
+    {
+      "bytes": 5369,
+      "git_blob_sha1": "e4e2c6d8c05f5cb4ac3fe44d729819f353c7f7b7",
+      "path": "manifests/pod-035-12-using-insecure-capability-net-raw.yaml",
+      "sha256": "8cb65380b30313bbe239f37eaceadcd68bd98fa4f4ab5610ac1c9a5dae23ca3e"
+    },
+    {
+      "bytes": 5369,
+      "git_blob_sha1": "935bf815d8b9b43fd8133e140e4ac69e031c2bf8",
+      "path": "manifests/pod-035-13-using-insecure-capability-perfmon.yaml",
+      "sha256": "40c578a8a2171a5375701215c5404d51c4893ce51a813997d7261b27f2f08d96"
+    },
+    {
+      "bytes": 5369,
+      "git_blob_sha1": "6d43697319cbec0b2d0b721b71afd06ff4e28f85",
+      "path": "manifests/pod-035-14-using-insecure-capability-setfcap.yaml",
+      "sha256": "897ff076f75c0fdbb3c9a0312c22517e9d52c1487aa67b6936a7374fc9338ced"
+    },
+    {
+      "bytes": 5365,
+      "git_blob_sha1": "5464c98117f18c9b95f6a485d9ab41ee9cf31f0f",
+      "path": "manifests/pod-035-15-using-insecure-capability-setgid.yaml",
+      "sha256": "b9a086e4a827d6e6106ca2328872c13b3138213ab85c0bb03f81f2fed369ce53"
+    },
+    {
+      "bytes": 5369,
+      "git_blob_sha1": "afca0c3e63131f43b13155f663042946eb7c2210",
+      "path": "manifests/pod-035-16-using-insecure-capability-setpcap.yaml",
+      "sha256": "6124bf4f384ba96cc524c831d472ac2e3275f98f95213d760e4fca3b0d08019b"
+    },
+    {
+      "bytes": 5365,
+      "git_blob_sha1": "888b788edd433216dd79f71d93549e485ee608bc",
+      "path": "manifests/pod-035-17-using-insecure-capability-setuid.yaml",
+      "sha256": "2df04543eae648be6731029c5c0dc66aae236592b20187c7181b9b8b14c2404e"
+    },
+    {
+      "bytes": 5373,
+      "git_blob_sha1": "ec8863140e64d6fd5ed52e0960b7b57e32aeb343",
+      "path": "manifests/pod-035-18-using-insecure-capability-sys-boot.yaml",
+      "sha256": "f5cbf5f3100d73701e6fdc17ff5ece665950a06e1462982bddb76c53b92bc390"
+    },
+    {
+      "bytes": 5381,
+      "git_blob_sha1": "ec54bca49809fc6d2ee4c4e5f32e9845853a0490",
+      "path": "manifests/pod-035-19-using-insecure-capability-sys-chroot.yaml",
+      "sha256": "3ea89d6df2ce3eac9c4312e1ae49427c1fb42cd5b8446b40f6767e05c6723c70"
+    },
+    {
+      "bytes": 5346,
+      "git_blob_sha1": "22899413da2170c8f8ddbf18bdd913fc56a38498",
+      "path": "manifests/pod-035-2-using-insecure-capability-bpf.yaml",
+      "sha256": "5f5be9f6560eaaecd42914ac997144fb57e7b4cee15716bc7c1a5492fb442da0"
+    },
+    {
+      "bytes": 5381,
+      "git_blob_sha1": "b7ea90a68caa5f4fe3b76d0947096aa51b56e6c6",
+      "path": "manifests/pod-035-20-using-insecure-capability-sys-module.yaml",
+      "sha256": "3ce4d3e0930bc9c3a1fd40647cd65a6efc900a1940f7ea7f9350d81e430da5f4"
+    },
+    {
+      "bytes": 5377,
+      "git_blob_sha1": "4d4e3e09e308d40b8c70753c1247c79716d132af",
+      "path": "manifests/pod-035-21-using-insecure-capability-sys-rawio.yaml",
+      "sha256": "992d635ccb1c58665a32d11112036b188956036d83d42b46490ff91e3ac76524"
+    },
+    {
+      "bytes": 5381,
+      "git_blob_sha1": "257811f1dd00ec7b6e3767ad04c398f6dc2f0a92",
+      "path": "manifests/pod-035-22-using-insecure-capability-sys-ptrace.yaml",
+      "sha256": "a616c909b9149da41e429ad12d8fc08b10dee03f10d69059725616ad51fdf184"
+    },
+    {
+      "bytes": 5354,
+      "git_blob_sha1": "b45643ae706fd3355a216bcdf0631c88cfa05666",
+      "path": "manifests/pod-035-3-using-insecure-capability-chown.yaml",
+      "sha256": "01a49673dca294eadb4ca094347b38b65df86fea9d0c0dee420917fed74c6ddf"
+    },
+    {
+      "bytes": 5386,
+      "git_blob_sha1": "c8752baa8462a03900e935ce523f0f42f0e6fd88",
+      "path": "manifests/pod-035-4-using-insecure-capability-dac-overrides.yaml",
+      "sha256": "d3cb29fabf77a157cdfffa0a7ef304c9f49e164d6de31ebe4b4e19701250836d"
+    },
+    {
+      "bytes": 5358,
+      "git_blob_sha1": "6217ba0f0338188dea6a45e199cba551c28574f0",
+      "path": "manifests/pod-035-5-using-insecure-capability-fowner.yaml",
+      "sha256": "943dee1e2cd24f0fcabe3acc305b9a8eea0139b2a6a05d7cba6bce64101d99f5"
+    },
+    {
+      "bytes": 5358,
+      "git_blob_sha1": "67955f0012fcde33624fc9995afc95d3d6f1c517",
+      "path": "manifests/pod-035-6-using-insecure-capability-fsetid.yaml",
+      "sha256": "c176e2c9010c07ab031991148024038405e9277ba8237e8aa4cf267a059a66f0"
+    },
+    {
+      "bytes": 5350,
+      "git_blob_sha1": "577ac8311b7ca218120af338ed8cd2eba59c1c70",
+      "path": "manifests/pod-035-7-using-insecure-capability-kill.yaml",
+      "sha256": "31594383efd3325996c90331e8d7bd0a1f8b761f8f96a88d2fa2b3000ff2e70b"
+    },
+    {
+      "bytes": 5382,
+      "git_blob_sha1": "20ace3ccdb91ac858b56b9a6d208dad4d888f980",
+      "path": "manifests/pod-035-8-using-insecure-capability-mac-override.yaml",
+      "sha256": "6609408faaa91755164da44c06d3cad15098f072e5dca8d0dce813dd55144094"
+    },
+    {
+      "bytes": 5370,
+      "git_blob_sha1": "b017ef097e9c4dc221409b0666c4b842e9967f99",
+      "path": "manifests/pod-035-9-using-insecure-capability-mac-admin.yaml",
+      "sha256": "2aa5d99110eb88c07e39f07dda6812a2ec55d434b3187275f6a6c580c1fd0875"
+    },
+    {
+      "bytes": 5366,
+      "git_blob_sha1": "7e9e9e86984439013c21e36d8d5557826be7fc40",
+      "path": "manifests/pod-036-keep-default-capabilities.yaml",
+      "sha256": "4c1553265d5f7291b5d6d79cf78dac9fbf89d5d118c6ca8931fb40a0d5d21ec3"
+    },
+    {
+      "bytes": 4807,
+      "git_blob_sha1": "72ca1a0f8267352ad77965d6332e9136bfc8212d",
+      "path": "manifests/pod-042-1-volume-with-read-only-hostpath.yaml",
+      "sha256": "ee943084e8d97f245c13b1d1d02e345c7efa2df90c49a5b376ed164ea6680e45"
+    },
+    {
+      "bytes": 4840,
+      "git_blob_sha1": "6d2d862e740826939fd48e1fe5e8f9f7d2e1f1c7",
+      "path": "manifests/pod-042-2-volume-with-writeable-hostpath.yaml",
+      "sha256": "7a0f4548e59507fd4785de61aa9753a95796bc26f906f124cfe70f437abc9c0d"
+    },
+    {
+      "bytes": 4843,
+      "git_blob_sha1": "bfe19055ad4947253c506b8f716d4b05bf2008e9",
+      "path": "manifests/pod-042-3-volume-with-writeable-hostpath-by-default.yaml",
+      "sha256": "826276f8689d0306398b762578098f3948ae7688a882fc3f274b800b388dac84"
+    },
+    {
+      "bytes": 5021,
+      "git_blob_sha1": "1d84cd6aecc502d70c6d8fc2b01ea2af83ede73e",
+      "path": "manifests/pod-043-1-mount-azure-cloud-credentials.yaml",
+      "sha256": "c3086e89ee721135ce0fede0ec75686a6570b70e1cce70dfdc91a8c57f9f2088"
+    },
+    {
+      "bytes": 4967,
+      "git_blob_sha1": "d52bbe02c3d051028273bf20588d62aa397956b7",
+      "path": "manifests/pod-044-1-mounting-docker-socket.yaml",
+      "sha256": "0b9fa41f3ef2433e3b567b3e6052d6f6b957fdd1b3eb82e64bffe5adfbf20676"
+    },
+    {
+      "bytes": 4966,
+      "git_blob_sha1": "03054ed2305602d2b038c30a4f76956b9d4e369e",
+      "path": "manifests/pod-044-2-mounting-docker-directory.yaml",
+      "sha256": "fdebe906f3f46e5ef4a9d3acb1f27f6c0b6a0bda7d159e082e7e8adc7b111b93"
+    },
+    {
+      "bytes": 5186,
+      "git_blob_sha1": "b930b57b610a5e29873ad37cb58dbad7e13deff3",
+      "path": "manifests/pod-045-pod-contains-cve-2021-25741.yaml",
+      "sha256": "6dec25a7ac78b7155474be055cefc7a296578ec1e47b99608cbe0de26c2250e6"
+    },
+    {
+      "bytes": 4888,
+      "git_blob_sha1": "82a0d075075d45557750e2fab8b1e0d10f19a385",
+      "path": "manifests/pod-046-minimize-the-admission-of-windows-hostprocess-c8a93c05.yaml",
+      "sha256": "40aa930764da83f42cf4ff8cd45adae391496cd4059230302a98441a919c7fd1"
+    },
+    {
+      "bytes": 3945,
+      "git_blob_sha1": "8339af5f00de4f7012bf7c281d71ccc9453ea988",
+      "path": "manifests/psa-001-no-pod-security-admission-label-configured.yaml",
+      "sha256": "fa256f1bd653b65739b9491a859130e771eb4dadb49aa47c193720a10783ba07"
+    },
+    {
+      "bytes": 4156,
+      "git_blob_sha1": "14704cc50e2e94886603e59eff8add8adc573ef7",
+      "path": "manifests/psa-002-using--privileged--pod-security-standard-is-insecure.yaml",
+      "sha256": "eba793cdae72dd53831b50c71f28c708e564254749c8c6a1ddd60a543a66d7b6"
+    },
+    {
+      "bytes": 4132,
+      "git_blob_sha1": "6f1f8c19044fdad3d3cace7c6121562d1b517564",
+      "path": "manifests/psa-003-just-warning-about-violations-of-the-pod-security-stand.yaml",
+      "sha256": "e46d66f6ef92d1aa417ff450f56e5b5047df02bcb258862383d9c3d4b9ef5177"
+    },
+    {
+      "bytes": 1171,
+      "git_blob_sha1": "418c6940b8e0a5309063dcba5880d7d31b2e37fc",
+      "path": "manifests/rbac-001-1-use-cluster-admin-role.yaml",
+      "sha256": "c9978af542cee26f185042a3e3f95448636f5caa16e2c42f6c37ae816ae68647"
+    },
+    {
+      "bytes": 1204,
+      "git_blob_sha1": "2a2bf179981e02e0e52f2ddcfec722f36c5bbb22",
+      "path": "manifests/rbac-001-2-use-cluster-admin-role-cluster-wide.yaml",
+      "sha256": "590941355a781bf146c0b2dac8ab4a2c16c84221250beb1ca1bb35d26fa9331a"
+    },
+    {
+      "bytes": 1060,
+      "git_blob_sha1": "8b9cc87863c9dad97f0b4f4661f1aed0bb8b0654",
+      "path": "manifests/rbac-002-1-read-access-to-secrets.yaml",
+      "sha256": "360212dc07499aeebfcd3a3f2791267f601005fcfedf505d02a93b71de909ddd"
+    },
+    {
+      "bytes": 1062,
+      "git_blob_sha1": "6580b5ebd8435cd46b3036a167efdd701ae378a1",
+      "path": "manifests/rbac-002-2-read-access-to-secrets.yaml",
+      "sha256": "1d90402672b2b517db157ea8deff76ecd919b7fdf04210ff56975743231367a6"
+    },
+    {
+      "bytes": 1064,
+      "git_blob_sha1": "13d3d87cdc7379ddfe487fd68754b20e4ca0054a",
+      "path": "manifests/rbac-002-3-read-access-to-secrets.yaml",
+      "sha256": "7875e940cf3091b56cc1c621f84247053ba012fa2538309ca918abd49ebdd04f"
+    },
+    {
+      "bytes": 1067,
+      "git_blob_sha1": "918222e8e882389e8b7c564c853f5c12f19c1c1d",
+      "path": "manifests/rbac-002-4-read-access-to-secrets.yaml",
+      "sha256": "3adfe2084d4db17913dae5f4b0a8a5287f12e59f84d2fa9519261ee440c4ac38"
+    },
+    {
+      "bytes": 1069,
+      "git_blob_sha1": "0acc75fa1fb1df32d47839e3b6038c97c866b3c6",
+      "path": "manifests/rbac-002-5-read-access-to-secrets.yaml",
+      "sha256": "bdad88e33646021ddfe2380e22cf0c8618024bc11604b1a0a17e3250ea33a103"
+    },
+    {
+      "bytes": 1071,
+      "git_blob_sha1": "611c871f3e394b24aecb1ad45e616733babed603",
+      "path": "manifests/rbac-002-6-read-access-to-secrets.yaml",
+      "sha256": "64291d91367d2f32bbc4e3f96ffa754e83b712934fad57bdfaca98796554e1b2"
+    },
+    {
+      "bytes": 1045,
+      "git_blob_sha1": "ee6f5ab5d333afd81e347548edd2aba180e7dedc",
+      "path": "manifests/rbac-003-1-role-use-resource-wildcard.yaml",
+      "sha256": "fe001bd384b4d3f282458a961533bfdfcb50e5e34bcb71d3219729b51a32669d"
+    },
+    {
+      "bytes": 1060,
+      "git_blob_sha1": "5f1f9a963b616bda4d8ff28a353d39821eaea9df",
+      "path": "manifests/rbac-003-2-cluster-role-use-resource-wildcard.yaml",
+      "sha256": "526d114675f5b710becdb5899745896d7190511ebcbc3b0f3404e35bc2c4804c"
+    },
+    {
+      "bytes": 967,
+      "git_blob_sha1": "402a51e20a3cb751c6c7e68b52222f6ccd9b594e",
+      "path": "manifests/rbac-003-3-role-use-verb-wildcard.yaml",
+      "sha256": "a7822a20c1038b263b5b95f3ff187aa8e1d211e66a78c4bc7328c6a49e735601"
+    },
+    {
+      "bytes": 982,
+      "git_blob_sha1": "c74d39f33cc3e18801b173e312d20163c0587c0c",
+      "path": "manifests/rbac-003-4-cluster-role-use-verb-wildcard.yaml",
+      "sha256": "92f0c972b85dc5b7363519255e47c41c8a6733f17b142bbb4f8fe603fd037ee2"
+    },
+    {
+      "bytes": 980,
+      "git_blob_sha1": "d687e92594a74619a31d11b049f3a4f25cb4689c",
+      "path": "manifests/rbac-003-5-role-use-verb-wildcard.yaml",
+      "sha256": "2ee3d2551452adee24b7547a82ec8a3f94b921d1b2e5870b23fbeb1f69ef5be2"
+    },
+    {
+      "bytes": 995,
+      "git_blob_sha1": "8d1f0181eafcded07b9b2d014e3381bd32b55e40",
+      "path": "manifests/rbac-003-6-cluster-role-use-verb-wildcard.yaml",
+      "sha256": "1aeb656375703b1e35bed808a826d660d74af4b5dca05a03945825dbc66c1f4e"
+    },
+    {
+      "bytes": 1217,
+      "git_blob_sha1": "314a67a5d815519e5ead7f2a5240b1bf8756d22b",
+      "path": "manifests/rbac-004-1-role-creates-pods.yaml",
+      "sha256": "19a7d37355140ec347a66316f52e925f2e88427388b6d7c0bbc39b79db674dd3"
+    },
+    {
+      "bytes": 1217,
+      "git_blob_sha1": "97024c29b0dbbdf34c5966cc21775c5139d43754",
+      "path": "manifests/rbac-004-2-role-creates-pods.yaml",
+      "sha256": "113bb7493c1113558c7bc9406e7110729c44c8d29a06a7023c56d3bef59de5fb"
+    },
+    {
+      "bytes": 1215,
+      "git_blob_sha1": "70fe93656e30e886c337f26d9eefa83ee7be470a",
+      "path": "manifests/rbac-004-3-role-creates-pods.yaml",
+      "sha256": "8041c1238b4a6bde493fbc19942c85c25d99949dc279f4ca9d3a02d21b9909be"
+    },
+    {
+      "bytes": 1217,
+      "git_blob_sha1": "1ef887b36b80c71622a84675384b2792a96059af",
+      "path": "manifests/rbac-004-4-role-creates-pods.yaml",
+      "sha256": "150c9e35bf56024ba7c3321b301afdc26f3e7e78431d2bf1279818cf2b4d0db1"
+    },
+    {
+      "bytes": 1232,
+      "git_blob_sha1": "a91fe8a01dc42b52216d414343577d80138900d8",
+      "path": "manifests/rbac-004-5-cluster-role-creates-pods.yaml",
+      "sha256": "05afe06a918c58f792dc1e5ee3d9bab5bc97d622e6475831388c7727eef80a37"
+    },
+    {
+      "bytes": 1232,
+      "git_blob_sha1": "04efb9bb01b2a253efa4e1703adacc9cf93d853a",
+      "path": "manifests/rbac-004-6-cluster-role-creates-pods.yaml",
+      "sha256": "fb5f32e3aac5631ca07c63454631314372db3d911ca099eb844881d925e9ed92"
+    },
+    {
+      "bytes": 1230,
+      "git_blob_sha1": "11304338fbdf0f8d5194200798bb50a99df60f12",
+      "path": "manifests/rbac-004-7-cluster-role-creates-pods.yaml",
+      "sha256": "6fb69f827be3b99ad9cbba8310991cd689c4dbd3e54bf5ac4c569d057f738c76"
+    },
+    {
+      "bytes": 1232,
+      "git_blob_sha1": "40d76b540536a61e5a3629ef853d5d3c6af6ab63",
+      "path": "manifests/rbac-004-8-cluster-role-creates-pods.yaml",
+      "sha256": "07e2f29d9c614c688c8f90e21113f858a748a5df7b9af13e380493b468c91856"
+    },
+    {
+      "bytes": 652,
+      "git_blob_sha1": "efb4060b65c0a51ffa30c105c6f6036e0ad4c2ec",
+      "path": "manifests/rbac-005-1-role-attaches-to-pods.yaml",
+      "sha256": "68f0b53688fd12461c9fc1466e33b7283194f256dcfb3d90c0ae5032d7577c0a"
+    },
+    {
+      "bytes": 667,
+      "git_blob_sha1": "39442c36d506df3dc3f6ac3fc739dd8bbb9f0d8e",
+      "path": "manifests/rbac-005-2-cluster-role-attaches-to-pods.yaml",
+      "sha256": "22a91cc39c4a38a4356388698bc21178ad52b8b1665a91270cd400a948161aea"
+    },
+    {
+      "bytes": 761,
+      "git_blob_sha1": "9397861dc8325b0ed7d423b219b35fc27133d5c7",
+      "path": "manifests/rbac-006-1-role-exec-into-pods.yaml",
+      "sha256": "06b5df659f9b0f6ad6f8cd129e4dca368233141bd999e36de7af414462338af3"
+    },
+    {
+      "bytes": 776,
+      "git_blob_sha1": "b64edc2895e3b73a22b7ae327af196a5224a74a4",
+      "path": "manifests/rbac-006-2-cluster-role-exec-into-pods.yaml",
+      "sha256": "2bb9d2d2ffa38abc8d3a4c47d7a9bb566b89529e1a5a7963944e2e6e0a613ae2"
+    },
+    {
+      "bytes": 2985,
+      "git_blob_sha1": "373ede393eeb7b7a3f6dbb29eec8cafdb3e27d83",
+      "path": "manifests/rbac-007-1-role-binds-default-serviceaccount.yaml",
+      "sha256": "691e29d939841eff82108a88ceccf36fdf92bc984530b6588749cfee4b3cf782"
+    },
+    {
+      "bytes": 3038,
+      "git_blob_sha1": "4a21168404fbafb165842bf912e9e73d78d88fea",
+      "path": "manifests/rbac-007-2-cluster-role-binds-default-serviceaccount.yaml",
+      "sha256": "d47281926edd40f397c7f04f4d52020e0b7b0713fe3f00ea67c4de4122fe17be"
+    },
+    {
+      "bytes": 703,
+      "git_blob_sha1": "e6b71cdb5277e2219c8070c48ece7dc34a38bd76",
+      "path": "manifests/rbac-008-1-role-port-forward-pods.yaml",
+      "sha256": "209aef647e63750e431ac5c551a52406a97b6e1390bd69e1fe91898d3d5adda5"
+    },
+    {
+      "bytes": 703,
+      "git_blob_sha1": "f81fdf5f8307af2175b4ee44f15ffe2eff787519",
+      "path": "manifests/rbac-008-2-role-port-forward-pods.yaml",
+      "sha256": "3b61b2fe7b40fe70c8afbcd928c3c2c7ef0f163a504758dcd2d0fd090e5a0fc4"
+    },
+    {
+      "bytes": 703,
+      "git_blob_sha1": "e04b66b9d3f7fe465813dea5b586a7a4b9c544e9",
+      "path": "manifests/rbac-008-3-role-port-forward-pods.yaml",
+      "sha256": "b3fc147d4f4820e15638a0c0f7b7cdb4c3fd9d613fae77389ed851ef017da8c9"
+    },
+    {
+      "bytes": 718,
+      "git_blob_sha1": "3c28d78150bfe7e8d5204dbcf712849d25394bed",
+      "path": "manifests/rbac-008-4-cluster-role-port-forward-pods.yaml",
+      "sha256": "5276f808b0bce28c9e12c0722e510be44baa4f52be1c2dbe5e125b9e82970626"
+    },
+    {
+      "bytes": 718,
+      "git_blob_sha1": "1221a8575ae536661fa7fdb820a10631943ffd1c",
+      "path": "manifests/rbac-008-5-cluster-role-port-forward-pods.yaml",
+      "sha256": "0cde5caf094dd5ab7c1e9c245b6e38283c685410a1a1d671cbcf3f40e14df0a0"
+    },
+    {
+      "bytes": 718,
+      "git_blob_sha1": "e38c439a6a23567bb84bf14945cf38e0dd7f28d7",
+      "path": "manifests/rbac-008-6-cluster-role-port-forward-pods.yaml",
+      "sha256": "8ba9a161198491dfb17d061cd3f6fb1a3cd77fd5f7a8b3dac9fabf4121794ba6"
+    },
+    {
+      "bytes": 1500,
+      "git_blob_sha1": "107e5ef3335892848cfb1c361eaeefafd992f533",
+      "path": "manifests/rbac-009-1-role-impersonation.yaml",
+      "sha256": "ae7a25b4360ce28d88006604d8db79dea646eeae1b19f5e2445a1d297084353a"
+    },
+    {
+      "bytes": 1515,
+      "git_blob_sha1": "bb1e7adb1ba6a4c92cfeffee1c9edef46d7167da",
+      "path": "manifests/rbac-009-2-cluster-role-impersonation.yaml",
+      "sha256": "92e9a9384e784a8ed8eb8a9a996bf4c9243e5ae2cf37f3ac82a15b1d4215b24f"
+    },
+    {
+      "bytes": 1416,
+      "git_blob_sha1": "c2ccc2f28ea1ae664f563d72305892558ff4928f",
+      "path": "manifests/rbac-010-1-role-manages-rbac.yaml",
+      "sha256": "4ccc280cfb12e69450e7c7436d1891656e909b0fae3a2be41cc32a8ce31a1268"
+    },
+    {
+      "bytes": 1423,
+      "git_blob_sha1": "b1d306544800e0b13efe76c61877e43e7c51f920",
+      "path": "manifests/rbac-010-2-role-manages-rbac.yaml",
+      "sha256": "a083100f2ad24fa3b5b627f58dbd0a8a9ee506899216d0d7a6e85d4ae022ded4"
+    },
+    {
+      "bytes": 1409,
+      "git_blob_sha1": "0ad2e388f6826d31fe0fa86d13472c7eacd5ae62",
+      "path": "manifests/rbac-010-3-role-manages-rbac.yaml",
+      "sha256": "746e91b5f3629e0911ca87d679c12d4bc863266270dfbd1f4da6adc49e9a63a7"
+    },
+    {
+      "bytes": 1416,
+      "git_blob_sha1": "9e613c37fc2b48943b53f5fef0912c471b64981e",
+      "path": "manifests/rbac-010-4-role-manages-rbac.yaml",
+      "sha256": "73d566bfcd07ce75d21897a5a15212e55702dd91e93ed7557e5309fffc6b910d"
+    },
+    {
+      "bytes": 1431,
+      "git_blob_sha1": "3d6f5fc8dc7b8fdaf867f9b5fbd67c2c6980459b",
+      "path": "manifests/rbac-010-5-cluster-role-manages-rbac.yaml",
+      "sha256": "1cf6092744315042958228bda826882524ee3cff46740c13492aa550a7f1efb8"
+    },
+    {
+      "bytes": 1438,
+      "git_blob_sha1": "01e37767b961c49f743aae28f283963ac64afe3e",
+      "path": "manifests/rbac-010-6-cluster-role-manages-rbac.yaml",
+      "sha256": "2797660e6c58539676075ebb3c7a9142df627cf816d3a1a177db5cb23788dc21"
+    },
+    {
+      "bytes": 1424,
+      "git_blob_sha1": "c370bf697dcc64389e2e0a568c5368a9f9f2b76e",
+      "path": "manifests/rbac-010-7-cluster-role-manages-rbac.yaml",
+      "sha256": "65f2fe4a6c0ac8c5625e29be78e0e7138b7ddd7dbe11c5f2650fd5ae4d38d5f4"
+    },
+    {
+      "bytes": 1431,
+      "git_blob_sha1": "7d1ebffdd08a818e45ae9d7b3137bcd4cce07d98",
+      "path": "manifests/rbac-010-8-cluster-role-manages-rbac.yaml",
+      "sha256": "43373faeece81abb2cfaa72aa787ad9158910c366ab8e8e471714e56bc6bcbde"
+    },
+    {
+      "bytes": 764,
+      "git_blob_sha1": "aeb989a01f337cddb04d7e392657b3f790a31fe7",
+      "path": "manifests/rbac-012-1-role-info-disclosure.yaml",
+      "sha256": "471dd4823cb621e065164e4cbc8e8aa11d1cc918aa43b8826d9835fb6381b8a8"
+    },
+    {
+      "bytes": 765,
+      "git_blob_sha1": "6a6eb1f242a4ea87e8dde62f0f11d2d796f387e9",
+      "path": "manifests/rbac-012-2-role-info-disclosure.yaml",
+      "sha256": "d4bf3690133b25280938357b96aa5a9ff5138bc43350476d9ac63c9a4257991d"
+    },
+    {
+      "bytes": 766,
+      "git_blob_sha1": "2d474b4864b5fcf9c2d913cdfc5ad509152f3697",
+      "path": "manifests/rbac-012-3-role-info-disclosure.yaml",
+      "sha256": "d6d4dee8e1ab1dc17100d61e5ca80506440631ffb9bae1ba6b137d02a41959cb"
+    },
+    {
+      "bytes": 779,
+      "git_blob_sha1": "168a99b767cb295037ee18c3dada53aadd391a51",
+      "path": "manifests/rbac-012-4-cluster-role-info-disclosure.yaml",
+      "sha256": "4533d89bd2388d18bbe909f959d71ccbe97d04bf107ff6d4482f540e4906a82a"
+    },
+    {
+      "bytes": 780,
+      "git_blob_sha1": "19d59cff24b82fa7194fb60ac21b9070e7ce681a",
+      "path": "manifests/rbac-012-5-cluster-role-info-disclosure.yaml",
+      "sha256": "32da3ec53023ad3e43eb0aa936315b2888019f742b3fd1df8b78c749baf7031c"
+    },
+    {
+      "bytes": 781,
+      "git_blob_sha1": "e60e11a52902519e0b13b60695e9afe6a1715bca",
+      "path": "manifests/rbac-012-6-cluster-role-info-disclosure.yaml",
+      "sha256": "b13c131909abd104798b103cbf7ec499b4634bdc6ba27ddfbb05e867eb56f3d9"
+    },
+    {
+      "bytes": 705,
+      "git_blob_sha1": "ae8b13a682b186540a1cc79cb184399fc6698e75",
+      "path": "manifests/rbac-013-1-role-destructive.yaml",
+      "sha256": "a353d35a37c1c4f66f0cbcd61d05c8e0bbe45f10987af83dda007552dba230d8"
+    },
+    {
+      "bytes": 715,
+      "git_blob_sha1": "e6d9194f4efda8f5c0ac4b4b1ea1c4c254f96e5a",
+      "path": "manifests/rbac-013-2-role-destructive.yaml",
+      "sha256": "736839c09d48b4d2978a16ee04ccbe9538f69a5e766c348bc61e38653afd586c"
+    },
+    {
+      "bytes": 720,
+      "git_blob_sha1": "f63e0d1e8822aeeb0330e717186e2f8d3571df75",
+      "path": "manifests/rbac-013-3-cluster-role-destructive.yaml",
+      "sha256": "17a613f3c26ec749aa13a7ffa05d170e1450ac24b9efc27426bb07f5a63c84f7"
+    },
+    {
+      "bytes": 730,
+      "git_blob_sha1": "413cba639ef6375cbf4b9f3df7538dfcf833f3bb",
+      "path": "manifests/rbac-013-4-cluster-role-destructive.yaml",
+      "sha256": "dae240b93862319c10014c9ced6b2ea45c91d2cdb83d2bbcca22cfea5a6ecbb5"
+    },
+    {
+      "bytes": 572,
+      "git_blob_sha1": "68a6d8c1236683b6809a9fc453ac1b22ee2c4e38",
+      "path": "manifests/rbac-014-1-role-event-deletion.yaml",
+      "sha256": "3e32ce16319c32bb2d07b38fd24e87f81b3e06954d4b191664787785a577b5a2"
+    },
+    {
+      "bytes": 582,
+      "git_blob_sha1": "0d4e3a9e260935514b1aa4450468ebeb6ac2e548",
+      "path": "manifests/rbac-014-2-role-event-deletion.yaml",
+      "sha256": "3d2ae1707d3b8703b27ad4c3e66e5f9b018920d08d59de20ab9a42414ad8266f"
+    },
+    {
+      "bytes": 587,
+      "git_blob_sha1": "b84bd373415d36f02f206a371e8748685bf5aa55",
+      "path": "manifests/rbac-014-3-cluster-role-event-deletion.yaml",
+      "sha256": "79476270f53ad62c8c617f786e76cdec3f99b3342a4c582df8daadc3b809caa1"
+    },
+    {
+      "bytes": 597,
+      "git_blob_sha1": "9e2f22c0dfc4753aa96511e16f9e4fd0210cb0cc",
+      "path": "manifests/rbac-014-4-cluster-role-event-deletion.yaml",
+      "sha256": "4e025efe8f14e94ea2d788396f4a26cc488b15c4a00595cca607b7d3c5287b41"
+    },
+    {
+      "bytes": 584,
+      "git_blob_sha1": "6f6aa08cfa32a6f18325636db711531bff16219f",
+      "path": "manifests/rbac-015-1-role-core-dns-poisoning.yaml",
+      "sha256": "6612f7d453c2c9473293c1e7d63275435508495619bb292ccece64b0b166b42e"
+    },
+    {
+      "bytes": 583,
+      "git_blob_sha1": "25463abe22685a495613370db7b5375991d73727",
+      "path": "manifests/rbac-015-2-role-core-dns-poisoning.yaml",
+      "sha256": "077996205226daafd94c9eca5174150ab5247519d92e0b13872d2274da45d818"
+    },
+    {
+      "bytes": 599,
+      "git_blob_sha1": "8990b84d6032278453493b9642894782f243c88c",
+      "path": "manifests/rbac-015-3-cluster-role-core-dns-poisoning.yaml",
+      "sha256": "02f1619134a018a57fb9d5eef65c3fd07ec03f150c8d05210ee7a95ed3d8c11b"
+    },
+    {
+      "bytes": 598,
+      "git_blob_sha1": "54b204ff02521cf42513b497249bf4808a18af20",
+      "path": "manifests/rbac-015-4-cluster-role-core-dns-poisoning.yaml",
+      "sha256": "b0b112e1e81ea1d9e5e2b2820eb15f961efd88dfb57dcc83d68b66763b4894af"
+    },
+    {
+      "bytes": 1016,
+      "git_blob_sha1": "c18f39755f71154a3cc7fad515b9467d43ebb22d",
+      "path": "manifests/rbac-016-serviceaccount-without-binding.yaml",
+      "sha256": "ddd36101f675ca135cc6429e7f83ce713bca5e262d24ac0f0fc731f3450bdcfa"
+    },
+    {
+      "bytes": 16356,
+      "git_blob_sha1": "af033c496380431c56c976ff81a59a8b227f8364",
+      "path": "manifests/rbac-017-too-many-roles-per-subject.yaml",
+      "sha256": "0703edfc95a9b3c7123c4ab95e5a770f8e070791df305754cd66ce818f9e3fe3"
+    },
+    {
+      "bytes": 1421,
+      "git_blob_sha1": "45168f869de9f7336b76cc68f7523063f6446674",
+      "path": "manifests/rbac-020-1-role-manages-rbac.yaml",
+      "sha256": "c7b75d2af3fdc7338cf5bad2694e93419ec375754bc429a350c9baedbf5d375b"
+    },
+    {
+      "bytes": 1428,
+      "git_blob_sha1": "a21a6b8040a03c57462d93e6e98bb8bbe54c620c",
+      "path": "manifests/rbac-020-2-role-manages-rbac.yaml",
+      "sha256": "a740226b5cb51df5805f2193e2d55410e5f4aa0430499d146949ee8e2c26cdef"
+    },
+    {
+      "bytes": 1414,
+      "git_blob_sha1": "1ddf3c423c0fd76ade6a99231e544979e822982e",
+      "path": "manifests/rbac-020-3-role-manages-rbac.yaml",
+      "sha256": "0c7da127b7e2a9bcdcda460d4cfea28dc4ef1260dcfb3c9c722c1f886b205259"
+    },
+    {
+      "bytes": 1421,
+      "git_blob_sha1": "81e0ab99f22a4fe40dfb4e4e202ca23942c98345",
+      "path": "manifests/rbac-020-4-role-manages-rbac.yaml",
+      "sha256": "cd9a9889ffc760396f9dfb8477d90a732b87e3bcc05d58473338b050362aabc2"
+    },
+    {
+      "bytes": 1436,
+      "git_blob_sha1": "3046e6b2edc2e2eeaf3ee1d48b2437d21d995a1c",
+      "path": "manifests/rbac-020-5-cluster-role-manages-rbac.yaml",
+      "sha256": "da09884f001e672ee167b5a8ce7db31529abe8b4e0f60f581ee95ab2535be5f6"
+    },
+    {
+      "bytes": 1443,
+      "git_blob_sha1": "492244c787b32776b8c374bee3babf6ca5fb2ead",
+      "path": "manifests/rbac-020-6-cluster-role-manages-rbac.yaml",
+      "sha256": "e439ac778b432f68208398df94f131411596e3143c42b316f8c642231a97d6ba"
+    },
+    {
+      "bytes": 1429,
+      "git_blob_sha1": "d105da3e0fbc19d58c14b507db21cd35bc592e05",
+      "path": "manifests/rbac-020-7-cluster-role-manages-rbac.yaml",
+      "sha256": "8667ebd66fc624b2adf7432d24436354880888eeb799c28d364bc2b52c9031db"
+    },
+    {
+      "bytes": 1436,
+      "git_blob_sha1": "ffd88ea500e93f1b6904bf7ba75c64632674a4ff",
+      "path": "manifests/rbac-020-8-cluster-role-manages-rbac.yaml",
+      "sha256": "0ae96035fdba62368ff82d00c6ae6a00a7413e5cef2418c52c962f2c84295127"
+    },
+    {
+      "bytes": 3055,
+      "git_blob_sha1": "2ab4c4fef809e70cbfdd5fe485c9905bc3e10b7b",
+      "path": "manifests/rbac-021-1-only-admins-should-be-able-to-create-persis-c893a953.yaml",
+      "sha256": "4029a2dd6598a26abe26eb2c51bfbf371357d662789f7d716d55a58c3cf034ae"
+    },
+    {
+      "bytes": 3055,
+      "git_blob_sha1": "843d3e571c37dc63f5fc173fe325b2ddc7e6c8ea",
+      "path": "manifests/rbac-021-2-only-admins-should-be-able-to-update-persis-c8f17af4.yaml",
+      "sha256": "463140ab9d539b77e3059cd9f569d6b5073dc4522135dd5d8b5376f61a6f3f08"
+    },
+    {
+      "bytes": 3048,
+      "git_blob_sha1": "0a074f95553bd66d4d57f2930a54d66d6237df21",
+      "path": "manifests/rbac-021-3-only-admins-should-be-able-to-patch-persist-c8a38da5.yaml",
+      "sha256": "e7e3ff8a5f4fed66e9305c8c4cf755cd23b83f6734ca344103655bede84d66bc"
+    },
+    {
+      "bytes": 3069,
+      "git_blob_sha1": "e00cd9d02dce2446d0f3d42ecb00cf291abebb41",
+      "path": "manifests/rbac-021-4-only-admins-should-be-able-to-create-persis-c8399560.yaml",
+      "sha256": "900fb47e09595b52ad5345d4c464b31326abba9a76074bd6560f08272bd72968"
+    },
+    {
+      "bytes": 3069,
+      "git_blob_sha1": "aabcc2669bc9b3efed906b1f8d79cf126117e11a",
+      "path": "manifests/rbac-021-5-only-admins-should-be-able-to-update-persis-c857a13a.yaml",
+      "sha256": "dc681058118e18fdbfa1140e028922d554895d6fba897a9a900ded92dd78e973"
+    },
+    {
+      "bytes": 3062,
+      "git_blob_sha1": "07699ba8b4abc74bd6d73bb519da750298ac7d38",
+      "path": "manifests/rbac-021-6-only-admins-should-be-able-to-patch-persist-c8a89e39.yaml",
+      "sha256": "6cc78bd2f0467779ac145c1bda9c11748d27081737bdda25e322b3e610a9ba90"
+    },
+    {
+      "bytes": 641,
+      "git_blob_sha1": "b497f64d66450456acec73cd3864a244d433b4a9",
+      "path": "manifests/rbac-022-1-role-can-manage-networkpolicy.yaml",
+      "sha256": "69993aec07b170e749f6ee8eb192cc239c8fd1ca8b9025c3508462032042cc3b"
+    },
+    {
+      "bytes": 641,
+      "git_blob_sha1": "e9420c69fc8fc8e8f466cf881baf5b4348aef7c2",
+      "path": "manifests/rbac-022-2-role-can-manage-networkpolicy.yaml",
+      "sha256": "1b1626a11153aa74516058ef8f32ad85b55cda1a32cb257dbf7d5c03e8ce16c9"
+    },
+    {
+      "bytes": 639,
+      "git_blob_sha1": "b0ef80fa9f5ff28dbc4d1a2780fadba70e1974ac",
+      "path": "manifests/rbac-022-3-role-can-manage-networkpolicy.yaml",
+      "sha256": "eba0bf97dabc01984ec7dea79c07746f37117dfb993b98ddeb3003446fe11589"
+    },
+    {
+      "bytes": 656,
+      "git_blob_sha1": "9d456a4dc5b13636b0c7bc1780d38ef3d8244ee8",
+      "path": "manifests/rbac-022-4-cluster-role-can-manage-networkpolicy.yaml",
+      "sha256": "ab13a41f0812d1dca18d55499feb5fb726fcc004bc9856cd153d035c5a60fe45"
+    },
+    {
+      "bytes": 656,
+      "git_blob_sha1": "93762a339be2d2dbfc3e3376d89d5ae26e20abdb",
+      "path": "manifests/rbac-022-5-cluster-role-can-manage-networkpolicy.yaml",
+      "sha256": "1ea71d2762c797355dcb80234c1311f505bd4ea4432fcb3092b2fbd62aaa3699"
+    },
+    {
+      "bytes": 654,
+      "git_blob_sha1": "2976290822962c7b24848f70affa4c6bee6bf516",
+      "path": "manifests/rbac-022-6-cluster-role-can-manage-networkpolicy.yaml",
+      "sha256": "11ffbfc33482be49ea524e8ee265512dc8ba5493f77c1d54bbda1c22c64ea6c9"
+    },
+    {
+      "bytes": 1079,
+      "git_blob_sha1": "9c674096982353df830b858b22b2a9847eb18d66",
+      "path": "manifests/rbac-023-1-access-to-proxy-sub-resource-of-nodes.yaml",
+      "sha256": "cf8736f97dbcf0e6547e93853578dd822f8dcafcbddb9f7030e82d616ec2c957"
+    },
+    {
+      "bytes": 1094,
+      "git_blob_sha1": "bd6fee71967794b5bf9ee180f1111ed220e0560d",
+      "path": "manifests/rbac-023-4-cluster-access-to-proxy-sub-resource-of-nodes.yaml",
+      "sha256": "784556bb6f3e3d23c4fe0aef1e6d04ca137fb0dc38ffbfab4047360ca3ab8917"
+    },
+    {
+      "bytes": 1382,
+      "git_blob_sha1": "03abecc45058f1b8580f6a103f06350751b2dcd5",
+      "path": "manifests/rbac-024-4-access-to-approval-sub-of-certific-c8d6df8a.yaml",
+      "sha256": "cfa5668167beb5c00dff05fb46b40e55e15288776be45c252d6bd562b6e31536"
+    },
+    {
+      "bytes": 1397,
+      "git_blob_sha1": "4828e0f7171b27d7fc988329646db30ba9472101",
+      "path": "manifests/rbac-024-7-cluster-access-to-approval-sub-of-c8f934ef.yaml",
+      "sha256": "c166711e16bd3c778ab382af720ad26d239dd67fb7cdadf22afdbcb84b9b0962"
+    },
+    {
+      "bytes": 1136,
+      "git_blob_sha1": "a1eb54ff9cf60a22ac28e39407b2c505fded92ee",
+      "path": "manifests/rbac-025-1-access-to-webhook-configuration-objects.yaml",
+      "sha256": "39e96057227dbeea8efbab48596a165053cca715438fd1a936276aae1ef4f125"
+    },
+    {
+      "bytes": 1136,
+      "git_blob_sha1": "5aafe1bde28f4fcb70b7b36aeb173210a59588c3",
+      "path": "manifests/rbac-025-2-access-to-webhook-configuration-objects.yaml",
+      "sha256": "1de614ed503f192e17c6e0cad94cd13d60e83c9c6adee1f896eb0110ea1d296a"
+    },
+    {
+      "bytes": 1135,
+      "git_blob_sha1": "2ca06943d18678983fef3e065159df185af4d695",
+      "path": "manifests/rbac-025-3-access-to-webhook-configuration-objects.yaml",
+      "sha256": "d5f245fc5c02967a4d48d8cdf8cfa396280092572c1ae772793af2e0980b8e35"
+    },
+    {
+      "bytes": 1136,
+      "git_blob_sha1": "663217d57663d732b65abb9fb6b2c512d023800b",
+      "path": "manifests/rbac-025-4-access-to-webhook-configuration-objects.yaml",
+      "sha256": "f5bc5f8dcba398d401e6c0d48f23eb100dc142dcbf40a8dc8307d6404cca61c9"
+    },
+    {
+      "bytes": 1151,
+      "git_blob_sha1": "5022dd5a126cff4cdf41e60bf7ca95b5aa75a0e1",
+      "path": "manifests/rbac-025-4-cluster-access-to-webhook-configuration-objects.yaml",
+      "sha256": "e2f81f7456d3632409ca44fca5056f3995251f969970409378e9f5aadcbe0eb3"
+    },
+    {
+      "bytes": 1151,
+      "git_blob_sha1": "0e2816f0330776b92b49564a8cc4c25b5d95b75f",
+      "path": "manifests/rbac-025-5-cluster-access-to-webhook-configuration-objects.yaml",
+      "sha256": "1efc2b555bc27c3fc629a305a3cf83571a33068814ac736ed82def10c7da14ff"
+    },
+    {
+      "bytes": 1150,
+      "git_blob_sha1": "7cb394098869a48b878d4547dd19f3647ff5eb77",
+      "path": "manifests/rbac-025-6-cluster-access-to-webhook-configuration-objects.yaml",
+      "sha256": "2fa41f6cdf528a2a23124020b7727ccf1b7f65e45436bd5ef65474e089f6e238"
+    },
+    {
+      "bytes": 1151,
+      "git_blob_sha1": "fa1ad1d164580f0b4a799dfe11c4fd2bdab1594b",
+      "path": "manifests/rbac-025-7-cluster-access-to-webhook-configuration-objects.yaml",
+      "sha256": "f560835635aa135868ae781f50bc10be220383ff8d7764a689fc05a612a52ec6"
+    },
+    {
+      "bytes": 1060,
+      "git_blob_sha1": "df774dc0e907080cf7dd7714a7712c2803fb6d9b",
+      "path": "manifests/rbac-026-4-access-to-service-account-token.yaml",
+      "sha256": "e1e1cb7416222f824f0695660b3029875221747049474510e9fee8f1e64ffee5"
+    },
+    {
+      "bytes": 1075,
+      "git_blob_sha1": "ab21c60664bfa8eeaf0a454ff7d10c5562c027ab",
+      "path": "manifests/rbac-026-7-cluster-access-to-service-account-token.yaml",
+      "sha256": "e57498db51f962a0857ec3b2506c10e4cf866cdc9cfca8a50f5a555851fa5cea"
+    },
+    {
+      "bytes": 962,
+      "git_blob_sha1": "1209c794561033e6a6829b5eae3b0501498bb0ef",
+      "path": "manifests/rbac-027-1-role-binds-to-anonymous-unauthenticated.yaml",
+      "sha256": "3e4aba4646ac8e52c31ea43c89c1255cae65304d81f3ddf28a5553853d885396"
+    },
+    {
+      "bytes": 985,
+      "git_blob_sha1": "929a4f9a606ba9bb05e1a8a03e6aab38d49326d7",
+      "path": "manifests/rbac-027-2-cluster-role-binds-to-anonymous-unauthenticated.yaml",
+      "sha256": "447cb7f9fa5e21fad60610b3d710439ba96d0775e46e585679cd20d5ce585c2c"
+    },
+    {
+      "bytes": 974,
+      "git_blob_sha1": "64f59b2dcaf06d5319352abdd281ef8bbb5e6d42",
+      "path": "manifests/rbac-027-3-role-binds-to-anonymous-unauthenticated.yaml",
+      "sha256": "4481d9b8fa403fb3d39dbb9673d06d2a82fd2fe7ac8ae21545a00058fcca81d0"
+    },
+    {
+      "bytes": 997,
+      "git_blob_sha1": "d0f7b0d846356be3e8ea2b01562ae153bf24feb9",
+      "path": "manifests/rbac-027-4-cluster-role-binds-to-anonymous-unauthenticated.yaml",
+      "sha256": "311d92dd6bb90cf3a0bbbc19251fae28c9e4744b66316c56bd28969d85a7c747"
+    },
+    {
+      "bytes": 3222,
+      "git_blob_sha1": "b0610c5d4e1a35db8a0a4c03b752e0a48dc05ca7",
+      "path": "manifests/rel-001-no-readinessprobe-defined.yaml",
+      "sha256": "752dd9c44cbdbec1df5ace16e1ae9381a619e1f214c0928d53b13c989a4aae71"
+    },
+    {
+      "bytes": 3327,
+      "git_blob_sha1": "8bfb95d3a649a3643d52a2a070ff4e5dd59a19dc",
+      "path": "manifests/rel-002-no-livenessprobe-defined.yaml",
+      "sha256": "5a408156951f4312e74f01863b58f788efede938f2b25138ebcbba584a0ed6e1"
+    },
+    {
+      "bytes": 3172,
+      "git_blob_sha1": "131d236ecb1a326cf9389e7b87782e8996358871",
+      "path": "manifests/rel-003-no-priorityclass.yaml",
+      "sha256": "56fa46eb2ea3d49275789e51fa647064f31b34a96bb04e9e4a82fb0905442416"
+    },
+    {
+      "bytes": 3789,
+      "git_blob_sha1": "d7624df2304be9f9537cad217fa19757c9e99760",
+      "path": "manifests/rel-004-1-no-nodeselector-or-nodeaffinity-specified.yaml",
+      "sha256": "174f6dab8ef1ab4f752810310c24fe0e9e04286aaca4e6748d077e00d5cf4572"
+    },
+    {
+      "bytes": 4013,
+      "git_blob_sha1": "a05f60af3822af904079b09f357fb93551dbb015",
+      "path": "manifests/rel-004-2-only-nodeaffinity-is-enough.yaml",
+      "sha256": "0d4126cb93e317f6af11a1639af541b604c87d9070855a1524416d2a39bcd4b7"
+    },
+    {
+      "bytes": 3745,
+      "git_blob_sha1": "9df448d71ed965e5aa52c3ec2f148c497b2f18d5",
+      "path": "manifests/rel-004-3-only-nodeselector-is-enough.yaml",
+      "sha256": "97f4e03db37b7f9d472bf2ed007ed2e4fef0502ec1900efd7c73f67f0179892b"
+    },
+    {
+      "bytes": 4452,
+      "git_blob_sha1": "93de1d36e8ff901314d9291eec55aca42e6634d5",
+      "path": "manifests/res-001-1-default-memory-requests-from-namespace.yaml",
+      "sha256": "15122faf9b4f3f1b06695d363df17a1c555eec8bcf92515dcfb910e7db3f34aa"
+    },
+    {
+      "bytes": 4410,
+      "git_blob_sha1": "5eeaf746ac7a5658c2978b0f7045ede19c7069dd",
+      "path": "manifests/res-001-2-no-memory-requests.yaml",
+      "sha256": "a80c0940dad829af8d0d1646312556856fdf8fb7e437d88e9199bb841021359e"
+    },
+    {
+      "bytes": 4486,
+      "git_blob_sha1": "a293eb83ac4492dbd420ef8827195919e4e6bca4",
+      "path": "manifests/res-002-1-default-memory-limits-from-namespace.yaml",
+      "sha256": "40b0ffa5ae4947cf1db62e93817301f5d7e92263c5230b77d4531da48affd29f"
+    },
+    {
+      "bytes": 4460,
+      "git_blob_sha1": "d0ed5b79dbfe62630d7986b4edd21522e60aa47a",
+      "path": "manifests/res-002-2-no-memory-limits.yaml",
+      "sha256": "53e007e190b9e59957afe9b493a4830cc2b6d0d67419fd14682d6088c8bf6c19"
+    },
+    {
+      "bytes": 4351,
+      "git_blob_sha1": "75f5ae2b7cf564276899b441b5797034e73c6e9a",
+      "path": "manifests/res-003-1-default-cpu-requests-from-namespace.yaml",
+      "sha256": "901b0fa161ef693d0182be1d8421c5e6575e90293b5b58474c4587107b87e692"
+    },
+    {
+      "bytes": 4309,
+      "git_blob_sha1": "7ef11158bd5ea2f57bb3339622e50a252d738f0d",
+      "path": "manifests/res-003-2-no-cpu-requests.yaml",
+      "sha256": "aa4c867e2be3044ecc81b2e0a45e6d62bc4f17fbfa0e7329dccff6fb357ae56b"
+    },
+    {
+      "bytes": 4379,
+      "git_blob_sha1": "d0f7f4d245973cb4f297357943a75c2f05433c27",
+      "path": "manifests/res-004-1-default-cpu-limits-from-namespace.yaml",
+      "sha256": "bdae0a89ea1d47f48b421b8d7d07acc54d2a9888f6827c48b7abe8138a8e3e5f"
+    },
+    {
+      "bytes": 4353,
+      "git_blob_sha1": "ead3e38347475b87ab69b4f990d008a48ae492ef",
+      "path": "manifests/res-004-2-no-cpu-limits.yaml",
+      "sha256": "7618e206c368c94b1298c62c0b94f326d1814f13af5ea0f49bd6d1d035a69640"
+    },
+    {
+      "bytes": 4228,
+      "git_blob_sha1": "6cc75f66f7d56f9f948d1a6ec5d3bf832ab73354",
+      "path": "manifests/res-005-1-default-ephemeral-storage-requests-from-namespace.yaml",
+      "sha256": "41fbab9badd19367caee407c7f9f40bc4a72c65ac624c5168b926b8f860d2450"
+    },
+    {
+      "bytes": 4192,
+      "git_blob_sha1": "c114b30b1d3c2c77c4205eb1ba1c91f7175790fc",
+      "path": "manifests/res-005-2-no-ephemeral-storage-requests.yaml",
+      "sha256": "2f3d7ffd61055cae19fcaec34bf833789ad298cbf63725fb12f8f723386eee70"
+    },
+    {
+      "bytes": 4214,
+      "git_blob_sha1": "f859110531fc400026666b18fd14f9181ad618ac",
+      "path": "manifests/res-006-1-default-ephemeral-storage-limits-from-namespace.yaml",
+      "sha256": "c98a8f892f58ae1f1595dcbbb2ce71f132d8ae9cb187323076e3bbc038b8701d"
+    },
+    {
+      "bytes": 4186,
+      "git_blob_sha1": "1c3ac3a32be3024e94f30d1765dc0379abd8691b",
+      "path": "manifests/res-006-2-no-ephemeral-storage-limits.yaml",
+      "sha256": "6b53859bf84e67ac3a5c6253e8e5ce4445654a05ae747a29df29014f3c8fe2a1"
+    },
+    {
+      "bytes": 5098,
+      "git_blob_sha1": "813f03769be8ff8f47daa8941e18cf567ded126d",
+      "path": "manifests/res-007-0-no-limitrange-object-for-namespace.yaml",
+      "sha256": "5dd5cdac419230bcaa19703d89f7becfd7a29a16a75367e1b6cf541e82dd7b76"
+    },
+    {
+      "bytes": 6412,
+      "git_blob_sha1": "3e52779bfda13140582451264771dfeb13f4add8",
+      "path": "manifests/res-007-1-no-default-cpu-request-for-namespace.yaml",
+      "sha256": "67dfa90cee703427929a0bada304f05440b02041c837e236d0f5fba3b9194bdd"
+    },
+    {
+      "bytes": 6345,
+      "git_blob_sha1": "681a28876f04a10326c95fc3f9c2014b5ddfe1b8",
+      "path": "manifests/res-007-2-no-default-cpu-limits-for-namespace.yaml",
+      "sha256": "968255381735ffcff2062aff3c0be814cc3a2d9fb384df554fb0f89334c7ea4e"
+    },
+    {
+      "bytes": 6449,
+      "git_blob_sha1": "a507399fb2f2cd74882581b1295f3d81f3bcfa31",
+      "path": "manifests/res-007-3-no-cpu-limits-for-namespace.yaml",
+      "sha256": "932bda4d66d4203b008599994c5782a26fb6317a3561556f059073f34e61a1b2"
+    },
+    {
+      "bytes": 6627,
+      "git_blob_sha1": "d893700e585d5e09902d49ed6155ef398c7c202a",
+      "path": "manifests/res-008-1-no-default-memory-request-for-namespace.yaml",
+      "sha256": "32053b82d4d999c4af3f3e4ba5939aa265c44564d24f1fa158e07179d5f801dd"
+    },
+    {
+      "bytes": 6562,
+      "git_blob_sha1": "135399b02aa9c0ed25a3189cf76470e2cf9bb761",
+      "path": "manifests/res-008-2-no-default-memory-limits-for-namespace.yaml",
+      "sha256": "89db334c16292580bab9a6137c4530002ff9f5401c32ef0b8113fadefb3b5d0e"
+    },
+    {
+      "bytes": 7037,
+      "git_blob_sha1": "7d53afc1b36fd4234226c20eb9fc567b08164e0f",
+      "path": "manifests/res-008-3-no-default-memory-limits-for-namespace.yaml",
+      "sha256": "ee8bd45b8be03c6ce430b5e98eea8380a8ad0bf1fc6acc6e3f7819bf41ff411c"
+    },
+    {
+      "bytes": 5411,
+      "git_blob_sha1": "7a6d698e7bff3d5cef8b9fd0683df0e6364d81e9",
+      "path": "manifests/res-009-1-no-resource-quota-applied-to-namespace.yaml",
+      "sha256": "387adc15cb541447a8c550fc95ed252fb7d85efe457c13cd659069774cf6e657"
+    },
+    {
+      "bytes": 7471,
+      "git_blob_sha1": "75cbe4853f5b06687d6a39d8cfa2ed341368e414",
+      "path": "manifests/res-009-2-no-hard-quotas-defined-in-resourcequota-for-namespace.yaml",
+      "sha256": "03a119d232b2c05ec21e805b25866ee194867ada1cf3afa12201c2ee04294973"
+    },
+    {
+      "bytes": 3869,
+      "git_blob_sha1": "0b0ed16244ff14cd084fd652f77cd1389cd0504d",
+      "path": "manifests/sc-001-1-imagepullpolicy-defaults-to-always.yaml",
+      "sha256": "d00ab8bbbd8e1d82a36b393e656d33c8e75dd947c892b6e9bbb152b208644eac"
+    },
+    {
+      "bytes": 3889,
+      "git_blob_sha1": "48618c77dad65462725a09d8ef558922972f9a95",
+      "path": "manifests/sc-001-2-no-proper-imagepullpolicy-set.yaml",
+      "sha256": "721c10ad0a1ebc7b79c156194d6a168907777d7bed8052f99b8db7f7a602efd7"
+    },
+    {
+      "bytes": 3896,
+      "git_blob_sha1": "48ac84d4f704066ef6305184cff3fcf065bba874",
+      "path": "manifests/sc-001-3-no-proper-imagepullpolicy-set.yaml",
+      "sha256": "2734f02dc2fe3e65cd47b29db7d873131f6600f925a48e732bed3a7433d03d23"
+    },
+    {
+      "bytes": 3961,
+      "git_blob_sha1": "9d0f88515d9bdc4b92d09deefadc907e1bb08452",
+      "path": "manifests/sc-002-1-tag-instead-of-digest-is-fine.yaml",
+      "sha256": "94eb727301e9e7867e1b64c8b1241d9ebce1067cf1898dcf9fab9b25702cabcf"
+    },
+    {
+      "bytes": 3946,
+      "git_blob_sha1": "dfe7777fed86c65af9335bb1ff1bdf8d1ff58555",
+      "path": "manifests/sc-002-2-using-latest-image-tag.yaml",
+      "sha256": "dc88c25e7e1e6e7d100e6317aeeb6854d8a71f0327ef408373e455a6a75f9ad5"
+    },
+    {
+      "bytes": 3916,
+      "git_blob_sha1": "83bffe425d490125de1be1b945b3f78d77ce6d7d",
+      "path": "manifests/sc-002-3-no-explicit-tag.yaml",
+      "sha256": "d9d843abe367217e71ea9d3284ffe013bc63de76d064f084c565362009995b57"
+    },
+    {
+      "bytes": 2633,
+      "git_blob_sha1": "165885e9aa4c956efd299042cc5b54bcaf870d43",
+      "path": "manifests/wl-001-unmanaged-pods-are-discouraged.yaml",
+      "sha256": "43b8c3210dca9667922c16532358f254b0f3fa7d7628ca914fd0fcc696aaa761"
+    },
+    {
+      "bytes": 11357,
+      "git_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    }
+  ],
+  "tree_api_url": "https://api.github.com/repos/dynatrace-oss/Kalm-Benchmark/git/trees/6da1b2d75e7fb05a69adc632e89ad0dc84e5f115?recursive=1",
+  "tree_sha": "6da1b2d75e7fb05a69adc632e89ad0dc84e5f115",
+  "yaml_parser_version": "6.0.1"
+}

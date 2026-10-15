@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"name":"compliant-binding","namespace":"k8s-opa-static-cis-511"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"limited-role"},"subjects":[{"kind":"ServiceAccount","name":"test-sa-compliant","namespace":"k8s-opa-static-cis-511"}]}
+  creationTimestamp: "2026-03-06T10:39:35Z"
+  name: compliant-binding
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: "3004944"
+  uid: 923431de-c28e-4f6f-9c56-034e835133bc
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: limited-role
+subjects:
+- kind: ServiceAccount
+  name: test-sa-compliant
+  namespace: k8s-opa-static-cis-511

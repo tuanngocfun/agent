@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  labels:
+    app: test-deployment
+    pod-template-hash: 59fb8444b8
+  name: non-compliant-deployment-59fb8444b8
+  namespace: k8s-opa-static-cis-524
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-deployment
+      pod-template-hash: 59fb8444b8
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: test-deployment
+        pod-template-hash: 59fb8444b8
+    spec:
+      containers:
+      - image: nginx:1.20
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

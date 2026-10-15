@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "offline_intake_verified",
+  "kalm": {
+    "manifest_files": 241,
+    "resource_documents": 445,
+    "labeled_candidates": 238,
+    "support_files": 3,
+    "identifier_normalized_structural_groups": 232,
+    "rule_families": 79,
+    "partitions": {
+      "development": 59,
+      "evaluation": 179,
+      "support": 3
+    },
+    "runtime_validated": 0,
+    "model_runs": 0
+  },
+  "itbench": {
+    "status": "verified-static-candidates",
+    "cases": 10,
+    "source_yaml_files": 301,
+    "source_policy_files": 10,
+    "runtime_validated": false,
+    "model_evaluated": false,
+    "revision": "d0916b08ba421ce5e672e9ad68aa947d938dfef0"
+  },
+  "infra_bench": {
+    "task_definitions": 71,
+    "source_assets": 801,
+    "categories": {
+      "access-and-isolation": 9,
+      "configuration-secrets": 3,
+      "kubernetes": 7,
+      "migration-maintenance": 6,
+      "platform-apis-controllers": 7,
+      "scheduling-capacity": 11,
+      "service-connectivity": 10,
+      "storage-state": 5,
+      "workload-health": 13
+    },
+    "access_and_isolation_candidates": [
+      "add-rbac-list-verb",
+      "allow-api-network-policy",
+      "fix-restricted-security-context",
+      "harden-payments-stack-without-breaking-runtime",
+      "repair-payment-tenant-network-boundary",
+      "repair-restricted-multi-container-pod",
+      "repair-tenant-operator-permissions",
+      "restore-checkout-network-path",
+      "restore-worker-config-access"
+    ],
+    "runtime_validated": 0,
+    "ready_for_current_agent": 0,
+    "model_runs": 0
+  },
+  "new_runtime_validated_cases": 0,
+  "new_model_results": 0,
+  "v2_experiment_registered": false,
+  "notes": [
+    "Counts use different units and must not be pooled as independent runtime tasks.",
+    "V1 remains eight executed authored cases; imported definitions add no measured successes.",
+    "Oracle separation is by input packaging; filesystem/runtime isolation remains to be implemented.",
+    "Source hashes verify bytes, not security truth or behavior-preserving repair correctness."
+  ]
+}

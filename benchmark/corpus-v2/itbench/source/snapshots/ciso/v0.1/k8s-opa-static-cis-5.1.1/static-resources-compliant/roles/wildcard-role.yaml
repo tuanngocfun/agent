@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"wildcard-role","namespace":"k8s-opa-static-cis-511"},"rules":[{"apiGroups":["*"],"resources":["*"],"verbs":["*"]}]}
+  creationTimestamp: "2026-03-06T10:04:26Z"
+  name: wildcard-role
+  namespace: k8s-opa-static-cis-511
+  resourceVersion: "2997724"
+  uid: 3a280021-0099-43f0-83ab-ed7288aa14cf
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
