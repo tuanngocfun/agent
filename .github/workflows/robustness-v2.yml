@@ -1,0 +1,166 @@
+name: Kubernetes robustness v2
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: Validate all reference cases first, then run model comparisons
+        type: choice
+        options: [validate, models]
+        default: validate
+      validation_run_id:
+        description: Successful validation run on this exact commit; required for models
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: robustness-v2-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify the registered source and meaningful harness tests
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_robustness_plan.py --check benchmark/robustness-v2/plan.json
+          PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_robustness_*.py' -v
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_benchmark_plan.py --check benchmark/plan-v1.json
+      - name: Require successful reference validation on this commit before models
+        if: inputs.stage == 'models'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PILOT_RUN_ID: ${{ inputs.validation_run_id }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re, subprocess
+          run_id = os.environ['PILOT_RUN_ID']
+          if not re.fullmatch(r'[0-9]{1,20}', run_id):
+              raise SystemExit('An actual successful validation run ID is required')
+          repo = os.environ['GITHUB_REPOSITORY']
+          run = json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run_id}']))
+          if run['conclusion'] != 'success' or run['head_sha'] != os.environ['EXPECTED_SHA'] or run['name'] != 'Kubernetes robustness v2':
+              raise SystemExit('Validation must succeed on the exact evaluated commit')
+          subprocess.run(['gh','run','download',run_id,'--repo',repo,'--name','robustness-validation','--dir','runs/validated-reference'],check=True)
+          root = pathlib.Path('runs/validated-reference')
+          plan = json.loads(pathlib.Path('benchmark/robustness-v2/plan.json').read_text())
+          summary = json.loads((root/'summary.json').read_text())
+          if summary['stage'] != 'validate' or summary['status'] != 'passed' or summary['plan_id'] != plan['plan_id'] or summary['source_sha256'] != plan['source_sha256']:
+              raise SystemExit('Reference validation source/protocol mismatch')
+          if not all(summary['cleanup'].values()) or summary['control_count'] != len(plan['cases'])*4:
+              raise SystemExit('Reference coverage or cleanup incomplete')
+          for case in plan['cases']:
+              for control in ('noop','naive','template','oracle'):
+                  row = json.loads((root/'controls'/f"{case['id']}--{control}.json").read_text())
+                  if row['verification']['infrastructure_error'] or not row['cleanup']['namespace_deleted']:
+                      raise SystemExit('Reference control infrastructure was not clean')
+                  if control == 'oracle' and case['expected'] != 'abstain' and not row['verification']['passed']:
+                      raise SystemExit('Reference repair did not pass')
+                  if control == 'noop' and row['verification']['passed'] != (case['expected']=='unchanged'):
+                      raise SystemExit('Initial state was not validated')
+          print('All registered reference controls verified; model stage permitted')
+          PY
+
+  validate:
+    if: inputs.stage == 'validate'
+    needs: protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 scripts/install_worker_tools.py
+      - name: Execute initial, naive, template and reference controls on real Kubernetes
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/robustness_worker.py --plan benchmark/robustness-v2/plan.json --stage validate --output runs/robustness-validation
+      - name: Preserve reference successes and failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: robustness-validation
+          path: |
+            runs/robustness-validation/plan.json
+            runs/robustness-validation/summary.json
+            runs/robustness-validation/commands.json
+            runs/robustness-validation/progress.json
+            runs/robustness-validation/image-pins.json
+            runs/robustness-validation/setup-image-verification.json
+            runs/robustness-validation/controls/
+          retention-days: 30
+          if-no-files-found: warn
+
+  models:
+    if: inputs.stage == 'models'
+    needs: protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 32
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 scripts/install_worker_tools.py
+      - name: Run registered real-model method comparisons
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/robustness_worker.py --plan benchmark/robustness-v2/plan.json --stage models --shard '${{ matrix.shard }}' --output runs/robustness-shard
+      - name: Preserve raw model responses and Kubernetes evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: robustness-v2-s${{ matrix.shard }}
+          path: |
+            runs/robustness-shard/plan.json
+            runs/robustness-shard/summary.json
+            runs/robustness-shard/commands.json
+            runs/robustness-shard/progress.json
+            runs/robustness-shard/model-pin.json
+            runs/robustness-shard/image-pins.json
+            runs/robustness-shard/setup-image-verification.json
+            runs/robustness-shard/records/
+          retention-days: 30
+          if-no-files-found: warn
+
+  report:
+    if: always() && inputs.stage == 'models'
+    needs: [protocol, models]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: robustness-v2-s*
+          path: runs/collected
+      - name: Download the independently executed reference controls
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PILOT_RUN_ID: ${{ inputs.validation_run_id }}
+        run: gh run download "$PILOT_RUN_ID" --repo "$GITHUB_REPOSITORY" --name robustness-validation --dir runs/validated-reference
+      - name: Recompute all registered cells, costs and paired comparisons
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/report_robustness_v2.py --plan benchmark/robustness-v2/plan.json --shard runs/collected/robustness-v2-s0 --shard runs/collected/robustness-v2-s1 --shard runs/collected/robustness-v2-s2 --shard runs/collected/robustness-v2-s3 --shard runs/collected/robustness-v2-s4 --validation runs/validated-reference --output runs/robustness-report
+          cat runs/robustness-report/README.md >> "$GITHUB_STEP_SUMMARY"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: robustness-v2-audited-report
+          path: |
+            runs/robustness-report/
+            runs/collected/
+            runs/validated-reference/
+          retention-days: 30
+          if-no-files-found: warn

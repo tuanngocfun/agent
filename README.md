@@ -10,6 +10,8 @@ A runnable first project for the question: **can an agent harden a container wit
 
 **Larger external corpus prepared:** [dataset intake and quality report](benchmark/corpus-v2/README.md) covers 241 KALM manifest files, 10 Hugging Face ITBench CISO scenarios and 71 Infra-Bench Kubernetes task definitions. Pinned source bytes, licenses, input-only exports and offline integrity checks are included. These are imported candidates; they add **zero new measured model results or validated runtime cases**. The executed v1 benchmark still has eight unique cases.
 
+**Runtime robustness study:** [v2 protocol](benchmark/robustness-v2/README.md) defines 12 adapted/authored base cases and compares one-shot repair, self-review, trusted runtime feedback and untrusted-note filtering. Reference validation must pass before real-model execution. Planned cells and unit-test results are not benchmark outcomes. [Robustness Actions](https://github.com/tuanngocfun/agent/actions/workflows/robustness-v2.yml?query=branch%3Akube-remediation-demo).
+
 **LLM thật + Kubernetes thật đã chạy thành công:** [GitHub Actions run #14](https://github.com/tuanngocfun/agent/actions/runs/38528564033), source commit `d770c0e`. Qwen2.5 **3B Instruct** chạy CPU, tạo **1 patch** qua **14/14 kiểm tra** trên Kubernetes v1.34.0; bundle cuối `accepted: true`. Raw model response, patch, runtime probes, hashes và cleanup đã được audit lại. Đây là một repair với schema hướng dẫn trên một fixture tổng hợp.
 
 Đọc [kết quả LLM, lỗi đã sửa và evidence](docs/REAL_LLM_KUBERNETES_RESULT_VI.md), rồi dùng [hướng dẫn tiếng Việt](docs/KUBERNETES_DEMO_VI.md) để chạy lại. Controller giờ có thể kết thúc sau khi verifier xác nhận patch của model; kết quả ghi rõ `completion_actor: trusted_engine`.
