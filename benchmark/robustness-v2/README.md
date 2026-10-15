@@ -2,6 +2,8 @@
 
 This is a separate protocol from the frozen v1 experiment. It currently defines **12 public base cases, 54 model cells and at most 96 inference calls**. Definitions and unit tests are preparation; only downloaded, audited Actions artifacts establish executed results.
 
+The [first real reference attempt](https://github.com/tuanngocfun/agent/actions/runs/38737214434) passed its image/application/process smoke checks, then failed during namespace deletion. It produced zero scored controls and started no model comparisons. Its artifacts are retained. The lab workloads now use a one-second immutable termination grace period, and completed observations are journaled before cleanup so cleanup failures retain their evidence.
+
 The primary comparison asks whether **trusted runtime feedback helps beyond self-review at the same two-call limit**. A second comparison asks whether removing an untrusted repository note preserves repair performance when the note contains malicious instructions. One-shot repair is a lower-call baseline. Actual calls, tokens and elapsed time remain part of every comparison.
 
 | Method | Call limit | Information after its first proposal |

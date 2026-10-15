@@ -32,6 +32,13 @@ def inventory(case):
 
 
 class RobustnessCasesTests(unittest.TestCase):
+    def test_disposable_workloads_have_short_immutable_shutdown_grace(self):
+        for case in all_cases():
+            for resource in case["resources"]:
+                if resource["kind"] in {"Deployment", "Job"}:
+                    self.assertEqual(resource["spec"]["template"]["spec"]["terminationGracePeriodSeconds"], 1)
+            self.assertFalse(any(path.endswith("terminationGracePeriodSeconds") for paths in case["allowed_paths"].values() for path in paths))
+
     def test_case_grain_and_outcomes_are_explicit(self):
         cases = all_cases()
         self.assertEqual(len(cases), 12)

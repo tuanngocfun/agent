@@ -56,7 +56,7 @@ def _container(name, code, *, mounts=None, security=None):
 
 
 def _deployment(name, code, *, mounts=None, volumes=None, security=None, pod_security=None):
-    pod = {"automountServiceAccountToken": False,
+    pod = {"automountServiceAccountToken": False, "terminationGracePeriodSeconds": 1,
            "securityContext": copy.deepcopy(pod_security or {"fsGroup": 10001}),
            "containers": [_container("app", code, mounts=mounts, security=security)]}
     if volumes:
@@ -221,7 +221,7 @@ def _rbac(name, source_task, *, initial_verbs, initial_names=None, binding_name=
     action = "list" if name == "rbac-list-configmaps" else "get"
     script = _api_program(action, [target], marker)
     job = {"apiVersion": "batch/v1", "kind": "Job", "metadata": _meta("config-reader"),
-           "spec": {"backoffLimit": 0, "template": {"spec": {"restartPolicy": "Never", "serviceAccountName": account,
+           "spec": {"backoffLimit": 0, "template": {"spec": {"restartPolicy": "Never", "terminationGracePeriodSeconds": 1, "serviceAccountName": account,
                     "automountServiceAccountToken": True, "containers": [_container("app", script)]}}}}
     resources = [{"apiVersion": "v1", "kind": "ServiceAccount", "metadata": _meta(account)}, role, binding,
                  {"apiVersion": "v1", "kind": "ConfigMap", "metadata": _meta(target), "data": {"message": "trusted-runtime-value"}}, job]

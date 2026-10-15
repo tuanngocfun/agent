@@ -84,7 +84,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "ce3e3e110405d58a641ed13d990ad0d79dd63d8fe2e6a3b7b0a3da272914a9a7",
+      "definition_sha256": "7d7d2a93e1e24c2b6dff8ed0ee644fcb18fefc604bece52692fab7af47f7e5ef",
       "expected": "repair",
       "family": "pod-admission",
       "id": "restricted-single-admission",
@@ -165,7 +165,8 @@
                 ],
                 "securityContext": {
                   "fsGroup": 10001
-                }
+                },
+                "terminationGracePeriodSeconds": 1
               }
             }
           }
@@ -365,7 +366,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "1d4a8f0a746afd4b7687a8cd45d8696b55994f31d7f597f5f55b0b3263f55324",
+      "definition_sha256": "88fe43d0092ed6362b9ebe8c6f700b36767a0825adec4e810cbcefa8eff4dbfc",
       "expected": "repair",
       "family": "multi-container-admission",
       "id": "restricted-init-sidecar",
@@ -547,6 +548,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -677,7 +679,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "4521ccfea9c386320ca50f44ec27db59ba57c23c76210fa2e5ff3b0e24c49b65",
+      "definition_sha256": "7fd441749a574640701c4fba20cbfd6bd6b99a22c9bca3c7acf463e1a4f32ce5",
       "expected": "repair",
       "family": "rbac-list",
       "id": "rbac-list-configmaps",
@@ -811,7 +813,8 @@
                   }
                 ],
                 "restartPolicy": "Never",
-                "serviceAccountName": "runtime-client"
+                "serviceAccountName": "runtime-client",
+                "terminationGracePeriodSeconds": 1
               }
             }
           }
@@ -943,7 +946,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "1633c76a2d2727151f0cbc84f906ad3949ef0dc2066b160ac0e6749eb05391be",
+      "definition_sha256": "0c134eddb0c4cbc51197ecf6cd42312d8d06d14b9c714c17eaf8cbd2cdcf23cf",
       "expected": "repair",
       "family": "rbac-named-access",
       "id": "rbac-worker-named-config",
@@ -1079,7 +1082,8 @@
                   }
                 ],
                 "restartPolicy": "Never",
-                "serviceAccountName": "runtime-client"
+                "serviceAccountName": "runtime-client",
+                "terminationGracePeriodSeconds": 1
               }
             }
           }
@@ -1216,7 +1220,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "594f3e30611cf5fc67f5b8c59b4aa7e602b219e2ac9f576668458745842e96ac",
+      "definition_sha256": "b51e23f527fd3ed92cf3493d776ecafa55d8cdbab3cef0f9ebe397f5df1d630a",
       "expected": "repair",
       "family": "rbac-binding-and-scope",
       "id": "rbac-tenant-subject",
@@ -1357,7 +1361,8 @@
                   }
                 ],
                 "restartPolicy": "Never",
-                "serviceAccountName": "runtime-client"
+                "serviceAccountName": "runtime-client",
+                "terminationGracePeriodSeconds": 1
               }
             }
           }
@@ -1450,7 +1455,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "306af0b91d8c6abfaf5abad11d90bf24e9ee25ba59ab3b246e5a3bbf869e4cdd",
+      "definition_sha256": "7a301a1d13a10b2a042b19b69e17df5d19c48c9f641e558035f89a159c05fd36",
       "expected": "repair",
       "family": "file-cache",
       "id": "readonly-cache-mount",
@@ -1540,6 +1545,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -1632,7 +1638,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "0fe79f4e882dc7ac0801eb747839829f1dbe11241b96255c358afefca89f359c",
+      "definition_sha256": "bc47f085404ab12fe8c311bd70919e6c75b4650209ab931d09a791b2b4cddaf1",
       "expected": "repair",
       "family": "sqlite-wal",
       "id": "sqlite-wal-mount",
@@ -1722,6 +1728,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -1820,7 +1827,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "193249aa3907b563122914c580df13e5c65a75fbf12d1d9fd01cbef16dabea29",
+      "definition_sha256": "391f94b6c0364bb743c485507733387f3f2a84f944fc30f3c30fd5eac859c9fb",
       "expected": "repair",
       "family": "config-and-output",
       "id": "config-readonly-output-writable",
@@ -1926,6 +1933,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "configMap": {
@@ -2024,7 +2032,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "19c29c53ff75dccb999359dfbc44861113b2a80df1a6652795c4d7fe9b64c283",
+      "definition_sha256": "16619f683fed8b784d8bd3e5b46c5988e264c15c8a32d7bbab37928d68736887",
       "expected": "repair",
       "family": "library-temporary-directory",
       "id": "library-tempfile-scratch",
@@ -2114,6 +2122,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -2262,7 +2271,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "b8fe1850c1abf9de5ba31cfb67541c566b9123722b3a5e3c5b5ee5a77f1bda91",
+      "definition_sha256": "3b53df3c146e7391f87f3955be17c4a8e21245d3ffa49eb37f241737465a3c23",
       "expected": "repair",
       "family": "shared-volume-group-access",
       "id": "shared-artifact-group",
@@ -2397,6 +2406,7 @@
                 "securityContext": {
                   "fsGroup": 10003
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -2489,7 +2499,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "8c6ab30c1d9df7394360806cadc8a9cd6445cc0f4e8828b4a30ebd50529c9094",
+      "definition_sha256": "a7010dc1f02b6e78acb9a5d4f3cd7483b75cbcd85e606ac27e4895a5d3e4da53",
       "expected": "unchanged",
       "family": "file-cache",
       "id": "already-secure-cache",
@@ -2573,6 +2583,7 @@
                 "securityContext": {
                   "fsGroup": 10001
                 },
+                "terminationGracePeriodSeconds": 1,
                 "volumes": [
                   {
                     "emptyDir": {},
@@ -2664,7 +2675,7 @@
         ],
         "timeout_seconds": 45
       },
-      "definition_sha256": "b66ee8248dc8687cb99c415d12151c16b9c34fbdeaccfdde2f75793aeed148f1",
+      "definition_sha256": "38ed906d3e54363b6977be36e0717f011ef145fc9c636d65edb9bf27941bab6f",
       "expected": "abstain",
       "family": "infeasible-root-contract",
       "id": "root-required-abstain",
@@ -2740,7 +2751,8 @@
                 ],
                 "securityContext": {
                   "fsGroup": 10001
-                }
+                },
+                "terminationGracePeriodSeconds": 1
               }
             }
           }
@@ -3432,7 +3444,7 @@
       "weight_bytes": 1929903008
     }
   ],
-  "plan_id": "robustness-v2-efe3425422fa4ba1240415b47757cc5a21c71e336e109569eec9c729f99c460d",
+  "plan_id": "robustness-v2-d92efaff5fb225a1f7dbdc3ad428a38f8f75e97163f8aa2bd29433570341ac31",
   "protocol_id": "kubernetes-robustness-v2-cpu-pilot",
   "schema_version": 1,
   "settings": {
@@ -3448,5 +3460,5 @@
     "temperature": 0
   },
   "source_plan_sha256": "9fb9509904fc14521d7f03fa13a778cf2207fc16cf2e1573c7d69d2a3a42868c",
-  "source_sha256": "696c6b21c1dba55e52400306c6a387d168b9bd58030869269fa4ad9ab3ea6a7e"
+  "source_sha256": "859e2c79fb2d81b4679ee03f47cbb093f175c8a3d61a7c07a99cd3dcd71e213b"
 }

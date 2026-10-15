@@ -132,6 +132,7 @@ def main(argv=None):
         atomic_json(output / "progress.json", {"stage": args.stage, "shard": args.shard,
                     "completed_cells": [r["cell_id"] for r in records], "validated_controls": len(controls),
                     "seconds": time.monotonic() - started, "errors": errors})
+        print("Robustness progress:", args.stage, "controls=", len(controls), "model_cells=", len(records), flush=True)
 
     try:
         for key in ("node", "base"):
@@ -169,14 +170,16 @@ def main(argv=None):
         if args.stage == "validate":
             for case in plan["cases"]:
                 for mode in ("noop", "naive", "template", "oracle"):
+                    print("Reference control started:", case["id"], mode, flush=True)
                     active_session = session(case).start()
                     resources = apply_edits(active_session.case["resources"], baseline_edits(active_session.case, mode), active_session.case["allowed_paths"])
                     verification = active_session.verify(resources, max_wait=15 if mode != "oracle" else 35)
-                    cleanup = active_session.close(); active_session = None
                     row = {"case_id": case["id"], "control_id": mode, "expected": case["expected"],
-                           "verification": verification, "cleanup": cleanup, "resources": resources,
+                           "verification": verification, "cleanup": active_session.cleanup, "resources": resources,
                            "reference_only": mode == "oracle", "model_inference_observed": False}
                     controls.append(row)
+                    atomic_json(output / "controls" / (case["id"] + "--" + mode + ".json"), row)
+                    active_session.close(); active_session = None
                     atomic_json(output / "controls" / (case["id"] + "--" + mode + ".json"), row)
                     if verification["infrastructure_error"]:
                         errors.append(case["id"] + ": control infrastructure failure: " + str(verification["infrastructure_error"]))
@@ -229,6 +232,7 @@ def main(argv=None):
                     errors.append("Remaining worker budget insufficient to start another complete cell")
                     break
                 began = time.monotonic()
+                print("Model cell started:", cell["cell_id"], flush=True)
                 case = cases[cell["case_id"]]
                 active_session = session(case).start()
                 initial = active_session.verify(active_session.case["resources"], max_wait=12)
@@ -249,8 +253,10 @@ def main(argv=None):
                        "candidate_resources": result["resources"], "candidate_sha256": sha256(result["resources"]), "method_result": result,
                        "initial_verification": initial, "final_verification": final,
                        "metrics": raw_metrics(result, time.monotonic() - began), "evidence": {}}
-                row["cleanup"] = active_session.close(); active_session = None
+                row["cleanup"] = active_session.cleanup
                 records.append(row)
+                atomic_json(output / "records" / (cell["cell_id"] + ".json"), row)
+                active_session.close(); active_session = None
                 atomic_json(output / "records" / (cell["cell_id"] + ".json"), row)
                 checkpoint()
             model_pin["tags_after"] = http(endpoint + "/api/tags")
@@ -287,6 +293,8 @@ def main(argv=None):
                    "errors": errors, "record_count": len(records), "control_count": len(controls), "seconds": time.monotonic() - started,
                    "case_ids": sorted({row["case_id"] for row in records})}
         atomic_json(output / "summary.json", summary)
+        for row in controls:
+            atomic_json(output / "controls" / (row["case_id"] + "--" + row["control_id"] + ".json"), row)
         for row in records:
             row["cleanup"].update(cleanup)
             for name, key in (("summary.json", "summary_sha256"), ("commands.json", "commands_sha256"),
