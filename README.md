@@ -1,5 +1,7 @@
 # Kubernetes Security Remediation Agent
 
+The full project is on **[`kube-remediation-demo`](https://github.com/tuanngocfun/agent/tree/kube-remediation-demo)**. See the [publication and visibility verification](docs/PUBLICATION_VERIFICATION.md) if the repository landing page appears empty.
+
 A runnable first project for the question: **can an agent harden a container without breaking its required behavior?**
 
 **Benchmark v1 completed:** 96 registered task records on real Kubernetes with three pinned Qwen models: **34 task-correct, 87 evidence-verified, four timing-audit defects, five deadline interruptions**. Qwen 3B one-shot repaired all four repair cases in both executions; the fixed template completed more overall cases than any model/controller group. This run does not establish a feedback advantage. Read the [full results, statistics, charts and preserved evidence](reports/benchmark-v1-2026-10-14/README.md), [round-2 review assessment](docs/REVIEW_ROUND_2.md), [registered protocol](docs/BENCHMARK_V1.md) and [metric definitions](docs/BENCHMARK_METRICS.md). The campaign workflow is red because five workers timed out; report collection succeeded. The historical successful demo below is separate.
