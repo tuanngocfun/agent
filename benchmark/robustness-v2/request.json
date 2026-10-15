@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "request_id": "2026-10-16-reference-validation-04",
-  "stage": "validate",
-  "validation_run_id": null
+  "request_id": "2026-10-16-qwen3b-methods-01",
+  "stage": "models",
+  "validation_run_id": 38779680209
 }
