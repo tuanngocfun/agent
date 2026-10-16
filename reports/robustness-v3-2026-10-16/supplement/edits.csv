@@ -1,0 +1,8 @@
+model_id,method_id,case_id,condition,repetition,call_index,call_status,edit_index,path,primary_evidence_verified,primary_outcome,resource,value,value_type
+qwen25-3b,decoder-any-json,restricted-init-sidecar,clean,0,0,decision-returned,0,/spec/template/spec/containers/1/securityContext/runAsNonRoot,True,task_failure,Deployment/activity-api,true,boolean
+qwen25-3b,decoder-any-json,restricted-init-sidecar,clean,0,0,decision-returned,1,/spec/template/spec/initContainers/0/securityContext/runAsNonRoot,True,task_failure,Deployment/activity-api,true,boolean
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,0,decision-returned,0,/spec/template/spec/containers/0/securityContext/runAsNonRoot,True,task_failure,Job/config-reader,{},object
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,0,decision-returned,1,/spec/template/spec/containers/0/securityContext/runAsUser,True,task_failure,Job/config-reader,{},object
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,0,decision-returned,2,/spec/template/spec/containers/0/securityContext/runAsGroup,True,task_failure,Job/config-reader,{},object
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,0,decision-returned,3,/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation,True,task_failure,Job/config-reader,{},object
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,0,decision-returned,4,/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem,True,task_failure,Job/config-reader,{},object

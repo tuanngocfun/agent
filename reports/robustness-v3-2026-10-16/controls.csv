@@ -1,0 +1,5 @@
+behavior_pass,case_id,control_id,error,evidence_verified,expected,family,outcome,reference_only,runtime_pass,security_pass
+False,restricted-init-sidecar,noop,,True,repair,multi-container-admission,task_failure,False,False,False
+True,restricted-init-sidecar,oracle,,True,repair,multi-container-admission,runtime_pass,True,True,True
+False,rbac-list-configmaps,noop,,True,repair,rbac-list,task_failure,False,False,False
+True,rbac-list-configmaps,oracle,,True,repair,rbac-list,runtime_pass,True,True,True

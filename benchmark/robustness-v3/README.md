@@ -44,3 +44,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -
 ```
 
 The run request binds the exact diagnostic plan ID. Updating documentation alone does not launch inference. Only a change to `request.json` on the demo branch triggers the bounded diagnostic workflow.
+
+## Recorded outcome
+
+The [actual diagnostic report](../../reports/robustness-v3-2026-10-16/README.md) records zero correct repairs, three task failures and three provider timeouts. All six records and four controls were rechecked using an explicitly labeled offline auditor correction for the original reporter's namespace-prefix mismatch. The original red Actions run and raw artifact remain preserved. The predictions and registration above are retained unchanged; this outcome does not establish a method winner.

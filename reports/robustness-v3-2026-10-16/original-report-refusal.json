@@ -1,0 +1,28 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "scripts/report_robustness_v3.py",
+    "--plan",
+    "runs/2026-10-16_review-round3/diagnostic-38868589212/robustness-v3-diagnostic/plan.json",
+    "--shard",
+    "runs/2026-10-16_review-round3/diagnostic-38868589212/robustness-v3-diagnostic",
+    "--validation",
+    "runs/2026-10-16_review-round3/diagnostic-38868589212/robustness-v3-diagnostic",
+    "--output",
+    "runs/2026-10-16_review-round3/original-v3-report-refusal-output"
+  ],
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src"
+  },
+  "exit_code": 2,
+  "frozen_reporter_sha256": "bddcc24cd56e6bacc8e12c6749c5df64ccb24949f047f3b1a9cdcde7fdfdc347",
+  "model_calls_or_cluster_started": false,
+  "plan_sha256": "289105ec6bac1ac716193dd646fa6d49e6dc2e504e42cdd4f6ec2817071cbd55",
+  "raw_artifact_directory": "runs/2026-10-16_review-round3/diagnostic-38868589212/robustness-v3-diagnostic",
+  "schema_version": "robustness-v3-original-auditor-refusal-v1",
+  "stderr": "Robustness report refused: ValueError: Image setup did not use an owned namespace\n",
+  "stdout": "",
+  "working_directory": "/home/ngocnt/agents/kube-security-remediation"
+}

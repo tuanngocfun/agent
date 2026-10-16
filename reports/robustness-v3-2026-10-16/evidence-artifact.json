@@ -1,0 +1,25 @@
+{
+  "run_id": 38868589212,
+  "artifact_id": 12032657138,
+  "archive_sha256": "f4cdcd40b8a5b183c7356527c4b1eabe634097c7c05981e81c79c1fb6913d1b4",
+  "github_artifact": {
+    "id": 12032657138,
+    "node_id": "MDg6QXJ0aWZhY3QxMjAzMjY1NzEzOA==",
+    "name": "robustness-v3-diagnostic-evidence",
+    "size_in_bytes": 164006,
+    "url": "https://api.github.com/repos/tuanngocfun/agent/actions/artifacts/12032657138",
+    "archive_download_url": "https://api.github.com/repos/tuanngocfun/agent/actions/artifacts/12032657138/zip",
+    "expired": false,
+    "digest": "sha256:f4cdcd40b8a5b183c7356527c4b1eabe634097c7c05981e81c79c1fb6913d1b4",
+    "created_at": "2026-10-16T07:55:49Z",
+    "updated_at": "2026-10-16T07:55:49Z",
+    "expires_at": "2026-11-15T07:55:48Z",
+    "workflow_run": {
+      "id": 38868589212,
+      "repository_id": 1417151897,
+      "head_repository_id": 1417151897,
+      "head_branch": "kube-remediation-demo",
+      "head_sha": "d4bf2d5af3144f06a9d7b770283773c29c8c0f75"
+    }
+  }
+}

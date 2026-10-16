@@ -1,0 +1,85 @@
+{
+  "actions_job_seconds": {
+    "diagnostic": 979.0,
+    "protocol": 8.0
+  },
+  "actual_calls": 6,
+  "amended_auditor_core_diff": "Exactly three owned-namespace prefix literals; metadata/disclosure wrappers are separate and explicit.",
+  "archive_entries_byte_verified": 17,
+  "budget_snapshot_checked_at": "2026-10-16T08:00:21.374695+00:00",
+  "checked_at": "2026-10-16T08:10:10.338327+00:00",
+  "checksum_manifest": "SHA256SUMS; relative paths; excludes only this top-level checksum file itself.",
+  "controls_verified": 4,
+  "coverage": {
+    "base_cases": 2,
+    "conditions": 1,
+    "families": 2,
+    "infrastructure_or_provider_trials": 3,
+    "invalid_evidence_trials": 0,
+    "missing_trials": 0,
+    "observed_trials": 6,
+    "outcomes": {
+      "provider_failure": 3,
+      "task_failure": 3
+    },
+    "registered_trials": 6,
+    "task_correct_trials": 0,
+    "verified_trials": 6
+  },
+  "cumulative_budget_snapshot_remaining_minutes": 24,
+  "cumulative_budget_snapshot_rounded_minutes": 976,
+  "generated_report_byte_identical": true,
+  "independent_cases_reused_from_v2": 2,
+  "independent_in_process_summary_reaudit_matches": true,
+  "interpretation_review": "Report states a negative result, reused cases, provisional original workflow failure and explicit offline audit amendment; it claims no grammar speedup, method superiority or model ranking.",
+  "known_partial_completion_tokens": 345,
+  "known_partial_prompt_tokens": 4615,
+  "live_workloads_or_network_started_by_validation": false,
+  "local_markdown_links_missing": [],
+  "new_independent_cases": 0,
+  "no_response_timeouts": 3,
+  "noop_controls_runtime_pass": 0,
+  "official_archive_bytes": 164006,
+  "official_archive_sha256": "f4cdcd40b8a5b183c7356527c4b1eabe634097c7c05981e81c79c1fb6913d1b4",
+  "oracle_controls_runtime_pass": 2,
+  "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+  "portable_reproduction_csvs_byte_identical": [
+    "cases.csv",
+    "trials.csv",
+    "controls.csv"
+  ],
+  "portable_reproduction_summary_matches_ignoring_only_shards_path": true,
+  "primary_summary_sha256": "01e0634865e89419cb3adad25edd5d7bfe3c68816962bcce170ec857dfbb45e7",
+  "publication_reservation_review": {
+    "budget_snapshot_remaining_minutes": 24,
+    "checked_at": "2026-10-16T08:12:42.844279+00:00",
+    "maximum_runner_minutes": 13,
+    "read_only_offline_audit_minutes": 3,
+    "scope": "Capacity reservation for publication checks, not a claimed observed duration or successful new run. The historical original workflow remains failed.",
+    "source_ci_minutes": 10,
+    "within_remaining_allowance": true
+  },
+  "report_validation_passed": true,
+  "returned_call_prompt_server_time_percent_range": [
+    75.16665237876747,
+    93.59019276836929
+  ],
+  "returned_done_reasons": {
+    "stop": 3
+  },
+  "returned_raw_calls": 3,
+  "run_id": 38868589212,
+  "schema_version": "real-decoder-diagnostic-report-validation-v1",
+  "source_ci_execution_commit_test_seconds": 14.443,
+  "source_ci_execution_commit_tests": 525,
+  "source_ci_job_seconds": 20.0,
+  "source_sha256": "aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e",
+  "supplement_consistency_disagreements": 0,
+  "supplement_primary_scores_changed": false,
+  "three_jobs_rounded_minutes": 19,
+  "three_jobs_total_seconds": 1007.0,
+  "typed_init_sidecar_edits": 2,
+  "typed_init_sidecar_edits_both_exact_noop": true,
+  "usage_scope": "Returned counters from 3 of 6 calls only; unavailable timeout cost is not zero.",
+  "worker_seconds": 971.261402043
+}

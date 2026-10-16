@@ -1,0 +1,215 @@
+﻿2026-10-16T07:39:33.0801659Z Current runner version: '2.337.0'
+2026-10-16T07:39:33.0829718Z ##[group]Runner Image Provisioner
+2026-10-16T07:39:33.0830713Z Hosted Compute Agent
+2026-10-16T07:39:33.0831555Z Version: 20261012.601
+2026-10-16T07:39:33.0832309Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-16T07:39:33.0833270Z Build Date: 2026-10-12T17:48:21Z
+2026-10-16T07:39:33.0834088Z Worker ID: {30999b19-1d0d-4885-99da-a855a7066fb6}
+2026-10-16T07:39:33.0834968Z Region: eastus
+2026-10-16T07:39:33.0835882Z Cloud: Azure
+2026-10-16T07:39:33.0836535Z ##[endgroup]
+2026-10-16T07:39:33.0838432Z ##[group]Operating System
+2026-10-16T07:39:33.0839215Z Ubuntu
+2026-10-16T07:39:33.0839882Z 24.04.5
+2026-10-16T07:39:33.0840710Z LTS
+2026-10-16T07:39:33.0841332Z ##[endgroup]
+2026-10-16T07:39:33.0842044Z ##[group]Runner Image
+2026-10-16T07:39:33.0842781Z Image: ubuntu-24.04
+2026-10-16T07:39:33.0843492Z Version: 20261012.334.1
+2026-10-16T07:39:33.0845099Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-16T07:39:33.0847709Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-16T07:39:33.0848992Z ##[endgroup]
+2026-10-16T07:39:33.0850395Z ##[group]GITHUB_TOKEN Permissions
+2026-10-16T07:39:33.0852483Z Contents: read
+2026-10-16T07:39:33.0853193Z Metadata: read
+2026-10-16T07:39:33.0853966Z ##[endgroup]
+2026-10-16T07:39:33.0857078Z Secret source: Actions
+2026-10-16T07:39:33.0858263Z Cache mode: write
+2026-10-16T07:39:33.0859278Z Prepare workflow directory
+2026-10-16T07:39:33.1221322Z Prepare all required actions
+2026-10-16T07:39:33.1276439Z Getting action download info
+2026-10-16T07:39:33.3549828Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-16T07:39:33.4525472Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-16T07:39:33.8077650Z Complete job name: diagnostic
+2026-10-16T07:39:33.8669393Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-16T07:39:33.8670250Z with:
+2026-10-16T07:39:33.8670619Z   persist-credentials: false
+2026-10-16T07:39:33.8671050Z   repository: tuanngocfun/agent
+2026-10-16T07:39:33.8674073Z   token: ***
+2026-10-16T07:39:33.8674437Z   ssh-strict: true
+2026-10-16T07:39:33.8674801Z   ssh-user: git
+2026-10-16T07:39:33.8675142Z   clean: true
+2026-10-16T07:39:33.8675641Z   sparse-checkout-cone-mode: true
+2026-10-16T07:39:33.8676062Z   fetch-depth: 1
+2026-10-16T07:39:33.8676408Z   fetch-tags: false
+2026-10-16T07:39:33.8676768Z   show-progress: true
+2026-10-16T07:39:33.8677124Z   lfs: false
+2026-10-16T07:39:33.8677461Z   submodules: false
+2026-10-16T07:39:33.8677820Z   set-safe-directory: true
+2026-10-16T07:39:33.8678224Z   allow-unsafe-pr-checkout: false
+2026-10-16T07:39:33.8678787Z ##[endgroup]
+2026-10-16T07:39:33.9742086Z Syncing repository: tuanngocfun/agent
+2026-10-16T07:39:33.9769655Z ##[group]Getting Git version info
+2026-10-16T07:39:33.9770933Z Working directory is '/home/runner/work/agent/agent'
+2026-10-16T07:39:33.9776441Z [command]/usr/bin/git version
+2026-10-16T07:39:33.9777357Z git version 2.55.0
+2026-10-16T07:39:33.9779620Z ##[endgroup]
+2026-10-16T07:39:33.9785024Z Temporarily overriding HOME='/home/runner/work/_temp/73683a6e-4643-464d-be2d-1b2706ff6649' before making global git config changes
+2026-10-16T07:39:33.9787114Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T07:39:33.9788572Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/agent/agent
+2026-10-16T07:39:33.9825597Z Deleting the contents of '/home/runner/work/agent/agent'
+2026-10-16T07:39:33.9827005Z ##[group]Initializing the repository
+2026-10-16T07:39:33.9828160Z [command]/usr/bin/git init /home/runner/work/agent/agent
+2026-10-16T07:39:33.9926804Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-16T07:39:33.9938990Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-16T07:39:33.9940661Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-16T07:39:33.9966619Z hint: call:
+2026-10-16T07:39:33.9967502Z hint:
+2026-10-16T07:39:33.9969478Z hint: 	git config --global init.defaultBranch <name>
+2026-10-16T07:39:33.9970540Z hint:
+2026-10-16T07:39:33.9973699Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-16T07:39:33.9975942Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-16T07:39:33.9979254Z hint:
+2026-10-16T07:39:33.9980192Z hint: 	git branch -m <name>
+2026-10-16T07:39:34.0001030Z hint:
+2026-10-16T07:39:34.0002009Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-16T07:39:34.0003444Z Initialized empty Git repository in /home/runner/work/agent/agent/.git/
+2026-10-16T07:39:34.0006097Z [command]/usr/bin/git remote add origin https://github.com/tuanngocfun/agent
+2026-10-16T07:39:34.0008515Z ##[endgroup]
+2026-10-16T07:39:34.0009599Z ##[group]Disabling automatic garbage collection
+2026-10-16T07:39:34.0010597Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-16T07:39:34.0053920Z ##[endgroup]
+2026-10-16T07:39:34.0055486Z ##[group]Setting up auth
+2026-10-16T07:39:34.0056528Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T07:39:34.0101568Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-16T07:39:34.1121600Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T07:39:34.1152702Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-16T07:39:34.1507084Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T07:39:34.1516611Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-16T07:39:34.1736700Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-16T07:39:34.1785748Z ##[endgroup]
+2026-10-16T07:39:34.1786641Z ##[group]Fetching the repository
+2026-10-16T07:39:34.1788054Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d4bf2d5af3144f06a9d7b770283773c29c8c0f75:refs/remotes/origin/kube-remediation-demo
+2026-10-16T07:39:35.2394317Z From https://github.com/tuanngocfun/agent
+2026-10-16T07:39:35.2396704Z  * [new ref]         d4bf2d5af3144f06a9d7b770283773c29c8c0f75 -> origin/kube-remediation-demo
+2026-10-16T07:39:35.2401069Z ##[endgroup]
+2026-10-16T07:39:35.2402570Z ##[group]Determining the checkout info
+2026-10-16T07:39:35.2404402Z ##[endgroup]
+2026-10-16T07:39:35.2405936Z [command]/usr/bin/git sparse-checkout disable
+2026-10-16T07:39:35.2455472Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-16T07:39:35.2486664Z ##[group]Checking out the ref
+2026-10-16T07:39:35.2490797Z [command]/usr/bin/git checkout --progress --force -B kube-remediation-demo refs/remotes/origin/kube-remediation-demo
+2026-10-16T07:39:35.3910189Z Switched to a new branch 'kube-remediation-demo'
+2026-10-16T07:39:35.3917089Z branch 'kube-remediation-demo' set up to track 'origin/kube-remediation-demo'.
+2026-10-16T07:39:35.3929109Z ##[endgroup]
+2026-10-16T07:39:35.3965105Z [command]/usr/bin/git log -1 --format=%H
+2026-10-16T07:39:35.3990952Z d4bf2d5af3144f06a9d7b770283773c29c8c0f75
+2026-10-16T07:39:35.3998783Z ##[group]Removing auth
+2026-10-16T07:39:35.4002351Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T07:39:35.4034270Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-16T07:39:35.4238395Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T07:39:35.4648124Z http.https://github.com/.extraheader
+2026-10-16T07:39:35.4660700Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-16T07:39:35.4696807Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-16T07:39:35.4902151Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T07:39:35.4932374Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-16T07:39:35.5149166Z ##[endgroup]
+2026-10-16T07:39:35.5330201Z ##[group]Run timeout 30s python3 scripts/install_worker_tools.py
+2026-10-16T07:39:35.5330881Z [36;1mtimeout 30s python3 scripts/install_worker_tools.py[0m
+2026-10-16T07:39:35.5527801Z shell: /usr/bin/bash -e {0}
+2026-10-16T07:39:35.5528263Z ##[endgroup]
+2026-10-16T07:39:36.1604079Z Pinned tools installed: /home/runner/work/agent/agent/.tools/bin
+2026-10-16T07:39:36.1737710Z ##[group]Run PYTHONDONTWRITEBYTECODE=1 python3 scripts/robustness_v3_worker.py --plan benchmark/robustness-v3/diagnostic-plan.json --stage diagnostic --output runs/robustness-v3-diagnostic
+2026-10-16T07:39:36.1738875Z [36;1mPYTHONDONTWRITEBYTECODE=1 python3 scripts/robustness_v3_worker.py --plan benchmark/robustness-v3/diagnostic-plan.json --stage diagnostic --output runs/robustness-v3-diagnostic[0m
+2026-10-16T07:39:36.1809027Z shell: /usr/bin/bash -e {0}
+2026-10-16T07:39:36.1809309Z ##[endgroup]
+2026-10-16T07:39:36.4769353Z Worker command: /usr/bin/docker pull
+2026-10-16T07:39:57.1132120Z Worker command: /usr/bin/docker pull
+2026-10-16T07:40:01.2221054Z Worker command: /usr/bin/docker tag
+2026-10-16T07:40:01.2376795Z Worker command: /usr/bin/docker image
+2026-10-16T07:40:01.2529985Z Worker command: /home/runner/work/agent/agent/.tools/bin/kind create
+2026-10-16T07:40:39.2661646Z Worker command: /home/runner/work/agent/agent/.tools/bin/kind load
+2026-10-16T07:41:05.5467703Z Reference control started: restricted-init-sidecar noop
+2026-10-16T07:41:13.3746582Z Robustness progress: diagnostic controls= 1 model_cells= 0
+2026-10-16T07:41:13.3752443Z Reference control started: restricted-init-sidecar oracle
+2026-10-16T07:41:26.7244674Z Robustness progress: diagnostic controls= 2 model_cells= 0
+2026-10-16T07:41:26.7245791Z Reference control started: rbac-list-configmaps noop
+2026-10-16T07:41:40.2166327Z Robustness progress: diagnostic controls= 3 model_cells= 0
+2026-10-16T07:41:40.2172122Z Reference control started: rbac-list-configmaps oracle
+2026-10-16T07:41:51.2768391Z Robustness progress: diagnostic controls= 4 model_cells= 0
+2026-10-16T07:41:51.2769733Z Worker command: /usr/bin/docker pull
+2026-10-16T07:43:01.2010104Z Worker command: /usr/bin/docker run
+2026-10-16T07:43:01.4226024Z Worker command: /usr/bin/docker port
+2026-10-16T07:43:01.4738075Z Worker command: /usr/bin/docker exec
+2026-10-16T07:43:28.4336451Z Model cell started: restricted-init-sidecar--clean--decoder-legacy
+2026-10-16T07:45:39.7202700Z Robustness progress: diagnostic controls= 4 model_cells= 1
+2026-10-16T07:45:39.7210798Z Model cell started: restricted-init-sidecar--clean--decoder-unbounded
+2026-10-16T07:47:50.8413300Z Robustness progress: diagnostic controls= 4 model_cells= 2
+2026-10-16T07:47:50.8419680Z Model cell started: restricted-init-sidecar--clean--decoder-any-json
+2026-10-16T07:49:54.3438438Z Robustness progress: diagnostic controls= 4 model_cells= 3
+2026-10-16T07:49:54.3456230Z Model cell started: rbac-list-configmaps--clean--decoder-any-json
+2026-10-16T07:52:09.4417794Z Robustness progress: diagnostic controls= 4 model_cells= 4
+2026-10-16T07:52:09.4424662Z Model cell started: rbac-list-configmaps--clean--decoder-unbounded
+2026-10-16T07:54:07.1007171Z Robustness progress: diagnostic controls= 4 model_cells= 5
+2026-10-16T07:54:07.1012644Z Model cell started: rbac-list-configmaps--clean--decoder-legacy
+2026-10-16T07:55:44.3933738Z Robustness progress: diagnostic controls= 4 model_cells= 6
+2026-10-16T07:55:44.4302704Z Worker command: /home/runner/work/agent/agent/.tools/bin/kind delete
+2026-10-16T07:55:47.1378733Z Worker command: /usr/bin/docker rm
+2026-10-16T07:55:47.7668339Z {"case_ids":["rbac-list-configmaps","restricted-init-sidecar"],"cleanup":{"cluster_removed":true,"kubeconfig_removed":true,"model_cache_removed":true,"model_removed":true},"control_count":4,"errors":[],"plan_id":"robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3","record_count":6,"seconds":971.261402043,"shard":0,"source_sha256":"aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e","stage":"diagnostic","status":"passed"}
+2026-10-16T07:55:47.7852684Z ##[group]Run PYTHONDONTWRITEBYTECODE=1 python3 scripts/report_robustness_v3.py --plan benchmark/robustness-v3/diagnostic-plan.json --shard runs/robustness-v3-diagnostic --validation runs/robustness-v3-diagnostic --output runs/robustness-v3-report
+2026-10-16T07:55:47.7854109Z [36;1mPYTHONDONTWRITEBYTECODE=1 python3 scripts/report_robustness_v3.py --plan benchmark/robustness-v3/diagnostic-plan.json --shard runs/robustness-v3-diagnostic --validation runs/robustness-v3-diagnostic --output runs/robustness-v3-report[0m
+2026-10-16T07:55:47.7854958Z [36;1mcat runs/robustness-v3-report/README.md >> "$GITHUB_STEP_SUMMARY"[0m
+2026-10-16T07:55:47.7913255Z shell: /usr/bin/bash -e {0}
+2026-10-16T07:55:47.7913460Z ##[endgroup]
+2026-10-16T07:55:48.0800274Z Robustness report refused: ValueError: Image setup did not use an owned namespace
+2026-10-16T07:55:48.0926594Z ##[error]Process completed with exit code 2.
+2026-10-16T07:55:48.1001045Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-16T07:55:48.1001402Z with:
+2026-10-16T07:55:48.1001585Z   name: robustness-v3-diagnostic-evidence
+2026-10-16T07:55:48.1002869Z   path: runs/robustness-v3-diagnostic/plan.json
+runs/robustness-v3-diagnostic/summary.json
+runs/robustness-v3-diagnostic/commands.json
+runs/robustness-v3-diagnostic/progress.json
+runs/robustness-v3-diagnostic/image-pins.json
+runs/robustness-v3-diagnostic/model-pin.json
+runs/robustness-v3-diagnostic/setup-image-verification.json
+runs/robustness-v3-diagnostic/controls/
+runs/robustness-v3-diagnostic/records/
+runs/robustness-v3-report/
+
+2026-10-16T07:55:48.1004127Z   retention-days: 30
+2026-10-16T07:55:48.1004307Z   if-no-files-found: warn
+2026-10-16T07:55:48.1004489Z   compression-level: 6
+2026-10-16T07:55:48.1004658Z   overwrite: false
+2026-10-16T07:55:48.1004828Z   include-hidden-files: false
+2026-10-16T07:55:48.1005018Z ##[endgroup]
+2026-10-16T07:55:48.8834657Z (node:15508) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T07:55:48.8836068Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T07:55:48.8998237Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-16T07:55:48.9003269Z The least common ancestor is /home/runner/work/agent/agent/runs. This will be the root directory of the artifact
+2026-10-16T07:55:48.9004168Z With the provided path, there will be 17 files uploaded
+2026-10-16T07:55:48.9005083Z Artifact name is valid!
+2026-10-16T07:55:48.9005692Z Root directory input is valid!
+2026-10-16T07:55:49.4668457Z Beginning upload of artifact content to blob storage
+2026-10-16T07:55:49.6260845Z (node:15508) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-16T07:55:49.6610113Z Uploaded bytes 164006
+2026-10-16T07:55:49.7978841Z Finished uploading artifact content to blob storage!
+2026-10-16T07:55:49.7980464Z SHA256 digest of uploaded artifact zip is f4cdcd40b8a5b183c7356527c4b1eabe634097c7c05981e81c79c1fb6913d1b4
+2026-10-16T07:55:49.7982505Z Finalizing artifact upload
+2026-10-16T07:55:50.0660181Z Artifact robustness-v3-diagnostic-evidence.zip successfully finalized. Artifact ID 12032657138
+2026-10-16T07:55:50.0661518Z Artifact robustness-v3-diagnostic-evidence has been successfully uploaded! Final size is 164006 bytes. Artifact ID is 12032657138
+2026-10-16T07:55:50.0674496Z Artifact download URL: https://github.com/tuanngocfun/agent/actions/runs/38868589212/artifacts/12032657138
+2026-10-16T07:55:50.0913561Z Post job cleanup.
+2026-10-16T07:55:50.1771147Z [command]/usr/bin/git version
+2026-10-16T07:55:50.1818404Z git version 2.55.0
+2026-10-16T07:55:50.1863894Z Temporarily overriding HOME='/home/runner/work/_temp/aadbb57b-f550-4bd1-9225-6181a1c006c4' before making global git config changes
+2026-10-16T07:55:50.1876606Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T07:55:50.1885480Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/agent/agent
+2026-10-16T07:55:50.1920767Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T07:55:50.1968794Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-16T07:55:50.2366742Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T07:55:50.2397913Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-16T07:55:50.2684464Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T07:55:50.2733685Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-16T07:55:50.3351652Z Cleaning up orphan processes
+2026-10-16T07:55:50.3720428Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

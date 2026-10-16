@@ -1,0 +1,48 @@
+name: Preserved Kubernetes evidence audit
+
+on:
+  push:
+    branches: [kube-remediation-demo]
+    paths: [benchmark/robustness-v3/audit-request.json]
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Validate the explicitly bounded offline audit request
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('.')
+          request = json.loads((root/'benchmark/robustness-v3/audit-request.json').read_text())
+          report = root/'reports/robustness-v3-2026-10-16'
+          plan = json.loads((report/'plan.json').read_text())
+          metadata = json.loads((report/'evidence-artifact.json').read_text())
+          if request.get('schema_version') != 1 or request.get('stage') != 'offline-audit':
+              raise SystemExit('Only the registered offline evidence audit is supported')
+          if request.get('plan_id') != plan['plan_id'] or request.get('archive_sha256') != metadata['archive_sha256'] or request.get('source_run_id') != metadata['run_id']:
+              raise SystemExit('Audit request does not match the preserved source artifact')
+          PY
+      - name: Restore the hash-verified official archive and independently replay all records
+        run: PYTHONDONTWRITEBYTECODE=1 python3 reports/robustness-v3-2026-10-16/reproduce/recompute.py --output runs/posthoc-audit-reproduction
+      - name: Recompute value types, timings and control tables from the preserved raw responses
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 reports/robustness-v3-2026-10-16/reproduce/diagnostic_analysis.py --summary runs/posthoc-audit-reproduction/recomputed/summary.json --artifact runs/posthoc-audit-reproduction/restored/robustness-v3-diagnostic --output runs/posthoc-audit-supplement
+          cat runs/posthoc-audit-reproduction/recomputed/README.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve the separately labeled offline audit result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: robustness-v3.1-offline-audit
+          path: |
+            runs/posthoc-audit-reproduction/recomputed/
+            runs/posthoc-audit-supplement/
+          retention-days: 30
+          if-no-files-found: warn

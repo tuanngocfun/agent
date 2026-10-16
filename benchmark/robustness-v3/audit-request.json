@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "request_id": "2026-10-16-v3-1-offline-audit-01",
+  "stage": "offline-audit",
+  "source_run_id": 38868589212,
+  "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+  "archive_sha256": "f4cdcd40b8a5b183c7356527c4b1eabe634097c7c05981e81c79c1fb6913d1b4"
+}

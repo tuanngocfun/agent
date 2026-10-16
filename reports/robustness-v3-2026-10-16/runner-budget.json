@@ -1,0 +1,1158 @@
+{
+  "checked_at": "2026-10-16T08:00:21.374695+00:00",
+  "scope": "All visible repository job attempts; duration with per-job ceiling is a conservative proxy, not a billing invoice.",
+  "runs": [
+    {
+      "id": 38868589212,
+      "name": "Kubernetes decoder diagnostic v3",
+      "head_sha": "d4bf2d5af3144f06a9d7b770283773c29c8c0f75",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116867073188,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 8.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116867130518,
+          "name": "diagnostic",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 979.0,
+          "rounded_minutes": 17
+        }
+      ],
+      "seconds": 987.0,
+      "rounded_minutes": 18
+    },
+    {
+      "id": 38868589008,
+      "name": "Source CI",
+      "head_sha": "d4bf2d5af3144f06a9d7b770283773c29c8c0f75",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116867072038,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 20.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 20.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38781747067,
+      "name": "Source CI",
+      "head_sha": "fc32d4cb222978d7f4897253504807a83fb4bb17",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116583436252,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 23.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 23.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38781747009,
+      "name": "Kubernetes robustness v2",
+      "head_sha": "fc32d4cb222978d7f4897253504807a83fb4bb17",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116583437388,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 12.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116583543327,
+          "name": "models (3)",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 1559.0,
+          "rounded_minutes": 26
+        },
+        {
+          "id": 116583543363,
+          "name": "models (1)",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1654.0,
+          "rounded_minutes": 28
+        },
+        {
+          "id": 116583543380,
+          "name": "models (2)",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1602.0,
+          "rounded_minutes": 27
+        },
+        {
+          "id": 116583543474,
+          "name": "models (4)",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1617.0,
+          "rounded_minutes": 27
+        },
+        {
+          "id": 116583543486,
+          "name": "models (0)",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1666.0,
+          "rounded_minutes": 28
+        },
+        {
+          "id": 116583546508,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        },
+        {
+          "id": 116609455135,
+          "name": "report",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 14.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 8124.0,
+      "rounded_minutes": 138
+    },
+    {
+      "id": 38779680390,
+      "name": "Source CI",
+      "head_sha": "0dcc5e7c446e9795c297fd07c8ab169d8b8f3dd2",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116576321461,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 20.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 20.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38779680209,
+      "name": "Kubernetes robustness v2",
+      "head_sha": "0dcc5e7c446e9795c297fd07c8ab169d8b8f3dd2",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116576322701,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 7.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116576393858,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 772.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 116576397220,
+          "name": "models",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        },
+        {
+          "id": 116576400298,
+          "name": "report",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        }
+      ],
+      "seconds": 779.0,
+      "rounded_minutes": 14
+    },
+    {
+      "id": 38777257477,
+      "name": "Source CI",
+      "head_sha": "7ffc6af999bb851c815cb8ce8e35ba3b0c527248",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116568004135,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 19.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 19.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38777257458,
+      "name": "Kubernetes robustness v2",
+      "head_sha": "7ffc6af999bb851c815cb8ce8e35ba3b0c527248",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116568004380,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 8.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116568093783,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 759.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 116568096171,
+          "name": "models",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        },
+        {
+          "id": 116568097895,
+          "name": "report",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        }
+      ],
+      "seconds": 767.0,
+      "rounded_minutes": 14
+    },
+    {
+      "id": 38738048984,
+      "name": "Kubernetes robustness v2",
+      "head_sha": "1e669bac8f75908effbf137dc8a7a5dae29d46a1",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116432286237,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 6.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116432349771,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 742.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 116432352663,
+          "name": "models",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        },
+        {
+          "id": 116432353528,
+          "name": "report",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        }
+      ],
+      "seconds": 748.0,
+      "rounded_minutes": 14
+    },
+    {
+      "id": 38738048963,
+      "name": "Source CI",
+      "head_sha": "1e669bac8f75908effbf137dc8a7a5dae29d46a1",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116432285887,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 21.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 21.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38737214434,
+      "name": "Kubernetes robustness v2",
+      "head_sha": "a37a3b1de4c8de78c18b5d18fcde24e6706b49cb",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116429451918,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 6.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 116429514940,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 127.0,
+          "rounded_minutes": 3
+        },
+        {
+          "id": 116429516976,
+          "name": "models",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        },
+        {
+          "id": 116429517038,
+          "name": "report",
+          "status": "completed",
+          "conclusion": "skipped",
+          "seconds": 0,
+          "rounded_minutes": 0
+        }
+      ],
+      "seconds": 133.0,
+      "rounded_minutes": 4
+    },
+    {
+      "id": 38737214228,
+      "name": "Source CI",
+      "head_sha": "a37a3b1de4c8de78c18b5d18fcde24e6706b49cb",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116429450674,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 21.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 21.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38736891830,
+      "name": "Source CI",
+      "head_sha": "53c38c15243db0c5a6027b40924d08be4d4ce5a8",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116428354455,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 20.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 20.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38711111463,
+      "name": "External corpus validation",
+      "head_sha": "dcc51399fc1c41c2922448e8428f0b190af5354c",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116342417418,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 21.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 21.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38711111337,
+      "name": "Source CI",
+      "head_sha": "dcc51399fc1c41c2922448e8428f0b190af5354c",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116342416894,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 15.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 15.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38693477858,
+      "name": "Source CI",
+      "head_sha": "17313c30895a072fa87b44208a84a833f5ba70b5",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116284539451,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 8.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 8.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38679786443,
+      "name": "Source CI",
+      "head_sha": "15c1ecb4dbbedcf98a3443a3e457e9aa19a1201a",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 116241465188,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 7.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 7.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38587061935,
+      "name": "Kubernetes model benchmark v1",
+      "head_sha": "b5fc820e9ef857a82a0861132d5c41faef025002",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115931750722,
+          "name": "protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 6.0,
+          "rounded_minutes": 1
+        },
+        {
+          "id": 115931820540,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 611.0,
+          "rounded_minutes": 11
+        },
+        {
+          "id": 115931820551,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 608.0,
+          "rounded_minutes": 11
+        },
+        {
+          "id": 115931820586,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 620.0,
+          "rounded_minutes": 11
+        },
+        {
+          "id": 115931820596,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 627.0,
+          "rounded_minutes": 11
+        },
+        {
+          "id": 115931820668,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 594.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931820677,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 586.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931820723,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 479.0,
+          "rounded_minutes": 8
+        },
+        {
+          "id": 115931820766,
+          "name": "qwen25-coder-1.5b / feedback / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 892.0,
+          "rounded_minutes": 15
+        },
+        {
+          "id": 115931820785,
+          "name": "qwen25-coder-1.5b / feedback / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 686.0,
+          "rounded_minutes": 12
+        },
+        {
+          "id": 115931820877,
+          "name": "qwen25-coder-1.5b / one-shot / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 590.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931820927,
+          "name": "qwen25-coder-1.5b / feedback / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 772.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 115931820960,
+          "name": "qwen25-coder-1.5b / feedback / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 608.0,
+          "rounded_minutes": 11
+        },
+        {
+          "id": 115931821028,
+          "name": "qwen25-coder-1.5b / feedback / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 880.0,
+          "rounded_minutes": 15
+        },
+        {
+          "id": 115931821078,
+          "name": "qwen25-coder-1.5b / feedback / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 823.0,
+          "rounded_minutes": 14
+        },
+        {
+          "id": 115931823737,
+          "name": "qwen25-coder-1.5b / feedback / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 665.0,
+          "rounded_minutes": 12
+        },
+        {
+          "id": 115931823864,
+          "name": "qwen25-1.5b / one-shot / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 573.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931823959,
+          "name": "qwen25-coder-1.5b / feedback / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 779.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 115931824122,
+          "name": "qwen25-1.5b / one-shot / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 532.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931824142,
+          "name": "qwen25-1.5b / one-shot / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 532.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931824161,
+          "name": "qwen25-1.5b / one-shot / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 427.0,
+          "rounded_minutes": 8
+        },
+        {
+          "id": 115931824332,
+          "name": "qwen25-1.5b / one-shot / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 525.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931824485,
+          "name": "qwen25-1.5b / one-shot / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 441.0,
+          "rounded_minutes": 8
+        },
+        {
+          "id": 115931824562,
+          "name": "qwen25-1.5b / one-shot / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 534.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931824796,
+          "name": "qwen25-1.5b / one-shot / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 536.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931826901,
+          "name": "qwen25-1.5b / feedback / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 509.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931827028,
+          "name": "qwen25-1.5b / feedback / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 539.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931827102,
+          "name": "qwen25-1.5b / feedback / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 506.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931827123,
+          "name": "qwen25-1.5b / feedback / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 551.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931827183,
+          "name": "qwen25-1.5b / feedback / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 540.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931827194,
+          "name": "qwen25-1.5b / feedback / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 577.0,
+          "rounded_minutes": 10
+        },
+        {
+          "id": 115931827550,
+          "name": "qwen25-1.5b / feedback / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 509.0,
+          "rounded_minutes": 9
+        },
+        {
+          "id": 115931827686,
+          "name": "qwen25-3b / one-shot / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 829.0,
+          "rounded_minutes": 14
+        },
+        {
+          "id": 115931828098,
+          "name": "qwen25-3b / one-shot / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 850.0,
+          "rounded_minutes": 15
+        },
+        {
+          "id": 115931828114,
+          "name": "qwen25-1.5b / feedback / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 422.0,
+          "rounded_minutes": 8
+        },
+        {
+          "id": 115931830223,
+          "name": "qwen25-3b / one-shot / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 910.0,
+          "rounded_minutes": 16
+        },
+        {
+          "id": 115931830284,
+          "name": "qwen25-3b / one-shot / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 897.0,
+          "rounded_minutes": 15
+        },
+        {
+          "id": 115931830455,
+          "name": "qwen25-3b / one-shot / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 906.0,
+          "rounded_minutes": 16
+        },
+        {
+          "id": 115931830599,
+          "name": "qwen25-3b / one-shot / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 917.0,
+          "rounded_minutes": 16
+        },
+        {
+          "id": 115931830761,
+          "name": "qwen25-3b / one-shot / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 923.0,
+          "rounded_minutes": 16
+        },
+        {
+          "id": 115931830764,
+          "name": "qwen25-3b / one-shot / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 910.0,
+          "rounded_minutes": 16
+        },
+        {
+          "id": 115931830925,
+          "name": "qwen25-3b / feedback / repeat-0 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 729.0,
+          "rounded_minutes": 13
+        },
+        {
+          "id": 115931831227,
+          "name": "qwen25-3b / feedback / repeat-0 / shard-2",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 967.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 115931831269,
+          "name": "qwen25-3b / feedback / repeat-0 / shard-3",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 975.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 115931831271,
+          "name": "qwen25-3b / feedback / repeat-0 / shard-1",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 968.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 115931832727,
+          "name": "qwen25-3b / feedback / repeat-1 / shard-0",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 667.0,
+          "rounded_minutes": 12
+        },
+        {
+          "id": 115931832983,
+          "name": "qwen25-3b / feedback / repeat-1 / shard-1",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 969.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 115931833026,
+          "name": "qwen25-3b / feedback / repeat-1 / shard-2",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 971.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 115931833547,
+          "name": "qwen25-3b / feedback / repeat-1 / shard-3",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 970.0,
+          "rounded_minutes": 17
+        },
+        {
+          "id": 116003203233,
+          "name": "reports",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 14.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 33451.0,
+      "rounded_minutes": 584
+    },
+    {
+      "id": 38587061537,
+      "name": "Source CI",
+      "head_sha": "b5fc820e9ef857a82a0861132d5c41faef025002",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115931749626,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 9.0,
+          "rounded_minutes": 1
+        }
+      ],
+      "seconds": 9.0,
+      "rounded_minutes": 1
+    },
+    {
+      "id": 38528564033,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "d770c0efea239754e221606a8f76ff16fcc5aedb",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115734662237,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 505.0,
+          "rounded_minutes": 9
+        }
+      ],
+      "seconds": 505.0,
+      "rounded_minutes": 9
+    },
+    {
+      "id": 38502780956,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "59e0e9fab8fd51a18065ece5241d2ee15b174693",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115653349892,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1490.0,
+          "rounded_minutes": 25
+        }
+      ],
+      "seconds": 1490.0,
+      "rounded_minutes": 25
+    },
+    {
+      "id": 38500479314,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "37d7ec3eb5fbb36aa3679db5599ea7908a7ca506",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115645989549,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1094.0,
+          "rounded_minutes": 19
+        }
+      ],
+      "seconds": 1094.0,
+      "rounded_minutes": 19
+    },
+    {
+      "id": 38498086650,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "7774fb1311bac21abcd6ac1178978b16f6ab161c",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115638355913,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1359.0,
+          "rounded_minutes": 23
+        }
+      ],
+      "seconds": 1359.0,
+      "rounded_minutes": 23
+    },
+    {
+      "id": 38456111385,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "db2f3d71fede0452ee71ac9dc96fec09424d8039",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115499143348,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 726.0,
+          "rounded_minutes": 13
+        }
+      ],
+      "seconds": 726.0,
+      "rounded_minutes": 13
+    },
+    {
+      "id": 38454063724,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "a684c202d68aa97bcde6a0d61a98cc9604b0718a",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115492101383,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 467.0,
+          "rounded_minutes": 8
+        }
+      ],
+      "seconds": 467.0,
+      "rounded_minutes": 8
+    },
+    {
+      "id": 38449404110,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "16c8e8a1abab87e6e87375d7691c1afb9b1960e5",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115476107263,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1824.0,
+          "rounded_minutes": 31
+        }
+      ],
+      "seconds": 1824.0,
+      "rounded_minutes": 31
+    },
+    {
+      "id": 38447786990,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "0ceb522d7d3de1e1dea683bd1834f18160f71c16",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115470594562,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 287.0,
+          "rounded_minutes": 5
+        }
+      ],
+      "seconds": 287.0,
+      "rounded_minutes": 5
+    },
+    {
+      "id": 38428848822,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "2a500acba44ed8501c55db666c4d44406a05dd97",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115405371353,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 1115.0,
+          "rounded_minutes": 19
+        }
+      ],
+      "seconds": 1115.0,
+      "rounded_minutes": 19
+    },
+    {
+      "id": 38427115233,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "75bfc149f2740a712951d08b4e777c06cb95fc50",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115399282114,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 369.0,
+          "rounded_minutes": 7
+        }
+      ],
+      "seconds": 369.0,
+      "rounded_minutes": 7
+    },
+    {
+      "id": 38425528686,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "53186ec60075bcfc7a147825d45b9881495a7505",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115393803251,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 404.0,
+          "rounded_minutes": 7
+        }
+      ],
+      "seconds": 404.0,
+      "rounded_minutes": 7
+    },
+    {
+      "id": 38423912220,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "6f19339484fec6affe14f7eedc8f90473a003929",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115388146723,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 355.0,
+          "rounded_minutes": 6
+        }
+      ],
+      "seconds": 355.0,
+      "rounded_minutes": 6
+    },
+    {
+      "id": 38423093005,
+      "name": "Real LLM Kubernetes remediation demo",
+      "head_sha": "5f11f1e79c26ce31982762de2745f9ee46a4d1b7",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115385285543,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "failure",
+          "seconds": 124.0,
+          "rounded_minutes": 3
+        }
+      ],
+      "seconds": 124.0,
+      "rounded_minutes": 3
+    },
+    {
+      "id": 38408621533,
+      "name": "Kubernetes remediation demo",
+      "head_sha": "44613880014ca56882f0a21e5de461db97941b50",
+      "status": "completed",
+      "jobs": [
+        {
+          "id": 115334738105,
+          "name": "real-kubernetes",
+          "status": "completed",
+          "conclusion": "success",
+          "seconds": 165.0,
+          "rounded_minutes": 3
+        }
+      ],
+      "seconds": 165.0,
+      "rounded_minutes": 3
+    }
+  ],
+  "run_count": 33,
+  "observed_runner_minutes": 924.6166666666667,
+  "rounded_runner_minutes": 976,
+  "unfinished_jobs": [],
+  "authorization_minutes": 1000,
+  "conservative_remaining_minutes": 24
+}

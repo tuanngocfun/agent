@@ -1,0 +1,7 @@
+model_id,method_id,case_id,condition,repetition,family,expected,outcome,observed_status,task_correct,evidence_verified,model_origin_verified,evidence_error,completion_tokens,generation_ns,generation_seconds,inference_ns,inference_seconds,model_calls,observed_completion_tokens,observed_prompt_tokens,prompt_tokens,usage_complete_calls,wall_seconds
+qwen25-3b,decoder-legacy,restricted-init-sidecar,clean,0,multi-container-admission,repair,provider_failure,provider_failure,False,True,False,,,,,120000317616,120.000317616,1,0,0,,0,125.943344938
+qwen25-3b,decoder-unbounded,restricted-init-sidecar,clean,0,multi-container-admission,repair,provider_failure,provider_failure,False,True,False,,,,,120000332711,120.000332711,1,0,0,,0,125.74813690800005
+qwen25-3b,decoder-any-json,restricted-init-sidecar,clean,0,multi-container-admission,repair,task_failure,completed,False,True,True,,120,17163018955,17.163018955,112727540329,112.727540329,1,120,1816,1816,1,118.23800127200002
+qwen25-3b,decoder-any-json,rbac-list-configmaps,clean,0,rbac-list,repair,provider_failure,provider_failure,False,True,False,,,,,120000397972,120.000397972,1,0,0,,0,124.83642195799996
+qwen25-3b,decoder-unbounded,rbac-list-configmaps,clean,0,rbac-list,repair,task_failure,completed,False,True,True,,186,25782410977,25.782410977,103924784977,103.924784977,1,186,1403,1403,1,107.2949984810001
+qwen25-3b,decoder-legacy,rbac-list-configmaps,clean,0,rbac-list,repair,task_failure,completed,False,True,True,,39,5314795334,5.314795334,83266646493,83.266646493,1,39,1396,1396,1,87.01498780400004

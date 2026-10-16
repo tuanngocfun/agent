@@ -1,0 +1,1126 @@
+{
+  "calls": [
+    {
+      "call_error": "TimeoutError: Phase wall limit: model-request",
+      "call_index": 0,
+      "call_status": "error",
+      "case_id": "restricted-init-sidecar",
+      "completion_tokens": null,
+      "condition": "clean",
+      "done": null,
+      "done_reason": null,
+      "edit_value_types": {},
+      "envelope_parse_error": null,
+      "eval_duration_ns": null,
+      "generated_action": null,
+      "generated_decision_parse_error": null,
+      "generation_seconds": null,
+      "load_duration_ns": null,
+      "load_seconds": null,
+      "method_id": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": null,
+      "parsed_edit_count": 0,
+      "primary_evidence_verified": true,
+      "primary_outcome": "provider_failure",
+      "prompt_eval_duration_ns": null,
+      "prompt_seconds": null,
+      "prompt_tokens": null,
+      "raw_hash_matches": true,
+      "raw_response_present": false,
+      "raw_total_seconds": null,
+      "recorded_call_elapsed_seconds": 120.000317616,
+      "repetition": 0,
+      "total_duration_ns": null
+    },
+    {
+      "call_error": "TimeoutError: Phase wall limit: model-request",
+      "call_index": 0,
+      "call_status": "error",
+      "case_id": "restricted-init-sidecar",
+      "completion_tokens": null,
+      "condition": "clean",
+      "done": null,
+      "done_reason": null,
+      "edit_value_types": {},
+      "envelope_parse_error": null,
+      "eval_duration_ns": null,
+      "generated_action": null,
+      "generated_decision_parse_error": null,
+      "generation_seconds": null,
+      "load_duration_ns": null,
+      "load_seconds": null,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": null,
+      "parsed_edit_count": 0,
+      "primary_evidence_verified": true,
+      "primary_outcome": "provider_failure",
+      "prompt_eval_duration_ns": null,
+      "prompt_seconds": null,
+      "prompt_tokens": null,
+      "raw_hash_matches": true,
+      "raw_response_present": false,
+      "raw_total_seconds": null,
+      "recorded_call_elapsed_seconds": 120.000332711,
+      "repetition": 0,
+      "total_duration_ns": null
+    },
+    {
+      "call_error": null,
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "restricted-init-sidecar",
+      "completion_tokens": 120,
+      "condition": "clean",
+      "done": true,
+      "done_reason": "stop",
+      "edit_value_types": {
+        "boolean": 2
+      },
+      "envelope_parse_error": null,
+      "eval_duration_ns": 17163018955,
+      "generated_action": "patch",
+      "generated_decision_parse_error": null,
+      "generation_seconds": 17.163018955,
+      "load_duration_ns": 13979604,
+      "load_seconds": 0.013979604,
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": true,
+      "parsed_edit_count": 2,
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "prompt_eval_duration_ns": 95515764385,
+      "prompt_seconds": 95.515764385,
+      "prompt_tokens": 1816,
+      "raw_hash_matches": true,
+      "raw_response_present": true,
+      "raw_total_seconds": 112.700379815,
+      "recorded_call_elapsed_seconds": 112.727540329,
+      "repetition": 0,
+      "total_duration_ns": 112700379815
+    },
+    {
+      "call_error": "TimeoutError: Phase wall limit: model-request",
+      "call_index": 0,
+      "call_status": "error",
+      "case_id": "rbac-list-configmaps",
+      "completion_tokens": null,
+      "condition": "clean",
+      "done": null,
+      "done_reason": null,
+      "edit_value_types": {},
+      "envelope_parse_error": null,
+      "eval_duration_ns": null,
+      "generated_action": null,
+      "generated_decision_parse_error": null,
+      "generation_seconds": null,
+      "load_duration_ns": null,
+      "load_seconds": null,
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": null,
+      "parsed_edit_count": 0,
+      "primary_evidence_verified": true,
+      "primary_outcome": "provider_failure",
+      "prompt_eval_duration_ns": null,
+      "prompt_seconds": null,
+      "prompt_tokens": null,
+      "raw_hash_matches": true,
+      "raw_response_present": false,
+      "raw_total_seconds": null,
+      "recorded_call_elapsed_seconds": 120.000397972,
+      "repetition": 0,
+      "total_duration_ns": null
+    },
+    {
+      "call_error": null,
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "completion_tokens": 186,
+      "condition": "clean",
+      "done": true,
+      "done_reason": "stop",
+      "edit_value_types": {
+        "object": 5
+      },
+      "envelope_parse_error": null,
+      "eval_duration_ns": 25782410977,
+      "generated_action": "patch",
+      "generated_decision_parse_error": null,
+      "generation_seconds": 25.782410977,
+      "load_duration_ns": 14587556,
+      "load_seconds": 0.014587556,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": true,
+      "parsed_edit_count": 5,
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "prompt_eval_duration_ns": 78104549335,
+      "prompt_seconds": 78.104549335,
+      "prompt_tokens": 1403,
+      "raw_hash_matches": true,
+      "raw_response_present": true,
+      "raw_total_seconds": 103.908511106,
+      "recorded_call_elapsed_seconds": 103.924784977,
+      "repetition": 0,
+      "total_duration_ns": 103908511106
+    },
+    {
+      "call_error": null,
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "completion_tokens": 39,
+      "condition": "clean",
+      "done": true,
+      "done_reason": "stop",
+      "edit_value_types": {},
+      "envelope_parse_error": null,
+      "eval_duration_ns": 5314795334,
+      "generated_action": "abstain",
+      "generated_decision_parse_error": null,
+      "generation_seconds": 5.314795334,
+      "load_duration_ns": 14611051,
+      "load_seconds": 0.014611051,
+      "method_id": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "model_identity_matches": true,
+      "parsed_edit_count": 0,
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "prompt_eval_duration_ns": 77915291160,
+      "prompt_seconds": 77.91529116,
+      "prompt_tokens": 1396,
+      "raw_hash_matches": true,
+      "raw_response_present": true,
+      "raw_total_seconds": 83.251555377,
+      "recorded_call_elapsed_seconds": 83.266646493,
+      "repetition": 0,
+      "total_duration_ns": 83251555377
+    }
+  ],
+  "cells": [
+    {
+      "case_id": "restricted-init-sidecar",
+      "cell_id": "restricted-init-sidecar--clean--decoder-legacy",
+      "cell_wall_seconds": 125.943344938,
+      "condition": "clean",
+      "decoder_treatment": "original bounds and empty value schema",
+      "edit_value_types": {},
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-legacy",
+      "method_status": "model-error",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_model_calls": 1,
+      "outcome": "provider_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "provider_failure"
+    },
+    {
+      "case_id": "restricted-init-sidecar",
+      "cell_id": "restricted-init-sidecar--clean--decoder-unbounded",
+      "cell_wall_seconds": 125.74813690800005,
+      "condition": "clean",
+      "decoder_treatment": "bounds removed; empty value schema retained",
+      "edit_value_types": {},
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-unbounded",
+      "method_status": "model-error",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_model_calls": 1,
+      "outcome": "provider_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "provider_failure"
+    },
+    {
+      "case_id": "restricted-init-sidecar",
+      "cell_id": "restricted-init-sidecar--clean--decoder-any-json",
+      "cell_wall_seconds": 118.23800127200002,
+      "condition": "clean",
+      "decoder_treatment": "bounds removed; explicit JSON type union",
+      "edit_value_types": {
+        "boolean": 2
+      },
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-any-json",
+      "method_status": "proposed-patch",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_model_calls": 1,
+      "outcome": "task_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "completed"
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "cell_id": "rbac-list-configmaps--clean--decoder-any-json",
+      "cell_wall_seconds": 124.83642195799996,
+      "condition": "clean",
+      "decoder_treatment": "bounds removed; explicit JSON type union",
+      "edit_value_types": {},
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-any-json",
+      "method_status": "model-error",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_model_calls": 1,
+      "outcome": "provider_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "provider_failure"
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "cell_id": "rbac-list-configmaps--clean--decoder-unbounded",
+      "cell_wall_seconds": 107.2949984810001,
+      "condition": "clean",
+      "decoder_treatment": "bounds removed; empty value schema retained",
+      "edit_value_types": {
+        "object": 5
+      },
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-unbounded",
+      "method_status": "proposed-patch",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_model_calls": 1,
+      "outcome": "task_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "completed"
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "cell_id": "rbac-list-configmaps--clean--decoder-legacy",
+      "cell_wall_seconds": 87.01498780400004,
+      "condition": "clean",
+      "decoder_treatment": "original bounds and empty value schema",
+      "edit_value_types": {},
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "final_runtime_pass": false,
+      "initial_runtime_pass": false,
+      "method_id": "decoder-legacy",
+      "method_status": "abstain",
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_model_calls": 1,
+      "outcome": "task_failure",
+      "raw_record_present": true,
+      "repetition": 0,
+      "task_correct": false,
+      "worker_status": "completed"
+    }
+  ],
+  "controls": [
+    {
+      "behavior_pass": false,
+      "case_id": "rbac-list-configmaps",
+      "control_id": "noop",
+      "error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "rbac-list",
+      "namespace_deleted": true,
+      "outcome": "task_failure",
+      "raw_record_present": true,
+      "reference_only": false,
+      "runtime_pass": false,
+      "security_pass": false,
+      "worker_runtime_pass": false
+    },
+    {
+      "behavior_pass": true,
+      "case_id": "rbac-list-configmaps",
+      "control_id": "oracle",
+      "error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "rbac-list",
+      "namespace_deleted": true,
+      "outcome": "runtime_pass",
+      "raw_record_present": true,
+      "reference_only": true,
+      "runtime_pass": true,
+      "security_pass": true,
+      "worker_runtime_pass": true
+    },
+    {
+      "behavior_pass": false,
+      "case_id": "restricted-init-sidecar",
+      "control_id": "noop",
+      "error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "namespace_deleted": true,
+      "outcome": "task_failure",
+      "raw_record_present": true,
+      "reference_only": false,
+      "runtime_pass": false,
+      "security_pass": false,
+      "worker_runtime_pass": false
+    },
+    {
+      "behavior_pass": true,
+      "case_id": "restricted-init-sidecar",
+      "control_id": "oracle",
+      "error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "namespace_deleted": true,
+      "outcome": "runtime_pass",
+      "raw_record_present": true,
+      "reference_only": true,
+      "runtime_pass": true,
+      "security_pass": true,
+      "worker_runtime_pass": true
+    }
+  ],
+  "edits": [
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "restricted-init-sidecar",
+      "condition": "clean",
+      "edit_index": 0,
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/1/securityContext/runAsNonRoot",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Deployment/activity-api",
+      "value": "true",
+      "value_type": "boolean"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "restricted-init-sidecar",
+      "condition": "clean",
+      "edit_index": 1,
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/initContainers/0/securityContext/runAsNonRoot",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Deployment/activity-api",
+      "value": "true",
+      "value_type": "boolean"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "condition": "clean",
+      "edit_index": 0,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Job/config-reader",
+      "value": "{}",
+      "value_type": "object"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "condition": "clean",
+      "edit_index": 1,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/0/securityContext/runAsUser",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Job/config-reader",
+      "value": "{}",
+      "value_type": "object"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "condition": "clean",
+      "edit_index": 2,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/0/securityContext/runAsGroup",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Job/config-reader",
+      "value": "{}",
+      "value_type": "object"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "condition": "clean",
+      "edit_index": 3,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Job/config-reader",
+      "value": "{}",
+      "value_type": "object"
+    },
+    {
+      "call_index": 0,
+      "call_status": "decision-returned",
+      "case_id": "rbac-list-configmaps",
+      "condition": "clean",
+      "edit_index": 4,
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "path": "/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem",
+      "primary_evidence_verified": true,
+      "primary_outcome": "task_failure",
+      "repetition": 0,
+      "resource": "Job/config-reader",
+      "value": "{}",
+      "value_type": "object"
+    }
+  ],
+  "input_consistency_disagreements": [],
+  "limitations": [
+    "This is a post hoc engineering diagnostic on two selected cases, not a broader robustness or model ranking study.",
+    "Task outcomes are copied from the independently recomputed summary and are never rescored by these supplemental counts.",
+    "Raw parsed edit types include rejected, truncated or otherwise invalid decisions; consult primary evidence/outcome columns before interpreting them.",
+    "Call elapsed, prompt, generation, load and raw total times have different scopes; none is substituted for another.",
+    "Observed token/timing sums cover returned counters only. No response, unavailable counters and not-started cells are never imputed as zero.",
+    "Fresh namespaces, different observations, hardware variation and prefix caching are not isolated by two reversed execution orders.",
+    "Worker elapsed excludes Actions checkout, tool installation, reporting, upload, queue time and other job overhead.",
+    "No v2 scores, denominators or method rankings are replaced, pooled or altered."
+  ],
+  "observed_done_reasons": {
+    "stop": 3
+  },
+  "observed_edit_value_types": {
+    "boolean": 2,
+    "object": 5
+  },
+  "observed_usage": {
+    "completion_tokens": {
+      "available_calls": 3,
+      "observed_sum": 345,
+      "total_observed_calls": 6
+    },
+    "eval_duration_ns": {
+      "available_calls": 3,
+      "observed_sum": 48260225266,
+      "total_observed_calls": 6
+    },
+    "load_duration_ns": {
+      "available_calls": 3,
+      "observed_sum": 43178211,
+      "total_observed_calls": 6
+    },
+    "prompt_eval_duration_ns": {
+      "available_calls": 3,
+      "observed_sum": 251535604880,
+      "total_observed_calls": 6
+    },
+    "prompt_tokens": {
+      "available_calls": 3,
+      "observed_sum": 4615,
+      "total_observed_calls": 6
+    },
+    "total_duration_ns": {
+      "available_calls": 3,
+      "observed_sum": 299860446298,
+      "total_observed_calls": 6
+    }
+  },
+  "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+  "post_hoc": true,
+  "primary_coverage_unchanged": {
+    "base_cases": 2,
+    "conditions": 1,
+    "families": 2,
+    "infrastructure_or_provider_trials": 3,
+    "invalid_evidence_trials": 0,
+    "missing_trials": 0,
+    "observed_trials": 6,
+    "outcomes": {
+      "provider_failure": 3,
+      "task_failure": 3
+    },
+    "registered_trials": 6,
+    "task_correct_trials": 0,
+    "verified_trials": 6
+  },
+  "primary_groups_unchanged": [
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-any-json",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 120,
+          "mean": 120,
+          "median": 120,
+          "minimum": 120,
+          "missing": 1,
+          "sum": 120
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 17163018955,
+          "mean": 17163018955,
+          "median": 17163018955,
+          "minimum": 17163018955,
+          "missing": 1,
+          "sum": 17163018955
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 17.163018955,
+          "mean": 17.163018955,
+          "median": 17.163018955,
+          "minimum": 17.163018955,
+          "missing": 1,
+          "sum": 17.163018955
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000397972,
+          "mean": 116363969150.5,
+          "median": 116363969150.5,
+          "minimum": 112727540329,
+          "missing": 0,
+          "sum": 232727938301
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000397972,
+          "mean": 116.3639691505,
+          "median": 116.3639691505,
+          "minimum": 112.727540329,
+          "missing": 0,
+          "sum": 232.727938301
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 120,
+          "mean": 60,
+          "median": 60.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 120
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1816,
+          "mean": 908,
+          "median": 908.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1816
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1816,
+          "mean": 1816,
+          "median": 1816,
+          "minimum": 1816,
+          "missing": 1,
+          "sum": 1816
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 124.83642195799996,
+          "mean": 121.53721161499999,
+          "median": 121.53721161499999,
+          "minimum": 118.23800127200002,
+          "missing": 0,
+          "sum": 243.07442322999998
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    },
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-legacy",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 39,
+          "mean": 39,
+          "median": 39,
+          "minimum": 39,
+          "missing": 1,
+          "sum": 39
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 5314795334,
+          "mean": 5314795334,
+          "median": 5314795334,
+          "minimum": 5314795334,
+          "missing": 1,
+          "sum": 5314795334
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 5.314795334,
+          "mean": 5.314795334,
+          "median": 5.314795334,
+          "minimum": 5.314795334,
+          "missing": 1,
+          "sum": 5.314795334
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000317616,
+          "mean": 101633482054.5,
+          "median": 101633482054.5,
+          "minimum": 83266646493,
+          "missing": 0,
+          "sum": 203266964109
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000317616,
+          "mean": 101.6334820545,
+          "median": 101.6334820545,
+          "minimum": 83.266646493,
+          "missing": 0,
+          "sum": 203.266964109
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 39,
+          "mean": 19.5,
+          "median": 19.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 39
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1396,
+          "mean": 698,
+          "median": 698.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1396
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1396,
+          "mean": 1396,
+          "median": 1396,
+          "minimum": 1396,
+          "missing": 1,
+          "sum": 1396
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 125.943344938,
+          "mean": 106.47916637100002,
+          "median": 106.47916637100002,
+          "minimum": 87.01498780400004,
+          "missing": 0,
+          "sum": 212.95833274200004
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    },
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-unbounded",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 186,
+          "mean": 186,
+          "median": 186,
+          "minimum": 186,
+          "missing": 1,
+          "sum": 186
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 25782410977,
+          "mean": 25782410977,
+          "median": 25782410977,
+          "minimum": 25782410977,
+          "missing": 1,
+          "sum": 25782410977
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 25.782410977,
+          "mean": 25.782410977,
+          "median": 25.782410977,
+          "minimum": 25.782410977,
+          "missing": 1,
+          "sum": 25.782410977
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000332711,
+          "mean": 111962558844,
+          "median": 111962558844.0,
+          "minimum": 103924784977,
+          "missing": 0,
+          "sum": 223925117688
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000332711,
+          "mean": 111.962558844,
+          "median": 111.962558844,
+          "minimum": 103.924784977,
+          "missing": 0,
+          "sum": 223.925117688
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 186,
+          "mean": 93,
+          "median": 93.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 186
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1403,
+          "mean": 701.5,
+          "median": 701.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1403
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1403,
+          "mean": 1403,
+          "median": 1403,
+          "minimum": 1403,
+          "missing": 1,
+          "sum": 1403
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 125.74813690800005,
+          "mean": 116.52156769450008,
+          "median": 116.52156769450008,
+          "minimum": 107.2949984810001,
+          "missing": 0,
+          "sum": 233.04313538900016
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    }
+  ],
+  "returned_raw_calls": 3,
+  "schema_version": "decoder-diagnostic-supplement-v1",
+  "source_files_sha256": {
+    "analysis_script": "561b4f24f67474386ea84c883b5221c3e378e7faa2250891b8f5ada56ca6c04f",
+    "artifact/commands.json": "c7cc33241757ab7be0d92f7500a75ffd47781f2cf049d699a362d689a7e11a00",
+    "artifact/controls/rbac-list-configmaps--noop.json": "3cb3168d31fe01bb9bb0464648255e5a4f9404b7eaa1237d9e2a7d96193d7f84",
+    "artifact/controls/rbac-list-configmaps--oracle.json": "440baf35fd88a1aef298eed69b6ae531c7b125924ed1ea3b233b8b5a5bc162b9",
+    "artifact/controls/restricted-init-sidecar--noop.json": "bd293672a869589a54093af9ffb1b4be6a612f29b60d5739af6d18ef6a16f37e",
+    "artifact/controls/restricted-init-sidecar--oracle.json": "578ba243d2c4cef05e63b62081b43a2e9fc7d223f615f220a32d25a6cd3a3d16",
+    "artifact/image-pins.json": "72441f63015118e73c53774685320204a78971f5d1eb053dbdb462b332930a42",
+    "artifact/model-pin.json": "f230ae7f63a1a84d403cbd470fd5b6dfaa089509db4ed6ee7f6d244341126865",
+    "artifact/plan.json": "289105ec6bac1ac716193dd646fa6d49e6dc2e504e42cdd4f6ec2817071cbd55",
+    "artifact/progress.json": "cc2d4d9a35e06af97d2e0b10fcb75dda53b12112b3144da83e23b92a9eb7c1a7",
+    "artifact/records/rbac-list-configmaps--clean--decoder-any-json.json": "6206a70c7afe98504ec631b0e0a527e606bfd923787e7bd6cb76e6373095e5bf",
+    "artifact/records/rbac-list-configmaps--clean--decoder-legacy.json": "53d61e34fb64f9b7c1c141ebebe1feaa3ab7cc65b83ec57bb231bf3161ba9c21",
+    "artifact/records/rbac-list-configmaps--clean--decoder-unbounded.json": "219945dad8cfbbd4f19532f79cbdb31b63d911d401aa1a589d751454e1cc211b",
+    "artifact/records/restricted-init-sidecar--clean--decoder-any-json.json": "6f1e46c494fb40373942c72c9981c7cab34f2de428951d91d066e90ade4c4461",
+    "artifact/records/restricted-init-sidecar--clean--decoder-legacy.json": "438fbe7f26ddcafb3a934ff2a2bd744bd6aee5eda43c235bda5c7a44c27754c9",
+    "artifact/records/restricted-init-sidecar--clean--decoder-unbounded.json": "beb8c04710b216faa91c7f28ab75444d9562a9ac6333619cdb0f390aeb8bcdc1",
+    "artifact/setup-image-verification.json": "c015d2ab27ccb6bc97acdd8b3458fa560d61df397c2437d56faa355f41474445",
+    "artifact/summary.json": "54257431db5e359000118f9e76e0fd3a5efca82533997e6807e69f4e91a9a7ca",
+    "independently_recomputed_summary": "01e0634865e89419cb3adad25edd5d7bfe3c68816962bcce170ec857dfbb45e7"
+  },
+  "source_sha256": "aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e",
+  "worker": {
+    "cleanup": {
+      "cluster_removed": true,
+      "kubeconfig_removed": true,
+      "model_cache_removed": true,
+      "model_removed": true
+    },
+    "control_count": 4,
+    "elapsed_seconds": 971.261402043,
+    "errors": [],
+    "record_count": 6,
+    "status": "passed"
+  }
+}

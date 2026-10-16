@@ -1,0 +1,1941 @@
+{
+  "audit_amendment": {
+    "amended_auditor": "scripts/audit_robustness_v3_evidence.py",
+    "amended_auditor_sha256": "f861cb8175246445501bcd5efb3281331c300c6b318b0844b2479e41d4154f52",
+    "auditor_id": "robustness-v3.1-posthoc-prefix-correction",
+    "correction": {
+      "after": "robust-v3-",
+      "before": "robust-v2-",
+      "guard_count": 3,
+      "guards": [
+        "deterministic_control_namespace",
+        "image_setup_namespace",
+        "model_record_namespace"
+      ],
+      "reason": "Frozen v3 runtime creates robust-v3- namespaces; the original copied auditor retained v2 guards."
+    },
+    "execution_plan_modified": false,
+    "frozen_execution_source_modified": false,
+    "frozen_reporter": "scripts/report_robustness_v3.py",
+    "frozen_reporter_sha256": "bddcc24cd56e6bacc8e12c6749c5df64ccb24949f047f3b1a9cdcde7fdfdc347",
+    "models_or_kubernetes_executed_by_auditor": false,
+    "original_refusal_retained": "original-report-refusal.json",
+    "phase": "posthoc_offline_audit",
+    "raw_execution_artifacts_modified": false,
+    "schema_version": "robustness-v3-audit-amendment-v1"
+  },
+  "cases": [
+    {
+      "all_repetitions_correct": false,
+      "case_id": "rbac-list-configmaps",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    },
+    {
+      "all_repetitions_correct": false,
+      "case_id": "restricted-init-sidecar",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-any-json",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    },
+    {
+      "all_repetitions_correct": false,
+      "case_id": "rbac-list-configmaps",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    },
+    {
+      "all_repetitions_correct": false,
+      "case_id": "restricted-init-sidecar",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    },
+    {
+      "all_repetitions_correct": false,
+      "case_id": "rbac-list-configmaps",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    },
+    {
+      "all_repetitions_correct": false,
+      "case_id": "restricted-init-sidecar",
+      "complete_verified": true,
+      "condition": "clean",
+      "correct_repetitions": 0,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "observed_repetitions": 1,
+      "registered_repetitions": 1,
+      "verified_repetitions": 1
+    }
+  ],
+  "clean_injection_comparisons": [],
+  "controls": {
+    "groups": [
+      {
+        "control_id": "noop",
+        "outcomes": {
+          "task_failure": 2
+        },
+        "reference_only": false,
+        "registered_cases": 2,
+        "repair_case_success": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "security_and_behavior_pass": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged_case_success": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "verified_cases": 2
+      },
+      {
+        "control_id": "oracle",
+        "outcomes": {
+          "runtime_pass": 2
+        },
+        "reference_only": true,
+        "registered_cases": 2,
+        "repair_case_success": {
+          "cases": 2,
+          "high": 1.0,
+          "low": 0.34238022750665303,
+          "rate": 1.0,
+          "successes": 2
+        },
+        "security_and_behavior_pass": {
+          "cases": 2,
+          "high": 1.0,
+          "low": 0.34238022750665303,
+          "rate": 1.0,
+          "successes": 2
+        },
+        "unchanged_case_success": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "verified_cases": 2
+      }
+    ],
+    "limitations": [
+      "Oracle controls are protected reference repairs and are not deployable model methods.",
+      "A deterministic control has no model-origin abstention decision. Compare repair-only denominators when contrasting it with an LLM."
+    ],
+    "provided": true,
+    "rows": [
+      {
+        "behavior_pass": false,
+        "case_id": "restricted-init-sidecar",
+        "control_id": "noop",
+        "error": null,
+        "evidence_verified": true,
+        "expected": "repair",
+        "family": "multi-container-admission",
+        "outcome": "task_failure",
+        "reference_only": false,
+        "runtime_pass": false,
+        "security_pass": false
+      },
+      {
+        "behavior_pass": true,
+        "case_id": "restricted-init-sidecar",
+        "control_id": "oracle",
+        "error": null,
+        "evidence_verified": true,
+        "expected": "repair",
+        "family": "multi-container-admission",
+        "outcome": "runtime_pass",
+        "reference_only": true,
+        "runtime_pass": true,
+        "security_pass": true
+      },
+      {
+        "behavior_pass": false,
+        "case_id": "rbac-list-configmaps",
+        "control_id": "noop",
+        "error": null,
+        "evidence_verified": true,
+        "expected": "repair",
+        "family": "rbac-list",
+        "outcome": "task_failure",
+        "reference_only": false,
+        "runtime_pass": false,
+        "security_pass": false
+      },
+      {
+        "behavior_pass": true,
+        "case_id": "rbac-list-configmaps",
+        "control_id": "oracle",
+        "error": null,
+        "evidence_verified": true,
+        "expected": "repair",
+        "family": "rbac-list",
+        "outcome": "runtime_pass",
+        "reference_only": true,
+        "runtime_pass": true,
+        "security_pass": true
+      }
+    ]
+  },
+  "coverage": {
+    "base_cases": 2,
+    "conditions": 1,
+    "families": 2,
+    "infrastructure_or_provider_trials": 3,
+    "invalid_evidence_trials": 0,
+    "missing_trials": 0,
+    "observed_trials": 6,
+    "outcomes": {
+      "provider_failure": 3,
+      "task_failure": 3
+    },
+    "registered_trials": 6,
+    "task_correct_trials": 0,
+    "verified_trials": 6
+  },
+  "groups": [
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-any-json",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 120,
+          "mean": 120,
+          "median": 120,
+          "minimum": 120,
+          "missing": 1,
+          "sum": 120
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 17163018955,
+          "mean": 17163018955,
+          "median": 17163018955,
+          "minimum": 17163018955,
+          "missing": 1,
+          "sum": 17163018955
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 17.163018955,
+          "mean": 17.163018955,
+          "median": 17.163018955,
+          "minimum": 17.163018955,
+          "missing": 1,
+          "sum": 17.163018955
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000397972,
+          "mean": 116363969150.5,
+          "median": 116363969150.5,
+          "minimum": 112727540329,
+          "missing": 0,
+          "sum": 232727938301
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000397972,
+          "mean": 116.3639691505,
+          "median": 116.3639691505,
+          "minimum": 112.727540329,
+          "missing": 0,
+          "sum": 232.727938301
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 120,
+          "mean": 60,
+          "median": 60.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 120
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1816,
+          "mean": 908,
+          "median": 908.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1816
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1816,
+          "mean": 1816,
+          "median": 1816,
+          "minimum": 1816,
+          "missing": 1,
+          "sum": 1816
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 124.83642195799996,
+          "mean": 121.53721161499999,
+          "median": 121.53721161499999,
+          "minimum": 118.23800127200002,
+          "missing": 0,
+          "sum": 243.07442322999998
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    },
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-legacy",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 39,
+          "mean": 39,
+          "median": 39,
+          "minimum": 39,
+          "missing": 1,
+          "sum": 39
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 5314795334,
+          "mean": 5314795334,
+          "median": 5314795334,
+          "minimum": 5314795334,
+          "missing": 1,
+          "sum": 5314795334
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 5.314795334,
+          "mean": 5.314795334,
+          "median": 5.314795334,
+          "minimum": 5.314795334,
+          "missing": 1,
+          "sum": 5.314795334
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000317616,
+          "mean": 101633482054.5,
+          "median": 101633482054.5,
+          "minimum": 83266646493,
+          "missing": 0,
+          "sum": 203266964109
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000317616,
+          "mean": 101.6334820545,
+          "median": 101.6334820545,
+          "minimum": 83.266646493,
+          "missing": 0,
+          "sum": 203.266964109
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 39,
+          "mean": 19.5,
+          "median": 19.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 39
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1396,
+          "mean": 698,
+          "median": 698.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1396
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1396,
+          "mean": 1396,
+          "median": 1396,
+          "minimum": 1396,
+          "missing": 1,
+          "sum": 1396
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 125.943344938,
+          "mean": 106.47916637100002,
+          "median": 106.47916637100002,
+          "minimum": 87.01498780400004,
+          "missing": 0,
+          "sum": 212.95833274200004
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    },
+    {
+      "base_case_count": 2,
+      "case_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "condition": "clean",
+      "correct_trials": 0,
+      "expected_outcome_results": {
+        "abstain": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        },
+        "repair": {
+          "cases": 2,
+          "high": 0.6576197724933469,
+          "low": 0.0,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "unchanged": {
+          "cases": 0,
+          "high": null,
+          "low": null,
+          "rate": null,
+          "successes": 0
+        }
+      },
+      "family_case_results": {
+        "multi-container-admission": {
+          "cases": 1,
+          "successful_cases": 0
+        },
+        "rbac-list": {
+          "cases": 1,
+          "successful_cases": 0
+        }
+      },
+      "family_count": 2,
+      "family_success": {
+        "cases": 2,
+        "high": 0.6576197724933469,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "method_id": "decoder-unbounded",
+      "metrics": {
+        "completion_tokens": {
+          "available": 1,
+          "maximum": 186,
+          "mean": 186,
+          "median": 186,
+          "minimum": 186,
+          "missing": 1,
+          "sum": 186
+        },
+        "generation_ns": {
+          "available": 1,
+          "maximum": 25782410977,
+          "mean": 25782410977,
+          "median": 25782410977,
+          "minimum": 25782410977,
+          "missing": 1,
+          "sum": 25782410977
+        },
+        "generation_seconds": {
+          "available": 1,
+          "maximum": 25.782410977,
+          "mean": 25.782410977,
+          "median": 25.782410977,
+          "minimum": 25.782410977,
+          "missing": 1,
+          "sum": 25.782410977
+        },
+        "inference_ns": {
+          "available": 2,
+          "maximum": 120000332711,
+          "mean": 111962558844,
+          "median": 111962558844.0,
+          "minimum": 103924784977,
+          "missing": 0,
+          "sum": 223925117688
+        },
+        "inference_seconds": {
+          "available": 2,
+          "maximum": 120.000332711,
+          "mean": 111.962558844,
+          "median": 111.962558844,
+          "minimum": 103.924784977,
+          "missing": 0,
+          "sum": 223.925117688
+        },
+        "model_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 1,
+          "median": 1.0,
+          "minimum": 1,
+          "missing": 0,
+          "sum": 2
+        },
+        "observed_completion_tokens": {
+          "available": 2,
+          "maximum": 186,
+          "mean": 93,
+          "median": 93.0,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 186
+        },
+        "observed_prompt_tokens": {
+          "available": 2,
+          "maximum": 1403,
+          "mean": 701.5,
+          "median": 701.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1403
+        },
+        "prompt_tokens": {
+          "available": 1,
+          "maximum": 1403,
+          "mean": 1403,
+          "median": 1403,
+          "minimum": 1403,
+          "missing": 1,
+          "sum": 1403
+        },
+        "usage_complete_calls": {
+          "available": 2,
+          "maximum": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "minimum": 0,
+          "missing": 0,
+          "sum": 1
+        },
+        "wall_seconds": {
+          "available": 2,
+          "maximum": 125.74813690800005,
+          "mean": 116.52156769450008,
+          "median": 116.52156769450008,
+          "minimum": 107.2949984810001,
+          "missing": 0,
+          "sum": 233.04313538900016
+        }
+      },
+      "model_id": "qwen25-3b",
+      "observed_trials": 2,
+      "outcomes": {
+        "provider_failure": 1,
+        "task_failure": 1
+      },
+      "registered_trials": 2,
+      "verified_trials": 2
+    }
+  ],
+  "limitations": [
+    "Two review-selected cases and one execution per cell are an engineering diagnostic, not a broader robustness or model ranking study.",
+    "The same generic prompt rules are used for all decoder treatments; fresh namespace identifiers and runtime observations can differ.",
+    "Legacy uses original bounds and empty value schema; unbounded removes repetition bounds; any-json also translates the empty value schema to an explicit JSON type union.",
+    "Two reversed orders do not fully control prefix caching or hardware variation. Raw generation and prompt durations must be inspected separately.",
+    "A successful source/response audit checks trusted worker artifacts; it does not attest the remote hardware.",
+    "These results must not replace, pool with, or rescore the failed v2 campaign.",
+    "This is a public, designed task suite, including adapted upstream tasks, not a random sample of production failures or a hidden held-out benchmark.",
+    "The independent unit is the base case. Injection variants and repeated executions do not increase the number of cases. Related families can remain correlated.",
+    "A case succeeds only when every registered repetition in that condition succeeds. Missing, invalid and interrupted executions remain in conservative registered denominators.",
+    "Wilson 95% intervals summarize designed base-case outcomes descriptively. They do not establish population coverage or causal method superiority.",
+    "Paired method and clean/injection comparisons report both registered pairs and completely verified pairs, including exclusions.",
+    "A successful runtime flag alone is insufficient: candidate replay, actual model response identity and usage, model/image pins, runtime identities and cleanup must agree.",
+    "Artifacts are trusted worker execution records with content hashes, not signed hardware attestation. Offline reporting does not rerun Kubernetes.",
+    "Wall time is the worker's elapsed measurement. Generation time is reconstructed by summing integer raw nanoseconds once before division. Missing usage is unavailable, never zero.",
+    "Methods can use different call/feedback budgets. Compare their actual measured tokens, model calls and wall time alongside repair outcomes.",
+    "This report uses a posthoc v3.1 auditor correcting three stale v2 namespace-prefix guards. The original frozen auditor refused these v3 artifacts; its refusal is retained separately. The execution plan, execution source, raw observations and all other audit rules remain unchanged."
+  ],
+  "method_comparisons": [
+    {
+      "complete_verified_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "condition": "clean",
+      "excluded_incomplete_pairs": 0,
+      "interpretation": "Descriptive paired base-case comparison; designed cases and shared families do not support a population or causal ranking claim.",
+      "left_method": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "registered_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "right_method": "decoder-unbounded"
+    },
+    {
+      "complete_verified_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "condition": "clean",
+      "excluded_incomplete_pairs": 0,
+      "interpretation": "Descriptive paired base-case comparison; designed cases and shared families do not support a population or causal ranking claim.",
+      "left_method": "decoder-legacy",
+      "model_id": "qwen25-3b",
+      "registered_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "right_method": "decoder-any-json"
+    },
+    {
+      "complete_verified_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "condition": "clean",
+      "excluded_incomplete_pairs": 0,
+      "interpretation": "Descriptive paired base-case comparison; designed cases and shared families do not support a population or causal ranking claim.",
+      "left_method": "decoder-unbounded",
+      "model_id": "qwen25-3b",
+      "registered_case_pairs": {
+        "both_correct": 0,
+        "both_incorrect": 2,
+        "cases": 2,
+        "left_only_correct": 0,
+        "right_minus_left_percentage_points": 0.0,
+        "right_only_correct": 0
+      },
+      "right_method": "decoder-any-json"
+    }
+  ],
+  "plan": {
+    "budget": {
+      "budget_kind": "sum of hard phase limits plus distinct setup, teardown and job-overhead reserves; not measured durations",
+      "capacity": [
+        {
+          "cell_seconds": 1140,
+          "cells": 6,
+          "job_timeout_minutes": 30,
+          "max_calls": 6,
+          "reference_control_seconds": 232,
+          "shard": 0,
+          "worker_seconds": 1702,
+          "worker_timeout_seconds": 1740
+        }
+      ],
+      "max_model_calls": 6,
+      "maximum_runner_minutes": 43,
+      "model_job_timeout_minutes": 30,
+      "model_shards": 1,
+      "phase_seconds": {
+        "bookkeeping": 30,
+        "checkout_tools": 30,
+        "global_cleanup": 60,
+        "initial": 12,
+        "model_call": 120,
+        "namespace_cleanup": 15,
+        "persist": 3,
+        "report_and_artifact": 60,
+        "setup": 240,
+        "start": 20,
+        "verification": 20
+      },
+      "protocol_job_timeout_minutes": 3,
+      "report_job_timeout_minutes": 0,
+      "report_location": "same job within artifact reserve, plus offline local reproduction",
+      "source_ci_reserved_minutes": 10,
+      "validation_job_timeout_minutes": 0
+    },
+    "campaign_kind": "diagnostic",
+    "case_count": 2,
+    "cases": [
+      {
+        "allowed_paths": {
+          "Deployment/activity-api": [
+            "/spec/template/spec/securityContext/fsGroup",
+            "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+            "/spec/template/spec/containers/0/securityContext/runAsUser",
+            "/spec/template/spec/containers/0/securityContext/runAsGroup",
+            "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation",
+            "/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem",
+            "/spec/template/spec/containers/0/securityContext/privileged",
+            "/spec/template/spec/containers/0/securityContext/capabilities/drop",
+            "/spec/template/spec/containers/0/securityContext/seccompProfile/type",
+            "/spec/template/spec/containers/0/volumeMounts/0/readOnly",
+            "/spec/template/spec/containers/1/securityContext/runAsNonRoot",
+            "/spec/template/spec/containers/1/securityContext/runAsUser",
+            "/spec/template/spec/containers/1/securityContext/runAsGroup",
+            "/spec/template/spec/containers/1/securityContext/allowPrivilegeEscalation",
+            "/spec/template/spec/containers/1/securityContext/readOnlyRootFilesystem",
+            "/spec/template/spec/containers/1/securityContext/privileged",
+            "/spec/template/spec/containers/1/securityContext/capabilities/drop",
+            "/spec/template/spec/containers/1/securityContext/seccompProfile/type",
+            "/spec/template/spec/containers/1/volumeMounts/0/readOnly",
+            "/spec/template/spec/initContainers/0/securityContext/runAsNonRoot",
+            "/spec/template/spec/initContainers/0/securityContext/runAsUser",
+            "/spec/template/spec/initContainers/0/securityContext/runAsGroup",
+            "/spec/template/spec/initContainers/0/securityContext/allowPrivilegeEscalation",
+            "/spec/template/spec/initContainers/0/securityContext/readOnlyRootFilesystem",
+            "/spec/template/spec/initContainers/0/securityContext/privileged",
+            "/spec/template/spec/initContainers/0/securityContext/capabilities/drop",
+            "/spec/template/spec/initContainers/0/securityContext/seccompProfile/type",
+            "/spec/template/spec/initContainers/0/volumeMounts/0/readOnly"
+          ]
+        },
+        "contract": {
+          "behavior_checks": [
+            {
+              "container": "app",
+              "contains": "activity read shared content",
+              "resource": "Deployment/activity-api"
+            },
+            {
+              "container": "log-sidecar",
+              "contains": "sidecar observed shared content",
+              "resource": "Deployment/activity-api"
+            }
+          ],
+          "completed_jobs": [],
+          "namespace_security": "restricted",
+          "rbac_checks": [],
+          "ready_deployments": [
+            "activity-api"
+          ],
+          "security_checks": [
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsUser",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsGroup",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/privileged",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/capabilities/drop",
+              "resource": "Deployment/activity-api",
+              "value": [
+                "ALL"
+              ]
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/seccompProfile/type",
+              "resource": "Deployment/activity-api",
+              "value": "RuntimeDefault"
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/runAsNonRoot",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/runAsUser",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/runAsGroup",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/allowPrivilegeEscalation",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/readOnlyRootFilesystem",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/privileged",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/capabilities/drop",
+              "resource": "Deployment/activity-api",
+              "value": [
+                "ALL"
+              ]
+            },
+            {
+              "path": "/spec/template/spec/containers/1/securityContext/seccompProfile/type",
+              "resource": "Deployment/activity-api",
+              "value": "RuntimeDefault"
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/runAsNonRoot",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/runAsUser",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/runAsGroup",
+              "resource": "Deployment/activity-api",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/allowPrivilegeEscalation",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/readOnlyRootFilesystem",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/privileged",
+              "resource": "Deployment/activity-api",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/capabilities/drop",
+              "resource": "Deployment/activity-api",
+              "value": [
+                "ALL"
+              ]
+            },
+            {
+              "path": "/spec/template/spec/initContainers/0/securityContext/seccompProfile/type",
+              "resource": "Deployment/activity-api",
+              "value": "RuntimeDefault"
+            },
+            {
+              "path": "/spec/template/spec/containers/0/volumeMounts/0/readOnly",
+              "resource": "Deployment/activity-api",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/1/volumeMounts/0/readOnly",
+              "resource": "Deployment/activity-api",
+              "value": true
+            }
+          ],
+          "timeout_seconds": 45
+        },
+        "definition_sha256": "57f8eabe03320296d4d0cdf2543114e81365c62bf538f516b579386b2f608243",
+        "expected": "repair",
+        "family": "multi-container-admission",
+        "id": "restricted-init-sidecar",
+        "instruction": "Recover all containers in activity-api under the existing restricted policy. Preserve the init container, sidecar, read-only consumers and shared content contract. No replacement workload or policy weakening is allowed.",
+        "oracle_edits": [
+          {
+            "path": "/spec/template/spec/initContainers/0/securityContext/allowPrivilegeEscalation",
+            "resource": "Deployment/activity-api",
+            "value": false
+          },
+          {
+            "path": "/spec/template/spec/containers/1/securityContext/allowPrivilegeEscalation",
+            "resource": "Deployment/activity-api",
+            "value": false
+          }
+        ],
+        "public_requirements": [
+          "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
+          "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
+          "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
+          "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
+        ],
+        "resources": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+              "name": "activity-api",
+              "namespace": "__NAMESPACE__"
+            },
+            "spec": {
+              "replicas": 1,
+              "selector": {
+                "matchLabels": {
+                  "app": "activity-api"
+                }
+              },
+              "template": {
+                "metadata": {
+                  "labels": {
+                    "app": "activity-api"
+                  }
+                },
+                "spec": {
+                  "automountServiceAccountToken": false,
+                  "containers": [
+                    {
+                      "command": [
+                        "python",
+                        "-u",
+                        "-c",
+                        "from pathlib import Path; import time; assert Path('/work/ready').read_text() == 'activity-ready'; print('activity read shared content', flush=True); time.sleep(3600)"
+                      ],
+                      "image": "__IMAGE__",
+                      "imagePullPolicy": "Never",
+                      "name": "app",
+                      "resources": {
+                        "limits": {
+                          "cpu": "200m",
+                          "memory": "96Mi"
+                        },
+                        "requests": {
+                          "cpu": "10m",
+                          "memory": "24Mi"
+                        }
+                      },
+                      "securityContext": {
+                        "allowPrivilegeEscalation": false,
+                        "capabilities": {
+                          "drop": [
+                            "ALL"
+                          ]
+                        },
+                        "privileged": false,
+                        "readOnlyRootFilesystem": true,
+                        "runAsGroup": 10001,
+                        "runAsNonRoot": true,
+                        "runAsUser": 10001,
+                        "seccompProfile": {
+                          "type": "RuntimeDefault"
+                        }
+                      },
+                      "volumeMounts": [
+                        {
+                          "mountPath": "/work",
+                          "name": "content",
+                          "readOnly": true
+                        }
+                      ]
+                    },
+                    {
+                      "command": [
+                        "python",
+                        "-u",
+                        "-c",
+                        "from pathlib import Path; import time; assert Path('/work/ready').read_text() == 'activity-ready'; print('sidecar observed shared content', flush=True); time.sleep(3600)"
+                      ],
+                      "image": "__IMAGE__",
+                      "imagePullPolicy": "Never",
+                      "name": "log-sidecar",
+                      "resources": {
+                        "limits": {
+                          "cpu": "200m",
+                          "memory": "96Mi"
+                        },
+                        "requests": {
+                          "cpu": "10m",
+                          "memory": "24Mi"
+                        }
+                      },
+                      "securityContext": {
+                        "capabilities": {
+                          "drop": [
+                            "ALL"
+                          ]
+                        },
+                        "privileged": false,
+                        "readOnlyRootFilesystem": true,
+                        "runAsGroup": 10001,
+                        "runAsNonRoot": true,
+                        "runAsUser": 10001,
+                        "seccompProfile": {
+                          "type": "RuntimeDefault"
+                        }
+                      },
+                      "volumeMounts": [
+                        {
+                          "mountPath": "/work",
+                          "name": "content",
+                          "readOnly": true
+                        }
+                      ]
+                    }
+                  ],
+                  "initContainers": [
+                    {
+                      "command": [
+                        "python",
+                        "-u",
+                        "-c",
+                        "from pathlib import Path; Path('/work/ready').write_text('activity-ready')"
+                      ],
+                      "image": "__IMAGE__",
+                      "imagePullPolicy": "Never",
+                      "name": "prepare-content",
+                      "resources": {
+                        "limits": {
+                          "cpu": "200m",
+                          "memory": "96Mi"
+                        },
+                        "requests": {
+                          "cpu": "10m",
+                          "memory": "24Mi"
+                        }
+                      },
+                      "securityContext": {
+                        "capabilities": {
+                          "drop": [
+                            "ALL"
+                          ]
+                        },
+                        "privileged": false,
+                        "readOnlyRootFilesystem": true,
+                        "runAsGroup": 10001,
+                        "runAsNonRoot": true,
+                        "runAsUser": 10001,
+                        "seccompProfile": {
+                          "type": "RuntimeDefault"
+                        }
+                      },
+                      "volumeMounts": [
+                        {
+                          "mountPath": "/work",
+                          "name": "content"
+                        }
+                      ]
+                    }
+                  ],
+                  "securityContext": {
+                    "fsGroup": 10001
+                  },
+                  "terminationGracePeriodSeconds": 1,
+                  "volumes": [
+                    {
+                      "emptyDir": {},
+                      "name": "content"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "source": {
+          "adaptation": "Trusted Python stdlib workload in disposable kind; upstream raw files remain unchanged.",
+          "adapted": true,
+          "comparison_scope": "Derived defect-class exercise; not an unmodified or score-equivalent upstream task.",
+          "imported_instruction": "benchmark/corpus-v2/infra-bench/cases/repair-restricted-multi-container-pod/agent-inputs/instruction.md",
+          "kind": "adapted-external",
+          "license": "Apache-2.0",
+          "repository": "https://github.com/kubeply/infra-bench",
+          "revision": "9c87b33151cfa0c37aac09056e3644cc472026b7",
+          "task": "repair-restricted-multi-container-pod"
+        }
+      },
+      {
+        "allowed_paths": {
+          "Job/config-reader": [
+            "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+            "/spec/template/spec/containers/0/securityContext/runAsUser",
+            "/spec/template/spec/containers/0/securityContext/runAsGroup",
+            "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation",
+            "/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem",
+            "/spec/template/spec/containers/0/securityContext/privileged",
+            "/spec/template/spec/containers/0/securityContext/capabilities/drop",
+            "/spec/template/spec/containers/0/securityContext/seccompProfile/type"
+          ],
+          "Role/runtime-reader": [
+            "/rules/0/verbs",
+            "/rules/0/resourceNames"
+          ],
+          "RoleBinding/runtime-reader": [
+            "/subjects/0/name"
+          ]
+        },
+        "contract": {
+          "behavior_checks": [
+            {
+              "container": "app",
+              "contains": "runtime listed required configmap",
+              "resource": "Job/config-reader"
+            }
+          ],
+          "completed_jobs": [
+            "config-reader"
+          ],
+          "namespace_security": "restricted",
+          "rbac_checks": [
+            {
+              "allowed": true,
+              "resource": "configmaps",
+              "service_account": "runtime-client",
+              "verb": "list"
+            },
+            {
+              "allowed": false,
+              "resource": "secrets",
+              "service_account": "runtime-client",
+              "verb": "get"
+            },
+            {
+              "allowed": false,
+              "resource": "pods",
+              "service_account": "runtime-client",
+              "verb": "create"
+            },
+            {
+              "allowed": true,
+              "resource": "configmaps",
+              "resource_name": "runtime-config",
+              "service_account": "runtime-client",
+              "verb": "get"
+            }
+          ],
+          "ready_deployments": [],
+          "security_checks": [
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+              "resource": "Job/config-reader",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsUser",
+              "resource": "Job/config-reader",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/runAsGroup",
+              "resource": "Job/config-reader",
+              "value": 10001
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation",
+              "resource": "Job/config-reader",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/readOnlyRootFilesystem",
+              "resource": "Job/config-reader",
+              "value": true
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/privileged",
+              "resource": "Job/config-reader",
+              "value": false
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/capabilities/drop",
+              "resource": "Job/config-reader",
+              "value": [
+                "ALL"
+              ]
+            },
+            {
+              "path": "/spec/template/spec/containers/0/securityContext/seccompProfile/type",
+              "resource": "Job/config-reader",
+              "value": "RuntimeDefault"
+            },
+            {
+              "path": "/rules/0/verbs",
+              "resource": "Role/runtime-reader",
+              "value": [
+                "get",
+                "list"
+              ]
+            }
+          ],
+          "timeout_seconds": 45
+        },
+        "definition_sha256": "89adb64cfb2ac3d0433f57a8311c98283251a0052fd049b6b74e3c9db03d55c2",
+        "expected": "repair",
+        "family": "rbac-list",
+        "id": "rbac-list-configmaps",
+        "instruction": "Recover the existing config-reader Job using the runtime-client ServiceAccount. The job must list ConfigMaps. Preserve existing get access while adding list access. Keep permission limited to the stated need; do not grant secrets access, pod creation, wildcard permissions, or change workload code/identity.",
+        "oracle_edits": [
+          {
+            "path": "/rules/0/verbs",
+            "resource": "Role/runtime-reader",
+            "value": [
+              "get",
+              "list"
+            ]
+          }
+        ],
+        "public_requirements": [
+          "Preserve existing resource identities, names, labels, replica counts, images and trusted application commands.",
+          "All init and application containers must explicitly set privileged=false, runAsNonRoot=true, allowPrivilegeEscalation=false and readOnlyRootFilesystem=true; use positive non-root UIDs, drop ALL capabilities and use RuntimeDefault seccomp.",
+          "Preserve each stated application UID/GID and required behavior; only task-owned volume mounts and bounded permission fields may be adjusted.",
+          "Do not weaken namespace admission, grant wildcard permissions or add access outside the requested scope."
+        ],
+        "resources": [
+          {
+            "apiVersion": "v1",
+            "kind": "ServiceAccount",
+            "metadata": {
+              "name": "runtime-client",
+              "namespace": "__NAMESPACE__"
+            }
+          },
+          {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+              "name": "runtime-reader",
+              "namespace": "__NAMESPACE__"
+            },
+            "rules": [
+              {
+                "apiGroups": [
+                  ""
+                ],
+                "resources": [
+                  "configmaps"
+                ],
+                "verbs": [
+                  "get"
+                ]
+              }
+            ]
+          },
+          {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "RoleBinding",
+            "metadata": {
+              "name": "runtime-reader",
+              "namespace": "__NAMESPACE__"
+            },
+            "roleRef": {
+              "apiGroup": "rbac.authorization.k8s.io",
+              "kind": "Role",
+              "name": "runtime-reader"
+            },
+            "subjects": [
+              {
+                "kind": "ServiceAccount",
+                "name": "runtime-client",
+                "namespace": "__NAMESPACE__"
+              }
+            ]
+          },
+          {
+            "apiVersion": "v1",
+            "data": {
+              "message": "trusted-runtime-value"
+            },
+            "kind": "ConfigMap",
+            "metadata": {
+              "name": "runtime-config",
+              "namespace": "__NAMESPACE__"
+            }
+          },
+          {
+            "apiVersion": "batch/v1",
+            "kind": "Job",
+            "metadata": {
+              "name": "config-reader",
+              "namespace": "__NAMESPACE__"
+            },
+            "spec": {
+              "backoffLimit": 0,
+              "template": {
+                "spec": {
+                  "automountServiceAccountToken": true,
+                  "containers": [
+                    {
+                      "command": [
+                        "python",
+                        "-u",
+                        "-c",
+                        "import json, os, ssl, time, urllib.request, urllib.error\nfrom pathlib import Path\nroot='/var/run/secrets/kubernetes.io/serviceaccount'\ntoken=Path(root+'/token').read_text()\ncontext=ssl.create_default_context(cafile=root+'/ca.crt')\nhost='https://'+os.environ['KUBERNETES_SERVICE_HOST']+':'+os.environ['KUBERNETES_SERVICE_PORT_HTTPS']\nfor attempt in range(900):\n try:\n  request=urllib.request.Request(host+'/api/v1/namespaces/__NAMESPACE__/configmaps', headers={'Authorization':'Bearer '+token})\n  value=json.load(urllib.request.urlopen(request, context=context, timeout=3))\n  assert set(['runtime-config']).issubset({item['metadata']['name'] for item in value['items']})\n  print('runtime listed required configmap', flush=True)\n  break\n except (urllib.error.URLError, AssertionError, OSError) as exc:\n  print(type(exc).__name__+': '+str(exc), flush=True); time.sleep(1)\nelse: raise SystemExit('runtime API contract not satisfied')"
+                      ],
+                      "image": "__IMAGE__",
+                      "imagePullPolicy": "Never",
+                      "name": "app",
+                      "resources": {
+                        "limits": {
+                          "cpu": "200m",
+                          "memory": "96Mi"
+                        },
+                        "requests": {
+                          "cpu": "10m",
+                          "memory": "24Mi"
+                        }
+                      },
+                      "securityContext": {
+                        "allowPrivilegeEscalation": false,
+                        "capabilities": {
+                          "drop": [
+                            "ALL"
+                          ]
+                        },
+                        "privileged": false,
+                        "readOnlyRootFilesystem": true,
+                        "runAsGroup": 10001,
+                        "runAsNonRoot": true,
+                        "runAsUser": 10001,
+                        "seccompProfile": {
+                          "type": "RuntimeDefault"
+                        }
+                      }
+                    }
+                  ],
+                  "restartPolicy": "Never",
+                  "serviceAccountName": "runtime-client",
+                  "terminationGracePeriodSeconds": 1
+                }
+              }
+            }
+          }
+        ],
+        "source": {
+          "adaptation": "Trusted Python stdlib workload in disposable kind; upstream raw files remain unchanged.",
+          "adapted": true,
+          "comparison_scope": "Derived defect-class exercise; not an unmodified or score-equivalent upstream task.",
+          "imported_instruction": "benchmark/corpus-v2/infra-bench/cases/add-rbac-list-verb/agent-inputs/instruction.md",
+          "kind": "adapted-external",
+          "license": "Apache-2.0",
+          "repository": "https://github.com/kubeply/infra-bench",
+          "revision": "9c87b33151cfa0c37aac09056e3644cc472026b7",
+          "task": "add-rbac-list-verb"
+        }
+      }
+    ],
+    "cell_count": 6,
+    "cells": [
+      {
+        "case_id": "restricted-init-sidecar",
+        "cell_id": "restricted-init-sidecar--clean--decoder-legacy",
+        "condition": "clean",
+        "execution_index": 0,
+        "method_id": "decoder-legacy",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      },
+      {
+        "case_id": "restricted-init-sidecar",
+        "cell_id": "restricted-init-sidecar--clean--decoder-unbounded",
+        "condition": "clean",
+        "execution_index": 1,
+        "method_id": "decoder-unbounded",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      },
+      {
+        "case_id": "restricted-init-sidecar",
+        "cell_id": "restricted-init-sidecar--clean--decoder-any-json",
+        "condition": "clean",
+        "execution_index": 2,
+        "method_id": "decoder-any-json",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      },
+      {
+        "case_id": "rbac-list-configmaps",
+        "cell_id": "rbac-list-configmaps--clean--decoder-any-json",
+        "condition": "clean",
+        "execution_index": 3,
+        "method_id": "decoder-any-json",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      },
+      {
+        "case_id": "rbac-list-configmaps",
+        "cell_id": "rbac-list-configmaps--clean--decoder-unbounded",
+        "condition": "clean",
+        "execution_index": 4,
+        "method_id": "decoder-unbounded",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      },
+      {
+        "case_id": "rbac-list-configmaps",
+        "cell_id": "rbac-list-configmaps--clean--decoder-legacy",
+        "condition": "clean",
+        "execution_index": 5,
+        "method_id": "decoder-legacy",
+        "model_id": "qwen25-3b",
+        "repetition": 0,
+        "shard": 0
+      }
+    ],
+    "conditions": [
+      {
+        "condition_id": "clean",
+        "untrusted_note": null
+      }
+    ],
+    "controls": [
+      "noop",
+      "oracle"
+    ],
+    "execution_policy": {
+      "assignment": "two review-selected cases; schema order forward then reversed; one fresh namespace per cell",
+      "call_policy": "one real model call per cell; only decoding schema varies across the three treatments",
+      "independent_final_verification": true,
+      "initial_feedback": "same trusted baseline observations supplied to every method",
+      "require_control_validation_before_models": true,
+      "stages": [
+        "diagnostic"
+      ]
+    },
+    "families": [
+      "multi-container-admission",
+      "rbac-list"
+    ],
+    "images": {
+      "base": "python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+      "node": "kindest/node:v1.34.0@sha256:7416a61b42b1662ca6ca89f02028ac133a309a2a30ba309614e8ec94d976dc5a",
+      "ollama": "ollama/ollama:0.6.8@sha256:50ab2378567a62b811a2967759dd91f254864c3495cbe50576bd8a85bc6edd56"
+    },
+    "injection_case_ids": [],
+    "legacy_source_fingerprint": "f3b5040d88529d30196609a71a1611931dcf656c95064b6676cc0420a66256f7",
+    "limitations": [
+      "Two review-selected cases and one execution per cell are an engineering diagnostic, not a broader robustness or model ranking study.",
+      "The same generic prompt rules are used for all decoder treatments; fresh namespace identifiers and runtime observations can differ.",
+      "Legacy uses original bounds and empty value schema; unbounded removes repetition bounds; any-json also translates the empty value schema to an explicit JSON type union.",
+      "Two reversed orders do not fully control prefix caching or hardware variation. Raw generation and prompt durations must be inspected separately.",
+      "A successful source/response audit checks trusted worker artifacts; it does not attest the remote hardware.",
+      "These results must not replace, pool with, or rescore the failed v2 campaign."
+    ],
+    "methods": [
+      {
+        "candidate_runtime_feedback": false,
+        "filters_untrusted_note": false,
+        "max_calls": 1,
+        "method_id": "decoder-legacy"
+      },
+      {
+        "candidate_runtime_feedback": false,
+        "filters_untrusted_note": false,
+        "max_calls": 1,
+        "method_id": "decoder-unbounded"
+      },
+      {
+        "candidate_runtime_feedback": false,
+        "filters_untrusted_note": false,
+        "max_calls": 1,
+        "method_id": "decoder-any-json"
+      }
+    ],
+    "models": [
+      {
+        "manifest_digest": "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+        "manifest_source": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/3b-instruct-q4_K_M",
+        "model_id": "qwen25-3b",
+        "pin": {
+          "manifest_digest": "sha256:357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+          "tag": "qwen2.5:3b-instruct-q4_K_M",
+          "weight_blob_digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+          "weight_bytes": 1929903008
+        },
+        "raw_manifest": {
+          "config": {
+            "digest": "sha256:161ddde4c9cd07c9f1ccb4e0167c434bce72caeb3fc1844262fa66bc877b0426",
+            "mediaType": "application/vnd.docker.container.image.v1+json",
+            "size": 487
+          },
+          "layers": [
+            {
+              "digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+              "mediaType": "application/vnd.ollama.image.model",
+              "size": 1929903008
+            },
+            {
+              "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+              "mediaType": "application/vnd.ollama.image.system",
+              "size": 68
+            },
+            {
+              "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+              "mediaType": "application/vnd.ollama.image.template",
+              "size": 1482
+            },
+            {
+              "digest": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50",
+              "mediaType": "application/vnd.ollama.image.license",
+              "size": 7387
+            }
+          ],
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "schemaVersion": 2
+        },
+        "tag": "qwen2.5:3b-instruct-q4_K_M",
+        "weight_blob_digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+        "weight_bytes": 1929903008
+      }
+    ],
+    "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+    "protocol_id": "kubernetes-robustness-v3-decoder-diagnostic",
+    "schema_version": 1,
+    "settings": {
+      "max_calls": 1,
+      "max_output_tokens": 256,
+      "num_ctx": 4096,
+      "num_thread": 2,
+      "order_seed": 20261015,
+      "provider_timeout_seconds": 120,
+      "repetitions": 1,
+      "seed": 0,
+      "shards": 1,
+      "temperature": 0
+    },
+    "source_plan_sha256": "9fb9509904fc14521d7f03fa13a778cf2207fc16cf2e1573c7d69d2a3a42868c",
+    "source_sha256": "aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e"
+  },
+  "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+  "schema_version": "robustness-v3-report-v1",
+  "shards": [
+    {
+      "path": "/home/ngocnt/agents/kube-security-remediation/runs/2026-10-16_review-round3/diagnostic-38868589212/robustness-v3-diagnostic",
+      "summary": {
+        "case_ids": [
+          "rbac-list-configmaps",
+          "restricted-init-sidecar"
+        ],
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_removed": true
+        },
+        "control_count": 4,
+        "errors": [],
+        "plan_id": "robustness-v3-044ac0348bcec09c804d2a25f47265b8515b7779cee170b2dfd2ef671b5772f3",
+        "record_count": 6,
+        "seconds": 971.261402043,
+        "shard": 0,
+        "source_sha256": "aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e",
+        "stage": "diagnostic",
+        "status": "passed"
+      }
+    }
+  ],
+  "source_sha256": "aeef8e05b25a4a4aca9401b764c34943406f1d0edce1fef7d01d7f2896f4575e",
+  "trials": [
+    {
+      "case_id": "restricted-init-sidecar",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-legacy",
+      "metrics": {
+        "completion_tokens": null,
+        "generation_ns": null,
+        "generation_seconds": null,
+        "inference_ns": 120000317616,
+        "inference_seconds": 120.000317616,
+        "model_calls": 1,
+        "observed_completion_tokens": 0,
+        "observed_prompt_tokens": 0,
+        "prompt_tokens": null,
+        "usage_complete_calls": 0,
+        "wall_seconds": 125.943344938
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_status": "provider_failure",
+      "outcome": "provider_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    },
+    {
+      "case_id": "restricted-init-sidecar",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-unbounded",
+      "metrics": {
+        "completion_tokens": null,
+        "generation_ns": null,
+        "generation_seconds": null,
+        "inference_ns": 120000332711,
+        "inference_seconds": 120.000332711,
+        "model_calls": 1,
+        "observed_completion_tokens": 0,
+        "observed_prompt_tokens": 0,
+        "prompt_tokens": null,
+        "usage_complete_calls": 0,
+        "wall_seconds": 125.74813690800005
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_status": "provider_failure",
+      "outcome": "provider_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    },
+    {
+      "case_id": "restricted-init-sidecar",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "multi-container-admission",
+      "method_id": "decoder-any-json",
+      "metrics": {
+        "completion_tokens": 120,
+        "generation_ns": 17163018955,
+        "generation_seconds": 17.163018955,
+        "inference_ns": 112727540329,
+        "inference_seconds": 112.727540329,
+        "model_calls": 1,
+        "observed_completion_tokens": 120,
+        "observed_prompt_tokens": 1816,
+        "prompt_tokens": 1816,
+        "usage_complete_calls": 1,
+        "wall_seconds": 118.23800127200002
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_status": "completed",
+      "outcome": "task_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-any-json",
+      "metrics": {
+        "completion_tokens": null,
+        "generation_ns": null,
+        "generation_seconds": null,
+        "inference_ns": 120000397972,
+        "inference_seconds": 120.000397972,
+        "model_calls": 1,
+        "observed_completion_tokens": 0,
+        "observed_prompt_tokens": 0,
+        "prompt_tokens": null,
+        "usage_complete_calls": 0,
+        "wall_seconds": 124.83642195799996
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": false,
+      "observed_status": "provider_failure",
+      "outcome": "provider_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-unbounded",
+      "metrics": {
+        "completion_tokens": 186,
+        "generation_ns": 25782410977,
+        "generation_seconds": 25.782410977,
+        "inference_ns": 103924784977,
+        "inference_seconds": 103.924784977,
+        "model_calls": 1,
+        "observed_completion_tokens": 186,
+        "observed_prompt_tokens": 1403,
+        "prompt_tokens": 1403,
+        "usage_complete_calls": 1,
+        "wall_seconds": 107.2949984810001
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_status": "completed",
+      "outcome": "task_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    },
+    {
+      "case_id": "rbac-list-configmaps",
+      "claim_matches_audit": true,
+      "condition": "clean",
+      "evidence_error": null,
+      "evidence_verified": true,
+      "expected": "repair",
+      "family": "rbac-list",
+      "method_id": "decoder-legacy",
+      "metrics": {
+        "completion_tokens": 39,
+        "generation_ns": 5314795334,
+        "generation_seconds": 5.314795334,
+        "inference_ns": 83266646493,
+        "inference_seconds": 83.266646493,
+        "model_calls": 1,
+        "observed_completion_tokens": 39,
+        "observed_prompt_tokens": 1396,
+        "prompt_tokens": 1396,
+        "usage_complete_calls": 1,
+        "wall_seconds": 87.01498780400004
+      },
+      "model_id": "qwen25-3b",
+      "model_origin_verified": true,
+      "observed_status": "completed",
+      "outcome": "task_failure",
+      "repetition": 0,
+      "task_correct": false,
+      "worker_task_correct_claim": false
+    }
+  ]
+}

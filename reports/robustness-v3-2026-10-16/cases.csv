@@ -1,0 +1,7 @@
+model_id,method_id,condition,case_id,family,expected,registered_repetitions,observed_repetitions,verified_repetitions,correct_repetitions,complete_verified,all_repetitions_correct
+qwen25-3b,decoder-any-json,clean,rbac-list-configmaps,rbac-list,repair,1,1,1,0,True,False
+qwen25-3b,decoder-any-json,clean,restricted-init-sidecar,multi-container-admission,repair,1,1,1,0,True,False
+qwen25-3b,decoder-legacy,clean,rbac-list-configmaps,rbac-list,repair,1,1,1,0,True,False
+qwen25-3b,decoder-legacy,clean,restricted-init-sidecar,multi-container-admission,repair,1,1,1,0,True,False
+qwen25-3b,decoder-unbounded,clean,rbac-list-configmaps,rbac-list,repair,1,1,1,0,True,False
+qwen25-3b,decoder-unbounded,clean,restricted-init-sidecar,multi-container-admission,repair,1,1,1,0,True,False
