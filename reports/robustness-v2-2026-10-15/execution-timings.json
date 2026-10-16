@@ -1,0 +1,147 @@
+{
+  "model_request_count": 84,
+  "pertrial_source": "trials.csv and supplement/trial-durations.csv",
+  "primary_scores_changed": false,
+  "raw_server_response_count": 64,
+  "requests_without_raw_response": 20,
+  "returned_response_usage": {
+    "eval_count": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 7254,
+      "unit": "tokens"
+    },
+    "eval_duration": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 1059868657955,
+      "unit": "nanoseconds"
+    },
+    "load_duration": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 1487208343,
+      "unit": "nanoseconds"
+    },
+    "prompt_eval_count": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 84344,
+      "unit": "tokens"
+    },
+    "prompt_eval_duration": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 3082606416176,
+      "unit": "nanoseconds"
+    },
+    "total_duration": {
+      "missing_responses": 0,
+      "observed_responses": 64,
+      "sum": 4145197665028,
+      "unit": "nanoseconds"
+    }
+  },
+  "run_id": 38781747009,
+  "schema_version": "historical-v2-execution-timings-v1",
+  "sum_actual_actions_job_seconds": 8124.0,
+  "sum_per_job_rounded_runner_minutes": 138,
+  "usage_limitation": "Usage sums cover only 64 returned server responses, including one length-truncated generation. They exclude 20 requests without responses and 12 not-started registered requests. Unavailable usage is not zero; these totals are not the full campaign cost.",
+  "workers": [
+    {
+      "actions_job_elapsed_seconds": 1666.0,
+      "actions_job_rounded_minutes": 28,
+      "assigned_cells": 11,
+      "cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "recorded_cells": 10,
+      "shard": 0,
+      "worker_elapsed_seconds": 1658.779796096,
+      "worker_errors": [
+        "Remaining worker budget insufficient to start another complete cell",
+        "Incomplete registered cell coverage"
+      ],
+      "worker_status": "failed"
+    },
+    {
+      "actions_job_elapsed_seconds": 1654.0,
+      "actions_job_rounded_minutes": 28,
+      "assigned_cells": 11,
+      "cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "recorded_cells": 9,
+      "shard": 1,
+      "worker_elapsed_seconds": 1644.84134717,
+      "worker_errors": [
+        "Remaining worker budget insufficient to start another complete cell",
+        "Incomplete registered cell coverage"
+      ],
+      "worker_status": "failed"
+    },
+    {
+      "actions_job_elapsed_seconds": 1602.0,
+      "actions_job_rounded_minutes": 27,
+      "assigned_cells": 11,
+      "cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "recorded_cells": 8,
+      "shard": 2,
+      "worker_elapsed_seconds": 1594.23347629,
+      "worker_errors": [
+        "Remaining worker budget insufficient to start another complete cell",
+        "Incomplete registered cell coverage"
+      ],
+      "worker_status": "failed"
+    },
+    {
+      "actions_job_elapsed_seconds": 1559.0,
+      "actions_job_rounded_minutes": 26,
+      "assigned_cells": 11,
+      "cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "recorded_cells": 11,
+      "shard": 3,
+      "worker_elapsed_seconds": 1544.953273404,
+      "worker_errors": [],
+      "worker_status": "passed"
+    },
+    {
+      "actions_job_elapsed_seconds": 1617.0,
+      "actions_job_rounded_minutes": 27,
+      "assigned_cells": 10,
+      "cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "recorded_cells": 9,
+      "shard": 4,
+      "worker_elapsed_seconds": 1609.441958144,
+      "worker_errors": [
+        "Remaining worker budget insufficient to start another complete cell",
+        "Incomplete registered cell coverage"
+      ],
+      "worker_status": "failed"
+    }
+  ],
+  "workflow_created_at": "2026-10-15T17:58:23Z",
+  "workflow_created_to_updated_seconds": 3306.0,
+  "workflow_updated_at": "2026-10-15T18:53:29Z"
+}

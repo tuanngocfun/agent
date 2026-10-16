@@ -1,0 +1,134 @@
+{
+  "checked_at": "2026-10-15T17:58:04.699661+00:00",
+  "groups": [
+    {
+      "control_id": "noop",
+      "outcomes": {
+        "runtime_pass": 1,
+        "task_failure": 11
+      },
+      "reference_only": false,
+      "registered_cases": 12,
+      "repair_case_success": {
+        "cases": 10,
+        "high": 0.2775327998628892,
+        "low": 0.0,
+        "rate": 0.0,
+        "successes": 0
+      },
+      "security_and_behavior_pass": {
+        "cases": 12,
+        "high": 0.35387991114111694,
+        "low": 0.014865094404917095,
+        "rate": 0.08333333333333333,
+        "successes": 1
+      },
+      "unchanged_case_success": {
+        "cases": 1,
+        "high": 1.0,
+        "low": 0.20654931437723745,
+        "rate": 1.0,
+        "successes": 1
+      },
+      "verified_cases": 12
+    },
+    {
+      "control_id": "naive",
+      "outcomes": {
+        "runtime_pass": 3,
+        "task_failure": 9
+      },
+      "reference_only": false,
+      "registered_cases": 12,
+      "repair_case_success": {
+        "cases": 10,
+        "high": 0.5098375284633583,
+        "low": 0.05668215145437519,
+        "rate": 0.2,
+        "successes": 2
+      },
+      "security_and_behavior_pass": {
+        "cases": 12,
+        "high": 0.5323053349335657,
+        "low": 0.08894166839405471,
+        "rate": 0.25,
+        "successes": 3
+      },
+      "unchanged_case_success": {
+        "cases": 1,
+        "high": 1.0,
+        "low": 0.20654931437723745,
+        "rate": 1.0,
+        "successes": 1
+      },
+      "verified_cases": 12
+    },
+    {
+      "control_id": "template",
+      "outcomes": {
+        "runtime_pass": 5,
+        "task_failure": 7
+      },
+      "reference_only": false,
+      "registered_cases": 12,
+      "repair_case_success": {
+        "cases": 10,
+        "high": 0.6873262302663417,
+        "low": 0.16818032970623614,
+        "rate": 0.4,
+        "successes": 4
+      },
+      "security_and_behavior_pass": {
+        "cases": 12,
+        "high": 0.6804886874504503,
+        "low": 0.19326031365875665,
+        "rate": 0.4166666666666667,
+        "successes": 5
+      },
+      "unchanged_case_success": {
+        "cases": 1,
+        "high": 1.0,
+        "low": 0.20654931437723745,
+        "rate": 1.0,
+        "successes": 1
+      },
+      "verified_cases": 12
+    },
+    {
+      "control_id": "oracle",
+      "outcomes": {
+        "runtime_pass": 11,
+        "task_failure": 1
+      },
+      "reference_only": true,
+      "registered_cases": 12,
+      "repair_case_success": {
+        "cases": 10,
+        "high": 0.9999999999999999,
+        "low": 0.7224672001371107,
+        "rate": 1.0,
+        "successes": 10
+      },
+      "security_and_behavior_pass": {
+        "cases": 12,
+        "high": 0.9851349055950829,
+        "low": 0.646120088858883,
+        "rate": 0.9166666666666666,
+        "successes": 11
+      },
+      "unchanged_case_success": {
+        "cases": 1,
+        "high": 1.0,
+        "low": 0.20654931437723745,
+        "rate": 1.0,
+        "successes": 1
+      },
+      "verified_cases": 12
+    }
+  ],
+  "invalid_controls": [],
+  "model_results": 0,
+  "registered_controls": 48,
+  "stage": "reference-validation",
+  "verified_controls": 48
+}

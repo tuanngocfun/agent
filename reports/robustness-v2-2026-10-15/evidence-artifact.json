@@ -1,0 +1,36 @@
+{
+  "archive_bytes": 1452194,
+  "archive_sha256": "c2f36f1416d72f2f6b6c77c94f4cdb5ab570c2a80769810aef77906efa21e134",
+  "artifact_id": 11999321547,
+  "artifact_name": "robustness-v2-audited-report",
+  "downloaded_at": "2026-10-16T02:32:35.724759+00:00",
+  "github_artifact_digest": "sha256:c2f36f1416d72f2f6b6c77c94f4cdb5ab570c2a80769810aef77906efa21e134",
+  "official_artifact_metadata": {
+    "archive_download_url": "https://api.github.com/repos/tuanngocfun/agent/actions/artifacts/11999321547/zip",
+    "created_at": "2026-10-15T18:53:26Z",
+    "digest": "sha256:c2f36f1416d72f2f6b6c77c94f4cdb5ab570c2a80769810aef77906efa21e134",
+    "expired": false,
+    "expires_at": "2026-11-14T18:53:24Z",
+    "id": 11999321547,
+    "name": "robustness-v2-audited-report",
+    "node_id": "MDg6QXJ0aWZhY3QxMTk5OTMyMTU0Nw==",
+    "size_in_bytes": 1452194,
+    "updated_at": "2026-10-15T18:53:26Z",
+    "url": "https://api.github.com/repos/tuanngocfun/agent/actions/artifacts/11999321547",
+    "workflow_run": {
+      "head_branch": "kube-remediation-demo",
+      "head_repository_id": 1417151897,
+      "head_sha": "fc32d4cb222978d7f4897253504807a83fb4bb17",
+      "id": 38781747009,
+      "repository_id": 1417151897
+    }
+  },
+  "official_digest_matches": true,
+  "repository": "tuanngocfun/agent",
+  "run_attempt": 1,
+  "run_id": 38781747009,
+  "run_url": "https://github.com/tuanngocfun/agent/actions/runs/38781747009",
+  "schema_version": "github-actions-evidence-artifact-v1",
+  "source_commit": "fc32d4cb222978d7f4897253504807a83fb4bb17",
+  "workflow_conclusion": "failure"
+}

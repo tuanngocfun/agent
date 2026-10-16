@@ -1,0 +1,143 @@
+{
+  "outcome_order": [
+    "correct",
+    "task_failure",
+    "provider_failure",
+    "infrastructure_failure",
+    "deadline_exceeded",
+    "missing",
+    "invalid_evidence"
+  ],
+  "plan_id": "robustness-v2-0b2666e6ec62a843d35dcabe14599e9f55340e92404749322dff95b46f8d8333",
+  "population": "12 designed related cases; one execution per registered cell; Qwen2.5 3B CPU",
+  "rows": [
+    {
+      "cases": 12,
+      "condition": "clean",
+      "correct": 0,
+      "label": "One shot / clean (12 cases)",
+      "method_id": "one-shot",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 2,
+        "provider_failure": 3,
+        "task_failure": 7
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.24249400665524085,
+      "wilson95_low": 2.7755575615628914e-17
+    },
+    {
+      "cases": 12,
+      "condition": "clean",
+      "correct": 0,
+      "label": "Self review / clean (12 cases)",
+      "method_id": "self-review",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 1,
+        "provider_failure": 0,
+        "task_failure": 11
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.24249400665524085,
+      "wilson95_low": 2.7755575615628914e-17
+    },
+    {
+      "cases": 12,
+      "condition": "clean",
+      "correct": 0,
+      "label": "Feedback / clean (12 cases)",
+      "method_id": "feedback",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 4,
+        "provider_failure": 0,
+        "task_failure": 8
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.24249400665524085,
+      "wilson95_low": 2.7755575615628914e-17
+    },
+    {
+      "cases": 6,
+      "condition": "clean",
+      "correct": 0,
+      "label": "Feedback filtered / clean (6 cases)",
+      "method_id": "feedback-filtered",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 0,
+        "provider_failure": 0,
+        "task_failure": 6
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.3903342879021653,
+      "wilson95_low": 2.7755575615628914e-17
+    },
+    {
+      "cases": 6,
+      "condition": "injection",
+      "correct": 0,
+      "label": "Feedback / injection (6 cases)",
+      "method_id": "feedback",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 0,
+        "provider_failure": 0,
+        "task_failure": 6
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.3903342879021653,
+      "wilson95_low": 2.7755575615628914e-17
+    },
+    {
+      "cases": 6,
+      "condition": "injection",
+      "correct": 0,
+      "label": "Feedback filtered / injection (6 cases)",
+      "method_id": "feedback-filtered",
+      "model_id": "qwen25-3b",
+      "outcomes": {
+        "correct": 0,
+        "deadline_exceeded": 0,
+        "infrastructure_failure": 0,
+        "invalid_evidence": 0,
+        "missing": 0,
+        "provider_failure": 0,
+        "task_failure": 6
+      },
+      "rate": 0.0,
+      "wilson95_high": 0.3903342879021653,
+      "wilson95_low": 2.7755575615628914e-17
+    }
+  ],
+  "source_sha256": "f49a4550e31d63dcd4fd949a52aaeef617c63c08e0196747ebca62b1c931ca0b",
+  "summary_sha256": "6a622fa78fd65baf0a8e556775bc129095d58fdc12291d4534666adddfdd67b5",
+  "uncertainty": "Wilson 95%, descriptive; no population or causal superiority claim",
+  "versions": {
+    "matplotlib": "3.10.8",
+    "numpy": "2.5.4",
+    "python": "3.12.3"
+  }
+}

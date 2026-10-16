@@ -1,0 +1,85 @@
+{
+  "archive_sha256": "c2f36f1416d72f2f6b6c77c94f4cdb5ab570c2a80769810aef77906efa21e134",
+  "artifact_id": 11999321547,
+  "checked_at": "2026-10-16T02:33:46.232064+00:00",
+  "frozen_plan_id": "robustness-v2-0b2666e6ec62a843d35dcabe14599e9f55340e92404749322dff95b46f8d8333",
+  "frozen_source_sha256": "f49a4550e31d63dcd4fd949a52aaeef617c63c08e0196747ebca62b1c931ca0b",
+  "normalization_only": [
+    "shards[].path"
+  ],
+  "primary_file_comparisons": [
+    {
+      "byte_identical": true,
+      "filename": "README.md",
+      "original_sha256": "add35ce30efda77798a802e6b70487ad2131275e62e7b450c44b3a402bc94c4f",
+      "recomputed_sha256": "add35ce30efda77798a802e6b70487ad2131275e62e7b450c44b3a402bc94c4f"
+    },
+    {
+      "byte_identical": true,
+      "filename": "cases.csv",
+      "original_sha256": "4cd748df889198b78ca00d9fa739d2f918e0314fafebc6e746137ade55fe3ddf",
+      "recomputed_sha256": "4cd748df889198b78ca00d9fa739d2f918e0314fafebc6e746137ade55fe3ddf"
+    },
+    {
+      "byte_identical": true,
+      "filename": "controls.csv",
+      "original_sha256": "116cd1135a79fc544f808c404e28dba08c771cfa6ce568627ae05c4320ae2537",
+      "recomputed_sha256": "116cd1135a79fc544f808c404e28dba08c771cfa6ce568627ae05c4320ae2537"
+    },
+    {
+      "byte_identical": false,
+      "filename": "summary.json",
+      "original_sha256": "6a622fa78fd65baf0a8e556775bc129095d58fdc12291d4534666adddfdd67b5",
+      "recomputed_sha256": "d2da1af9abf06c9dc9496f1252cb15ad9df585232f5d419c2d689c3bcb270f33"
+    },
+    {
+      "byte_identical": true,
+      "filename": "trials.csv",
+      "original_sha256": "8389ea075d7f3a3f94ee0ff2784461647c14d6130740b9e82c1c6e9b9695fc4b",
+      "recomputed_sha256": "8389ea075d7f3a3f94ee0ff2784461647c14d6130740b9e82c1c6e9b9695fc4b"
+    }
+  ],
+  "published_reproduction_helper": {
+    "checked_at": "2026-10-16T02:35:21.500325+00:00",
+    "command": [
+      "python3",
+      "reports/robustness-v2-2026-10-15/reproduce/recompute.py",
+      "--output",
+      "runs/2026-10-16_review-round3/reproduction-helper-check"
+    ],
+    "csv_files_compared": 3,
+    "exit_code": 0,
+    "output_directory": "runs/2026-10-16_review-round3/reproduction-helper-check",
+    "verified": true
+  },
+  "reference_control_rows": 48,
+  "run_id": 38781747009,
+  "runner_budget_snapshot": {
+    "checked_at": "2026-10-16T02:32:25.547247+00:00",
+    "observed_runner_minutes": 907.8333333333334,
+    "remaining_minutes": 43,
+    "rounded_runner_minutes": 957,
+    "unfinished_jobs": 0
+  },
+  "schema_version": "robustness-v2-independent-reproduction-v1",
+  "source_execution_commit": "fc32d4cb222978d7f4897253504807a83fb4bb17",
+  "summary_identical_except_shard_paths": true,
+  "verified_coverage": {
+    "base_cases": 12,
+    "conditions": 2,
+    "families": 11,
+    "infrastructure_or_provider_trials": 3,
+    "invalid_evidence_trials": 0,
+    "missing_trials": 7,
+    "observed_trials": 47,
+    "outcomes": {
+      "missing": 7,
+      "provider_failure": 3,
+      "task_failure": 44
+    },
+    "registered_trials": 54,
+    "task_correct_trials": 0,
+    "verified_trials": 47
+  },
+  "verified_reference_control_rows": 48
+}

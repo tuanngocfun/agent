@@ -1,0 +1,1580 @@
+{
+  "aggregate": {
+    "completed_control_files": 96,
+    "completed_pilots": 3,
+    "model_records": 0,
+    "note": "The 96 recorded controls repeat the same 12 underlying tasks under two different historical verifier revisions; they are not 96 independent cases.",
+    "sum_observed_job_seconds": 1648.0,
+    "sum_per_job_rounded_runner_minutes": 32,
+    "sum_worker_elapsed_seconds": 1600.980673197
+  },
+  "created_at": "2026-10-15T17:46:19.111941+00:00",
+  "new_model_results": 0,
+  "pilots": [
+    {
+      "all_worker_cleanup_flags_true": true,
+      "artifact_directory": "runs/2026-10-15_robustness-runtime-pilot/reference-38737214434",
+      "completed_control_files": 0,
+      "control_namespace_cleanup_confirmed": 0,
+      "failure_causes": [
+        {
+          "evidence": "commands.json failed kubectl delete namespace row; summary.json errors; original worker elapsed_ns 35056929934 on the delete command.",
+          "finding": "Namespace deletion was acknowledged, but waiting for deletion timed out after the configured 35-second limit. No scored control completed."
+        }
+      ],
+      "historical_diagnostic_audit": {
+        "original_flags_changed": false,
+        "qualifies_current_plan": false,
+        "status": "No completed scored controls to audit"
+      },
+      "model_records": 0,
+      "observed_jobs": [
+        {
+          "conclusion": "success",
+          "id": 116429451918,
+          "name": "protocol",
+          "rounded_minutes": 1,
+          "seconds": 6.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "id": 116429514940,
+          "name": "validate",
+          "rounded_minutes": 3,
+          "seconds": 127.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116429516976,
+          "name": "models",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116429517038,
+          "name": "report",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        }
+      ],
+      "original_control_observations": [],
+      "original_file_sha256": {
+        "commands.json": "89cc26149916c2b1dc7ebe1e2672a3e305bfbb779136694a261b6f5f8877930b",
+        "plan.json": "6db5b683321857dd84c747e615b48ce97eb38b8c19abb72fa057e86a89054e59",
+        "summary.json": "d77bde1c0afb10471f3946719194a74fff8e007a1e6bcb2127ff437f925a9a11"
+      },
+      "original_runtime_fail_flags": 0,
+      "original_runtime_pass_flags": 0,
+      "original_worker_summary": {
+        "case_ids": [],
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_removed": true
+        },
+        "control_count": 0,
+        "errors": [
+          "RuntimeError: kubectl failed: error: timed out waiting for the condition on namespaces/robust-v2-904e2ff067994ade\n"
+        ],
+        "plan_id": "robustness-v2-efe3425422fa4ba1240415b47757cc5a21c71e336e109569eec9c729f99c460d",
+        "record_count": 0,
+        "seconds": 116.37620459200001,
+        "shard": 0,
+        "source_sha256": "696c6b21c1dba55e52400306c6a387d168b9bd58030869269fa4ad9ab3ea6a7e",
+        "stage": "validate",
+        "status": "failed"
+      },
+      "per_control_original_counts": [
+        {
+          "control_id": "noop",
+          "original_runtime_fail_flags": 0,
+          "original_runtime_pass_flags": 0,
+          "recorded": 0
+        },
+        {
+          "control_id": "naive",
+          "original_runtime_fail_flags": 0,
+          "original_runtime_pass_flags": 0,
+          "recorded": 0
+        },
+        {
+          "control_id": "template",
+          "original_runtime_fail_flags": 0,
+          "original_runtime_pass_flags": 0,
+          "recorded": 0
+        },
+        {
+          "control_id": "oracle",
+          "original_runtime_fail_flags": 0,
+          "original_runtime_pass_flags": 0,
+          "recorded": 0
+        }
+      ],
+      "pilot_number": 1,
+      "plan_id": "robustness-v2-efe3425422fa4ba1240415b47757cc5a21c71e336e109569eec9c729f99c460d",
+      "registered_controls": 48,
+      "run_id": 38737214434,
+      "run_url": "https://github.com/tuanngocfun/agent/actions/runs/38737214434",
+      "source_commit": "a37a3b1de4c8de78c18b5d18fcde24e6706b49cb",
+      "source_sha256": "696c6b21c1dba55e52400306c6a387d168b9bd58030869269fa4ad9ab3ea6a7e",
+      "sum_observed_job_seconds": 133.0,
+      "sum_per_job_rounded_runner_minutes": 4,
+      "worker_cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "worker_elapsed_seconds": 116.37620459200001,
+      "worker_status": "failed",
+      "workflow_conclusion": "failure",
+      "workflow_status": "completed"
+    },
+    {
+      "all_worker_cleanup_flags_true": true,
+      "artifact_directory": "runs/2026-10-15_robustness-runtime-pilot/reference-38738048984",
+      "completed_control_files": 48,
+      "control_namespace_cleanup_confirmed": 48,
+      "failure_causes": [
+        {
+          "evidence": "Historical API fixture tests/fixtures/robustness-v2/api-default-omission.json preserves original ready Pod, ReplicaSet and Deployment response text and hashes.",
+          "finding": "The Kubernetes API omitted volumeMount.readOnly=false. Current-pod matching treated the omission as a mismatch and retained zero eligible process probes, including for the already-secure workload."
+        },
+        {
+          "evidence": "controls/readonly-cache-mount--oracle.json, controls/sqlite-wal-mount--oracle.json, controls/library-tempfile-scratch--oracle.json behavior_logs and workloads.",
+          "finding": "Controller-level log fallback selected an older crashing pod during rollouts. Raw log stderr reports Found 2 pods and names the older pod; the updated Deployment already reported an available replica."
+        },
+        {
+          "evidence": "controls/library-tempfile-scratch--oracle.json, controls/sqlite-wal-mount--oracle.json, controls/root-required-abstain--naive.json.",
+          "finding": "Three recorded ready checks were true while raw Deployment status still reported two replicas. Later stricter readiness diagnostics flagged these claims; original overall failures and raw flags remain unchanged."
+        }
+      ],
+      "historical_diagnostic_audit": {
+        "original_flags_changed": false,
+        "qualifies_current_plan": false,
+        "readiness_flag_mismatch_controls": [
+          "library-tempfile-scratch--oracle",
+          "sqlite-wal-mount--oracle",
+          "root-required-abstain--naive"
+        ],
+        "status": "Historical diagnostic only; stricter readiness exposed three inconsistent ready flags"
+      },
+      "model_records": 0,
+      "observed_jobs": [
+        {
+          "conclusion": "success",
+          "id": 116432286237,
+          "name": "protocol",
+          "rounded_minutes": 1,
+          "seconds": 6.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "id": 116432349771,
+          "name": "validate",
+          "rounded_minutes": 13,
+          "seconds": 742.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116432352663,
+          "name": "models",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116432353528,
+          "name": "report",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        }
+      ],
+      "original_control_observations": [
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "naive",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "95e36a8af492d71e2ba3e6484cdb36cf4cef6b58888cced6c254cce83c7d969e",
+          "verification_elapsed_ns": 1556045204
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "noop",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "17db1fc868a729c1d9da31dd586bf9e563ff002567cc201dd27beb58f23be65c",
+          "verification_elapsed_ns": 2072448471
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "oracle",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "96b83f8250f6b0743bdd85281820cfc7479a8e51e7778072f0acd65a7fe8fe90",
+          "verification_elapsed_ns": 2119137988
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "template",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "fe65b92b9072b641c475f84b5ff0f297a2939d05225190ef1a8378a3da15bb7c",
+          "verification_elapsed_ns": 2077371399
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "2ec21f9b80a06690af81324d197cfba792d2b09863ca67b56fa927b8a5f17c55",
+          "verification_elapsed_ns": 1561554713
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "b89084eb4712f863cf1acddb0856f123d0f565b51f300d353bcc664c832f432d",
+          "verification_elapsed_ns": 1984943151
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "3d8ff4a95a39f3d6318c62abdb173ad03f43a5e10d89e65f0b1468c5d807ad07",
+          "verification_elapsed_ns": 2703380203
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "3cbc3e8d3383c10e90395d5bbd6cc4baa70703b151e11092905f70c659d8d2d2",
+          "verification_elapsed_ns": 2009756336
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "53b3e859b3704826a7e74dc85f46d5c8406a523b86da8a4c4c40ffd4d223e5d1",
+          "verification_elapsed_ns": 1939672310
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "5835c034ed1be586b1ea073c62884ef8e54f20c956e209518da342fa7ba6cffc",
+          "verification_elapsed_ns": 1563213760
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "154441eb524ee2ddb0ae48f908c6698ec6e2858fc0282979b9364f5cee73a8af",
+          "verification_elapsed_ns": 2053362678
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "418b77ae6aef0340b4e9c86eeaef53266d31b9ba4cbfbfc76c8869631a415579",
+          "verification_elapsed_ns": 2005228970
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "ce87c4c4ee783391688efa0056a0f2beec17e95682ef3cea4a114554ea3e8a9e",
+          "verification_elapsed_ns": 15924094771
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "4a5fa1e1c366aef142f8bc2e828119d82846af8621d690ddb46fc45546bae65c",
+          "verification_elapsed_ns": 16023408060
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "61a12feec4d8b59d2a0e235dfbaddbaffe3d904b4f101f4876633223dc51f8e9",
+          "verification_elapsed_ns": 6410719521
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "15267489aea6830923fb7b20519edc3a603b33d98a16a82fde21fd2cb31753ea",
+          "verification_elapsed_ns": 16069512207
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "0516b3640e562194f13cdb947899e484590e2c4a4c284a197a282ccd2673f00b",
+          "verification_elapsed_ns": 16056653026
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "a92f1ab22e12cf0f19125ce7e8d95c581c5ef27b3e7a5dcd939fd3cc61d119ff",
+          "verification_elapsed_ns": 16052275408
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "883dcf757750517ea0fa2d7599b2d83d88a593bb3dbbc540a87880cabb75029c",
+          "verification_elapsed_ns": 5215479557
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "306368dbadada0d33c03e4639061a7512329dd5f147784c374d4725c46bc1aba",
+          "verification_elapsed_ns": 16015465303
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "f21d570389a11900df057ce7c0a8ba3024ae02799b80aeedee8be936d37c5fe7",
+          "verification_elapsed_ns": 16017590851
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "15f7256361414c52225beb5068f8ac89c10dfebfe6e85b7f40c90eb1e24adbe3",
+          "verification_elapsed_ns": 16136847168
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "32736e656b3639a4659d67a69b4f089326ff6de30b2dfa05ea9d10f750c3d021",
+          "verification_elapsed_ns": 5606195510
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "2016578afdcd255e7cd3d7d26cabf8456d6b1b3b2e6f9f8974dc75e01ade9c00",
+          "verification_elapsed_ns": 16004733903
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "77edb5a61a64ed6e150b00036ad9106262e5f582e5f724c33f9bf164e42701a7",
+          "verification_elapsed_ns": 1464444525
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "82a56f27b0b83c3e724331270488581bc01babbb18a6dc02be9bb4a604fd8572",
+          "verification_elapsed_ns": 2454153500
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "466bd2680909c097c2516d6be974bc8dbbe54917a5c3d9eca3d104cf1add6789",
+          "verification_elapsed_ns": 1938217097
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "f300c6812b9bff98e5e257d2e0f4d77d71d715f584c84916d12fa191f9e8a97f",
+          "verification_elapsed_ns": 1970803937
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "89b78e16364b83e4b38b4a563793377628fbcb5ef8b145ebbd6b26ad4cdb81f9",
+          "verification_elapsed_ns": 4359938584
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "8354e59611521dbdc47f76680509c52ced1de7f9391869d18bc10f0669ef4527",
+          "verification_elapsed_ns": 2600328479
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "f1eafe5a02b3ea5e994441435c79dbc62fc1ccd1e00b6a63700c618cd6794994",
+          "verification_elapsed_ns": 4690509921
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "3c5b762444d78ea2848527d955c2ebc4722d8322ef29b1e28451d4ce752cbba4",
+          "verification_elapsed_ns": 3997761753
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "6dff194640ac0599d271fa85713db0c0b89537a77832c3b9cd027134734e9618",
+          "verification_elapsed_ns": 2351513117
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "f3fba79408287b5b030f74b7e7d43f1e2c5dd450683455b0b3b9ad1e755989cc",
+          "verification_elapsed_ns": 1529147752
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "407c04a9135dc1bfd66d3f808ea0df38c38a8ae631b0aadf62bbc572a35d072d",
+          "verification_elapsed_ns": 2404086043
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "a808132eabb4d21272a0220e01b03af1659a5d32dd045bf8d72b1915d71ac966",
+          "verification_elapsed_ns": 2356700605
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "naive",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "1a61a88e203fb933324ee1590afe63a825d1933b58845d58cfb217bcdbe1cc11",
+          "verification_elapsed_ns": 2016227226
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "noop",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "9ffd4520795c2428ec061ff9736c51446f762fe7fe794efcf4d18e5febe20d8c",
+          "verification_elapsed_ns": 2613496426
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "oracle",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "4e9112f7419afb301290eaf324080e733627409545883f7a83c5cb35e740ae7f",
+          "verification_elapsed_ns": 2082819158
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "template",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "5770cfe8cc6f4772068557f29cbfe3d2134680b19de27143ce914c8b554b8ae6",
+          "verification_elapsed_ns": 1985740059
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "5c5c9b77f91d1f350c7c9d5037d3f023a446eb98a543c1718a76991a1b42bb4f",
+          "verification_elapsed_ns": 4110120719
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "fcf9e4a4a8b26b3c20bf708744a869167eaff91056c248767b2c6b2dbb522cf9",
+          "verification_elapsed_ns": 3895562622
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "fecaa402b963530fcf6bc1fa5da66d3543cb73415bc31de8bd0ceb51298b7243",
+          "verification_elapsed_ns": 4397026380
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "c138ed55d29d878a861125fea48673e3961589449a23acc4f4a5d27210ae6607",
+          "verification_elapsed_ns": 3657849862
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "c8da1cce66d5ba80fc9983b692ab3255ce6bf7a25f08891ef5d050bcf75ebe5a",
+          "verification_elapsed_ns": 2013320757
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "880822de1ed800f497777bb4cef07c2743ae027d6514efbba742be6d69a08612",
+          "verification_elapsed_ns": 1507221534
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "07f75c054ce705811740116a8c71465ed493c223c2957a281e7dd7fc1e2234ec",
+          "verification_elapsed_ns": 1487801162
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "d64c858c585543b1116fa1103e9944c090ac0b0ac526754fb0095c04df9b0242",
+          "verification_elapsed_ns": 2053683945
+        }
+      ],
+      "original_file_sha256": {
+        "commands.json": "527b6347d1edce32f26ca848460505f9fdea6228f268aec9c2550e31db43342f",
+        "plan.json": "73477bd1e6c52e7d66c8134cb903b1cd0828df36626187795819e4eb38a38b6f",
+        "summary.json": "1f0484899907ceb8805b62dafdfc26ae6cf99494c32883099b86e49d9a0237c3"
+      },
+      "original_runtime_fail_flags": 39,
+      "original_runtime_pass_flags": 9,
+      "original_worker_summary": {
+        "case_ids": [],
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_removed": true
+        },
+        "control_count": 48,
+        "errors": [
+          "readonly-cache-mount: reference repair failed",
+          "sqlite-wal-mount: reference repair failed",
+          "config-readonly-output-writable: reference repair failed",
+          "library-tempfile-scratch: reference repair failed",
+          "already-secure-cache: initial state differs from registered expectation",
+          "already-secure-cache: reference repair failed"
+        ],
+        "plan_id": "robustness-v2-d92efaff5fb225a1f7dbdc3ad428a38f8f75e97163f8aa2bd29433570341ac31",
+        "record_count": 0,
+        "seconds": 735.7754697610001,
+        "shard": 0,
+        "source_sha256": "859e2c79fb2d81b4679ee03f47cbb093f175c8a3d61a7c07a99cd3dcd71e213b",
+        "stage": "validate",
+        "status": "failed"
+      },
+      "per_control_original_counts": [
+        {
+          "control_id": "noop",
+          "original_runtime_fail_flags": 12,
+          "original_runtime_pass_flags": 0,
+          "recorded": 12
+        },
+        {
+          "control_id": "naive",
+          "original_runtime_fail_flags": 10,
+          "original_runtime_pass_flags": 2,
+          "recorded": 12
+        },
+        {
+          "control_id": "template",
+          "original_runtime_fail_flags": 11,
+          "original_runtime_pass_flags": 1,
+          "recorded": 12
+        },
+        {
+          "control_id": "oracle",
+          "original_runtime_fail_flags": 6,
+          "original_runtime_pass_flags": 6,
+          "recorded": 12
+        }
+      ],
+      "pilot_number": 2,
+      "plan_id": "robustness-v2-d92efaff5fb225a1f7dbdc3ad428a38f8f75e97163f8aa2bd29433570341ac31",
+      "registered_controls": 48,
+      "run_id": 38738048984,
+      "run_url": "https://github.com/tuanngocfun/agent/actions/runs/38738048984",
+      "source_commit": "1e669bac8f75908effbf137dc8a7a5dae29d46a1",
+      "source_sha256": "859e2c79fb2d81b4679ee03f47cbb093f175c8a3d61a7c07a99cd3dcd71e213b",
+      "sum_observed_job_seconds": 748.0,
+      "sum_per_job_rounded_runner_minutes": 14,
+      "worker_cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "worker_elapsed_seconds": 735.7754697610001,
+      "worker_status": "failed",
+      "workflow_conclusion": "failure",
+      "workflow_status": "completed"
+    },
+    {
+      "all_worker_cleanup_flags_true": true,
+      "artifact_directory": "runs/2026-10-15_robustness-runtime-pilot/reference-38777257458",
+      "completed_control_files": 48,
+      "control_namespace_cleanup_confirmed": 48,
+      "failure_causes": [
+        {
+          "evidence": "controls/restricted-init-sidecar--oracle.json and controls/already-secure-cache--oracle.json behavior_logs and failed checks. These observations motivated bounded marker polling; they do not prove that either application subsequently passed.",
+          "finding": "Two reference checks captured empty protected application log output with exit_code=0: the sidecar marker in restricted-init-sidecar and the cache marker in already-secure-cache. Their behavior checks failed, so process probes were intentionally skipped and probe coverage also failed."
+        }
+      ],
+      "historical_diagnostic_audit": {
+        "internally_consistent_controls": 48,
+        "note": "48/48 internally consistent observations does not mean 48 passing reference controls. The worker failed on two unexpected oracle failures; all original flags are preserved.",
+        "original_flags_changed": false,
+        "original_runtime_pass_flags": 16,
+        "original_task_failure_flags": 32,
+        "qualifies_current_plan": false,
+        "status": "Historical-source internal-consistency check only"
+      },
+      "model_records": 0,
+      "observed_jobs": [
+        {
+          "conclusion": "success",
+          "id": 116568004380,
+          "name": "protocol",
+          "rounded_minutes": 1,
+          "seconds": 8.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "id": 116568093783,
+          "name": "validate",
+          "rounded_minutes": 13,
+          "seconds": 759.0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116568096171,
+          "name": "models",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "id": 116568097895,
+          "name": "report",
+          "rounded_minutes": 0,
+          "seconds": 0,
+          "status": "completed"
+        }
+      ],
+      "original_control_observations": [
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "naive",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "c552ba6569d8bfbb830b86449297ed0f6c413daf8a139f5b00525ad0e35d2f13",
+          "verification_elapsed_ns": 1506163828
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "noop",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "28194e2a17bdb0433a9465b5148f17d8298aa758862f99106c3d0ff67c5a7936",
+          "verification_elapsed_ns": 3000349472
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "oracle",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "445b94574125ff61d3fd12fc87547e6e49a52ec5dbe3766cb71c584e0ec4b340",
+          "verification_elapsed_ns": 1529754851
+        },
+        {
+          "case_id": "already-secure-cache",
+          "control_id": "template",
+          "expected": "unchanged",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "04f059fa9e713c977283d3ee0e68442ae45781d5e974143012b24eea82444c57",
+          "verification_elapsed_ns": 2398088476
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "eb3a38b84beb42d8cc1a409b8e7555de161e7191637692b8fbc5f8ec54520cf5",
+          "verification_elapsed_ns": 1616970698
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "48c23f3f488b614dbd4735b1a35048de99438ee6a456aa94bd3413af20cc59f9",
+          "verification_elapsed_ns": 1968689283
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "e593db7417e27df6fa2b789250ed235765eb99728ad5f1c9cade4b8ea73c47b9",
+          "verification_elapsed_ns": 3603281042
+        },
+        {
+          "case_id": "config-readonly-output-writable",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "8663da04de73fa75a231df22dc758ac84185e15efcfd7cec6662e01ff4ea2ec7",
+          "verification_elapsed_ns": 3050272119
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "ba0f6ef034441540c12e60c2940b5ae6644d6d854aee4b38d9b12d6eca71c07c",
+          "verification_elapsed_ns": 2019528495
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "7316309c8169a2244ef4bd8bc976bb58468b36872ea87461e746d54bb4833787",
+          "verification_elapsed_ns": 1513932165
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "fd42fbad15a20777f676a11ff28b36444ade3ebd3edbbeb7d85293d87162bdc0",
+          "verification_elapsed_ns": 3271286665
+        },
+        {
+          "case_id": "library-tempfile-scratch",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "05ae11028020faef6df7240e0ab54bb6e103285c24aa3c33f71848b04ff242e5",
+          "verification_elapsed_ns": 1912875731
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "1f76fd142f9b2dc9f9b52cc7286519207cb793a9c3dadcde1f293661c331a74a",
+          "verification_elapsed_ns": 16186272238
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "54c66887ecbb63a15a39a4b70f82c9666c60b48d3d2ac602c00e47d46f0dbf93",
+          "verification_elapsed_ns": 16026435366
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "08412eefb6dfb6d6385262fa22abb6032e60576f70804938658719117beccd29",
+          "verification_elapsed_ns": 6030259975
+        },
+        {
+          "case_id": "rbac-list-configmaps",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "c858700283dabdbda1ad2e421afcf7164e9acaa2d2b0ba151954d2f92c61cba7",
+          "verification_elapsed_ns": 16057286337
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "8829db9e9e080a4b6a5fb8a6116e926b678c30bc75fc762e4f50c4630029edf5",
+          "verification_elapsed_ns": 16116579805
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "20d7b6453bae99b997dca29dfe5166fe63a3311dd7b0eb5838e0cd846e2f0134",
+          "verification_elapsed_ns": 16204980814
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "414be787186cfb5ab96b16fbc4554e8ed8bf4f4d079f1c6743296f992ee6ca6b",
+          "verification_elapsed_ns": 6196724277
+        },
+        {
+          "case_id": "rbac-tenant-subject",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "b1a34ea1de8412338ed0d3cd50f25dbf51847c45429a5ec740fe832a0137ac34",
+          "verification_elapsed_ns": 15986103266
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "50cea340f52da5af4903a2c54563c76f665b768af2be84f838221ecd76724e03",
+          "verification_elapsed_ns": 16118040725
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "183914ce46b521ea1e76d3b408b060e62edf7b71b332936b336c1b64ae258cfc",
+          "verification_elapsed_ns": 16189156319
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "751733fc65aa46821eca25fa097f79fc27b1e0d7196a418cc00a5acde9249772",
+          "verification_elapsed_ns": 6581345288
+        },
+        {
+          "case_id": "rbac-worker-named-config",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "e0ae62098a0053987b6022737024bac34923603be8fafd835fd5ecd5fd76501a",
+          "verification_elapsed_ns": 16188399562
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "210498924372527ead1d3d8ea3142ade94e426c49687d83bf241bb5e67499a0d",
+          "verification_elapsed_ns": 1903667577
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "809a9a1759efe4508e6698b8bc87c3ec6cbf0d00e0f16c43473577b0ffa4f8e0",
+          "verification_elapsed_ns": 1916882836
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "8f20a4295cd792c14d0da8acaf0a53b99b0ec3364a3436779623ebd1523090cf",
+          "verification_elapsed_ns": 3446851168
+        },
+        {
+          "case_id": "readonly-cache-mount",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "e99bdd02ad3767418fbdc6ca350cfc1127900437b0ad371e079dbb1ee63c9ea1",
+          "verification_elapsed_ns": 3065935709
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "b67f1dc426cf0a8e706be13be87e4d3adbeb9f60496040fc835eb1129f4168b0",
+          "verification_elapsed_ns": 4831778807
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "4e5233ceb3b4bad649a6eb9627c6aaf1b10d46e242b19ad4a4fda0e51cc6a4c3",
+          "verification_elapsed_ns": 2617535431
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "f4b61191603046221546aa19dde23a84750c87a0aa540a59fe520e34154248a5",
+          "verification_elapsed_ns": 3784913710
+        },
+        {
+          "case_id": "restricted-init-sidecar",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "21ae798d5760571641772997021cafceadfefb7fa4bcc2482de71d9da5bd58a6",
+          "verification_elapsed_ns": 3706334116
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "8651d61328fb629fa5b0f2805eb6ca2916e7c001e64c7ee3afc9fd78b0b20349",
+          "verification_elapsed_ns": 2341811004
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "a5ada61368e434791035599e07c8ad4cf7bb2bab6fc3779b702fc50fd1cc5cea",
+          "verification_elapsed_ns": 1493494841
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "874b6835e20fa2c44b2818a580a1f489df334fe49345d8cf580e4fe4f6d4b4aa",
+          "verification_elapsed_ns": 2575180444
+        },
+        {
+          "case_id": "restricted-single-admission",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "2c694c1c532f1ca67dd57f28f86b8a71d2a6f7ff659e119ac62f8d0d0c0754a9",
+          "verification_elapsed_ns": 2739472187
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "naive",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "075162aa7da0341b41e0118967ca990732dbbd5c3f573c1dff2fbfe6310e3f01",
+          "verification_elapsed_ns": 2024072291
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "noop",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "66bbaf3514c824342344e7f511363e326a6d2cdd458774cfbc2e552c2d26ef74",
+          "verification_elapsed_ns": 2184375535
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "oracle",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "b591205743bd9b8373c81d8b4c736bc52527c670a3a599236ad00fb86222ba7a",
+          "verification_elapsed_ns": 2661221619
+        },
+        {
+          "case_id": "root-required-abstain",
+          "control_id": "template",
+          "expected": "abstain",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "bbe2dbe99571ffae27a236a3b318f6a4fe2b672781b0fd756107c2f27dcd687b",
+          "verification_elapsed_ns": 1567929989
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "0e1ad325798250ce01a5554f4b47d9b351f47cd1670da7dc2b50bee07671cb19",
+          "verification_elapsed_ns": 5037881235
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "4cc50fc8d3c166926aca1bba3dc2f51c612718d8c87bdd3a777a22870bfc0263",
+          "verification_elapsed_ns": 3865140513
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "e1c3427412607a0886fcff50a3f85d3127b90453e13e49cdfc07403fab0179d4",
+          "verification_elapsed_ns": 4182979068
+        },
+        {
+          "case_id": "shared-artifact-group",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "fd735bc624524756ad42afac87d6abcf08666e9349732b62648d53dfbc0eda72",
+          "verification_elapsed_ns": 4289438530
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "naive",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "90b70a2b44d582ad982d3d6227f33e3a134d3cb4bc69772a75c22e7ae4f6f4a5",
+          "verification_elapsed_ns": 2048430789
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "noop",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": false,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": false,
+          "original_security_pass": false,
+          "original_sha256": "460d6ff4a3ba872ab57aace482a5466b5dff87e4a6890d8f4b4d3403c3730e88",
+          "verification_elapsed_ns": 1964894097
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "oracle",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "0a6746e068a2c242312e31e41e0139bb66c7e7cabc3a79ae75dacd2365e39706",
+          "verification_elapsed_ns": 3340810945
+        },
+        {
+          "case_id": "sqlite-wal-mount",
+          "control_id": "template",
+          "expected": "repair",
+          "namespace_deleted": true,
+          "original_behavior_pass": true,
+          "original_infrastructure_error": null,
+          "original_runtime_pass": true,
+          "original_security_pass": true,
+          "original_sha256": "81ff5ae5391e407d7fe43f9b76cf6fb15e15276d5cd4b09694695935c7d59e88",
+          "verification_elapsed_ns": 2429908317
+        }
+      ],
+      "original_file_sha256": {
+        "commands.json": "90b2c0ddf2f318e73618c44abc8c09db699b184b610326915bbba28d8d59df89",
+        "plan.json": "a731de40ed96df6b1002cd4a8f5c63c5e5e86ca64341446e75d4c68eefba5fe1",
+        "summary.json": "693156cf7fce211c013d7323d0211b04567eb8262001732108fec62580b54452"
+      },
+      "original_runtime_fail_flags": 32,
+      "original_runtime_pass_flags": 16,
+      "original_worker_summary": {
+        "case_ids": [],
+        "cleanup": {
+          "cluster_removed": true,
+          "kubeconfig_removed": true,
+          "model_cache_removed": true,
+          "model_removed": true
+        },
+        "control_count": 48,
+        "errors": [
+          "restricted-init-sidecar: reference repair failed",
+          "already-secure-cache: reference repair failed"
+        ],
+        "plan_id": "robustness-v2-ccd201b7d97aba5975f886b8f99779eb9e6123e0de440e0185115138bdcfca6e",
+        "record_count": 0,
+        "seconds": 748.828998844,
+        "shard": 0,
+        "source_sha256": "b2cf59777a5862313ce22e3a7dce09e06ddcd8e33ed9156e6ea501eceac40ff5",
+        "stage": "validate",
+        "status": "failed"
+      },
+      "per_control_original_counts": [
+        {
+          "control_id": "noop",
+          "original_runtime_fail_flags": 11,
+          "original_runtime_pass_flags": 1,
+          "recorded": 12
+        },
+        {
+          "control_id": "naive",
+          "original_runtime_fail_flags": 10,
+          "original_runtime_pass_flags": 2,
+          "recorded": 12
+        },
+        {
+          "control_id": "template",
+          "original_runtime_fail_flags": 8,
+          "original_runtime_pass_flags": 4,
+          "recorded": 12
+        },
+        {
+          "control_id": "oracle",
+          "original_runtime_fail_flags": 3,
+          "original_runtime_pass_flags": 9,
+          "recorded": 12
+        }
+      ],
+      "pilot_number": 3,
+      "plan_id": "robustness-v2-ccd201b7d97aba5975f886b8f99779eb9e6123e0de440e0185115138bdcfca6e",
+      "registered_controls": 48,
+      "run_id": 38777257458,
+      "run_url": "https://github.com/tuanngocfun/agent/actions/runs/38777257458",
+      "source_commit": "7ffc6af999bb851c815cb8ce8e35ba3b0c527248",
+      "source_sha256": "b2cf59777a5862313ce22e3a7dce09e06ddcd8e33ed9156e6ea501eceac40ff5",
+      "sum_observed_job_seconds": 767.0,
+      "sum_per_job_rounded_runner_minutes": 14,
+      "worker_cleanup": {
+        "cluster_removed": true,
+        "kubeconfig_removed": true,
+        "model_cache_removed": true,
+        "model_removed": true
+      },
+      "worker_elapsed_seconds": 748.828998844,
+      "worker_status": "failed",
+      "workflow_conclusion": "failure",
+      "workflow_status": "completed"
+    }
+  ],
+  "schema_version": "robustness-pilot-history-v1",
+  "scope": "Three completed real Kubernetes reference-validation pilots only. No models were executed in these pilots. Pilot 04 is intentionally excluded until its result is observed.",
+  "score_policy": "All original artifacts, flags and failed run conclusions are preserved. Diagnostic audits explain evidence consistency under historical contracts; they neither rescore the originals nor qualify a newer frozen protocol.",
+  "source_budget_ledger": {
+    "checked_at": "2026-10-15T17:39:17.354580+00:00",
+    "path": "runs/2026-10-15_robustness-runtime-pilot/runner-budget-current.json",
+    "snapshot_sha256": "4801013aa4d43cef1c0d09878d5a8a4da97450e76003cca8f093e60c60aade69"
+  },
+  "time_definitions": {
+    "sum_observed_job_seconds": "Sum of actual protocol and validate job durations from the preserved GitHub job ledger. This is runner work, not a separate workflow wall-clock measurement.",
+    "sum_per_job_rounded_runner_minutes": "Sum of ceil(job_seconds/60), excluding skipped zero-duration jobs; conservative budget proxy, not GitHub billing data.",
+    "worker_elapsed_seconds": "Original summary.json seconds; includes setup, controls and worker cleanup."
+  }
+}

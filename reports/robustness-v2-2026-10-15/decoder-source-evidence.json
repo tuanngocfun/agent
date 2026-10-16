@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-16T02:43:23.713332+00:00",
+  "claim_scope": "Official pinned implementation code inspection, corroborated by observed raw output shapes; no measured speedup or compiled local grammar ablation is claimed.",
+  "line_number_note": "Review-supplied line anchors did not match directly fetched tag/commit content. Citations here are resolved from the authenticated GitHub Contents API, with commit, blob and SHA256 recorded.",
+  "sources": [
+    {
+      "file_sha256": "e1822e79b99e74b70fb872baacf577ed1be93b661d7fb6f53174a041eb0b5ed1",
+      "git_blob_sha1": "656b3ecaafdc71f9c90b3e83fa7e7aeeaa54fb4c",
+      "line_count": 1027,
+      "locally_compiled": false,
+      "name": "grammar",
+      "reader_link": "https://github.com/ollama/ollama/blob/6a74bba7e7e19bf5f5aeacb039a1537afa3522a5/llama/llama.cpp/common/json-schema-to-grammar.cpp#L966-L967",
+      "resolved_commit": "6a74bba7e7e19bf5f5aeacb039a1537afa3522a5",
+      "selected_lines": [
+        {
+          "line": 966,
+          "text": "        } else if (schema.empty() || schema_type == \"object\") {"
+        },
+        {
+          "line": 967,
+          "text": "            return _add_rule(rule_name, _add_primitive(\"object\", PRIMITIVE_RULES.at(\"object\")));"
+        }
+      ],
+      "source_file": "llama/llama.cpp/common/json-schema-to-grammar.cpp",
+      "source_url": "https://raw.githubusercontent.com/ollama/ollama/6a74bba7e7e19bf5f5aeacb039a1537afa3522a5/llama/llama.cpp/common/json-schema-to-grammar.cpp",
+      "tag_reader_link": "https://github.com/ollama/ollama/blob/v0.6.8/llama/llama.cpp/common/json-schema-to-grammar.cpp#L966-L967",
+      "version": "v0.6.8"
+    },
+    {
+      "file_sha256": "24e4bc3d5b26eebf552c10c5fd859661a750861dfdae8713295b71f79fa276fe",
+      "git_blob_sha1": "7172d924091f81a2419b849d0212e5291055cf73",
+      "line_count": 1050,
+      "locally_compiled": false,
+      "name": "router",
+      "reader_link": "https://github.com/ollama/ollama/blob/6a74bba7e7e19bf5f5aeacb039a1537afa3522a5/llm/server.go#L742-L742",
+      "resolved_commit": "6a74bba7e7e19bf5f5aeacb039a1537afa3522a5",
+      "selected_lines": [
+        {
+          "line": 742,
+          "text": "\t\t\tg := llama.SchemaToGrammar(req.Format)"
+        }
+      ],
+      "source_file": "llm/server.go",
+      "source_url": "https://raw.githubusercontent.com/ollama/ollama/6a74bba7e7e19bf5f5aeacb039a1537afa3522a5/llm/server.go",
+      "tag_reader_link": "https://github.com/ollama/ollama/blob/v0.6.8/llm/server.go#L742-L742",
+      "version": "v0.6.8"
+    }
+  ]
+}

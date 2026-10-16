@@ -1,0 +1,36 @@
+{
+  "actual_requests": 84,
+  "checked_at": "2026-10-16T02:54:58.571897+00:00",
+  "checksum_manifest": "SHA256SUMS (excludes itself)",
+  "dictionary_edit_values": 128,
+  "figure_checks": {
+    "formats": [
+      "png",
+      "svg",
+      "pdf"
+    ],
+    "registered_outcomes_sum": 54,
+    "report_only_plot_fix": "Clamp sub-ULP negative zero-bound error-bar widths; shorten crowded outcome title. Frozen source and measured scores unchanged.",
+    "source_summary_sha256_matches": true,
+    "visually_inspected_pngs": [
+      "figures/method-success-intervals.png",
+      "figures/registered-outcome-counts.png"
+    ]
+  },
+  "local_markdown_links_missing": [],
+  "official_zip_sha256": "c2f36f1416d72f2f6b6c77c94f4cdb5ab570c2a80769810aef77906efa21e134",
+  "offline_helper_proof": "independent-reproduction-audit.json",
+  "parsed_edits": 128,
+  "primary_observed_rows": 47,
+  "primary_registered_rows": 54,
+  "primary_scores_changed": false,
+  "primary_summary_sha256": "6a622fa78fd65baf0a8e556775bc129095d58fdc12291d4534666adddfdd67b5",
+  "primary_task_correct_rows": 0,
+  "raw_reaudit_disagreements": 0,
+  "readiness": "Share with caveats: authentic failed execution, confirmed decoder incompatibility, no supported method ranking.",
+  "returned_raw_responses": 64,
+  "robustness_tests": 132,
+  "schema_version": "historical-v2-report-validation-v1",
+  "source_ci_tests": 358,
+  "verified_control_observations": 48
+}

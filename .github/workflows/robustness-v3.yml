@@ -1,0 +1,78 @@
+name: Kubernetes decoder diagnostic v3
+
+on:
+  push:
+    branches: [kube-remediation-demo]
+    paths: [benchmark/robustness-v3/request.json]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: robustness-v3-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check the explicit six-call diagnostic request
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+          import json, pathlib
+          request = json.loads(pathlib.Path('benchmark/robustness-v3/request.json').read_text())
+          plan = json.loads(pathlib.Path('benchmark/robustness-v3/diagnostic-plan.json').read_text())
+          if request.get('schema_version') != 1 or request.get('stage') != 'diagnostic':
+              raise SystemExit('This workflow only runs the bounded decoder diagnostic')
+          if request.get('plan_id') != plan['plan_id'] or plan['campaign_kind'] != 'diagnostic':
+              raise SystemExit('Request is not bound to the frozen diagnostic')
+          if (plan['case_count'], plan['cell_count'], plan['budget']['max_model_calls'], plan['budget']['maximum_runner_minutes']) != (2,6,6,43):
+              raise SystemExit('Diagnostic exceeds the reviewed capacity')
+          PY
+      - name: Verify source fingerprints and diagnostic harness
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_robustness_v3_plan.py --check benchmark/robustness-v3/diagnostic-plan.json
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_robustness_v3_plan.py --check benchmark/robustness-v3/full-plan.json
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_robustness_plan.py --check benchmark/robustness-v2/plan.json
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze_benchmark_plan.py --check benchmark/plan-v1.json
+          PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_robustness_v3_*.py'
+
+  diagnostic:
+    needs: protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install pinned Kubernetes tools
+        run: timeout 30s python3 scripts/install_worker_tools.py
+      - name: Execute protected controls and six real Qwen calls on Kubernetes
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/robustness_v3_worker.py --plan benchmark/robustness-v3/diagnostic-plan.json --stage diagnostic --output runs/robustness-v3-diagnostic
+      - name: Independently replay responses and Kubernetes verification evidence
+        if: always()
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/report_robustness_v3.py --plan benchmark/robustness-v3/diagnostic-plan.json --shard runs/robustness-v3-diagnostic --validation runs/robustness-v3-diagnostic --output runs/robustness-v3-report
+          cat runs/robustness-v3-report/README.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve raw results including failed and missing cells
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: robustness-v3-diagnostic-evidence
+          path: |
+            runs/robustness-v3-diagnostic/plan.json
+            runs/robustness-v3-diagnostic/summary.json
+            runs/robustness-v3-diagnostic/commands.json
+            runs/robustness-v3-diagnostic/progress.json
+            runs/robustness-v3-diagnostic/image-pins.json
+            runs/robustness-v3-diagnostic/model-pin.json
+            runs/robustness-v3-diagnostic/setup-image-verification.json
+            runs/robustness-v3-diagnostic/controls/
+            runs/robustness-v3-diagnostic/records/
+            runs/robustness-v3-report/
+          retention-days: 30
+          if-no-files-found: warn
