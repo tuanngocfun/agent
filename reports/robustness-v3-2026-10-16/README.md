@@ -28,7 +28,7 @@ Cell seconds are the worker measurement from trial start through final verificat
 | Sum of those three job durations | 1,007 s (16 min 47 s) |
 | Conservative per-job rounded minutes | 19 |
 
-These durations are actual measurements. The pre-registered dispatch cap was 43 runner-minutes. The cumulative [33-run budget ledger](runner-budget.json), captured after this diagnostic and before report publication, records **976 per-job rounded minutes used of the authorized 1,000**, with no unfinished jobs and 24 remaining. The final report publication reserves up to 13 more minutes: ten for Source CI and three for a separate offline evidence-audit job. That job restores the preserved ZIP and replays the corrected auditor without starting model inference or Kubernetes; no broader model campaign was started.
+These durations are actual measurements. The pre-registered dispatch cap was 43 runner-minutes. The cumulative [33-run budget ledger](runner-budget.json), captured after this diagnostic and before report publication, records **976 per-job rounded minutes used of the authorized 1,000**, with no unfinished jobs and 24 remaining. The final report publication reserves up to 23 more minutes: twenty for two Source CI pushes (including removal of an incidental Python cache file) and three for a separate offline evidence-audit job. That job restores the preserved ZIP and replays the corrected auditor without starting model inference or Kubernetes; no broader model campaign was started.
 
 ## What the model actually produced
 

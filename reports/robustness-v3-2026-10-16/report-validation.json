@@ -52,11 +52,12 @@
   "primary_summary_sha256": "01e0634865e89419cb3adad25edd5d7bfe3c68816962bcce170ec857dfbb45e7",
   "publication_reservation_review": {
     "budget_snapshot_remaining_minutes": 24,
-    "checked_at": "2026-10-16T08:12:42.844279+00:00",
-    "maximum_runner_minutes": 13,
+    "checked_at": "2026-10-16T08:14:14.695097+00:00",
+    "maximum_runner_minutes": 23,
     "read_only_offline_audit_minutes": 3,
-    "scope": "Capacity reservation for publication checks, not a claimed observed duration or successful new run. The historical original workflow remains failed.",
-    "source_ci_minutes": 10,
+    "scope": "Capacity reservation for publication and incidental-cache cleanup checks, not a claimed observed duration or successful new run. The historical original workflow remains failed.",
+    "source_ci_minutes": 20,
+    "source_ci_pushes": 2,
     "within_remaining_allowance": true
   },
   "report_validation_passed": true,
