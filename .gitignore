@@ -1,0 +1,23 @@
+# Local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+# Dependencies, checkpoints and generated research outputs
+.venv/
+venv/
+vendor/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+*.pt
+*.pth
+*.safetensors
+data/
+output/
+outputs/
+# Original research documents are retained locally; readable text copies are versioned.
+*.docx

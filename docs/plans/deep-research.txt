@@ -1,0 +1,340 @@
+Báo Cáo Nghiên Cứu Chuyên Sâu & Kiểm Toán Kỹ Thuật: Mô Hình Nền Tảng Tài Chính Kronos (shiyu-coder/Kronos)
+Bản tổng hợp bạn nhận được trước đó từ Gemini và Perplexity đã phản ánh đúng ý tưởng tổng quát của công trình Kronos: A Foundation Model for the Language of Financial Markets (nhóm tác giả Yu Shi, Zongliang Fu, Shuo Chen, Bohan Zhao, Wei Xu, Changshui Zhang và Jian Li từ Viện Khoa học Thông tin Liên ngành & Khoa Tự động hóa, Đại học Thanh Hoa; công bố trên arXiv 2508.02739 ngày 02/08/2025 và được chấp nhận tại hội nghị AAAI 2026 ngày 10/11/2025)1. Về câu hỏi cốt lõi của bạn: Bạn hoàn toàn không cần tài khoản chứng khoán, không cần ví tiền mã hóa (crypto wallet) và không cần xác thực danh tính (KYC) để chạy suy luận (inference), tinh chỉnh (fine-tune) trên đa GPU hay xây dựng ứng dụng với Kronos1. Toàn bộ kiến trúc của dự án xử lý chuỗi thời gian tách biệt hoàn toàn với tầng khớp lệnh của sàn giao dịch, chỉ yêu cầu đầu vào là bảng dữ liệu pandas.DataFrame chứa tối thiểu 4 cột giá ['open', 'high', 'low', 'close'] (cùng 2 cột tùy chọn volume, amount) và chuỗi thời gian timestamps1.
+Tuy nhiên, khi kiểm toán trực tiếp văn bản gợi ý của bạn đối chiếu với mã nguồn thực tế trong kho lưu trữ shiyu-coder/Kronos (model/kronos.py, model/module.py, finetune/dataset.py, webui/app.py), các tệp cấu hình trọng số trên Hugging Face (NeoQuasar/Kronos-*) và các báo cáo kiểm định thực nghiệm tại mục GitHub Issues/Pull Requests tính đến tháng 10/2026, có 7 sai lệch kỹ thuật và cạm bẫy thực thi quan trọng mà các bản tóm tắt bề mặt đã bỏ sót hoặc hướng dẫn chưa chính xác6:
+Hàm KronosPredictor.predict() tự động gộp trung bình làm mất phân phối xác suất: Bản tóm tắt trước khuyên bạn truyền sample_count=10 vào predictor.predict() để lấy phân phối Monte Carlo, tính xác suất tăng/giảm và vẽ bề mặt mật độ xác suất 3D. Thực tế, ở dòng cuối cùng của hàm auto_regressive_inference trong model/kronos.py, mã nguồn gọi lệnh preds = np.mean(preds, axis=1), gộp toàn bộ N kịch bản riêng lẻ và chỉ trả về duy nhất 1 đường trung bình8. Hơn nữa, hàm gốc nhân bản chuỗi đầu vào N lần trước khi đưa qua bộ mã hóa tokenizer.encode() (vốn hoàn toàn tất định), gây tiêu tốn gấp N lần bộ nhớ VRAM và thời gian tính toán GPU ở bước mã hóa10.
+Hiện tượng suy giảm biên độ tự hồi quy (Autoregressive Rollout Damping): Theo báo cáo kiểm định thực nghiệm của cộng đồng trên 1.000 đường lấy mẫu (GitHub Issue #375), dải phân tán giữa các kịch bản của Kronos hẹp hơn biến động thực tế khoảng 2,7 lần (khoảng tin cậy danh nghĩa 90% chỉ bao phủ được 58% biến động giá thực tế, và khoảng 50% chỉ bao phủ được 22%)9. Nếu dùng trực tiếp độ lệch chuẩn giữa các đường lấy mẫu làm thước đo rủi ro mà không qua bước hiệu chuẩn hậu kỳ (post-hoc calibration), hệ thống sẽ đánh giá thấp đáng kể rủi ro đuôi (tail risk)9.
+Sai lệch đường dẫn dữ liệu mẫu và hiện tượng cắt cụt ngữ cảnh ngầm ("400 + 120 > 512"): Tệp XSHG_5min_600977.csv không nằm ở thư mục gốc ./data/ như hướng dẫn trong README.md (chạy từ thư mục gốc sẽ báo lỗi FileNotFoundError), mà nằm tại examples/data/XSHG_5min_600977.csv11. Đồng thời, cấu hình mẫu lookback = 400 và pred_len = 120 có tổng độ dài 520, vượt quá max_context = 512 của Kronos-small và Kronos-base, khiến mô hình âm thầm dịch chuyển bộ đệm (torch.roll) và cắt bỏ lịch sử8. Đáng chú ý, bộ kiểm thử hồi quy tests/test_kronos_regression.py trong repo ghi nhận cửa sổ ngữ cảnh 256 đạt sai số MSE thấp hơn đáng kể (0,003741) so với cửa sổ 512 (0,008979)14.
+Lịch sử rò rỉ dữ liệu tương lai (Data Leakage) và mốc giới hạn dữ liệu (Cutoff Date): Phải đến bản vá PR #234 (xử lý Issue #227 vào tháng 04/2026), lỗi tính mean/std trên toàn bộ cửa sổ (bao gồm cả vùng tương lai) trong tập huấn luyện mới được sửa thành chuẩn hóa nhân quả nghiêm ngặt trên cửa sổ quá khứ (past_x = x[:past_len])7. Ngoài ra, dữ liệu huấn luyện trước (pre-training) của Kronos kéo dài đến tháng 06/2024 (Phụ lục D của bài báo)6; mọi kiểm thử (backtest) trên dữ liệu trước ngày 01/07/2024 đều có nguy cơ nhiễm hiện tượng nhớ mẫu (in-sample memorization)6.
+Báo cáo dưới đây phân tích chi tiết từ cấp độ phương trình toán học, cấu trúc từng lớp (class/method) trong mã nguồn PyTorch, bảng thông số config.json của từng biến thể mô hình, cho đến 4 hướng triển khai kỹ thuật thực chiến kèm mã nguồn đã được xử lý toàn bộ các vấn đề nêu trên.
+1. Giải Phẫu Kiến Trúc Toán Học & Mã Nguồn Core (model/kronos.py & model/module.py)
+Điểm khác biệt căn bản của Kronos so với các mô hình chuỗi thời gian đa dụng (như Amazon Chronos, Google TimesFM, Lag-Llama, Moirai hay PatchTST) nằm ở cách tiếp cận biểu diễn dữ liệu3. Các mô hình đa dụng thường xử lý từng kênh độc lập (univariate) hoặc hồi quy trực tiếp trên giá trị số thực liên tục bằng hàm mất mát MSE (), khiến mạng nơ-ron dễ bị nhiễu vi cấu trúc thị trường (bid-ask bounce) làm lệch hướng và bị các cú sốc giá đuôi nặng (fat-tailed outliers) làm biến dạng đạo hàm19. Ngược lại, Kronos bảo toàn cấu trúc hình học nội tại giữa 6 chiều thuộc tính của mỗi thanh nến tại bước thời gian  là  (tensor đầu vào có kích thước (B, T, 6) với chiều đặc trưng d_in = 6) và chuyển hóa bài toán hồi quy liên tục thành bài toán mô hình hóa ngôn ngữ rời rạc qua hai giai đoạn tách biệt3.
+1.1. Giai đoạn 1: KronosTokenizer và Lượng tử hóa Cầu Nhị phân (BSQuantizer)
+Trong tệp model/kronos.py và model/module.py, lớp KronosTokenizer là một mạng tự mã hóa (Transformer Autoencoder) bao gồm một lớp chiếu tuyến tính đầu vào self.embed = nn.Linear(d_in, d_model) (ánh xạ tensor (B, T, 6) sang (B, T, 256)), chuỗi 4 khối mã hóa Transformer self.encoder (), bộ lượng tử hóa self.tokenizer = BSQuantizer(...) (), chuỗi 4 khối giải mã Transformer self.decoder () và đầu ra tuyến tính self.head = nn.Linear(d_model, d_in)3.
+Trước khi đi vào KronosTokenizer, mỗi cửa sổ dữ liệu đầu vào  được chuẩn hóa Z-score độc lập trên từng đặc trưng theo trục thời gian và cắt ngưỡng (clipping) ở ±5 độ lệch chuẩn (clip = 5.0)20:
+
+Ngưỡng ±5σ bao phủ khoảng 99,99994% phân phối chuẩn nhưng chặn đứng các cú giật giá dị biệt (flash crash) làm mất ổn định quá trình huấn luyện20. Sau khi đi qua , vector biểu diễn tiềm ẩn liên tục  (với ) được đưa vào lớp BinarySphericalQuantizer (BSQuantizer trong model/module.py)3.
+Thay vì tìm kiếm láng giềng gần nhất trong một bảng mã rời rạc lớn như VQ-VAE truyền thống (vốn dễ gặp hiện tượng suy biến bảng mã — codebook collapse trên dữ liệu tài chính nhiễu cao), Binary Spherical Quantization (BSQ) — một biến thể của Look-up Free Quantization (LFQ) — chiếu vector tiềm ẩn  lên mặt cầu đơn vị (unit hypersphere) và lượng tử hóa trực tiếp từng chiều theo dấu (> 0 thành +1, ngược lại thành -1)3. Để truyền ngược đạo hàm (backpropagation) qua hàm dấu không khả vi, mã nguồn áp dụng kỹ thuật Straight-Through Estimator (STE) thông qua biểu thức z + (zhat - z).detach()20:
+
+trong đó  là toán tử dừng đạo hàm (detach()).
+Để biểu diễn đầy đủ hình thái nến OHLCVA phức tạp, Kronos sử dụng tổng số bit lượng tử hóa là  bit3. Nếu giữ nguyên một từ vựng phẳng, kích thước bảng từ vựng sẽ là  token — quá lớn khiến lớp chiếu Softmax của mô hình tự hồi quy bị quá tải tham số và chi phí tính toán3. Do đó, Kronos phân rã vector nhị phân 20-bit  thành 2 không gian con trực giao có kích thước bằng nhau ( và )3:
+Coarse subtoken ( hay s1 / pre token): 10 bit đầu (quantized[:, :, :self.s1_bits]), mã hóa thành chỉ số nguyên trong từ vựng kích thước , nắm bắt khung xương cấu trúc xu hướng chính của thanh nến3.
+Fine subtoken ( hay s2 / post token): 10 bit sau (quantized[:, :, self.s1_bits:]), mã hóa thành chỉ số nguyên trong từ vựng kích thước , nắm bắt phần dư chi tiết về biên độ râu nến và khối lượng giao dịch3.
+Trong mã nguồn HierarchicalEmbedding.split_token (model/kronos.py), khi một mã nguyên 20-bit t cần tách thành hai nhánh 10-bit, hệ thống thực thi phép dịch bit (bitwise shift t >> 10) và mặt nạ bit (bitwise mask t & 0x3FF, tức mask = (1 << s2_bits) - 1 = 1023): s2_ids = t & mask (lấy 10 bit thấp cho chi tiết tinh) và s1_ids = t >> s2_bits (lấy 10 bit cao cho cấu trúc thô)20.
+Điểm cốt lõi trong thiết kế hàm mất mát của KronosTokenizer là cách mô hình ép buộc  phải mang thông tin cấu trúc thô còn  mang thông tin tinh chỉnh. Trong bài báo và trong script train_tokenizer.py, bộ giải mã  được gọi hai lần để tạo ra hai bản tái tạo: z_pre (chỉ dùng subtoken thô ) và z (dùng toàn bộ token )3:
+
+với bộ siêu tham số thực tế trong config.json của bộ Tokenizer là beta = 0.05, gamma0 = 1.0 (cực tiểu hóa entropy mỗi mẫu để lượng tử hóa sắc nét), gamma = 1.1 (cực đại hóa entropy toàn bảng mã để mọi token trong 1.024 mã đều được sử dụng đồng đều) và zeta = 0.0521.
+1.2. Giai đoạn 2: Kronos Autoregressive Transformer, TemporalEmbedding và DependencyAwareLayer
+Sau khi chuỗi nến liên tục được ánh xạ thành chuỗi cặp chỉ số rời rạc , mô hình dự báo chính Kronos (một kiến trúc Decoder-only Transformer ) học phân phối xác suất đồng thời qua phân rã quy tắc dây chuyền (chain rule) có điều kiện phân cấp3:
+
+Khác với cách mô tả khái quát thông thường, việc thực thi phương trình trên trong model/kronos.py và model/module.py dựa trên sự phối hợp của 4 mô-đun kiến trúc:
+Đầu tiên, mô-đun Hợp nhất Embedding Phân cấp (HierarchicalEmbedding) xử lý đầu vào tại mỗi bước thời gian : hai chỉ số s1_ids () và s2_ids () được nhúng qua hai bảng tra cứu riêng biệt self.emb_s1 và self.emb_s2, nhân với hệ số tỷ lệ , sau đó nối (concatenate) theo chiều đặc trưng và chiếu tuyến tính qua self.fusion_proj ()3:
+
+Thứ hai, mô-đun Nhúng Chu kỳ Thời gian Đa chiều (TemporalEmbedding) cung cấp nhận thức về chu kỳ lịch. Kronos không sử dụng mốc thời gian tuyệt đối (Unix epoch) mà dùng hàm calc_time_stamps(x_timestamp) để bóc tách chuỗi thời gian thành 5 thuộc tính lịch: minute (kích thước bảng 60), hour (24), weekday (7), day (32) và month (13)14. Năm thuộc tính này được khởi tạo bằng bảng sóng hình sin cố định (FixedEmbedding) hoặc cho phép học (learn_te = True trong config.json), sau đó cộng tổng lại và cộng trực tiếp vào trạng thái ẩn của chuỗi token để mô hình nhận diện các hiệu ứng mùa vụ trong ngày (mở/đóng phiên), hiệu ứng ngày trong tuần (khoảng trống giá cuối tuần) và hiệu ứng tháng/quý14.
+Thứ ba, Khối Backbone Transformer trong model/module.py được trang bị chuẩn hóa trước Pre-LN với RMSNorm, cơ chế chú ý nhân quả đa đầu tích hợp nhúng vị trí xoay MultiHeadAttentionWithRoPE (F.scaled_dot_product_attention(..., is_causal=True)) và mạng truyền thẳng có cổng kích hoạt SwiGLU (F.silu(self.w1(x)) * self.w3(x))3.
+Thứ tư, Cơ chế Giải mã Hai Pha (DualHead & DependencyAwareLayer) đóng vai trò hạt nhân của Giai đoạn 2 trong model/kronos.py. Khi chuỗi ẩn đi qua các lớp Transformer để tạo ra vector ngữ cảnh context (), ở Pha 1 (decode_s1), mô hình đưa context qua đầu dự báo thứ nhất để tính s1_logits = self.head(x) (phân phối xác suất trên 1.024 mã s1)8. Thay vì dùng nhãn thật (teacher forcing) trong lúc huấn luyện và suy luận, mô hình lấy mẫu trực tiếp từ phân phối vừa dự đoán: s1_probs = F.softmax(s1_logits.detach(), dim=-1) rồi sample_s1_ids = torch.multinomial(s1_probs, 1) để tra cứu vector nhúng anh em sibling_embed = self.embedding.emb_s1(sample_s1_ids)3. Việc buộc nhánh thứ hai phải học dựa trên dự đoán của nhánh thứ nhất giúp giảm thiểu hiện tượng lệch phơi nhiễm (exposure bias) khi dự báo tự hồi quy nhiều bước3. Tiếp theo, ở Pha 2 (decode_s2), mô-đun DependencyAwareLayer (self.dep_layer) sử dụng cơ chế Cross-Attention để kết hợp vector ngữ cảnh lịch sử x với sibling_embed vừa lấy mẫu (x2 = self.dep_layer(x, sibling_embed, key_padding_mask=padding_mask)), sau đó đưa qua s2_logits = self.head.cond_forward(x2) để dự báo phân phối xác suất trên 1.024 mã s221. Hàm mất mát tổng của Predictor trong DualHead.compute_loss là trung bình cộng hai hàm Cross-Entropy: 17.
+1.3. Bảng Thông Số Cấu Hình Thực Tế (config.json) Của Hệ Sinh Thái Kronos
+Bản tóm tắt trước chỉ nêu số lượng tham số và độ dài ngữ cảnh. Qua trích xuất trực tiếp các tệp config.json trên kho lưu trữ Hugging Face NeoQuasar và Bảng 1 trong bài báo arXiv:2508.02739v1, dưới đây là toàn bộ thông số kiến trúc chi tiết của từng mô hình và bộ Tokenizer1:
+
+Tên Model / Tokenizer
+Vai trò trong Pipeline
+Số lớp (nlayersn_{\text{layers}}nlayers​)
+Chiều ẩn (dmodeld_{\text{model}}dmodel​)
+Chiều FFN (dffd_{\text{ff}}dff​)
+Số đầu chú ý (nheadsn_{\text{heads}}nheads​)
+Cấu hình Bit (s1 + s2)
+Ngữ cảnh tối đa (max_context)
+Dropout (attn / ffn / resid)
+Tham số & Dung lượng FP32
+Trạng thái & ID Hugging Face
+Kronos-Tokenizer-2k
+Autoencoder + BSQ cho bản mini
+4 Enc + 4 Dec
+256
+512
+4
+10 + 10 bit (2 × 1024)
+2048
+0,0 / 0,0 / 0,0
+3,96M (~15,8 MB)
+Mở (MIT): NeoQuasar/Kronos-Tokenizer-2k2
+Kronos-Tokenizer-base
+Autoencoder + BSQ cho small/base/large
+4 Enc + 4 Dec
+256
+512
+4
+10 + 10 bit (2 × 1024)
+512
+0,0 / 0,0 / 0,0
+3,96M (~15,8 MB)
+Mở (MIT): NeoQuasar/Kronos-Tokenizer-base2
+Kronos-mini
+Decoder dự báo siêu nhẹ, chuỗi dài
+4
+256
+512
+4
+10 + 10 bit (learn_te: true)
+2048
+0,0 / 0,2 / 0,2
+4,1M (~16,4 MB)
+Mở (MIT): NeoQuasar/Kronos-mini1
+Kronos-small
+Decoder cân bằng tốc độ & độ chính xác
+8
+512
+1024
+8
+10 + 10 bit (learn_te: true)
+512
+0,1 / 0,25 / 0,25
+24,7M (~98,8 MB)
+Mở (MIT): NeoQuasar/Kronos-small1
+Kronos-base
+Decoder chuẩn xác nhất bản mở
+12
+832
+2048
+16
+10 + 10 bit (learn_te: true)
+512
+0,0 / 0,2 / 0,2
+102,3M (~409 MB)
+Mở (MIT): NeoQuasar/Kronos-base1
+Kronos-large
+Decoder quy mô tổ chức (Institutional)
+18
+1664
+3072
+32
+10 + 10 bit ( bit)
+512
+N/A (Đóng)
+499,2M (~2,0 GB)
+Đóng (Chưa mở trọng số public)1
+Cả Kronos-Tokenizer-2k và Kronos-Tokenizer-base đều có cùng kích thước tệp trọng số model.safetensors là 15,8 MB (3.958.402 tham số) và cùng cấu hình s1_bits = 10, s2_bits = 10 (d_in = 6, d_model = 256, ff_dim = 512, n_enc_layers = 4, n_dec_layers = 4, n_heads = 4, beta = 0.05, gamma = 1.1, gamma0 = 1.0, zeta = 0.05, group_size = 5)22. Tuy nhiên, do hai bộ Tokenizer này được huấn luyện tương ứng với độ dài ngữ cảnh khác nhau (2048 cho Kronos-mini và 512 cho small/base), bạn bắt buộc phải ghép đúng cặp Kronos-Tokenizer-2k với Kronos-mini, và Kronos-Tokenizer-base với Kronos-small hoặc Kronos-base1. Đối với bản Kronos-large (499,2M tham số), nhóm tác giả hiện chưa công bố trọng số lên Hugging Face; theo ước tính của một nhóm nghiên cứu tại GitHub Issue #352, việc tự huấn luyện lại Kronos-large từ đầu đòi hỏi cụm từ 4 đến 8 GPU NVIDIA A100/H100 chạy liên tục trong 2–3 tháng37. Vì vậy, Kronos-base (102,3M tham số, 409 MB) là mô hình mở mạnh nhất mà bạn có thể tải về và khai thác ngay1.
+2. Kiểm Toán Kỹ Thuật (Code Audit): 7 Sai Lệch & "Cạm Bẫy" Thực Tế Trong Kho Lưu Trữ
+Để làm việc hiệu quả với shiyu-coder/Kronos ở cấp độ nghiên cứu hoặc xây dựng sản phẩm, bạn cần nắm rõ 7 vấn đề kỹ thuật tồn tại ngay trong mã nguồn gốc của repo và trong các đoạn code mẫu phổ biến:
+Cạm bẫy 1: Lỗi đường dẫn ./data/XSHG_5min_600977.csv và 3 bộ dữ liệu thật có sẵn trong repo
+Trong cả README.md lẫn kịch bản examples/prediction_example.py, dòng lệnh đọc dữ liệu được viết là df = pd.read_csv("./data/XSHG_5min_600977.csv") cùng với sys.path.append("../") ở đầu tệp1. Trên thực tế, thư mục gốc của repo không hề có thư mục ./data/1. Tệp dữ liệu nến 5 phút của cổ phiếu mã 600977 trên sàn Thượng Hải (XSHG) nằm ở đường dẫn examples/data/XSHG_5min_600977.csv11. Nếu bạn đứng ở thư mục gốc Kronos/ và chạy python examples/prediction_example.py, chương trình sẽ dừng ngay lập tức vì lỗi FileNotFoundError (trừ khi bạn cd examples trước khi chạy hoặc sửa đường dẫn thành "examples/data/XSHG_5min_600977.csv")12. Ngoài ra, qua rà soát toàn bộ cây thư mục, repo cung cấp sẵn 3 tệp CSV mẫu cho các mục đích khác nhau:
+examples/data/XSHG_5min_600977.csv: Dữ liệu nến 5 phút sàn Thượng Hải dùng để chạy thử suy luận đơn lẻ11.
+tests/data/regression_input.csv: Chứa 2.500 dòng dữ liệu nến 5 phút, được dùng trong bộ kiểm thử tests/test_kronos_regression.py để kiểm tra tính toàn vẹn của môi trường cài đặt15.
+finetune_csv/data/HK_ali_09988_kline_5min_all.csv: Chứa 93.913 dòng dữ liệu nến 5 phút của cổ phiếu Alibaba niêm yết tại Hồng Kông (09988.HK), dùng làm bộ dữ liệu mẫu hoàn chỉnh cho pipeline fine-tuning từ tệp CSV13.
+Cạm bẫy 2: Hàm predictor.predict() tự động xóa phân phối Monte Carlo (np.mean) và nhân bản tính toán thừa
+Khi bạn gọi predictor.predict(..., sample_count=10), KronosPredictor gọi phương thức self.generate(...), và phương thức này gọi tiếp hàm auto_regressive_inference(...) trong model/kronos.py8. Bên trong auto_regressive_inference (sau bản cập nhật tối ưu bộ đệm commit f6ac873), mã nguồn thực thi như sau8:
+
+
+
+Python
+# Nhân bản chuỗi đầu vào x và timestamp theo sample_count TRƯỚC khi đưa vào Tokenizer:x = x.unsqueeze(1).repeat(1, sample_count, 1, 1).reshape(-1, x.size(1), x.size(2)).to(device)y_stamp = y_stamp.unsqueeze(1).repeat(1, sample_count, 1, 1).reshape(-1, y_stamp.size(1), y_stamp.size(2)).to(device)x_token = tokenizer.encode(x, half=True)# ... (Vòng lặp sinh tự hồi quy pred_len bước) ...z = tokenizer.decode(input_tokens, half=True)z = z.reshape(-1, sample_count, z.size(1), z.size(2))preds = z.cpu().numpy()preds = np.mean(preds, axis=1) # <--- CẠM BẪY: Gộp trung bình toàn bộ sample_count đường!
+Thiết kế này dẫn đến hai hệ quả kỹ thuật8: Thứ nhất, bạn không lấy được độ lệch chuẩn hay các đường phân vị (quantiles) từ predictor.predict(). Vì lệnh preds = np.mean(preds, axis=1) được thực thi cứng bên trong hàm trước khi trả kết quả về KronosPredictor.predict(), DataFrame đầu ra pred_df chỉ chứa duy nhất giá trị trung bình của 10 đường8. Bạn không thể tính được khoảng phân vị 10%–90% (q10, q90), độ lệch chuẩn lợi nhuận (std_ret) hay tỷ lệ kịch bản tăng giá (p_up) nếu chỉ gọi predictor.predict()10. Thứ hai, việc nhân bản tensor x lên sample_count lần ngay từ đầu gây lãng phí gấp N lần tài nguyên GPU ở bước mã hóa. Phép biến đổi tokenizer.encode(x, half=True) và bước chạy Transformer qua chuỗi lịch sử L thanh nến đầu tiên (model.decode_s1) là hoàn toàn tất định (deterministic)10. Nhân bản trước khi mã hóa buộc GPU phải chạy Autoencoder và self-attention trên N bản sao giống hệt nhau10. Như đã được kiểm chứng trong script nghiên cứu run_kronos_daily.py, nếu chỉ chạy tokenizer.encode và model.decode_s1 1 lần duy nhất cho mỗi chuỗi, sau đó mới dùng .repeat_interleave(S, 0) trên vector s1_logits và context ở bước lấy mẫu ngẫu nhiên (stochastic token draw), bạn sẽ thu được phân phối xác suất tương đương nhưng nhanh hơn và tiết kiệm VRAM xấp xỉ sample_count lần (xem mã nguồn hàm ar_fast tại Phần 6)10.
+Cạm bẫy 3: Hiện tượng "Autoregressive Rollout Damping" — Dải phân tán hẹp hơn thực tế khoảng 2,7 lần
+Ngay cả khi bạn đã trích xuất được toàn bộ S đường lấy mẫu độc lập từ Kronos, bạn không nên coi độ rộng tự nhiên giữa các đường dự báo là khoảng tin cậy xác suất đã hiệu chuẩn (calibrated confidence interval). Theo báo cáo kiểm định thực nghiệm tại GitHub Issue #375 (do người dùng yonaoh10 công bố ngày 29/07/2026 và được người dùng cameloid124 xác nhận độc lập ngày 10/08/2026 trên cả Kronos-base), phép thử nghiệm 1.000 quỹ đạo độc lập trên dữ liệu 5 phút ghi nhận9:
+Dải tin cậy danh nghĩa 90% (khoảng giữa phân vị thứ 5 và 95 của 1.000 kịch bản) chỉ bao phủ được 58% biến động thực tế xảy ra; dải danh nghĩa 50% chỉ bao phủ được 22%9.
+Đặt top_p = 1.0 (tắt cắt tỉa nucleus sampling) chỉ làm độ rộng dải tăng nhẹ từ 1,54% lên 1,89% nhưng tỷ lệ bao phủ thực tế hầu như không đổi (58,3% sang 57,8%)9. Tổng thể, độ phân tán của các kịch bản sinh ra hẹp hơn khoảng 2,7 lần (khoảng tin cậy 95%: 2,0–3,4 lần) so với biến động thực của thị trường9.
+Nguyên nhân gốc rễ nằm ở quá trình giải mã tự hồi quy: khi kiểm tra riêng bộ KronosTokenizer (mã hóa rồi giải mã ngược ngay lập tức), nó bảo toàn tới 95% độ biến động trên từng thanh nến và 99% độ rộng trên 24 thanh nến9. Sự suy giảm biên độ phát sinh ở vòng lặp giải mã tự hồi quy (autoregressive rollout) của Transformer, trong đó khoảng một nửa độ hụt đến từ biên độ mỗi bước bị nén lại (damped per-step amplitude), và một nửa đến từ xu hướng hồi quy về trung bình quá mức (excess mean reversion — hệ số tự tương quan bậc 1 của bước nhảy giá trong rollout là -0,25 so với -0,12 của dữ liệu thật)9.
+Hệ quả ứng dụng: Không dùng trực tiếp độ lệch chuẩn thô của các đường lấy mẫu làm ngưỡng cắt lỗ (stop-loss) tuyệt đối. Tuy nhiên, độ rộng tương đối của dải dự báo giữa các mã tài sản vẫn có tương quan hạng (Rank Correlation) đạt +0,28 với biến động thực tế, rất hữu ích để xếp hạng rủi ro chéo (volatility ranking) hoặc đưa qua bộ hiệu chuẩn hậu kỳ (nhân hệ số giãn nở xấp xỉ 2,7×)9.
+Cạm bẫy 4: Cắt cụt ngữ cảnh ngầm ("400 + 120 > 512") và Nghịch lý Context Length (256 thắng 512)
+Trong README.md, examples/prediction_example.py và cả webui/app.py, thông số mặc định được đặt là lookback = 400 và pred_len = 1201. Tuy nhiên, cả Kronos-small và Kronos-base đều có giới hạn max_context = 5121. Trong quá trình dự báo tự hồi quy, tổng độ dài chuỗi tại bước dự báo thứ  là 8. Khi  vượt qua bước thứ 112 (), tổng chuỗi đạt tới 520 > 5128. Lúc này, nhánh else trong auto_regressive_inference kích hoạt lệnh dịch bộ đệm pre_buffer.copy_(torch.roll(pre_buffer, shifts=-1, dims=1)) và đẩy dần 8 thanh nến lịch sử đầu tiên ra khỏi bộ nhớ ngữ cảnh8.
+Đáng chú ý hơn, trong bộ kiểm thử hồi quy chính thức của dự án (tests/test_kronos_regression.py chạy trên tests/data/regression_input.csv với SEED=123, dự báo 30 bước tương lai bằng NeoQuasar/Kronos-small), kết quả đo lường chuẩn (golden benchmark) ghi nhận14:
+Khi dùng ngữ cảnh lookback = 512: Sai số bình phương trung bình (MSE) là 0,00897914.
+Khi giảm ngữ cảnh xuống lookback = 256: Sai số MSE giảm xuống chỉ còn 0,003741 (thấp hơn 58,3% so với cửa sổ 512)14.
+Kết quả này cho thấy trên dữ liệu tài chính có tính dừng yếu (non-stationary), việc đưa tối đa 512 thanh nến lịch sử đôi khi nạp thêm các chế độ thị trường cũ (old market regimes) và nhiễu lịch sử vào cơ chế chú ý (attention), làm giảm độ chính xác ngắn hạn15. Trên dữ liệu khung ngày (Daily) hoặc 5 phút (5m), cửa sổ lookback từ 40 đến 256 thanh nến thường đạt tỷ lệ tín hiệu trên nhiễu (SNR) tốt hơn so với 400–512 thanh9.
+
+Cạm bẫy 5: Lịch sử lỗi Rò rỉ Dữ liệu Tương lai (Issue #227 / PR #234) và Mốc Cutoff Tháng 06/2024 (Issue #265)
+Khi nghiên cứu các thảo luận kỹ thuật trong repo, có hai vấn đề về tính toàn vẹn dữ liệu mà bất kỳ ai chạy kiểm thử (backtest) hoặc tinh chỉnh (fine-tune) cũng phải kiểm soát chặt chẽ:
+Lỗi chuẩn hóa cửa sổ trong các bản clone cũ (Issue #227 / PR #234): Trước ngày 13/04/2026, mã nguồn tạo mẫu cửa sổ trượt trong kịch bản fine-tuning tính trung bình x_mean và độ lệch chuẩn x_std trên toàn bộ mảng x (vốn có độ dài bằng lookback_window + predict_window)6. Điều này vô tình để lộ biên độ giá của vùng tương lai (predict_window) vào phép chuẩn hóa của vùng quá khứ (lookback_window)6. Bản vá PR #234 của tác giả Nikhil1869 (commit 79d6d40 / edee1e5, hợp nhất ngày 13/04/2026) đã sửa lỗi này trong finetune/dataset.py bằng cách chỉ tính thống kê trên cửa sổ quá khứ7:Python# Thực thi chuẩn hóa nhân quả nghiêm ngặt trong finetune/dataset.py (sau PR #234):past_len = self.config.lookback_windowpast_x = x[:past_len]x_mean = np.mean(past_x, axis=0)x_std = np.std(past_x, axis=0)x = (x - x_mean) / (x_std + 1e-5)x = np.clip(x, -self.config.clip, self.config.clip)Nếu bạn tải các bản fork cũ của Kronos trước tháng 04/2026, bạn cần kiểm tra tệp finetune/dataset.py và finetune_csv/finetune_base_model.py để đảm bảo dòng past_x = x[:past_len] đã có mặt7.
+Mốc giới hạn thời gian tập Pre-train (Temporal Cutoff — Issue #265): Theo Phụ lục D của bài báo arXiv:2508.02739v1 và thảo luận tại Issue #265, tập dữ liệu pre-train hơn 12 tỷ thanh nến của Kronos kéo dài đến hết tháng 06/2024, và giai đoạn kiểm thử độc lập (out-of-sample) bắt đầu từ tháng 07/20246. Do danh sách chi tiết từng mã cổ phiếu trong 45 sàn giao dịch không được công bố mở hoàn toàn (và người dùng tại Issue #265 vẫn đang yêu cầu tác giả xác nhận thêm về provenance của từng checkpoint), mọi phép đánh giá Zero-shot trên cổ phiếu Mỹ (S&P 500, NASDAQ), cổ phiếu Trung Quốc (CSI 300), cổ phiếu Việt Nam (VN30) hay Crypto (BTC, ETH) nên được thực hiện trên dữ liệu từ ngày 01/07/2024 trở đi để giảm thiểu rủi ro rò rỉ dữ liệu từ quá trình pre-training6.
+Cạm bẫy 6: Lỗi lệch thiết bị (RuntimeError: Expected all tensors to be on the same device) trong model/module.py
+Tại dòng 289–306 của tệp model/module.py, lớp RotaryPositionalEmbedding lưu hai tensor bộ đệm self.cos_cached và self.sin_cached dưới dạng thuộc tính Python thông thường thay vì đăng ký qua self.register_buffer("cos_cached", ..., persistent=False), đồng thời hàm _update_cos_sin_cache chỉ tính toán lại khi độ dài chuỗi seq_len thay đổi mà không kiểm tra sự thay đổi của device9. Do đó, nếu bạn khởi tạo mô hình trên CPU, chạy thử một lệnh, rồi chuyển mô hình sang GPU (cuda:0 hoặc Apple Silicon mps:0) hoặc tái sử dụng cùng một đối tượng Kronos cho hai KronosPredictor trên hai thiết bị khác nhau, chương trình sẽ báo lỗi RuntimeError: Expected all tensors to be on the same device, but found at least two devices tại model/module.py:3069. Cách khắc phục là luôn gọi .to(device) cho model và tokenizer trước khi thực hiện bất kỳ lượt suy luận nào, hoặc sửa _update_cos_sin_cache trong model/module.py để kiểm tra thêm khóa (seq_len, device, dtype)9.
+Cạm bẫy 7: Lỗ hổng bảo mật (Issue #378) và lỗi lịch giao dịch trong webui/app.py
+Giao diện có sẵn webui/app.py trong repo khởi chạy máy chủ Flask bằng lệnh app.run(debug=True, host='0.0.0.0', port=7070) với Flask-CORS mở mặc định mà không có cơ chế xác thực (authentication), chống CSRF hay giới hạn tần suất (rate-limiting)45. Như đã được cảnh báo tại GitHub Issue #378, bất kỳ ai truy cập được vào cổng 7070 của máy chủ đều có thể gọi /api/load-data để quét tệp dữ liệu hoặc gọi /api/load-model và /api/predict làm cạn kiệt tài nguyên phần cứng45. Ngoài ra, theo phân tích kỹ thuật mã nguồn webui/app.py, giao diện này tính chuỗi thời gian tương lai bằng cách lấy khoảng cách giữa 2 dòng đầu tiên time_diff = df['timestamps'].iloc[1] - df['timestamps'].iloc[0] rồi gọi pd.date_range14. Trên dữ liệu cổ phiếu khung ngày (1D), cách làm này tạo ra các thanh nến dự báo rơi vào cả Thứ Bảy, Chủ Nhật và ngày lễ, làm lệch trục thời gian của biểu đồ nến và kết quả kiểm thử14.
+3. Khả Thi 100% Khi Chưa Có Tài Khoản Chứng Khoán Hay Ví Sàn Giao Dịch: 4 Pipeline Nạp Dữ Liệu "Zero-Auth" Chuẩn Hóa
+Tài khoản chứng khoán hay ví sàn Crypto chỉ cần thiết khi bạn muốn gửi lệnh mua/bán bằng tiền thật qua Private API. Đối với toàn bộ vòng đời nghiên cứu định lượng, huấn luyện mô hình, kiểm thử chiến lược (backtesting) và xây dựng ứng dụng AI, bạn chỉ cần dữ liệu lịch sử và dữ liệu nến thời gian thực qua Public API (Zero-Auth)1.
+Bản tóm tắt trước đã giới thiệu đúng 4 nguồn dữ liệu, nhưng đoạn code mẫu yfinance trong bản tóm tắt đó dễ gặp lỗi MultiIndex trên các phiên bản yfinance mới và chưa cung cấp cú pháp chuẩn cho vnstock thế hệ thứ 5 (v5) cũng như endpoint chuyên dụng cho dữ liệu lịch sử của Binance. Dưới đây là bảng đối chiếu và mã nguồn nạp dữ liệu chuẩn xác cho cả 4 nguồn mà không cần tài khoản hay khóa API:
+
+Nguồn Dữ Liệu
+Phạm Vi Tài Sản & Khung Thời Gian
+Yêu Cầu Tài Khoản / API Key
+Xử Lý Trường amount (Giá trị giao dịch)
+Đặc Điểm Kỹ Thuật Cần Lưu Ý
+1. Tệp CSV nội bộ trong Repo
+Cổ phiếu A-share Thượng Hải (600977, 5m) & Hồng Kông (09988.HK, 5m)11
+Không (Offline 100%)
+Đã có sẵn cột amount chuẩn xác trong tệp CSV1
+Dùng đường dẫn examples/data/XSHG_5min_600977.csv hoặc tests/data/regression_input.csv12
+2. Chứng khoán Việt Nam (vnstock v5)
+Toàn bộ cổ phiếu HOSE, HNX, UPCOM, Phái sinh (1m, 5m, 15m, 30m, 1H, 1D, 1W, 1M)50
+Không (Miễn phí, lấy trực tiếp từ nguồn mặc định vci hoặc kbs, vnd)50
+Tính qua  (chuẩn Qlib của Kronos)10
+Dùng API mới from vnstock import Market (Market().equity("FPT").ohlcv(...)), hỗ trợ lấy tối đa 20.000 nến/lần50
+3. Crypto Public API (data-api.binance.vision)
+Các cặp Spot như BTCUSDT, ETHUSDT, OPUSDT (1m, 5m, 15m, 30m, 1h, 4h, 1d)5
+Không cần tài khoản, không cần ví, không cần API Key5
+Lấy từ trường quote_asset_volume của phản hồi REST /api/v3/klines hoặc tính theo trung bình 4 giá nhân volume5
+Dùng endpoint dữ liệu công khai https://data-api.binance.vision/api/v3/klines (tối đa 1.000 nến/request; lưu ý một số quốc gia có thể bị giới hạn HTTP 451)5
+4. Quốc tế & Vĩ mô (yfinance)
+Cổ phiếu Mỹ (NVDA, AAPL), ETF (SPY, QQQ), chỉ số quốc tế (1m đến 1d)9
+Không
+Tính xấp xỉ  theo đúng công thức nội bộ của model/kronos.py10
+Truyền auto_adjust=True để xử lý chia tách cổ phiếu/cổ tức và làm phẳng cột MultiIndex nếu có9
+Một chi tiết kỹ thuật quan trọng cần lưu ý là cách tính cột amount: trong đoạn code mẫu mà Gemini gợi ý trước đó cho bạn, cột amount được tính bằng df['close'] * df['volume'] (cách tính xấp xỉ này cũng được dùng trong kronos-mcp)11. Tuy nhiên, trong mã nguồn chính thức của Kronos (model/kronos.py, finetune/qlib_data_preprocess.py và run_kronos_daily.py), khi cột amount bị khuyết, Kronos tính giá trị giao dịch bằng trung bình cộng 4 mức giá nhân với khối lượng10:
+
+Việc tuân thủ công thức trung bình 4 giá này giúp phân phối đầu vào đồng nhất với cách KronosPredictor.predict và qlib_data_preprocess.py xử lý dữ liệu10.
+Dưới đây là module Python đa năng (data_loader_zero_auth.py) giúp bạn tải dữ liệu từ cả 3 nguồn trực tuyến (Chứng khoán Việt Nam qua vnstock v5, Crypto thời gian thực qua Binance Vision Public API, và Cổ phiếu Mỹ qua yfinance) về đúng định dạng chuẩn của Kronos mà không cần tài khoản:
+
+
+
+Python
+import requestsimport numpy as npimport pandas as pddef format_for_kronos(df: pd.DataFrame, ts_col: str = "timestamps") -> pd.DataFrame:    """Chuẩn hóa DataFrame về đúng 7 cột yêu cầu của Kronos với công thức amount chuẩn model/kronos.py."""    df = df.copy()    df[ts_col] = pd.to_datetime(df[ts_col]).dt.tz_localize(None)    df = df.sort_values(ts_col).drop_duplicates(subset=[ts_col]).reset_index(drop=True)    for col in ["open", "high", "low", "close", "volume"]:        df[col] = pd.to_numeric(df[col], errors="coerce")    df = df.dropna(subset=["open", "high", "low", "close"]).reset_index(drop=True)    df["volume"] = df["volume"].fillna(0.0)    if "amount" not in df.columns or df["amount"].isnull().all():        # Chuẩn nội bộ của model/kronos.py và finetune/qlib_data_preprocess.py:        df["amount"] = df["volume"] * df[["open", "high", "low", "close"]].mean(axis=1)    return df[["timestamps", "open", "high", "low", "close", "volume", "amount"]]# 1. NGUỒN CHỨNG KHOÁN VIỆT NAM (HOSE/HNX/UPCOM) QUA VNSTOCK V5 (Không cần tài khoản)def fetch_vnstock_ohlcv(symbol: str = "FPT", interval: str = "1D", length: str = "1Y") -> pd.DataFrame:    from vnstock import Market    raw = Market().equity(symbol).ohlcv(length=length, interval=interval)    ts_col = "time" if "time" in raw.columns else raw.columns[0]    raw = raw.rename(columns={ts_col: "timestamps"})    return format_for_kronos(raw)# 2. NGUỒN CRYPTO THỜI GIAN THỰC QUA BINANCE VISION PUBLIC API (Không cần ví hay API Key)def fetch_binance_public_klines(symbol: str = "BTCUSDT", interval: str = "1h", limit: int = 500) -> pd.DataFrame:    url = "https://data-api.binance.vision/api/v3/klines"    resp = requests.get(url, params={"symbol": symbol, "interval": interval, "limit": limit}, timeout=10)    resp.raise_for_status()    data = resp.json()    df = pd.DataFrame(data, columns=[        "open_time", "open", "high", "low", "close", "volume",        "close_time", "amount", "trades", "taker_buy_base", "taker_buy_quote", "ignore"    ])    df["timestamps"] = pd.to_datetime(df["open_time"], unit="ms")    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")    return format_for_kronos(df)# 3. NGUỒN CỔ PHIẾU MỸ & QUỐC TẾ QUA YFINANCE (Tự động làm phẳng MultiIndex nếu có)def fetch_yfinance_ohlcv(ticker: str = "NVDA", period: str = "2y", interval: str = "1d") -> pd.DataFrame:    import yfinance as yf    raw = yf.download(ticker, period=period, interval=interval, auto_adjust=True, progress=False)    if isinstance(raw.columns, pd.MultiIndex):        raw.columns = raw.columns.get_level_values(0)    raw = raw.reset_index()    ts_col = "Datetime" if "Datetime" in raw.columns else "Date"    raw = raw.rename(columns={        ts_col: "timestamps", "Open": "open", "High": "high",        "Low": "low", "Close": "close", "Volume": "volume"    })    return format_for_kronos(raw)
+4. Đánh Giá Thực Nghiệm: Benchmark Bài Báo (AAAI 2026) Đối Chiếu Với Kiểm Định Hậu Cutoff (Post-June 2024)
+Để có góc nhìn khách quan về năng lực dự báo thực sự của Kronos, chúng ta cần đặt các con số trong bài báo gốc cạnh các kết quả kiểm định độc lập ngoài mẫu (Out-of-Sample - OOS) sau thời điểm cutoff tháng 06/2024.
+4.1. Hiệu năng trong Bài báo Gốc (arXiv:2508.02739)
+Trong bài báo được chấp nhận tại AAAI 2026, nhóm tác giả Đại học Thanh Hoa đã đánh giá gia đình mô hình Kronos (Kronos-large, Kronos-base, Kronos-small) đối đầu với 4 nhóm mô hình đối chứng: (1) Mô hình nền tảng chuỗi thời gian Zero-shot (TimesFM, Chronos, Lag-Llama, Moirai, Timer, Time-MoE, Sumdial, MOMENT, TimeGPT, UniTS), (2) Mô hình học sâu Full-shot huấn luyện trực tiếp bằng hàm mất mát kết hợp MSE và  (TimeXer, TimesNet, TimeMixer, PatchTST, iTransformer, FEDformer, NSTransformer), (3) Mô hình kinh tế lượng dự báo biến động (ARCH, GARCH), và (4) Mô hình sinh chuỗi thời gian (DiffusionTS, TimeVAE, TimeGAN)3.
+Kết quả thực nghiệm trong bài báo ghi nhận Kronos dẫn đầu trên cả 4 nhóm tác vụ định lượng3:
+Dự báo chuỗi giá (Price Series Forecasting): Đạt hệ số tương quan thông tin IC = 0,044 (so với mức tốt nhất của nhóm baseline là 0,021) và RankIC = 0,0267 (so với baseline 0,009); theo tổng hợp từ bài báo, RankIC dự báo chuỗi giá zero-shot của Kronos cao hơn 93% so với các TSFM phổ biến và cao hơn 87% so với các baseline không pre-train3.
+Dự báo tỷ suất sinh lời (Return Forecasting): Đạt IC = 0,0702 (so với baseline 0,040) và RankIC = 0,0675 (so với baseline 0,033)3.
+Dự báo độ biến động thực tế (Realized Volatility Forecasting): Giảm sai số tuyệt đối trung bình MAE xuống 0,037 (so với kết quả baseline trong bảng tổng hợp là 0,066, và giảm 9% MAE so với đối thủ mạnh nhất) đồng thời nâng hệ số xác định R² lên 0,262 (so với baseline 0,120)3.
+Sinh dữ liệu nến tổng hợp (Synthetic K-line Generation) & Mô phỏng đầu tư (Investment Simulation): Cải thiện độ chân thực sinh dữ liệu thêm 22% (Discriminative Score đạt 0,305 so với baseline 0,243; IC đạt 0,0301 so với baseline 0,001; RankIC đạt 0,0282 so với baseline -0,013)3. Trong mô phỏng đầu tư trên cổ phiếu A-share Trung Quốc qua Qlib, Kronos đạt Tỷ suất sinh lời vượt trội quy năm (AER = 0,208 so với baseline 0,066) và Tỷ số Thông tin (IR = 1,65)3.
+
+4.2. Kiểm định Độc lập Hậu Cutoff (Tháng 07/2024 – Tháng 07/2026) trên Cổ phiếu Mỹ và Crypto
+Điều gì xảy ra khi đem Kronos chạy Zero-shot trên dữ liệu hoàn toàn mới sau tháng 06/2024 tại thị trường chứng khoán Mỹ? Theo báo cáo kiểm định thực nghiệm tại GitHub Issue #375, người dùng yonaoh10 đã chạy NeoQuasar/Kronos-small trên 182 cổ phiếu Mỹ (bao gồm 118 cổ phiếu vốn hóa lớn tồn tại xuyên suốt có trung vị lợi nhuận +143% và 64 cổ phiếu sụt giảm mạnh hoặc bị loại khỏi chỉ số như SEDG, ENPH, MRNA, PYPL, DOCU, ZM, WBD có trung vị lợi nhuận +7% nhằm hạn chế thiên lệch sống sót — survivorship bias) trong giai đoạn sau cutoff từ 01/07/2024 đến 07/07/2026 (85 kỳ tái cơ cấu danh mục, cách nhau mỗi 6 ngày giao dịch, thông số khớp với Bảng 6 & Bảng 8 của bài báo: lookback = 40, horizon = 12, T = 0,6, top_p = 0.90, N = 10 mẫu)9.
+Kết quả thứ nhất cho thấy tín hiệu xếp hạng chéo (Cross-Sectional IC) dương qua các bán kỳ: tín hiệu lợi nhuận kỳ vọng predicted_close[last] / close[t-1] - 1 đạt Mean IC = +0,0220 (trị số thống kê Newey-West t = +1,39, dương trong 54% số ngày tái cơ cấu; nếu tính theo trung bình đường đi thì đạt Mean IC = +0,0181, t = +1,13)9. Khi chia nhỏ theo từng nửa năm, IC duy trì dương trong cả 4 giai đoạn: H2/2024 đạt +0,0095, H1/2025 đạt +0,0305, H2/2025 đạt +0,0348 và H1/2026 đạt +0,01449.
+Kết quả thứ hai — và cũng là phát hiện đáng giá nhất — nằm ở khả năng trực giao nhân tố (Factor Orthogonalization): để kiểm tra xem Kronos có đơn thuần lặp lại các chỉ báo động lượng (momentum) hay đảo chiều (reversal) cổ điển hay không, tác giả bản kiểm định đã hồi quy hạng chéo của Kronos theo 4 nhân tố chuẩn (21-day momentum, 12-1 momentum, 5-day reversal, 90-day volatility) tại mỗi ngày giao dịch và tính lại IC trên phần dư (residual)9. Kết quả cho thấy hệ số R² trung bình chỉ là 0,316, và Residual IC đạt +0,0134 với t = +1,33 (giữ được 96% trị số t-stat ban đầu)9. Điều này gợi ý rằng khoảng 2/3 tín hiệu dự báo của Kronos là thông tin độc lập (orthogonal signal) bắt nguồn từ hình thái chuỗi nến đa chiều OHLCVA mà 4 nhân tố giá cổ điển không giải thích được9. Nhận định này cũng được người dùng cameloid124 xác nhận độc lập trên dữ liệu Crypto 15 phút (từ tháng 07/2026) bằng mô hình Kronos-base, ghi nhận mức lợi thế độc lập khoảng +0,05 so với TiRex và FinCast9.
+Tuy nhiên, kết quả thứ ba chỉ ra rào cản chi phí giao dịch và độ tập trung lợi nhuận khi dùng trực tiếp Kronos-small zero-shot: khi xây dựng danh mục Long-Short Decile (Mua 18 mã cao nhất, Bán khống 18 mã thấp nhất, tỷ trọng đều), lợi nhuận gộp trước phí đạt +15,56%/năm (Sharpe = 0,77, t = 1,51), nhưng sau khi trừ chi phí giao dịch 10 bps/chiều (0,1%/lần khớp), lợi nhuận ròng giảm xuống +7,16%/năm (Sharpe = 0,35, t = 0,69)9. Hơn nữa, lợi nhuận tập trung cao vào một số ít phiên: 5 ngày tái cơ cấu tốt nhất (trên tổng số 85 ngày) đóng góp tới 91% tổng lợi nhuận gộp (+57,4% trên tổng +63,0%), trong khi 80 ngày còn lại chỉ đóng góp tổng cộng +5,5%9.
+Bài học cốt lõi cho trường hợp của bạn: Chính nhóm tác giả Kronos cũng lưu ý trong README.md (mục From Demo to Production: Important Considerations) rằng tín hiệu xuất ra từ mô hình chỉ là dự đoán thô (raw predictions); trong quy trình định lượng thực tế, các tín hiệu này cần được đưa vào mô hình tối ưu hóa danh mục để trung hòa rủi ro beta thị trường và các nhân tố phong cách nhằm cô lập pure alpha1. Thay vì dùng bản nhẹ Kronos-small ở chế độ Zero-shot để giao dịch đảo danh mục liên tục trực tiếp trên thị trường hiệu quả cao, giá trị thiết thực nhất là: (a) Sử dụng bản lớn hơn Kronos-base (102,3M), (b) Khai thác lượng thông tin trực giao (Residual Alpha) của nó để kết hợp với tín hiệu cơ bản/tin tức (qua MCP Server / AI Agent), và (c) Thực hiện Fine-tuning 2 giai đoạn trên phân phối dữ liệu mục tiêu1.
+5. Bốn Hướng Ứng Dụng Thực Chiến & Kiến Trúc Triển Khai Cụ Thể Cho Trường Hợp Của Bạn
+Dựa trên nền tảng kỹ thuật đã kiểm toán ở trên, dưới đây là thiết kế chi tiết cho 4 hướng ứng dụng mà bạn có thể triển khai ngay trên máy trạm hoặc cụm GPU của mình mà không cần tài khoản sàn giao dịch:
+Hướng 1: Đóng gói Kronos thành MCP Server chuẩn Production (Tích hợp ar_fast & So sánh chéo với Chronos-2)
+Bản tóm tắt trước gợi ý bọc KronosPredictor thành một MCP Server nhưng chưa chỉ ra kiến trúc thực tế cũng như cách giải quyết việc KronosPredictor gộp mất các đường lấy mẫu bằng np.mean. Trên thực tế, cộng đồng mã nguồn mở đã phát triển một kiến trúc tham chiếu cho bài toán này là kronos-mcp (JingxuanC/kronos-mcp)11.
+Để xây dựng một MCP Server phục vụ hệ thống AI Agent & Multimodal RAG của bạn, bạn có thể thiết kế máy chủ cung cấp các công cụ (tools) cốt lõi cùng cơ chế tính độ tự tin định lượng theo kiến trúc kronos-mcp11:
+forecast_kline: Nhận chuỗi OHLCV lịch sử, chạy thuật toán lấy mẫu nhanh ar_fast (không qua lệnh gộp trung bình sớm của KronosPredictor) để trả về cả đường dự báo trung bình lẫn các dải phân vị q10, q50, q90 và độ lệch chuẩn tại chân trời dự báo (path_std_at_horizon)10. Tự động nhận diện chế độ thời gian timestamps_mode: nếu là dữ liệu ngày (inferred), tự động nhảy qua Thứ Bảy/Chủ Nhật và danh sách ngày nghỉ lễ cấu hình qua biến môi trường KRONOS_HOLIDAYS11.
+forecast_signal: Chạy S đường lấy mẫu độc lập để trích xuất tín hiệu giao dịch định lượng cho LLM Agent. Để tránh mâu thuẫn nội tại (ví dụ: trung bình các đường là -0,8% nhưng đa số phiếu bầu lại là up), trường direction và expected_return_pct được tính thống nhất trên đường trung bình của S mẫu (summary_basis = "mean_of_N_runs"), trong khi tỷ lệ phiếu bầu đa số được tách riêng vào trường sample_vote_direction và sample_votes11. Chỉ số Độ tự tin (confidence nằm trong đoạn [0, 1]) được định nghĩa bằng công thức kết hợp giữa tỷ lệ đồng thuận hướng đi và độ phân tán lợi nhuận11:Khi các đường lấy mẫu có cùng hướng tăng/giảm (Consistency Rate tiến về 1) và độ lệch chuẩn phần trăm lợi nhuận giữa các đường nhỏ, chỉ số confidence sẽ tiến gần về 1,011. Đồng thời, để bù trừ hiện tượng Rollout Damping (hẹp khoảng 2,7 lần) đã phân tích ở Phần 2, bạn có thể nhân độ rộng khoảng phân vị q90 - q10 với hệ số hiệu chuẩn thực nghiệm 2,7× để cung cấp thêm một trường biên độ rủi ro hiệu chuẩn (calibrated_risk_band) cho AI Agent9.
+forecast_compare (Kiến trúc Dual-Backend Kronos + Chronos-2): Cho phép AI Agent chạy song song cả NeoQuasar/Kronos-base (mô hình đa biến OHLCVA) và amazon/chronos-2 (Chronos2Pipeline, mô hình chỉ dự báo giá close với volume làm biến ngoại sinh quá khứ — past covariate, xuất trực tiếp phân vị 10%/90% tất định) trên cùng một chuỗi đầu vào11. Khi cả hai kiến trúc khác biệt này cùng đồng thuận về hướng đi (directions_agree == True), tín hiệu định lượng đưa vào báo cáo RAG sẽ có cơ sở đối chứng tốt hơn11.
+forecast_batch + JobQueue bất đồng bộ: Với các tác vụ quét toàn bộ rổ cổ phiếu (như VN30 hoặc S&P 100), đẩy tác vụ vào hàng đợi JobQueue chạy ngầm và trả về job_id để Agent truy vấn qua job_status, cô lập lỗi từng mã để 1 mã lỗi dữ liệu không làm gián đoạn cả lô dự báo11.
+Hướng 2: Thực nghiệm Two-Stage Supervised Fine-Tuning (SFT) trên Hạ tầng Multi-GPU (finetune_csv/ vs. finetune/)
+Bản tóm tắt trước chỉ nhắc đến thư mục finetune/ (vốn phụ thuộc vào định dạng cơ sở dữ liệu nhị phân của Microsoft Qlib). Trên thực tế, kho lưu trữ shiyu-coder/Kronos cung cấp 2 pipeline tinh chỉnh độc lập phục vụ hai bài toán khác nhau1:
+
+Tiêu chí Kỹ thuật
+Pipeline 1: finetune_csv/ (Khuyên dùng cho Custom Data / VNStock / Crypto)
+Pipeline 2: finetune/ (Chuẩn học thuật Qlib cho Danh mục Đa cổ phiếu)
+Đầu vào dữ liệu
+Một tệp CSV chuẩn 7 cột (timestamps, open, high, low, close, volume, amount)17
+Cơ sở dữ liệu nhị phân Qlib (~/.qlib/qlib_data/cn_data), trích xuất qua QlibDataLoader13
+Tệp cấu hình trung tâm
+Tệp YAML: finetune_csv/configs/config_ali09988_candle-5min.yaml13
+Tệp Python: finetune/config.py1
+Lớp Dataset & Cắt cửa sổ
+CustomKlineDataset: cắt cửa sổ lookback_window + predict_window + 1, lấy mẫu tất định dùng bước nhảy số nguyên tố cộng độ lệch epoch (prime step + epoch offset), tự động ffill giá trị khuyết24
+QlibDataset (finetune/dataset.py): tiền tính toán mọi cặp (symbol, start_index), lấy mẫu ngẫu nhiên n_train_iter = 2000 * batch_size mỗi epoch, dùng dropna()17
+Cấu hình cửa sổ mặc định
+lookback_window: 512, predict_window: 48, max_context: 512, tỷ lệ train_ratio: 0.9, val_ratio: 0.113
+lookback_window = 90, predict_window = 10, max_context = 512, chia theo mốc thời gian có vùng đệm chồng lấp (overlap buffer)17
+Tỷ lệ Learning Rate (Bất đối xứng)
+Tokenizer LR = 2e-4 (30 epochs) vs. Predictor LR = 1e-6 (20 epochs, batch_size = 32) — chênh lệch 200 lần để tránh phá vỡ không gian biểu diễn khi tinh chỉnh trên 1 tài sản đơn lẻ13
+Tokenizer LR = 2e-4 vs. Predictor LR = 4e-5 (chênh lệch 5 lần trên tập đa cổ phiếu CSI 300), dùng AdamW + OneCycleLR (pct_start=0.03)17
+Gradient Clipping (max_norm)
+Kiểm soát đạo hàm cùng clip: 5.0 trên dữ liệu chuẩn hóa48
+Tokenizer max_norm = 2.0; Predictor max_norm = 3.017
+Lệnh chạy (Single / Multi-GPU)
+Chạy gộp 1 lệnh: python train_sequential.py --config configs/... hoặc chạy DDP: DIST_BACKEND=nccl torchrun --standalone --nproc_per_node=2 train_sequential.py --config ...13
+Pha 1: torchrun --standalone --nproc_per_node=2 finetune/train_tokenizer.py
+
+Pha 2: torchrun --standalone --nproc_per_node=2 finetune/train_predictor.py1
+Thiết kế Thí nghiệm Ablation Study cho bạn: Nếu bạn có cụm Dual GPU, hãy xuất dữ liệu nến 5 phút hoặc 1 ngày của các mã cổ phiếu VN30 (từ vnstock) hoặc các cặp Crypto (từ Binance Vision) sau tháng 07/2024 ra CSV5. Bạn có thể dùng các cờ dòng lệnh có sẵn của train_sequential.py là --skip-tokenizer và --skip-basemodel để thực hiện một nghiên cứu Ablation 3 nhánh hoàn chỉnh17:
+Nhánh 1 (Zero-Shot): Chạy thẳng NeoQuasar/Kronos-base + NeoQuasar/Kronos-Tokenizer-base1.
+Nhánh 2 (Predictor-Only SFT): Chạy train_sequential.py --skip-tokenizer (giữ nguyên bảng mã BSQ gốc, chỉ tinh chỉnh Transformer thích nghi với quy luật chuyển trạng thái mới)17.
+Nhánh 3 (Full Two-Stage SFT): Tinh chỉnh cả KronosTokenizer (để bảng mã nhị phân 20-bit thích nghi với phân phối dữ liệu mục tiêu) rồi mới tinh chỉnh Kronos Predictor13.
+Sau đó, bạn đánh giá hiệu năng qua tập kiểm thử trong finetune/qlib_test.py (so sánh 4 biến thể tín hiệu: 'last', 'mean', 'max', 'min' qua chiến lược TopkDropoutStrategy giữ 50 mã, thay tối đa 5 mã/ngày, nắm giữ tối thiểu 5 ngày)17. Lưu ý: với thị trường có biên độ trần/sàn ngày (như ±10% tại A-share Trung Quốc hay ±7% trên sàn HOSE Việt Nam), bạn nên áp dụng hàm cắt ngưỡng biên độ giá apply_price_limits (như cách repo thực hiện trong examples/prediction_cn_markets_day.py) để chặn các dự báo vượt trần/sàn vật lý13.
+Hướng 3: Nghiên cứu Chuyển giao Kiến trúc (Cross-Domain Research) sang Chuỗi Tín hiệu Vật lý / Y sinh Nhiễu cao
+Nếu mục tiêu của bạn là viết bài báo khoa học hoặc đề cương nghiên cứu (Research Proposal), kiến trúc của Kronos đã cho thấy khả năng chuyển giao thực tế sang miền tín hiệu vật lý ngoài tài chính. Bằng chứng trực tiếp ngay trên tài khoản Hugging Face chính thức của nhóm tác giả (NeoQuasar) là sự xuất hiện của mô hình NeoQuasar/WindFM-Tokenizer-robust (mô hình nền tảng cho chuỗi thời gian công suất điện gió — Wind Power Time Series Forecasting)22. Khi kiểm tra tệp config.json của WindFM-Tokenizer-robust (commit 978253d), nó sử dụng cùng cấu trúc 16 tham số của KronosTokenizer22:
+
+
+
+JSON
+{  "attn_dropout_p": 0.0, "beta": 0.05, "d_in": 6, "d_model": 256,  "ff_dim": 512, "ffn_dropout_p": 0.0, "gamma": 1.1, "gamma0": 1.0,  "group_size": 5, "n_dec_layers": 4, "n_enc_layers": 4, "n_heads": 4,  "resid_dropout_p": 0.0, "s1_bits": 10, "s2_bits": 10, "zeta": 0.05}
+Cơ chế này giải quyết một bài toán hóc búa khi áp dụng cho tín hiệu y sinh lâm sàng (như điện tâm đồ ECG, điện não đồ EEG, chỉ số sinh tồn ICU) hoặc cảm biến công nghiệp IoT: bài toán Bùng nổ Từ vựng Đa kênh (Multivariate Vocabulary Explosion). Trong tín hiệu đa biến ( kênh đo đồng thời), các kênh có mối tương quan hình học tức thời chặt chẽ (tương tự mối quan hệ  trong nến tài chính) và thường xuất hiện nhiễu đột biến (motion artifacts — tương tự flash crash)20. Nếu lượng tử hóa từng kênh riêng lẻ như Chronos, mối tương quan giữa các kênh sẽ bị mất; nếu lượng tử hóa vector đa chiều bằng 1 bảng mã phẳng  từ vựng, mô hình tự hồi quy sẽ quá tải3. Bằng cách mở model/kronos.py, thay đổi tham số d_in = 6 trong KronosTokenizer.__init__ thành số kênh cảm biến  của bạn22, đồng thời giữ nguyên lớp BSQuantizer (s1_bits = 10, s2_bits = 10) và hàm mất mát , subtoken s1 sẽ học cách mã hóa trạng thái nền vĩ mô, trong khi subtoken s2 mã hóa các biến đổi chi tiết cục bộ thông qua lớp DependencyAwareLayer3.
+Hướng 4: Xây dựng Dashboard Trực quan hóa Không gian Xác suất & Kiểm định Continuity Gap (Thay thế webui/app.py)
+Như đã phân tích ở Cạm bẫy 7, webui/app.py mặc định trong repo có lỗ hổng bảo mật (host='0.0.0.0', debug=True, không xác thực), khóa cứng cửa sổ 400 + 120 = 520 và tính sai ngày nghỉ cuối tuần14. Tuy nhiên, trong webui/app.py có một tính năng kỹ thuật đáng chú ý mà bạn nên kế thừa và nâng cấp: hàm save_prediction_results() tự động phân tích Độ đứt gãy liên tục (continuity / gap analysis) — đo lường chênh lệch tuyệt đối và phần trăm giữa điểm dự báo cuối và dữ liệu thực tế14.
+Bạn có thể xây dựng một ứng dụng FastAPI + Plotly/Three.js hiện đại (chạy trên 127.0.0.1 có xác thực JWT/API token) kết hợp thuật toán lấy mẫu giữ nguyên toàn bộ S đường để hiển thị trực tiếp Đám mây Quỹ đạo Monte Carlo thay vì chỉ 1 đường trung bình, kèm theo dải phân vị đã hiệu chuẩn Rollout Damping (×2,7) và kiểm định tự động độ đứt gãy liên tục (continuity) theo thời gian thực9.
+6. Cẩm Nang Triển Khai Thực Chiến Từng Bước (Playbook Đã Vá Toàn Bộ Lỗi Mã Nguồn)
+Dưới đây là quy trình chuẩn hóa và kịch bản Python hoàn chỉnh (kronos_pro_pipeline.py) giúp bạn chạy ngay mô hình NeoQuasar/Kronos-base (102,3M tham số) trên máy cục bộ (Linux, Windows hoặc macOS Apple Silicon mps) với dữ liệu miễn phí mà không cần tài khoản sàn, đồng thời khắc phục cả 7 cạm bẫy kỹ thuật đã nêu1:
+Bước 1: Thiết lập môi trường & Kiểm tra toàn vẹn bằng Regression Test
+Lưu ý khi cài đặt môi trường Python (đặc biệt trên macOS và Linux): sử dụng Python 3.10 đến 3.13 (tránh Python 3.14 vì chưa có sẵn gói cài đặt PyTorch tương thích)40.
+
+
+
+Bash
+# 1. Clone kho lưu trữ chính thức và cài đặt phụ thuộcgit clone https://github.com/shiyu-coder/Kronos.gitcd Kronospip install -r requirements.txtpip install yfinance vnstock requests pytest# 2. Chạy bộ kiểm thử hồi quy chính thức trên 2.500 nến (tests/data/regression_input.csv)# Bước này xác nhận PyTorch, Tokenizer và RoPE hoạt động chính xác (sai số tương đối <= 1e-5)python -m pytest tests/test_kronos_regression.py
+Bước 2: Kịch bản Suy luận Xác suất Tốc độ cao giữ trọn S Quỹ đạo Monte Carlo
+Thay vì gọi predictor.predict() bị gộp trung bình np.mean và bị chậm gấp S lần ở bước mã hóa, kịch bản dưới đây kết hợp nguyên lý mã hóa một lần của ar_fast với vòng lặp giải mã đa bước pred_len = H, giữ nguyên toàn bộ S kịch bản lấy mẫu để tính xác suất tăng giá p_up, phân vị q10, q50, q90, dải rủi ro hiệu chuẩn Rollout Damping và chỉ số Confidence chuẩn MCP8:
+
+
+
+Python
+import torchimport numpy as npimport pandas as pdimport model.kronos as Kfrom model import Kronos, KronosTokenizerdef extract_time_stamps(ts_series: pd.Series) -> np.ndarray:    """Trích xuất chính xác 5 đặc trưng chu kỳ lịch theo chuẩn calc_time_stamps của model/kronos.py."""    s = pd.to_datetime(pd.Series(ts_series)).dt.tz_localize(None)    return np.stack([        s.dt.minute.values,        s.dt.hour.values,        s.dt.weekday.values,        s.dt.day.values,        s.dt.month.values    ], axis=1).astype(np.float32)@torch.no_grad()def kronos_probabilistic_rollout(    tokenizer: KronosTokenizer,    model: Kronos,    df: pd.DataFrame,    y_timestamp: pd.Series,    lookback: int = 256,       # Tối ưu SNR theo kết quả regression test (256 + pred_len <= 512)    pred_len: int = 20,    max_context: int = 512,    clip: float = 5.0,    T: float = 0.6,            # Nhiệt độ chuẩn theo Bảng 6 bài báo cho mô phỏng đầu tư    top_k: int = 0,    top_p: float = 0.90,    sample_count: int = 20,    # Số quỹ đạo Monte Carlo lấy mẫu song song    damping_calibration: float = 2.7  # Hệ số bù trừ Rollout Damping theo kiểm định Issue #375) -> dict:    """    Thực thi suy luận tự hồi quy phân cấp giữ nguyên toàn bộ `sample_count` quỹ đạo.    Tối ưu hóa: Chỉ chạy Tokenizer.encode trên 1 bản gốc duy nhất trước khi nhân bản mẫu.    """    device = next(model.parameters()).device    assert lookback + pred_len <= max_context, (        f"Tổng lookback ({lookback}) + pred_len ({pred_len}) vượt quá max_context ({max_context})!"    )    # 1. Cắt cửa sổ lookback và chuẩn hóa nhân quả nghiêm ngặt (chỉ dùng thống kê quá khứ)    w = df.iloc[-lookback:].copy().reset_index(drop=True)    feature_cols = ["open", "high", "low", "close", "volume", "amount"]    if "amount" not in w.columns:        w["amount"] = w["volume"] * w[["open", "high", "low", "close"]].mean(axis=1)    x_raw = w[feature_cols].to_numpy(dtype=np.float32) # (L, 6)    x_mean = np.mean(x_raw, axis=0)                    # (6,)    x_std = np.std(x_raw, axis=0)                      # (6,)    x_norm = np.clip((x_raw - x_mean) / (x_std + 1e-5), -clip, clip)    # 2. Chuẩn bị tensor thời gian (1, L + H, 5)    x_stamp = extract_time_stamps(w["timestamps"])    y_stamp = extract_time_stamps(y_timestamp)    full_stamp = torch.from_numpy(np.concatenate([x_stamp, y_stamp], axis=0)).unsqueeze(0).to(device)    # 3. Mã hóa BSQ 1 LẦN DUY NHẤT cho chuỗi lịch sử (tiết kiệm S lần chi phí Encoder)    x_tensor = torch.from_numpy(x_norm).unsqueeze(0).to(device) # (1, L, 6)    x_tokens = tokenizer.encode(x_tensor, half=True)            # [s1_ids (1, L), s2_ids (1, L)]    # 4. Nhân bản token lịch sử và thời gian sang S quỹ đạo để lấy mẫu ngẫu nhiên song song    S = sample_count    pre_seq = x_tokens[0].repeat_interleave(S, dim=0)   # (S, L)    post_seq = x_tokens[1].repeat_interleave(S, dim=0)  # (S, L)    stamp_seq = full_stamp.repeat_interleave(S, dim=0)  # (S, L + H, 5)    # 5. Vòng lặp giải mã tự hồi quy 2 pha: decode_s1 (Coarse) -> DependencyAwareLayer -> decode_s2 (Fine)    for step in range(pred_len):        cur_len = lookback + step        cur_stamp = stamp_seq[:, :cur_len, :].contiguous()        # Pha 1: Dự báo phân phối subtoken thô s1        s1_logits, context = model.decode_s1(pre_seq, post_seq, cur_stamp)        s1_logits_last = s1_logits[:, -1, :]        sample_pre = K.sample_from_logits(            s1_logits_last, temperature=T, top_k=top_k, top_p=top_p, sample_logits=True        )        # Pha 2: Dự báo phân phối subtoken tinh s2 có điều kiện trên sample_pre vừa rút        s2_logits = model.decode_s2(context, sample_pre)        s2_logits_last = s2_logits[:, -1, :]        sample_post = K.sample_from_logits(            s2_logits_last, temperature=T, top_k=top_k, top_p=top_p, sample_logits=True        )        pre_seq = torch.cat([pre_seq, sample_pre], dim=1)        post_seq = torch.cat([post_seq, sample_post], dim=1)    # 6. Giải mã toàn bộ S quỹ đạo từ không gian token BSQ về không gian liên tục và khử chuẩn hóa    z_decoded = tokenizer.decode([pre_seq, post_seq], half=True) # (S, L + H, 6)    preds_norm = z_decoded[:, -pred_len:, :].cpu().numpy()       # (S, H, 6)    all_trajectories = preds_norm * (x_std + 1e-5) + x_mean      # (S, H, 6) ở thang giá thực    # 7. Tính toán bộ chỉ số định lượng & xác suất từ S quỹ đạo    last_close = float(x_raw[-1, 3])    horizon_closes = all_trajectories[:, -1, 3]                  # Giá đóng cửa tại bước H của S mẫu    path_returns_pct = (horizon_closes / last_close - 1.0) * 100.0    mean_path = np.mean(all_trajectories, axis=0)                # (H, 6)    mean_ret_pct = float(np.mean(path_returns_pct))    std_ret_pct = float(np.std(path_returns_pct))    direction = "up" if mean_ret_pct > 0 else ("down" if mean_ret_pct < 0 else "flat")    # Tỷ lệ đồng thuận hướng đi & Độ tự tin theo chuẩn Kronos MCP    up_votes = int(np.sum(path_returns_pct > 0))    down_votes = int(np.sum(path_returns_pct < 0))    consistency_rate = (up_votes / S) if direction == "up" else (down_votes / S)    confidence = float(consistency_rate * (1.0 / (1.0 + std_ret_pct)))    # Hiệu chuẩn dải phân vị bù trừ hiện tượng Rollout Damping (~2.7x)    raw_q10 = np.percentile(all_trajectories[:, :, 3], 10, axis=0)    raw_q50 = np.percentile(all_trajectories[:, :, 3], 50, axis=0)    raw_q90 = np.percentile(all_trajectories[:, :, 3], 90, axis=0)    calibrated_q10 = raw_q50 - (raw_q50 - raw_q10) * damping_calibration    calibrated_q90 = raw_q50 + (raw_q90 - raw_q50) * damping_calibration    mean_df = pd.DataFrame(mean_path, columns=feature_cols, index=pd.Index(y_timestamp, name="timestamps"))    mean_df["close_q10_raw"] = raw_q10    mean_df["close_q90_raw"] = raw_q90    mean_df["close_q10_calibrated"] = calibrated_q10    mean_df["close_q90_calibrated"] = calibrated_q90    return {        "forecast_df": mean_df,        "all_trajectories": all_trajectories, # Mảng 3D (S, H, 6) dùng để vẽ mặt mật độ 3D / Fan Chart        "summary": {            "last_close": last_close,            "direction": direction,            "expected_return_pct": round(mean_ret_pct, 4),            "return_std_pct": round(std_ret_pct, 4),            "p_up": round(up_votes / S, 4),            "sample_votes": {"up": up_votes, "down": down_votes, "total": S},            "mcp_confidence": round(confidence, 4)        }    }if __name__ == "__main__":    # Tự động chọn thiết bị tối ưu (CUDA -> Apple MPS -> CPU) và chuyển model trước khi chạy    device = "cuda:0" if torch.cuda.is_available() else ("mps" if hasattr(torch.backends, "mps") and torch.backends.mps.is_available() else "cpu")    # Load đúng cặp Tokenizer-base và Kronos-base (102.3M tham số)    tokenizer = KronosTokenizer.from_pretrained("NeoQuasar/Kronos-Tokenizer-base").eval().to(device)    model = Kronos.from_pretrained("NeoQuasar/Kronos-base").eval().to(device)    # Đọc dữ liệu mẫu có sẵn trong repo (đường dẫn chính xác: examples/data/...)    # Bạn có thể thay bằng fetch_vnstock_ohlcv("FPT") hoặc fetch_binance_public_klines("BTCUSDT") ở Phần 3    df = pd.read_csv("examples/data/XSHG_5min_600977.csv")    df["timestamps"] = pd.to_datetime(df["timestamps"])    lookback, pred_len = 256, 20    hist_df = df.iloc[:lookback].copy()    # Lấy mốc thời gian tương lai từ dữ liệu thực (hoặc tạo bằng pd.bdate_range cho khung 1D)    future_ts = df.iloc[lookback : lookback + pred_len]["timestamps"].reset_index(drop=True)    result = kronos_probabilistic_rollout(        tokenizer=tokenizer, model=model, df=hist_df, y_timestamp=future_ts,        lookback=lookback, pred_len=pred_len, T=0.6, top_p=0.9, sample_count=20    )    print("=== TÍN HIỆU ĐỊNH LƯỢNG TỔNG HỢP (KRONOS-BASE MONTE CARLO) ===")    print(result["summary"])    print("\n=== BẢNG DỰ BÁO OHLCVA & DẢI PHÂN VỊ ĐÃ HIỆU CHUẨN (5 BƯỚC ĐẦU) ===")    print(result["forecast_df"][["open", "high", "low", "close", "close_q10_calibrated", "close_q90_calibrated"]].head())
+Lộ trình Hành động Đề xuất cho Bạn
+Giai đoạn Khởi động (Ngày 1–2): Chạy pytest tests/test_kronos_regression.py để xác nhận môi trường chuẩn16, sau đó chạy kịch bản kronos_pro_pipeline.py ở trên kết hợp với hàm fetch_vnstock_ohlcv (cổ phiếu Việt Nam) và fetch_binance_public_klines (Crypto) tại Phần 3 để kiểm nghiệm khả năng sinh quỹ đạo xác suất của Kronos-base hoàn toàn miễn phí5.
+Giai đoạn Tinh chỉnh Chuyên biệt (Tuần 1–2): Xuất chuỗi lịch sử nến 5 phút hoặc 1 ngày (chọn tập kiểm thử sau ngày 01/07/2024 để tránh rò rỉ dữ liệu pre-train) ra tệp CSV 7 cột và chạy tinh chỉnh 2 giai đoạn qua finetune_csv/train_sequential.py bằng torchrun trên GPU của bạn với tỷ lệ Learning Rate bất đối xứng (2e-4 cho Tokenizer và 1e-6 đến 4e-5 cho Predictor)9.
+Giai đoạn Tích hợp Hệ thống (Tuần 3+): Đóng gói hàm kronos_probabilistic_rollout thành MCP Server (cung cấp forecast_kline, forecast_signal kèm chỉ số mcp_confidence và dải phân vị hiệu chuẩn ×2,7) để kết nối vào quy trình AI Agent / Multimodal RAG hoặc trích xuất phần dư trực giao (Residual Alpha) phục vụ nghiên cứu định lượng của bạn9.
+Works cited
+Kronos: A Foundation Model for the Language of Financial Markets, https://github.com/shiyu-coder/Kronos
+Kronos: A Foundation Model for the Language of Financial Markets, https://huggingface.co/papers/2508.02739
+Kronos: A Foundation Model for the Language of Financial Markets, https://arxiv.org/pdf/2508.02739
+shiyu-coder/Kronos | zdoc.app, https://zdoc.app/en/shiyu-coder/Kronos
+Binance spot bars | Plugin library | OrionQuant Technologies, https://engine.orionquant.com/plugins/binance_bars
+Clarification on training data temporal range (cutoff date) for Kronos, https://github.com/shiyu-coder/Kronos/issues/265
+Kronos on Pinokio, https://pinokio.co/apps/github-com-shiyu-coder-kronos
+https://huggingface.co/spaces/gghaven/omega-trade-ai/commit/f6ac8731c339a88eb6086b2a766d4dfd297592c3
+Cross-sectional ranking test: Kronos-small on 182 US equities, 85, https://github.com/shiyu-coder/Kronos/issues/375
+qbt/papers/tsfm1/run_kronos_daily.py · Liangzhi-Li/quant-papers-vs, https://huggingface.co/datasets/Liangzhi-Li/quant-papers-vs-baselines-data/blob/a167a34eaeeea650f09fc07ec5a9abb4456b5847/qbt/papers/tsfm1/run_kronos_daily.py
+Kronos MCP by JingxuanC - Glama, https://glama.ai/mcp/servers/JingxuanC/kronos-mcp
+轻量级时序预测革命：如何用消费级GPU运行专业金融模型 - CSDN博客, https://blog.csdn.net/gitblog_00540/article/details/156378915
+覆盖45 个交易所：Kronos 对A 股和中文生态的适配到什么程度原创, https://blog.csdn.net/gitblog_00182/article/details/168555042
+https://blog.csdn.net/gitblog_01176/article/details/168553263
+https://blog.csdn.net/gitblog_01071/article/details/168552905
+Kronos金融K线预测基础模型：从K线数据到价格曲线的完整指南, https://blog.csdn.net/gitblog_01178/article/details/155473624
+开箱即用不够用？用Qlib 管线微调Kronos，调出自己的选股模型原创, https://blog.csdn.net/gitblog_00603/article/details/168544903
+Kronos: A Foundation Model for the Language of Financial Markets, https://www.alphaxiv.org/abs/2508.02739
+Kronos: The AI Model for Financial Markets - Bright Coding, https://www.blog.brightcoding.dev/2026/04/10/kronos-the-revolutionary-ai-model-for-financial-markets
+金融数据的高噪声有多难处理？Kronos 的架构是怎么扛住的-CSDN博客, https://blog.csdn.net/gitblog_01172/article/details/168540351
+https://blog.csdn.net/gitblog_00950/article/details/168555833
+config.json · NeoQuasar/WindFM-Tokenizer-robust at main, https://huggingface.co/NeoQuasar/WindFM-Tokenizer-robust/blob/main/config.json
+Kronos: Architecture Analysis of Financial Market Language, https://aiflowlearn.net/codex/kronos
+https://blog.csdn.net/gitblog_00393/article/details/153662693
+Kronos: Open-Source Foundation Model for Financial Market, https://pyshine.com/Kronos-Foundation-Model-Financial-Markets/
+config.json · NeoQuasar/Kronos-base at ... - Hugging Face, https://huggingface.co/NeoQuasar/Kronos-base/blame/cc014e92eb0a131efaddc299526d0e34f1f3d472/config.json
+config.json · shangwei302/Kronos-Tokenizer-2k at main, https://huggingface.co/shangwei302/Kronos-Tokenizer-2k/blob/main/config.json
+config.json · klok123/Kronos-small at main - Hugging Face, https://huggingface.co/klok123/Kronos-small/blob/main/config.json
+Kronos: A Foundation Model for the Language of Financial Markets, https://arxiv.org/html/2508.02739v1
+https://huggingface.co/klok123/Kronos-mini/blob/main/config.json
+NeoQuasar/Kronos-Tokenizer-2k at main - Hugging Face, https://huggingface.co/NeoQuasar/Kronos-Tokenizer-2k/tree/main
+kronos-tokenizer-2k-20260816:华为昇腾模型适配第2期，适配模型为, https://gitcode.com/Lumiire/kronos-tokenizer-2k-20260816
+NeoQuasar/Kronos-Tokenizer-base at main - Hugging Face, https://huggingface.co/NeoQuasar/Kronos-Tokenizer-base/tree/main
+add model · NeoQuasar/Kronos-Tokenizer-base at 9ef143b, https://huggingface.co/NeoQuasar/Kronos-Tokenizer-base/commit/9ef143b98ee3c2488eebd85404e0c215c112b46a
+NeoQuasar/Kronos-base at main - Hugging Face, https://huggingface.co/NeoQuasar/Kronos-base/tree/main
+config.json · klok123/Kronos-base at main - Hugging Face, https://huggingface.co/klok123/Kronos-base/blob/main/config.json
+train Kronos Large model · Issue #352 · shiyu-coder/Kronos - GitHub, https://github.com/shiyu-coder/Kronos/issues/352
+Kronos: A Domain-Specific Foundation Model for the Language of, https://tsfm.ai/blog/kronos-financial-foundation-model
+Request for Academic Access to Kronos-Large (499.2M). Research, https://github.com/shiyu-coder/Kronos/issues/347
+Running Kronos, the Open-Source Financial Forecasting Model, on, https://nielmalan.com/blog/kronos-mac-setup
+https://github.com/shiyu-coder/Kronos/blob/master/examples/prediction_example.py
+'HierarchicalEmbedding' object has no attribute 'embedding_dim, https://github.com/shiyu-coder/Kronos/issues/16
+给实盘策略装个AI 大脑：Kronos 接入交易接口的保姆级流程 - GitCode, https://blog.gitcode.com/cbce56007db29358a27e71475f678994.html
+https://blog.csdn.net/gitblog_00507/article/details/168550218
+不写一行代码也能预测K 线：Kronos 自带Web 界面上手 - CSDN博客, https://blog.csdn.net/gitblog_00019/article/details/168557274
+Activity · shiyu-coder/Kronos - GitHub, https://github.com/shiyu-coder/Kronos/activity
+puhulhul @g4dcbqcgyugwqt8 - Twitter Profile | Sotwe, https://www.sotwe.com/g4dcbqcgyugwqt8
+把数据库变成模型口粮：Kronos 迎来海量K 线训练数据方案-CSDN博客, https://blog.csdn.net/gitblog_00982/article/details/168555832
+HIGH: Web UI has no authentication or CSRF protection #378 - GitHub, https://github.com/shiyu-coder/Kronos/issues/378
+Dữ liệu thị trường – thư viện Vnstock, https://vnstocks.com/docs/vnstock/v5/thi-truong-market
+Perfil de 稳中求定 | Binance Square, https://www.binance.com/es-MX/square/profile/square-creator-288403937
+GitHub - Mishit18/btc-adaptive-grid-research: Walk-forward BTC, https://github.com/Mishit18/btc-adaptive-grid-research
+NeoQuasar/Kronos-Tokenizer-base at a802774 - Hugging Face, https://huggingface.co/NeoQuasar/Kronos-Tokenizer-base/commit/a802774e1736fc9c405e199e276d13c0ccabe6fa
+https://zread.ai/shiyu-coder/Kronos
+Kronos K线预测快速上手指南：从安装到跑通第一条120步预测, https://blog.csdn.net/gitblog_01090/article/details/154328475?utm_source=gitcode_aigc_v1_t0&index=prev&type=card&
+https://vampireachao.github.io/2026/07/24/Kronos/index.html
+https://blog.csdn.net/gitblog_00693/article/details/153662400
+config.json · NeoQuasar/WindFM-Tokenizer-robust at main, https://huggingface.co/NeoQuasar/WindFM-Tokenizer-robust/blame/main/config.json
+Kronos金融时序预测模型家族：mini/small/base版本技术架构与部署, https://blog.csdn.net/gitblog_00780/article/details/148758727
+Enhance model card with detailed information and usage for Kronos, https://huggingface.co/NeoQuasar/Kronos-mini/discussions/1/files

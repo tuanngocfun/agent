@@ -1,0 +1,106 @@
+Kronos: từ mô hình dự báo đến dự án AI/ML
+Bản chất của repository
+Kronos là mô hình nền tảng chuyên cho dữ liệu nến tài chính, không phải phần mềm môi giới hay bot giao dịch hoàn chỉnh: tokenizer chuyển dữ liệu OHLCVA thành token phân cấp, sau đó Transformer tự hồi quy sinh các bước tiếp theo. OHLC là giá mở cửa, cao nhất, thấp nhất, đóng cửa; V là khối lượng, A là giá trị giao dịch.[1][2]
+API dự báo nhận dữ liệu lịch sử cùng timestamps quá khứ và timestamps cần dự báo; giá tương lai không phải đầu vào. Không nên nhầm việc truyền lịch thời gian tương lai với cung cấp thông tin giá tương lai: lịch giao dịch phải được xác định đúng, còn giá chỉ dùng để chấm điểm sau đó.[^1]
+Theo README, các checkpoint công khai gồm mini 4,1 triệu tham số, small 24,7 triệu và base 102,3 triệu; large 499,2 triệu chưa được phát hành công khai trong bảng model của repository. Đây là mô hình chuyên biệt cho thị trường, không phải mô hình dự báo chuỗi thời gian bất kỳ đã được chứng minh phù hợp sẵn với cảm biến, điện năng hay dữ liệu vệ tinh.[2][1]
+Tài khoản và dữ liệu
+Tách ba lớp: dữ liệu thị trường → dự báo → thực hiện lệnh. Kronos cung cấp thành phần dự báo và các ví dụ nghiên cứu/backtest; tác giả nói rõ pipeline minh họa không phải hệ thống giao dịch production.[^1]
+Hoạt động
+Cần tài khoản/ví giao dịch?
+Cách triển khai
+Chạy thử inference
+Không
+Dùng CSV có sẵn trong bộ regression test.[3][4]
+Đọc dữ liệu nến công khai
+Không cần API key ở endpoint được nêu
+Binance có host market-data-only và endpoint /api/v3/klines không yêu cầu xác thực.[^5]
+Backtest lịch sử
+Không cần kết nối tài khoản
+Xây bộ mô phỏng cục bộ; repo cũng có ví dụ đánh giá bằng Qlib.[^1]
+Paper trading cục bộ
+Không
+Đề xuất tự lưu số dư giả định, vị thế, lệnh và phí vào SQLite/CSV; không gửi lệnh ra sàn.
+Dùng testnet của sàn
+Có thể cần đăng nhập/key riêng
+Binance Spot Testnet yêu cầu đăng nhập và tạo API key; khác với mô phỏng cục bộ.[^6]
+Giao dịch tiền thật
+Cần hạ tầng giao dịch riêng
+Các endpoint giao dịch bảo mật cần API key/xác thực; đó là lớp ngoài Kronos.[7][8]
+
+Ví dụ truy cập dữ liệu công khai theo tài liệu Binance:[5][9]
+curl 'https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=500'
+Đây là thao tác đọc dữ liệu, không mua BTC và không tạo ví. Tài liệu xác nhận không cần xác thực kỹ thuật cho host này, nhưng việc tải/sử dụng dữ liệu vẫn phải tuân thủ điều khoản, giới hạn truy cập và phạm vi sử dụng của nhà cung cấp. Truy cập được dữ liệu không đồng nghĩa có quyền phân phối lại hoặc bán dữ liệu/dịch vụ phát sinh.[10][5]
+Với cổ phiếu, yêu cầu đầu vào của Kronos vẫn là DataFrame/CSV, không phải tài khoản chứng khoán; quyền lấy dữ liệu phải kiểm tra riêng với nguồn cung cấp. Vì vậy, không cần mở tài khoản đầu tư chỉ để học hoặc nghiên cứu repository này.[^1]
+Hướng ứng dụng phù hợp
+Với định hướng AI/ML và nghiên cứu, lựa chọn được đề xuất là xây một hệ thống kiểm chứng dự báo, chưa phải bot mua bán. Điều này cũng phù hợp với mối quan tâm trước đây về time-series foundation models.
+Hướng đề xuất
+Sản phẩm cụ thể
+Ưu tiên
+Benchmark có thể tái lập
+So sánh Kronos với dự báo giữ nguyên giá cuối, mô hình tuyến tính hoặc LightGBM trên cùng tập kiểm thử
+Bắt đầu ở đây
+Dashboard theo dõi
+Hiển thị dữ liệu, thời điểm phát dự báo, kết quả thực tế và sai số; không có nút đặt lệnh
+Phù hợp portfolio ML engineering
+Paper-trading engine
+Tài khoản giả định, chiến lược đơn giản, phí và slippage cấu hình được
+Bước sau benchmark
+Nghiên cứu uncertainty
+Giữ nhiều đường sinh mẫu, kiểm tra coverage và calibration thay vì chỉ vẽ một đường
+Phù hợp câu hỏi nghiên cứu
+Thích nghi thị trường Việt Nam
+Kiểm tra zero-shot rồi fine-tune trên dữ liệu được cấp phép, so sánh theo giai đoạn thị trường
+Sau khi có baseline đáng tin
+
+Một MVP nên có luồng: dữ liệu công khai → kiểm tra chất lượng → Kronos + baseline → lưu dự báo → đối chiếu dữ liệu đến sau → dashboard. Đây là thiết kế đề xuất, không phải ứng dụng hoàn chỉnh đã có sẵn trong repo.
+Nếu muốn kết hợp LLM/agent, nên giới hạn agent ở việc diễn giải chỉ số, đọc log và tổng hợp báo cáo. API dự báo gốc của Kronos nhận nến và thời gian, không trực tiếp nhận prompt tin tức; ghép tin tức cần thêm thiết kế mô hình hoặc tầng quyết định riêng.[^1]
+Giá trị portfolio nên nằm ở tính đúng đắn và khả năng tái lập, không phải ảnh biểu đồ đẹp hay tuyên bố lợi nhuận. Chỉ việc bọc Kronos bằng một giao diện chưa tạo ra đóng góp nghiên cứu mới.
+Cảnh báo cần biết
+Leakage đã được ghi nhận
+Issue #227 chỉ ra việc chuẩn hóa trên cả cửa sổ quá khứ và tương lai trong pipeline fine-tuning; tác giả đã merge PR #234 và đóng issue ngày 13/04/2026. Tuy nhiên, không nên hiểu việc đóng một issue là mọi pipeline và mọi checkpoint đều đã được kiểm chứng lại.[^11]
+Kiểm tra mã nguồn ở commit 67b630e67f6a18c9e9be918d9b4337c960db1e9a cho thấy finetune/dataset.py đã lấy mean/std từ phần lookback, trong khi finetune_csv/finetune_base_model.py vẫn lấy mean/std từ toàn bộ window_data trước khi chuẩn hóa. Có thể đối chiếu trực tiếp pipeline CSV, dòng 118–127; vì vậy, cần sửa và kiểm thử pipeline CSV trước khi dùng kết quả làm bằng chứng dự báo tương lai.[^1]
+Issue #307 tiếp tục hỏi các pretrained weights trên Hugging Face có được huấn luyện lại sau sửa lỗi hay không; trong nội dung truy cập được, chưa thấy xác nhận chính thức của tác giả. Các nhận xét khẳng định mô hình đã hoặc chưa được retrain từ người dùng khác không thay thế được xác nhận của nhóm phát triển.[^12]
+Chưa đủ bằng chứng để kết luận toàn bộ checkpoint chắc chắn bị nhiễm leakage; cũng chưa đủ để coi mọi vấn đề đã được giải quyết. Đây là lý do cần tự kiểm chứng trước khi dùng tiền thật hoặc viết kết luận học thuật dựa trên benchmark này.[12][11]
+Mốc dữ liệu và đánh giá
+Paper công bố pretraining đến tháng 06/2024 và bắt đầu các tập kiểm thử từ tháng 07/2024; đây là thông tin do tác giả báo cáo, không phải kiểm toán độc lập toàn bộ dữ liệu huấn luyện. File regression đi kèm chứa dữ liệu tháng 06/2024, nên thích hợp để kiểm tra code chạy được, không phải chứng minh out-of-sample sạch.[3][13][^2]
+Đề xuất mạnh hơn là pin phiên bản code/checkpoint, lưu dự báo ngay lúc phát sinh và chấm điểm trên dữ liệu chỉ xuất hiện về sau. Fine-tuning thêm không tự động xóa được sự bất định về provenance của pretraining.
+Dự báo không phải lợi nhuận
+Tác giả yêu cầu xem xét chi phí giao dịch, slippage, market impact và quản trị danh mục khi chuyển từ demo sang production. Vì vậy, sai số giá thấp hơn hoặc đường dự báo bám biểu đồ không tự nó chứng minh một chiến lược kiếm được tiền sau chi phí.[^1]
+Một chi tiết kỹ thuật quan trọng: code inference hiện lấy trung bình các đường khi sample_count > 1, rồi trả một DataFrame; nó không tự trả toàn bộ mẫu hay khoảng dự báo đã hiệu chỉnh. Muốn nghiên cứu uncertainty, cần giữ riêng từng đường sinh mẫu hoặc chạy nhiều lần với sample_count=1, sau đó đánh giá calibration trên dữ liệu ngoài mẫu.[^14]
+Bắt đầu với tài nguyên sẵn có
+Code hỗ trợ tự chọn CUDA, MPS hoặc CPU. Nếu máy vẫn có khoảng 24 GB VRAM như thông tin đã chia sẻ trước đây, đề xuất bắt đầu bằng Kronos-small; không cần mua GPU mới chỉ để thử inference, nhưng đây là nhận định theo quy mô mô hình, không phải số đo VRAM/latency trên máy cụ thể.[14][1]
+Small và base có context tối đa 512 nến theo README. Cấu hình thử đề xuất: lookback 256, horizon 24, một chuỗi và sample_count=1; sau khi pipeline đúng mới tăng số mẫu hoặc kích thước mô hình.[^1]
+Cài trong môi trường tách biệt; repo yêu cầu Python 3.10 trở lên và cài dependencies từ requirements.txt.[^1]
+git clone https://github.com/shiyu-coder/Kronos.gitcd Kronospython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt
+Đoạn mã dưới đây là smoke test đề xuất, dùng dữ liệu thật đã có trong repository và API được công bố; không phải kết quả benchmark đã thực thi. Lưu thành first_forecast.py tại thư mục gốc rồi chạy python first_forecast.py.[3][1]
+from pathlib import Pathimport pandas as pdimport torchfrom model import Kronos, KronosTokenizer, KronosPredictortorch.manual_seed(42)tokenizer = KronosTokenizer.from_pretrained(    "NeoQuasar/Kronos-Tokenizer-base")model = Kronos.from_pretrained("NeoQuasar/Kronos-small")tokenizer.eval()model.eval()predictor = KronosPredictor(model, tokenizer, max_context=512)df = pd.read_csv(    "tests/data/regression_input.csv",    parse_dates=["timestamps"],).sort_values("timestamps").reset_index(drop=True)lookback, horizon = 256, 24history = df.iloc[:lookback]future = df.iloc[lookback:lookback + horizon]cols = ["open", "high", "low", "close", "volume", "amount"]pred = predictor.predict(    df=history[cols],    x_timestamp=history["timestamps"],    y_timestamp=future["timestamps"].reset_index(drop=True),    pred_len=horizon,    sample_count=1,    verbose=True,)Path("output").mkdir(exist_ok=True)pred.to_csv("output/forecast_smoke_test.csv", index_label="timestamps")
+Ví dụ này chỉ truyền timestamps ở phần tương lai, không truyền giá tương lai vào predict(). Nó không tải nến mới, không kết nối tài khoản và không gửi lệnh giao dịch; cần tải model/tokenizer từ Hugging Face ở lần đầu theo cách dùng from_pretrained trong README.[^1]
+Nếu dùng Web UI có sẵn, chỉ nên chạy nội bộ: tại commit được kiểm tra, webui/app.py bật Flask debug và bind 0.0.0.0; tránh public nguyên trạng lên Internet. Có thể khởi chạy bằng Flask CLI với host 127.0.0.1 và tắt debug thay vì chạy trực tiếp block mặc định.[^1]
+Kế hoạch MVP đề xuất
+Kế hoạch dưới đây là đề xuất triển khai, không phải cam kết thời gian hoặc chất lượng mô hình.
+Chạy smoke test: xác nhận môi trường, model, shape đầu ra và CSV; chưa fine-tune.
+Chọn một thị trường: ví dụ BTCUSDT khung 1 giờ từ nguồn public; chỉ dùng nến đã đóng, kiểm tra timestamps và missing data.
+Đặt baseline: giữ nguyên giá đóng cửa cuối cùng cho toàn bộ horizon; đây là đối thủ bắt buộc phải vượt qua trước khi tăng độ phức tạp.
+Đánh giá walk-forward: đi tuần tự theo thời gian, không random split; fit mọi preprocessing trên quá khứ, tách validation để chọn cấu hình và giữ test cuối không đụng tới.
+Lưu đủ bằng chứng: thời điểm phát dự báo, phiên bản model/code, lookback, horizon, sampling parameters, seed, giá dự báo và giá thực tế đến sau.
+Chấm nhiều khía cạnh: sai số giá/lợi suất, hướng biến động, độ ổn định theo giai đoạn và chi phí inference; nếu thêm chiến lược thì báo lợi nhuận sau phí, turnover và drawdown.
+Làm dashboard sau cùng: cho thấy cả lúc mô hình thất bại, không chỉ chọn các dự báo đẹp.
+Các câu hỏi nghiên cứu đáng kiểm tra gồm: tokenization phân cấp có giúp transfer sang thị trường mới không; nhiều đường sinh mẫu có tạo uncertainty được calibration tốt không; và fine-tuning cải thiện được bao nhiêu so với zero-shot khi mọi bước chuẩn hóa đều causal. Chúng nối trực tiếp với thiết kế tokenization, dự báo xác suất và pipeline adaptation của Kronos, nhưng chưa phải đóng góp mới đã được xác nhận.[15][2]
+Giấy phép code của repo là MIT, nhưng quyền dùng dữ liệu là vấn đề độc lập; phải kiểm tra riêng trước khi public dataset, xây API trả phí hoặc thương mại hóa sản phẩm.[10][1]
+
+References
+Kronos: A Foundation Model for the Language of Financial ... - Kronos is a family of decoder-only foundation models, pre-trained specifically for the "language" of...
+A Foundation Model for the Language of Financial Markets - Our pre-trained model is publicly available at https://github.com/shiyu-coder/Kronos.
+Kronos/tests/data/regression_input.csv at 67b630e67f6a18c9e9be918d9b4337c960db1e9a · shiyu-coder/Kronos - Kronos/tests/data/regression_input.csv at 67b630e67f6a18c9e9be918d9b4337c960db1e9a · shiyu-coder/Kro...
+Kronos/tests/test_kronos_regression.py at 67b630e67f6a18c9e9be918d9b4337c960db1e9a · shiyu-coder/Kronos - INPUT_DATA_PATH = TEST_DATA_ROOT / "regression_input.csv"
+Market Data Only URLs | Binance Developer Docs - These URLs do not require any authentication (i.e. The API key is not necessary) and serve only......
+Testnet General Info | Binance Developer Docs - |https://api.binance.com/api|https://testnet.binance.vision/api|
+How to Use Binance Spot REST API? - - https://data-api.binance.vision: For public market data only; ideal for requests focused solely ...
+General REST API Information | Binance Developer Docs - For APIs that only send public market data, please use the base endpoint https://data-api.binance.vi...
+Market Data endpoints | Binance Open Platform - ### Kline/Candlestick data ​...GET /api/v3/klines
+[Draft] Binance Vision - Terms of Use (Non-Commercial)_ASingh ... - (the "Datasets") made available through www.data.binance.vision and associated endpoints.
+the dataset leaks future information · Issue #227 - Kronos - Issue body actions the dataset leaks future information into every sample via per-window normalizati...
+Were the pretrained HF checkpoints retrained after the per- ... - Finetune against your own data and you get +/- OK production results.
+Full Code of shiyu-coder/Kronos for AI - Complete Repository ... - "path": "finetune_csv/finetune_base_model.py",
+Kronos/model/kronos.py at master · shiyu-coder/Kronos - from huggingface_hub import PyTorchModelHubMixin...This tokenizer utilizes a combination of encode...
+Kronos/finetune_csv/README.md at master · shiyu-coder/Kronos - This module provides a comprehensive pipeline for fine-tuning Kronos models on your own CSV-formatte...

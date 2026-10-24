@@ -1,0 +1,48 @@
+Kronos: lộ trình không cần tài khoản giao dịch
+Phạm vi
+Có thể dùng Kronos để học, làm dự án AI/ML, dự báo trên dữ liệu công khai, backtest và mô phỏng giao dịch cục bộ mà không cần tài khoản chứng khoán hay ví crypto. Kronos nhận dữ liệu nến và timestamps; pipeline giao dịch trong repository chỉ là minh họa, không phải hệ thống production. README
+Hướng đề xuất: xây Financial Forecasting Evaluation Lab — ưu tiên kiểm chứng dự báo, không tự động đặt lệnh.
+Phân biệt các lớp
+Lớp
+Nội dung
+Tài khoản giao dịch
+Dữ liệu
+Đọc CSV hoặc endpoint thị trường công khai
+Không bắt buộc; tùy nhà cung cấp
+Mô hình
+Kronos sinh dự báo OHLCVA
+Không
+Backtest/paper trading cục bộ
+Tính vị thế, số dư và phí giả định
+Không
+Testnet trên sàn
+Gửi lệnh thử qua hệ thống của sàn
+Có thể cần đăng nhập/key testnet
+Giao dịch thật
+Gửi lệnh được xác thực, dùng vốn thật
+Cần hạ tầng tài khoản riêng
+
+Binance công bố host market-data-only không cần API key, có endpoint /api/v3/klines: tài liệu chính thức. Testnet là dịch vụ khác, có yêu cầu đăng nhập/tạo key: tài liệu testnet.
+curl 'https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=500'
+Đọc dữ liệu không đồng nghĩa mua tài sản. Dữ liệu công khai vẫn có điều khoản sử dụng, giới hạn truy cập và hạn chế thương mại/phân phối; giấy phép MIT của code không cấp quyền đối với dữ liệu của bên thứ ba. README · Điều khoản Binance Vision
+Smoke test trước tiên
+Repo hỗ trợ Python 3.10+, cung cấp small 24,7M tham số và base 102,3M, context tối đa 512 nến cho hai model này. Code chọn CUDA/MPS/CPU. Bắt đầu với small, không train lại từ đầu. README · Inference
+git clone https://github.com/shiyu-coder/Kronos.gitcd Kronospython -m venv .venvsource .venv/bin/activatepip install -r requirements.txt
+Lưu mã sau thành first_forecast.py tại thư mục gốc rồi chạy python first_forecast.py. Đây là mã khởi động đề xuất, chưa phải benchmark đã thực thi.
+from pathlib import Pathimport pandas as pdimport torchfrom model import Kronos, KronosTokenizer, KronosPredictortorch.manual_seed(42)tokenizer = KronosTokenizer.from_pretrained('NeoQuasar/Kronos-Tokenizer-base')model = Kronos.from_pretrained('NeoQuasar/Kronos-small')tokenizer.eval()model.eval()predictor = KronosPredictor(model, tokenizer, max_context=512)df = pd.read_csv(    'tests/data/regression_input.csv', parse_dates=['timestamps']).sort_values('timestamps').reset_index(drop=True)lookback, horizon = 256, 24history = df.iloc[:lookback]future = df.iloc[lookback:lookback + horizon]cols = ['open', 'high', 'low', 'close', 'volume', 'amount']pred = predictor.predict(    df=history[cols],    x_timestamp=history['timestamps'],    y_timestamp=future['timestamps'].reset_index(drop=True),    pred_len=horizon,    sample_count=1,    verbose=True,)Path('output').mkdir(exist_ok=True)pred.to_csv('output/forecast_smoke_test.csv', index_label='timestamps')
+API và file regression được mô tả trong README và test suite. Chỉ timestamps tương lai được truyền vào, không truyền giá tương lai. File này dùng kiểm tra phần mềm chạy được, không dùng chứng minh dự báo ngoài mẫu: dữ liệu mẫu bắt đầu tháng 06/2024, trong khi paper báo pretraining đến tháng 06/2024. Dữ liệu mẫu · Paper
+Các kiểm tra bắt buộc
+Leakage: issue #227 được sửa qua PR #234 ngày 13/04/2026. Tuy nhiên tại commit 67b630e67f6a18c9e9be918d9b4337c960db1e9a, pipeline CSV vẫn chuẩn hóa trên toàn cửa sổ; cần kiểm tra/sửa trước fine-tuning. Issue · Mã CSV, dòng 118–127
+Provenance checkpoint: issue #307 hỏi weights có retrain sau sửa lỗi hay chưa; nội dung truy cập được chưa có xác nhận chính thức. Không suy diễn mọi checkpoint đều lỗi, nhưng cũng không coi vấn đề đã được giải quyết toàn bộ. Issue #307
+Uncertainty: sample_count > 1 được lấy trung bình nội bộ, không trả toàn bộ các đường mẫu. Muốn tính khoảng dự báo cần giữ riêng mẫu và đánh giá calibration. Inference
+Lợi nhuận: tác giả yêu cầu xem xét phí, slippage, market impact và quản trị rủi ro; biểu đồ bám giá không chứng minh lợi nhuận sau chi phí. README
+Web UI: không public nguyên trạng. Block chạy mặc định ở commit kiểm tra bật Flask debug và bind mọi interface; nên chỉ dùng localhost với debug tắt. Mã Web UI
+Kế hoạch triển khai đề xuất
+Chạy smoke test, kiểm tra đầu ra và lưu phiên bản code/checkpoint.
+Chọn một chuỗi như BTCUSDT 1h, chỉ dùng nến đã đóng và dữ liệu đúng quyền sử dụng.
+So sánh với baseline giữ nguyên giá đóng cửa cuối cùng; sau đó mới thêm tuyến tính/LightGBM.
+Đánh giá walk-forward theo thời gian; fit preprocessing chỉ trên quá khứ, không random split.
+Lưu thời điểm phát dự báo, horizon, lookback, seed, sampling parameters và kết quả thực tế đến sau.
+Đánh giá sai số, hướng biến động, độ ổn định theo giai đoạn; nếu thêm giao dịch giả lập thì tính phí, turnover và drawdown.
+Xây dashboard sau khi pipeline đánh giá đã đúng; hiển thị cả dự báo sai.
+Hướng nghiên cứu tiếp theo: domain adaptation sang thị trường Việt Nam với dữ liệu được cấp phép; calibration cho dự báo xác suất; hoặc ablation tokenizer phân cấp. Đây là các giả thuyết cần kiểm chứng tính mới và hiệu quả, không phải cam kết có publication.
