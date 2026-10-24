@@ -21,3 +21,8 @@ output/
 outputs/
 # Original research documents are retained locally; readable text copies are versioned.
 *.docx
+
+# Python build metadata
+*.egg-info/
+build/
+dist/

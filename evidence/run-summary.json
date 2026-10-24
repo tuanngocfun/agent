@@ -1,0 +1,477 @@
+{
+  "recorded_at_utc": "2026-10-24T17:20:28.603112+00:00",
+  "purpose": "real software integration smoke; not a broad forecast-skill benchmark",
+  "upstream_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+  "environment": {
+    "python": "3.12.3",
+    "torch": "2.6.0+cu124",
+    "device": "cuda:1",
+    "gpu": "NVIDIA A100 MIG 3g.20gb"
+  },
+  "data": {
+    "source": "Binance public closed BTCUSDT 1h candles",
+    "rows": 499,
+    "first_open_timestamp": "2026-10-03T22:00:00+00:00",
+    "last_open_timestamp": "2026-10-24T16:00:00+00:00",
+    "csv_sha256": "45d795760f542ce7bac9af39331b2c0b91f417c16c0d159741af2faf1d022d2d"
+  },
+  "real_forecast": {
+    "model": {
+      "id": "NeoQuasar/Kronos-base",
+      "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "source": "huggingface"
+    },
+    "tokenizer": {
+      "id": "NeoQuasar/Kronos-Tokenizer-base",
+      "revision": "0e0117387f39004a9016484a186a908917e22426",
+      "source": "huggingface"
+    },
+    "config": {
+      "lookback": 64,
+      "horizon": 8,
+      "sample_count": 8,
+      "temperature": 0.6,
+      "top_p": 0.9,
+      "top_k": 0,
+      "seed": 42,
+      "max_context": 512
+    },
+    "input_sha256": "7388da10494036077ed2e03051786268aaa049e5cc96c8e4b2e3ba7079470e56",
+    "retained_shape": [
+      8,
+      8,
+      6
+    ],
+    "invalid_generated_candles": 0
+  },
+  "walk_forward": {
+    "split": {
+      "calibration": {
+        "windows": 4,
+        "first_origin_index": 432,
+        "last_origin_index": 456,
+        "first_label_timestamp": "2026-10-21T22:00:00+00:00",
+        "last_label_timestamp": "2026-10-23T05:00:00+00:00"
+      },
+      "test": {
+        "windows": 4,
+        "first_origin_index": 464,
+        "last_origin_index": 488,
+        "first_label_timestamp": "2026-10-23T06:00:00+00:00",
+        "last_label_timestamp": "2026-10-24T13:00:00+00:00"
+      },
+      "purged_origins": [],
+      "label_sets_disjoint": true,
+      "overlap_within_split": false
+    },
+    "calibration": {
+      "method": "nonnegative_additive_split_conformal_per_horizon",
+      "nominal_coverage": 0.8,
+      "expansion_by_horizon": [
+        210.59785583264602,
+        574.413759941468,
+        627.2041645980498,
+        1279.2742209382995,
+        1821.5817314114975,
+        1797.174487308992,
+        1871.6484874731395,
+        1958.430779057875
+      ],
+      "calibration_windows": 4,
+      "requested_order_statistic_rank": 4,
+      "used_order_statistic_rank": 4,
+      "rank_capped_for_small_sample": false,
+      "frozen_before_test": true,
+      "coverage_guarantee_claimed": false,
+      "interpretation": "Empirical chronological calibration only. Serial dependence and small samples can invalidate nominal coverage; inspect held-out test coverage."
+    },
+    "metrics": {
+      "baseline": {
+        "windows": 4,
+        "observations": 32,
+        "horizon": 8,
+        "close_mae": 290.77,
+        "close_rmse": 365.1664860632071,
+        "return_mae_pct": 0.35614272751712356,
+        "return_rmse_pct": 0.44707351508579224,
+        "terminal_return_mae_pct": 0.4518716368243164,
+        "directional_accuracy": 0.0,
+        "terminal_directional_accuracy": 0.0,
+        "brier_score": null,
+        "terminal_brier_score": null,
+        "coverage80": null,
+        "mean_interval_width": null,
+        "pinball_q10": null,
+        "pinball_q50": null,
+        "pinball_q90": null,
+        "mean_pinball_loss": null,
+        "neutral_probability_brier": 0.25,
+        "probability_note": "Last-close persistence supplies a point forecast only; the separate neutral 0.5 up-probability benchmark has Brier score 0.25."
+      },
+      "model_raw": {
+        "windows": 4,
+        "observations": 32,
+        "horizon": 8,
+        "close_mae": 185.40042653765067,
+        "close_rmse": 259.4609761160969,
+        "return_mae_pct": 0.2275003817351115,
+        "return_rmse_pct": 0.3184695028441558,
+        "terminal_return_mae_pct": 0.3370240552082765,
+        "directional_accuracy": 0.8125,
+        "terminal_directional_accuracy": 0.75,
+        "brier_score": 0.1630859375,
+        "terminal_brier_score": 0.13671875,
+        "coverage80": 0.65625,
+        "mean_interval_width": 418.71568038210535,
+        "pinball_q10": 70.9022713057409,
+        "pinball_q50": 89.58157618789983,
+        "pinball_q90": 36.06860570175344,
+        "mean_pinball_loss": 65.51748439846472
+      },
+      "model_calibrated": {
+        "windows": 4,
+        "observations": 32,
+        "horizon": 8,
+        "close_mae": 185.40042653765067,
+        "close_rmse": 259.4609761160969,
+        "return_mae_pct": 0.2275003817351115,
+        "return_rmse_pct": 0.3184695028441558,
+        "terminal_return_mae_pct": 0.3370240552082765,
+        "directional_accuracy": 0.8125,
+        "terminal_directional_accuracy": 0.75,
+        "brier_score": 0.1630859375,
+        "terminal_brier_score": 0.13671875,
+        "coverage80": 0.96875,
+        "mean_interval_width": 2953.797052022597,
+        "pinball_q10": 141.45473823843474,
+        "pinball_q50": 89.58157618789983,
+        "pinball_q90": 162.5028225916314,
+        "mean_pinball_loss": 131.17971233932198
+      }
+    }
+  },
+  "ablation": {
+    "initial_checkpoints": {
+      "model": {
+        "id": "NeoQuasar/Kronos-small",
+        "revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+        "source": "huggingface"
+      },
+      "tokenizer": {
+        "id": "NeoQuasar/Kronos-Tokenizer-base",
+        "revision": "0e0117387f39004a9016484a186a908917e22426",
+        "source": "huggingface"
+      }
+    },
+    "boundaries": {
+      "train_end_exclusive": "2026-10-12T06:00:00+00:00",
+      "validation_end_exclusive": "2026-10-16T10:00:00+00:00",
+      "calibration_end_exclusive": "2026-10-20T14:00:00+00:00",
+      "test_end_exclusive": "2026-10-24T17:00:00+00:00"
+    },
+    "same_scored_origins": true,
+    "calibration_reuses_checkpoint_selection_validation": false,
+    "variants": {
+      "zero-shot": {
+        "training_steps": {},
+        "test_metrics": {
+          "baseline": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 290.77,
+            "close_rmse": 365.1664860632071,
+            "return_mae_pct": 0.35614272751712356,
+            "return_rmse_pct": 0.44707351508579224,
+            "terminal_return_mae_pct": 0.4518716368243164,
+            "directional_accuracy": 0.0,
+            "terminal_directional_accuracy": 0.0,
+            "brier_score": null,
+            "terminal_brier_score": null,
+            "coverage80": null,
+            "mean_interval_width": null,
+            "pinball_q10": null,
+            "pinball_q50": null,
+            "pinball_q90": null,
+            "mean_pinball_loss": null,
+            "neutral_probability_brier": 0.25,
+            "probability_note": "Last-close persistence supplies a point forecast only; the separate neutral 0.5 up-probability benchmark has Brier score 0.25."
+          },
+          "model_raw": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 214.54529712470685,
+            "close_rmse": 282.1012503585109,
+            "return_mae_pct": 0.26315517695482127,
+            "return_rmse_pct": 0.3461122416368139,
+            "terminal_return_mae_pct": 0.38731700203493147,
+            "directional_accuracy": 0.8125,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.1767578125,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.59375,
+            "mean_interval_width": 400.98496470654436,
+            "pinball_q10": 68.82203859513834,
+            "pinball_q50": 117.42807550345174,
+            "pinball_q90": 47.2227762630975,
+            "mean_pinball_loss": 77.82429678722919
+          },
+          "model_calibrated": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 214.54529712470685,
+            "close_rmse": 282.1012503585109,
+            "return_mae_pct": 0.26315517695482127,
+            "return_rmse_pct": 0.3461122416368139,
+            "terminal_return_mae_pct": 0.38731700203493147,
+            "directional_accuracy": 0.8125,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.1767578125,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.9375,
+            "mean_interval_width": 902.7086379095767,
+            "pinball_q10": 58.98018921613743,
+            "pinball_q50": 117.42807550345174,
+            "pinball_q90": 53.14586787137222,
+            "mean_pinball_loss": 76.51804419698713
+          }
+        }
+      },
+      "predictor-only": {
+        "training_steps": {
+          "predictor": 2
+        },
+        "test_metrics": {
+          "baseline": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 290.77,
+            "close_rmse": 365.1664860632071,
+            "return_mae_pct": 0.35614272751712356,
+            "return_rmse_pct": 0.44707351508579224,
+            "terminal_return_mae_pct": 0.4518716368243164,
+            "directional_accuracy": 0.0,
+            "terminal_directional_accuracy": 0.0,
+            "brier_score": null,
+            "terminal_brier_score": null,
+            "coverage80": null,
+            "mean_interval_width": null,
+            "pinball_q10": null,
+            "pinball_q50": null,
+            "pinball_q90": null,
+            "mean_pinball_loss": null,
+            "neutral_probability_brier": 0.25,
+            "probability_note": "Last-close persistence supplies a point forecast only; the separate neutral 0.5 up-probability benchmark has Brier score 0.25."
+          },
+          "model_raw": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 214.54529712470685,
+            "close_rmse": 282.1012503585109,
+            "return_mae_pct": 0.26315517695482127,
+            "return_rmse_pct": 0.3461122416368139,
+            "terminal_return_mae_pct": 0.38731700203493147,
+            "directional_accuracy": 0.8125,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.1767578125,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.59375,
+            "mean_interval_width": 400.98496470654436,
+            "pinball_q10": 68.82203859513834,
+            "pinball_q50": 117.42807550345174,
+            "pinball_q90": 47.2227762630975,
+            "mean_pinball_loss": 77.82429678722919
+          },
+          "model_calibrated": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 214.54529712470685,
+            "close_rmse": 282.1012503585109,
+            "return_mae_pct": 0.26315517695482127,
+            "return_rmse_pct": 0.3461122416368139,
+            "terminal_return_mae_pct": 0.38731700203493147,
+            "directional_accuracy": 0.8125,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.1767578125,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.9375,
+            "mean_interval_width": 902.7086379095767,
+            "pinball_q10": 58.98018921613743,
+            "pinball_q50": 117.42807550345174,
+            "pinball_q90": 53.14586787137222,
+            "mean_pinball_loss": 76.51804419698713
+          }
+        },
+        "checkpoint_hashes": {
+          "tokenizer": "local-sha256:389b9657bbef946ada49bbd197aefcf0ba4c778a87903b481776af9f76cc68db",
+          "model": "local-sha256:ac5f5ded4e2f9e2c7772c5ada72c20b67b46b17e8ee54e72505d73c261896d50"
+        },
+        "test_used_for_training_or_selection": false,
+        "calibration_used_for_training_or_selection": false
+      },
+      "two-stage": {
+        "training_steps": {
+          "tokenizer": 2,
+          "predictor": 2
+        },
+        "test_metrics": {
+          "baseline": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 290.77,
+            "close_rmse": 365.1664860632071,
+            "return_mae_pct": 0.35614272751712356,
+            "return_rmse_pct": 0.44707351508579224,
+            "terminal_return_mae_pct": 0.4518716368243164,
+            "directional_accuracy": 0.0,
+            "terminal_directional_accuracy": 0.0,
+            "brier_score": null,
+            "terminal_brier_score": null,
+            "coverage80": null,
+            "mean_interval_width": null,
+            "pinball_q10": null,
+            "pinball_q50": null,
+            "pinball_q90": null,
+            "mean_pinball_loss": null,
+            "neutral_probability_brier": 0.25,
+            "probability_note": "Last-close persistence supplies a point forecast only; the separate neutral 0.5 up-probability benchmark has Brier score 0.25."
+          },
+          "model_raw": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 213.48687310580863,
+            "close_rmse": 281.1639431252859,
+            "return_mae_pct": 0.26181882148188407,
+            "return_rmse_pct": 0.3449293151086928,
+            "terminal_return_mae_pct": 0.3809901764293411,
+            "directional_accuracy": 0.84375,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.17041015625,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.59375,
+            "mean_interval_width": 402.7207129329249,
+            "pinball_q10": 68.43159761565462,
+            "pinball_q50": 112.81705581192955,
+            "pinball_q90": 47.230706985870704,
+            "mean_pinball_loss": 76.15978680448497
+          },
+          "model_calibrated": {
+            "windows": 4,
+            "observations": 32,
+            "horizon": 8,
+            "close_mae": 213.48687310580863,
+            "close_rmse": 281.1639431252859,
+            "return_mae_pct": 0.26181882148188407,
+            "return_rmse_pct": 0.3449293151086928,
+            "terminal_return_mae_pct": 0.3809901764293411,
+            "directional_accuracy": 0.84375,
+            "terminal_directional_accuracy": 0.75,
+            "brier_score": 0.17041015625,
+            "terminal_brier_score": 0.25,
+            "coverage80": 0.90625,
+            "mean_interval_width": 864.7657072402467,
+            "pinball_q10": 57.340272233118824,
+            "pinball_q50": 112.81705581192955,
+            "pinball_q90": 51.246505547844464,
+            "mean_pinball_loss": 73.8012778642976
+          }
+        },
+        "checkpoint_hashes": {
+          "tokenizer": "local-sha256:f504eaf5cc3bf76208f283ec26427193805024e3bca35c019355421e9d1211c2",
+          "model": "local-sha256:eb2b7aba4bc6526b3cf2f16a0a202eaa6330554b15f8cc136c54b2a4ea7aa0a3"
+        },
+        "test_used_for_training_or_selection": false,
+        "calibration_used_for_training_or_selection": false
+      }
+    }
+  },
+  "paper_trading": {
+    "test_windows": 4,
+    "trade_count": 0,
+    "flat_windows": 4,
+    "gross_return": 0.0,
+    "net_return": 0.0,
+    "initial_equity": 1.0,
+    "final_equity": 1.0,
+    "max_drawdown": 0.0,
+    "turnover": 0.0,
+    "fees_paid": 0.0,
+    "slippage_cost": 0.0
+  },
+  "chronos2": {
+    "metadata": {
+      "model": "amazon/chronos-2",
+      "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "device": "cpu",
+      "target": "close",
+      "past_covariates": [
+        "volume"
+      ]
+    },
+    "directions_agree": false,
+    "same_timestamps": true
+  },
+  "mcp": {
+    "passed": true,
+    "protocol_version": "2025-11-25",
+    "real_pretrained_forecast_signal": true,
+    "real_batch_success_and_invalid_symbol_isolation": true,
+    "model": {
+      "id": "NeoQuasar/Kronos-base",
+      "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "source": "huggingface"
+    }
+  },
+  "browser": {
+    "passed": true,
+    "checks": [
+      "forecast rendering",
+      "3D density",
+      "JSON export",
+      "held-out evaluation",
+      "Chronos2 comparison",
+      "authenticated real forecast job",
+      "mobile layout",
+      "clears stale forecasts for irregular sessions"
+    ],
+    "javascript_errors": []
+  },
+  "limits": [
+    "Only four calibration and four test windows in recorded smoke runs",
+    "Only two optimizer updates per pretrained training stage",
+    "Model pretraining data provenance not independently audited",
+    "No live yfinance/Vnstock checks, no multi-GPU run, no news-RAG or cross-domain study",
+    "No private exchange API request or order placed"
+  ],
+  "checks": {
+    "offline_tests_passed": 155,
+    "upstream_regression_tests_passed": 4,
+    "browser_passed": true,
+    "real_mcp_pretrained_call_passed": true,
+    "nonfatal_warnings": [
+      "Pandas 2.2.2 with NumPy 2.5.4 emits one timedelta deprecation warning in a test fixture"
+    ]
+  },
+  "distributed_training_smoke": {
+    "world_size": 2,
+    "device": "cpu",
+    "initialization": "random-test",
+    "stages": {
+      "tokenizer": {
+        "steps": 1,
+        "best_validation_loss": 3.0343473874605618
+      },
+      "predictor": {
+        "steps": 1,
+        "best_validation_loss": 1.0411954384583693
+      }
+    }
+  }
+}

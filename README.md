@@ -1,104 +1,185 @@
-# Kronos Financial Forecasting Evaluation Lab
+# Kronos Financial Forecasting Lab
 
-Bộ mã khởi đầu từ các kế hoạch Kronos do Ngọc cung cấp: tải nến công khai,
-kiểm tra suy luận Kronos và xác thực tài khoản Binance Spot testnet chỉ đọc.
-Nhánh này được tạo từ `main`; dự án Kubernetes nằm ở nhánh
-[`kube-remediation-demo`](https://github.com/tuanngocfun/agent/tree/kube-remediation-demo).
+A working implementation of the main financial project in **Nghiên Cứu Chuyên Sâu Kronos.docx**:
+probabilistic forecasting, chronological evaluation, two-stage adaptation, agent tools,
+and a local dashboard. Code runs against the real official Kronos models; it does not
+replace forecasts with synthetic demo data.
 
-## 1. Tải nến công khai
+The project lives on [`kronos-evaluation-lab`](https://github.com/tuanngocfun/agent/tree/kronos-evaluation-lab).
+The separate Kubernetes demo remains on `kube-remediation-demo`.
 
-Yêu cầu Python 3.10+. Bước tải nến và kiểm tra testnet dùng thư viện chuẩn,
-không cần cài dependencies hoặc dùng API key để tải nến.
+Verified desktop/mobile screenshots remain local under `output/browser/`.
 
-```bash
-python3 download_candles.py --symbol BTCUSDT --interval 1h --limit 500 --output data/BTCUSDT_1h.csv
-```
+## Start the dashboard on this machine
 
-CSV có bảy cột `timestamps,open,high,low,close,volume,amount`; timestamp là UTC,
-`amount` lấy từ quote asset volume của Binance. Script chỉ ghi nến đã đóng,
-kiểm tra OHLC, số hữu hạn, timestamp trùng và khoảng trống, và lưu metadata bên cạnh CSV.
-Khi giới hạn 1000, kết quả có thể chỉ có 999 nến đã đóng. Lỗi HTTP 451/403 có
-thể do hạn chế truy cập của nguồn; không tự chuyển nguồn dữ liệu hoặc bỏ qua lỗi.
-
-## 2. Chạy smoke test Kronos
-
-Tạo môi trường riêng, tải mã upstream và checkout đúng phiên bản đã đối chiếu:
+The isolated `.venv` and pinned `vendor/Kronos` checkout have already been prepared locally.
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-git clone https://github.com/shiyu-coder/Kronos.git vendor/Kronos
-git -C vendor/Kronos checkout 67b630e67f6a18c9e9be918d9b4337c960db1e9a
-python -m pip install -r vendor/Kronos/requirements.txt
-python first_forecast.py
+cd /home/ngocnt/experiments/agents_financial_forcasting_market_lab
+# Create a separate local service token once; this preserves any existing token.
+test -f .cache/api.token || .venv/bin/python -m kronos_lab init-token
+KRONOS_DEVICE=cuda:1 .venv/bin/python -m kronos_lab serve --token-file .cache/api.token
 ```
 
-Lần đầu sẽ tải `NeoQuasar/Kronos-small` và tokenizer từ Hugging Face. Có thể
-chỉ định `--device cpu` hoặc `--device cuda:0`. Checkpoint dùng revision mặc định
-của Hugging Face; metadata ghi rõ giới hạn này, chưa bảo đảm tái lập tuyệt đối.
+Open **http://127.0.0.1:8765**. Paste the contents of `.cache/api.token` into the
+password field. This is a local application token; your Binance key is not needed.
+Use an IDE port forward when the process runs on a remote machine. GPU `cuda:1`
+was used for the recorded runs; choose `cpu` or another available GPU on another machine.
 
-Chạy trên CSV vừa tải:
+The dashboard generates forecasts, evaluates eight chronological windows, compares
+Chronos-2 when installed, imports saved results/CSV, exports JSON, and shows a 3D
+empirical sample-density surface. Explicit future session timestamps can be supplied
+for stock data. API jobs are authenticated, bounded, and processed one at a time.
+
+## Install on a new checkout
+
+Python 3.10+ and Git are required. Install a suitable PyTorch build for your device.
+The setup helper uses `uv` when available, otherwise Python's `venv`/pip.
 
 ```bash
-python first_forecast.py --csv data/BTCUSDT_1h.csv --lookback 256 --horizon 24
+bash scripts/setup.sh
+# Optional independent model comparator:
+uv pip install --python .venv/bin/python -e '.[compare]'
 ```
 
-Đây là kiểm tra phần mềm trên một cửa sổ lịch sử: dùng `lookback` nến trước
-`horizon` nến giữ lại. Chỉ timestamps của phần giữ lại được truyền vào mô hình;
-giá tương lai không đi vào `predict()`. Script không phát dự báo cho các mốc thời
-gian ngoài CSV. CSV mẫu upstream có thể trùng giai đoạn pretraining, nên kết quả
-không chứng minh chất lượng ngoài mẫu hoặc lợi nhuận. Đầu ra ở `output/` gồm
-CSV dự báo và metadata (revision upstream, hash dữ liệu, seed, sampling, thiết bị).
+`requirements.lock` records the tested Linux/Python 3.12/CUDA environment, including
+optional dependencies. Use `pyproject.toml` for other platforms. For fully pinned
+Linux reproduction, `uv pip sync --python .venv/bin/python requirements.lock` can
+restore that environment; then install this project with `--no-deps -e .`.
+Weights are downloaded on first use. Forecasts and training resolve Hub references
+to immutable SHAs, and local checkpoints receive content hashes. The audited upstream
+code is fixed at `67b630e67f6a18c9e9be918d9b4337c960db1e9a`.
 
-## 3. Kiểm tra key testnet chỉ đọc
+## Data → forecast → evaluation
 
 ```bash
-test -f .env || cp .env.example .env
-# Điền key/secret HMAC của Spot testnet vào .env bằng trình soạn thảo.
-python3 check_testnet.py --env-file .env
+.venv/bin/python -m kronos_lab download --symbol BTCUSDT --interval 1h --limit 1000
+.venv/bin/python -m kronos_lab forecast --csv data/BTCUSDT_1h.csv --device cuda:1 \
+  --lookback 128 --horizon 12 --sample-count 20 --output output/forecast.json
+.venv/bin/python -m kronos_lab evaluate --csv data/BTCUSDT_1h.csv --device cuda:1 \
+  --lookback 128 --horizon 12 --sample-count 20 --max-windows 20 --output output/evaluation.json
+.venv/bin/python -m kronos_lab paper --report output/evaluation.json \
+  --csv data/BTCUSDT_1h.csv --fee-bps 10 --slippage-bps 5 --output output/paper.json
 ```
 
-Nếu biến đã được export trong shell, chạy `python3 check_testnet.py`.
-Script chỉ gọi `GET /api/v3/time` và `GET /api/v3/account` trên host cố định
-`testnet.binance.vision`. Đầu ra chỉ gồm trạng thái xác thực và thông tin tóm tắt;
-không in key, secret, chữ ký hoặc số dư. Script dành cho key HMAC có secret;
-RSA và Ed25519 cần cách ký khác. Không có chức năng gửi lệnh.
+- **Data:** UTC OHLCVA; Binance uses closed public candles and actual quote volume.
+  CSV and optional yfinance/Vnstock v5 adapters use strict validation. Missing amount
+  gets a labelled `volume × mean(OHLC)` proxy. Missing prices/volumes and duplicates
+  are rejected. yfinance uses unadjusted prices and records that policy.
+- **Forecast:** encode history once; retain the full `(samples,horizon,6)` tensor;
+  return mean, q10/q50/q90, terminal voting, continuity and invalid-candle diagnostics.
+  Normalization uses historical observations only. Context plus horizon is bounded
+  by 512. No universal ×2.7 multiplier or “MCP confidence” is added.
+- **Evaluation:** score last-close persistence and Kronos at matching origins.
+  Fit per-horizon interval expansion on earlier calibration labels, freeze it, and
+  score later, disjoint test labels. Metrics include MAE/RMSE, return/direction errors,
+  Brier, coverage, interval width and pinball loss. Small samples and temporal
+  dependence prevent a nominal-coverage guarantee.
+- **Paper simulation:** LONG/FLAT decisions use forecast values only. Entry is the
+  next candle's open; exit is the final candle's close, with adverse slippage and
+  fees on both sides. Overlapping test windows are rejected. Outputs include net/gross
+  return, turnover, costs and sampled drawdown. This is a local simulation, not an order API.
 
-`.env` đã có trên máy được giữ nguyên và bị Git bỏ qua. File `.env.example`
-chỉ có tên biến rỗng. CSV, output, model, vendor và môi trường Python cũng bị bỏ qua.
+`p_up` is the fraction of generated paths whose terminal price exceeds the last
+observed close. It is not a calibrated probability that the prediction is correct.
+Generated OHLC constraints are diagnosed and left visible rather than silently repaired.
+For equity/exchange sessions, pass `--future-timestamps sessions.json` containing the
+actual future session timestamps. A CSV with regular timestamps alone does not prove
+that the market trades through weekends; provide sessions when the calendar matters.
 
-## Kiểm tra cục bộ
+Optional provider examples:
 
 ```bash
-python3 -m unittest discover -s tests -v
-python3 -m py_compile download_candles.py first_forecast.py check_testnet.py
+.venv/bin/python -m kronos_lab download --source yfinance --symbol NVDA --interval 1d \
+  --period 1y --output data/NVDA_1d.csv
+.venv/bin/python -m kronos_lab download --source vnstock --symbol FPT --interval 1D \
+  --output data/FPT_1d.csv
+.venv/bin/python -m kronos_lab compare --csv data/BTCUSDT_1h.csv --device cuda:1 \
+  --chronos-device cpu --output output/comparison.json
 ```
 
-Test dùng phản hồi giả lập; không sử dụng key thật, tải weights hoặc đặt lệnh.
-Xem [VALIDATION.md](VALIDATION.md) để biết những bước đã thực sự chạy.
+Vnstock v5 requires its provider-specific installation/setup; it is deliberately
+optional. The recorded integration runs used Binance. Live yfinance/Vnstock access
+was not exercised. Source data rights are separate from model/code licenses.
 
-## Tài liệu nguồn và bước tiếp theo
+## Train and compare the three variants
 
-- [Kế hoạch ngắn](docs/plans/action-plan.txt)
-- [Thảo luận tính khả thi](docs/plans/feasibility.txt)
-- [Kế hoạch nghiên cứu gốc](docs/plans/deep-research.txt)
-- [HTML minh họa được cung cấp](interactive_visual_im_6689e014fcae1cde.html)
+Training is implemented locally, without calling the leaky upstream CSV dataset.
+Create boundaries matching your data instead of copying historical dates:
 
-Ba bản `.txt` được trích từ nội dung Word để dễ tìm kiếm và review. Định dạng,
-công thức dạng ảnh và hyperlink trong Word không được giữ đầy đủ. Các file Word
-gốc vẫn nằm cục bộ. Các tài liệu này là bối cảnh do người dùng cung cấp; các
-khẳng định nghiên cứu trong đó chưa được tái thẩm định toàn bộ trong lần tạo nhánh.
-Bản thẩm định 10 trang và `check_testnet.py` được nhắc trong hội thoại trước
-không có trong các file nhận được; script testnet ở đây được viết mới.
+```bash
+.venv/bin/python scripts/make_training_config.py --csv data/BTCUSDT_1h.csv \
+  --device cuda:1 --lookback 64 --horizon 8 --epochs 1 --max-steps 2 \
+  --run-dir output/my-ablation --output output/my-training.json
+.venv/bin/python -m kronos_lab ablate --config output/my-training.json \
+  --sample-count 8 --max-windows 8 --output output/my-ablation-summary.json
+```
 
-Bước nghiên cứu sau smoke test: thêm baseline giữ nguyên giá đóng cửa, đánh giá
-walk-forward, kiểm tra calibration và lưu dự báo trước khi có kết quả thực tế.
-Starter này chưa có pipeline đánh giá hoặc fine-tuning. `sample_count > 1`
-trong API upstream trả trung bình các mẫu; không được xem đó là nhiều đường mẫu
-riêng. Chưa áp dụng hệ số hiệu chuẩn 2,7 hoặc một điểm “confidence chuẩn MCP”.
+This bounded command is an integration smoke test. Increase epochs/data/steps for
+research; two optimizer steps do not establish adaptation quality. Four partitions
+separate optimization, checkpoint-selection validation, calibration and final test.
+All three variants use the same initial checkpoints, origins and sampling settings.
+Historical statistics are used for every training window; labels remain inside their
+partition. Predictor loss is restricted to the forecast horizon. Checkpoints and
+manifests are saved, the best validation checkpoint is restored, and test/calibration
+labels never select it. `configs/finetune.example.json` documents all settings.
 
-Nguồn kỹ thuật đã đối chiếu:
-[Kronos predictor tại revision cố định](https://github.com/shiyu-coder/Kronos/blob/67b630e67f6a18c9e9be918d9b4337c960db1e9a/model/kronos.py),
-[Binance market data](https://developers.binance.com/docs/binance-spot-api-docs/rest-api/market-data-endpoints),
-[Binance signed requests](https://developers.binance.com/docs/binance-spot-api-docs/rest-api/request-security),
-[Spot testnet](https://developers.binance.com/docs/binance-spot-api-docs/testnet/general-info).
+To train one variant, set `mode` to `predictor-only` or `two-stage` and run:
+
+```bash
+.venv/bin/python -m kronos_lab train --config output/my-training.json
+# Optional distributed training, with devices selected explicitly:
+CUDA_VISIBLE_DEVICES=0,1 .venv/bin/python -m torch.distributed.run --standalone \
+  --nproc_per_node=2 --module kronos_lab.training --config output/my-training.json
+```
+
+Use a new output directory per run. Two-worker CPU DDP was verified; multi-GPU DDP
+was not run because other workloads occupied the first GPU.
+
+## Connect an agent through MCP
+
+```json
+{
+  "mcpServers": {
+    "kronos-lab": {
+      "command": "/absolute/path/to/project/.venv/bin/python",
+      "args": ["-m", "kronos_lab.mcp_server"],
+      "cwd": "/absolute/path/to/project",
+      "env": {"KRONOS_DEVICE": "cuda:1"}
+    }
+  }
+}
+```
+
+Tools: `forecast_kline`, `forecast_signal`, `forecast_compare`, `forecast_batch`,
+`job_status`. Heavy inference runs outside the protocol event loop. Batch failures
+are isolated per symbol. MCP supplies forecast evidence for an agent; this repository
+does not contain a news RAG corpus or claim that model agreement proves accuracy.
+
+HTTP clients use `POST /api/jobs` with `{"kind":"forecast","request":{...}}`,
+`POST /api/batch`, and `GET /api/jobs/{job_id}` with `Authorization: Bearer ...`.
+Valid kinds are `forecast`, `evaluate`, `compare`. Supply `source:"history"` with
+candle rows to evaluate your own data. Jobs/results live in bounded process memory;
+export results before restarting. Raw traces and secret values are not returned on failure.
+
+## Verification and scope
+
+```bash
+.venv/bin/python -m pytest tests -q
+PYTHONPATH="$PWD/vendor/Kronos" .venv/bin/python -m pytest vendor/Kronos/tests/test_kronos_regression.py -q
+# Optional browser check after starting the API and creating saved runs:
+.venv/bin/python -m playwright install chromium
+.venv/bin/python scripts/browser_smoke.py
+```
+
+See [VALIDATION.md](VALIDATION.md), [recorded evidence](evidence/run-summary.json),
+and [plan-to-code mapping](docs/IMPLEMENTATION.md). Real runs include Kronos-base,
+Chronos-2, chronological evaluation and pretrained three-way ablation. Long research
+training, broad market benchmarking, clinical/cross-domain datasets and news RAG
+remain separate experiments; their results are not represented as complete.
+
+`.env`, local API tokens, raw data, weights, environments and generated reports are
+ignored. The original Word files stay local; searchable text versions are retained
+in [docs/plans](docs/plans). Legacy starter scripts remain available, including
+`check_testnet.py` for an explicit read-only HMAC Spot-testnet check. No private
+exchange request or live order was used for this implementation.

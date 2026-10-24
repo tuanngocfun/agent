@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kronos · Forecasting Lab</title>
+<link rel="stylesheet" href="/assets/style.css">
+<script defer src="/assets/plotly.js"></script><script defer src="/assets/app.js"></script>
+</head>
+<body>
+<header><a class="brand" href="/">◈ <span>KRONOS <small>RESEARCH LAB</small></span></a><span class="environment">LOCAL · RESEARCH</span></header>
+<main>
+<section class="intro"><div class="eyebrow">FINANCIAL TIME SERIES / PROBABILISTIC FORECASTING</div><h1>See the range.<br><span>Test the signal.</span></h1><p>Separate sample paths, honest uncertainty, and a baseline on the same data.</p></section>
+<div class="workspace">
+<aside class="panel controls">
+<h2>Experiment setup</h2>
+<label for="token">Local API token</label><input id="token" type="password" autocomplete="off" placeholder="Paste your local API token"><p class="hint">Kept in this tab only. Exchange keys are never needed.</p>
+<div class="two"><div><label for="symbol">Symbol</label><input id="symbol" value="BTCUSDT" maxlength="30"></div><div><label for="interval">Interval</label><select id="interval"><option>1h</option><option>15m</option><option>4h</option><option>1d</option></select></div></div>
+<div class="two"><div><label for="lookback">Lookback</label><input id="lookback" type="number" min="2" max="500" value="128"></div><div><label for="horizon">Horizon</label><input id="horizon" type="number" min="1" max="128" value="12"></div></div>
+<div class="two"><div><label for="samples">Sample paths</label><input id="samples" type="number" min="2" max="64" value="20"></div><div><label for="seed">Seed</label><input id="seed" type="number" min="0" value="42"></div></div>
+<label for="csv">Use your own OHLCVA CSV</label><input id="csv" type="file" accept=".csv"><p id="csv-status" class="hint">Otherwise: closed candles from Binance public data.</p>
+<details><summary>Explicit future sessions</summary><label for="future">Future timestamps (JSON array)</label><textarea id="future" rows="3" placeholder='["2026-10-26T09:00:00Z", …]'></textarea><p class="hint">Required for irregular exchange sessions. No holiday calendar is invented.</p></details>
+<button id="forecast" class="primary">Generate forecast <span>↗</span></button><button id="evaluate" class="secondary">Run walk-forward evaluation</button><button id="compare" class="secondary">Compare with Chronos-2</button>
+<p class="hint">Evaluation uses 8 windows, an earlier calibration split, and a frozen test split. Small samples remain exploratory.</p>
+<div class="divider"></div><label for="saved">Open a saved result</label><input id="saved" type="file" accept=".json"><p class="hint">View forecast, evaluation, or comparison JSON locally.</p>
+</aside>
+<section class="results">
+<div id="status" role="status" aria-live="polite">Ready. Generate a forecast or open a saved experiment.</div>
+<div class="stat-grid"><div class="stat"><span>MEAN TERMINAL RETURN</span><strong id="expected">—</strong><small id="direction">No forecast yet</small></div><div class="stat"><span>UPWARD SAMPLE SHARE</span><strong id="probability">—</strong><small>Monte Carlo votes · uncalibrated</small></div><div class="stat"><span>80% RAW TERMINAL RANGE</span><strong id="range">—</strong><small id="sample-count">Separate trajectories retained</small></div></div>
+<div class="panel chart-panel"><div class="panel-heading"><div><div class="eyebrow">TRAJECTORIES & QUANTILES</div><h2>One history. Many possible paths.</h2></div><button id="export" class="compact" disabled>Export JSON ↓</button></div><div id="fan" class="chart empty">Forecast paths will appear here.</div><p class="caption">The shaded raw band spans sample q10–q90. Its 80% label describes quantile levels, not verified future coverage.</p></div>
+<div id="evaluation-panel" class="panel" hidden><div class="panel-heading"><div><div class="eyebrow">HELD-OUT EVIDENCE</div><h2>Model against last-close baseline</h2></div></div><div class="table-scroll"><table><thead><tr><th>Test metric</th><th>Last close</th><th>Kronos raw</th><th>Kronos calibrated</th></tr></thead><tbody id="metrics"></tbody></table></div><p id="calibration-note" class="caption"></p><p id="paper-summary" class="caption" hidden></p><label for="window">Inspect a scored window</label><select id="window"></select><div id="window-chart" class="chart"></div></div>
+<div id="comparison-panel" class="panel" hidden><div class="eyebrow">INDEPENDENT ARCHITECTURE</div><h2>Chronos-2 comparison</h2><p id="comparison-note"></p><div id="comparison-chart" class="chart"></div><p class="caption">Model agreement does not establish forecast accuracy. Chronos receives close and past volume on the same timestamps.</p></div>
+<div class="panel"><div class="panel-heading"><div><div class="eyebrow">EMPIRICAL DISTRIBUTION</div><h2>The shape of the sample cloud</h2></div><label class="check"><input id="density-toggle" type="checkbox"> Show 3D density</label></div><div id="density" class="chart" hidden></div><p class="caption">A histogram density estimate from generated samples. More paths improve resolution; calibration is evaluated separately.</p></div>
+<details class="panel"><summary>Provenance & diagnostics</summary><pre id="metadata">No model or data loaded.</pre></details>
+<p class="footnote">Research software · Forecast skill and trading performance are separate questions. No orders are sent by this application.</p>
+</section>
+</div></main>
+</body></html>

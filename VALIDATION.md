@@ -1,28 +1,49 @@
-# Validation record — 24 October 2026 (Asia/Ho_Chi_Minh)
+# Validation — 24–25 October 2026, Asia/Ho_Chi_Minh
 
-- Python 3.10+ standard-library offline suite: 16 tests passed.
-- Syntax checks passed for all three scripts; CLI `--help` passed for all three.
-- Public network smoke test succeeded: 10 closed BTCUSDT 1h candles downloaded
-  from `https://data-api.binance.vision/api/v3/klines`. Timestamp range:
-  2026-10-24T03:00:00+00:00 through 2026-10-24T12:00:00+00:00.
-  CSV/metadata were saved outside the repository in `/tmp` and are not published.
-- Offline checks cover closed-candle filtering, quote-volume mapping, duplicate
-  timestamps, gaps, invalid prices, malformed CSV, timestamp normalization,
-  HMAC signature, server-clock offset, fixed GET endpoints, rejected redirects,
-  environment-file precedence and sanitized failure output.
-- Reviewed `KronosPredictor.predict()` and dependency declarations at upstream
-  revision `67b630e67f6a18c9e9be918d9b4337c960db1e9a`. Held-out prices are not
-  passed to the predictor.
-- No model weights downloaded and no Kronos inference, fine-tuning, evaluation
-  benchmark, private testnet request or order execution was performed.
-  This host's default Python lacks numpy, pandas and torch; setup is documented
-  in README for a separate virtual environment.
-- Original DOCX ZIP contents, normalized text and supplied HTML were checked
-  against local `.env` credential values: zero exact matches. Embedded DOCX
-  images were visually inspected and contain formulas/research charts, without
-  credential screenshots. This is a targeted check, not a general secret audit.
-  Original DOCX files and `.env` stay local and ignored by Git.
-- Workspace harness check was attempted as required by the parent AGENTS.md.
-  It cannot pass on this host: its expected Docker `/workspace` and `/data_ngoc`
-  mounts are absent, and `/data` is mounted writable rather than read-only.
-  No mounts, datasets or unrelated projects were changed.
+The following were executed on the development machine. Aggregate results and
+immutable checkpoint identities are in [evidence/run-summary.json](evidence/run-summary.json).
+
+| Check | Actual result |
+|---|---|
+| Project tests | **155 passed**; one nonfatal pandas/NumPy timedelta deprecation warning in a test fixture |
+| Official pinned upstream regression suite | **4 passed**, 29.54 seconds on CPU with pinned Kronos-small/tokenizer weights |
+| Real Kronos-base inference | GPU `cuda:1`, A100 MIG 20 GB; 64 historical candles, 8 forecast bars, 8 separate paths |
+| Public data | 499 closed BTCUSDT 1h candles, 2026-10-03T22:00Z–2026-10-24T16:00Z |
+| Chronological evaluation | Four calibration windows, four disjoint test windows, eight bars per window |
+| Chronos-2 comparison | Real CPU inference on the same history/timestamps, close target + past volume |
+| Pretrained ablation | Real zero-shot, predictor-only and two-stage; **two optimizer steps per trained stage**, saved/reloaded checkpoints |
+| DDP | Two CPU workers, one step per stage using tiny real official architectures |
+| MCP | Official JSON-RPC memory/stdio tests plus actual pretrained forecast_signal and batch success/error isolation |
+| Browser | Desktop/mobile, forecast/evaluation/comparison JSON, 3D surface, export, real authenticated model job, stale-state regression |
+| Secret isolation | Exact local credential values absent from staged text/binaries; `.env`, tokens, checkpoints and raw data ignored |
+
+The actual small Kronos-base test run had close MAE 185.40 versus persistence 290.77.
+Raw 80% interval coverage was 65.625%; expanded coverage was 96.875%, with mean width
+increasing from 418.72 to 2953.80 and worse aggregate pinball loss. Wider bands are
+not evidence of universally better uncertainty. Four windows cannot establish
+statistical reliability or trading profitability. These figures describe this
+recorded software smoke test, not a market-wide benchmark.
+
+Both pretrained adaptation variants trained and changed their saved checkpoint
+hashes. Two steps are insufficient to conclude that adaptation improves forecast
+skill. The last-close baseline, sample settings, and scored origins are identical
+across the three variants. Calibration does not reuse checkpoint-selection labels.
+The recorded LONG/FLAT paper simulation stayed flat on all four test windows,
+incurring no fees; active-trade cost/slippage behavior is covered by 22 paper tests.
+
+Screenshots use actual saved runs. Full trajectory/evaluation exports and model
+checkpoints stay under ignored `output/real-run/`; the raw CSV stays in `data/`.
+Browser runtime and three missing shared libraries were installed/unpacked inside
+`.cache/`; system packages were not changed. The temporary preview server is stopped
+after QA. No private exchange request or order was performed.
+
+Not run: full research-scale fine-tuning, multi-GPU training, live Yahoo/Vnstock
+requests, broad equity universes, clinical/cross-domain experiments, or a separate
+news/multimodal RAG system. Initial checkpoint pretraining data was not independently
+audited. The implemented workflows support subsequent experiments without claiming
+their scientific outcomes in advance.
+
+The parent workspace harness was attempted. Its Docker-specific `/workspace` and
+`/data_ngoc` mounts are absent on this host, and `/data` is writable rather than the
+expected read-only mount. Shared datasets/mounts were not modified. Project outputs
+and the experiment record were created under `/home/ngocnt/experiments/`.
