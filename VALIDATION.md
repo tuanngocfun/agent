@@ -47,3 +47,16 @@ The parent workspace harness was attempted. Its Docker-specific `/workspace` and
 `/data_ngoc` mounts are absent on this host, and `/data` is writable rather than the
 expected read-only mount. Shared datasets/mounts were not modified. Project outputs
 and the experiment record were created under `/home/ngocnt/experiments/`.
+
+
+## Availability fix — 25 October 2026
+
+The initial preview process had been stopped after QA. The implementation tests did
+not imply that port 8765 remained live for the user. After the user's failed-page
+report, a persistent start/status/stop helper was added and launched from `/home`.
+The homepage and `/health` returned HTTP 200, and a newly submitted authenticated
+Kronos-base job completed on `cuda:1`, retaining shape `(8,8,6)` in about 13 seconds
+including model load. The service is left running for the user. Process logs/state
+are ignored under `.cache/dashboard/`; no system-wide service or reboot startup was
+installed. Browser verification and four isolated lifecycle tests cover this change. The
+updated complete project suite passes 159 tests.

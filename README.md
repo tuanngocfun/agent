@@ -14,17 +14,38 @@ Verified desktop/mobile screenshots remain local under `output/browser/`.
 
 The isolated `.venv` and pinned `vendor/Kronos` checkout have already been prepared locally.
 
+The dashboard is an application process: the page is reachable only while its
+server is running. The commands below detach it from the current terminal and
+anchor all paths to this checkout. They work even when your terminal is in `/home`:
+
 ```bash
-cd /home/ngocnt/experiments/agents_financial_forcasting_market_lab
-# Create a separate local service token once; this preserves any existing token.
-test -f .cache/api.token || .venv/bin/python -m kronos_lab init-token
-KRONOS_DEVICE=cuda:1 .venv/bin/python -m kronos_lab serve --token-file .cache/api.token
+bash /home/ngocnt/experiments/agents_financial_forcasting_market_lab/scripts/dashboard.sh start --device cuda:1
+bash /home/ngocnt/experiments/agents_financial_forcasting_market_lab/scripts/dashboard.sh status
+# Stop it explicitly when finished:
+bash /home/ngocnt/experiments/agents_financial_forcasting_market_lab/scripts/dashboard.sh stop
 ```
+
+`start` waits for `/health` to return success before reporting `ready: true`.
+Repeated starts keep the same running instance. Process state and logs are in
+`.cache/dashboard/`; the local service token stays in `.cache/api.token` and is
+never printed by the helper. The process survives closing the starting terminal;
+it is not configured to restart after a machine reboot. This background helper
+uses Linux process ownership checks; use foreground `serve` on other platforms.
 
 Open **http://127.0.0.1:8765**. Paste the contents of `.cache/api.token` into the
 password field. This is a local application token; your Binance key is not needed.
-Use an IDE port forward when the process runs on a remote machine. GPU `cuda:1`
-was used for the recorded runs; choose `cpu` or another available GPU on another machine.
+GPU `cuda:1` was used for the recorded runs; choose `cpu` or another available GPU
+on another machine. For foreground debugging, run the existing `kronos_lab serve`
+command from this project directory.
+
+**VS Code Remote SSH:** the server runs on the remote machine. In the **Ports** tab,
+select **Forward a Port**, enter **8765**, then use **Open in Browser** and the
+forwarded local address. If port 8765 is occupied on your laptop, VS Code can choose
+a different local port; use the address displayed in Ports. See the
+[official Remote SSH port-forwarding guide](https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel).
+An embedded IDE viewer may reject framing; opening the forwarded address in an
+external browser preserves the app's security policy. A `ready: false` status or
+`ERR_EMPTY_RESPONSE` should first be checked against `.cache/dashboard/server.log`.
 
 The dashboard generates forecasts, evaluates eight chronological windows, compares
 Chronos-2 when installed, imports saved results/CSV, exports JSON, and shows a 3D

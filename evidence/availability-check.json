@@ -1,0 +1,29 @@
+{
+  "checked_at_utc": "2026-10-24T17:34:19.510778+00:00",
+  "url": "http://127.0.0.1:8765",
+  "health_http_status": 200,
+  "homepage_http_status": 200,
+  "job_submit_http_status": 202,
+  "job_id": "aa7c79da08de465ea2679e541aa0f5bb",
+  "job_status": "completed",
+  "retained_shape": [
+    8,
+    8,
+    6
+  ],
+  "model": {
+    "id": "NeoQuasar/Kronos-base",
+    "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+    "source": "huggingface"
+  },
+  "device": "cuda:1",
+  "input_history_start": "2026-10-22T01:00:00+00:00",
+  "input_history_end": "2026-10-24T16:00:00+00:00",
+  "elapsed_seconds": 13.0,
+  "server_left_running": true,
+  "browser_passed": true,
+  "lifecycle_tests_passed": 4,
+  "reason_previous_page_failed": "The QA preview process had been stopped; no listener on port8765",
+  "new_behavior": "Detached start/status/stop helper anchors paths to the project and checks readiness; service left running",
+  "project_tests_passed": 159
+}
