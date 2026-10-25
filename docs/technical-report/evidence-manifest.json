@@ -1,0 +1,53 @@
+{
+  "source": "../../evidence/run-summary.json",
+  "sha256": "16d1896bd71e2ff615a7c61a136175a0e578034162e7f62621752d3008ae78c6",
+  "recorded_at_utc": "2026-10-24T17:20:28.603112+00:00",
+  "implementation_commit": "693bcc4331a2df80402496492ccfa1a237f90c7a",
+  "upstream_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+  "model_revisions": {
+    "forecast_model": {
+      "id": "NeoQuasar/Kronos-base",
+      "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "source": "huggingface"
+    },
+    "forecast_tokenizer": {
+      "id": "NeoQuasar/Kronos-Tokenizer-base",
+      "revision": "0e0117387f39004a9016484a186a908917e22426",
+      "source": "huggingface"
+    },
+    "ablation_initial_checkpoints": {
+      "model": {
+        "id": "NeoQuasar/Kronos-small",
+        "revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+        "source": "huggingface"
+      },
+      "tokenizer": {
+        "id": "NeoQuasar/Kronos-Tokenizer-base",
+        "revision": "0e0117387f39004a9016484a186a908917e22426",
+        "source": "huggingface"
+      }
+    },
+    "ablation_trained_checkpoint_hashes": {
+      "predictor-only": {
+        "tokenizer": "local-sha256:389b9657bbef946ada49bbd197aefcf0ba4c778a87903b481776af9f76cc68db",
+        "model": "local-sha256:ac5f5ded4e2f9e2c7772c5ada72c20b67b46b17e8ee54e72505d73c261896d50"
+      },
+      "two-stage": {
+        "tokenizer": "local-sha256:f504eaf5cc3bf76208f283ec26427193805024e3bca35c019355421e9d1211c2",
+        "model": "local-sha256:eb2b7aba4bc6526b3cf2f16a0a202eaa6330554b15f8cc136c54b2a4ea7aa0a3"
+      }
+    },
+    "chronos2": {
+      "id": "amazon/chronos-2",
+      "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c"
+    }
+  },
+  "data": {
+    "source": "Binance public closed BTCUSDT 1h candles",
+    "rows": 499,
+    "first_open_timestamp": "2026-10-03T22:00:00+00:00",
+    "last_open_timestamp": "2026-10-24T16:00:00+00:00",
+    "csv_sha256": "45d795760f542ce7bac9af39331b2c0b91f417c16c0d159741af2faf1d022d2d"
+  },
+  "forecast_input_sha256": "7388da10494036077ed2e03051786268aaa049e5cc96c8e4b2e3ba7079470e56"
+}

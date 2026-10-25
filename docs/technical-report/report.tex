@@ -1,0 +1,574 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array}
+\usepackage{xcolor,graphicx,listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,
+  citecolor=blue!45!black,pdftitle={Kronos Financial Forecasting Lab: Technical Report},
+  pdfauthor={Kronos Financial Forecasting Lab}}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,
+  keepspaces=true,frame=single,rulecolor=\color{black!20},showstringspaces=false}
+\setlength{\emergencystretch}{2em}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.15}
+\input{tables/metrics.tex}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\sourcecommit}{693bcc4331a2df80402496492ccfa1a237f90c7a}
+\title{Kronos Financial Forecasting Lab\\[5pt]
+  \large Implementation, chronological evaluation, and adaptation evidence}
+\author{Technical report for \texttt{tuanngocfun/agent}\\
+  \small Branch: \texttt{kronos-evaluation-lab}}
+\date{25 October 2026 (Asia/Ho\_Chi\_Minh)}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+The lab implements real Kronos inference with retained Monte Carlo paths,
+chronological evaluation against persistence, empirical interval calibration,
+two adaptation modes, a cost-aware paper simulator, and shared CLI, HTTP, and MCP
+interfaces. This report documents the implemented methods and the recorded
+24--25 October 2026 integration evidence. On four held-out BTCUSDT hourly windows
+(32 origin--horizon observations), Kronos-base close MAE was \BaseMAE{} USDT,
+compared with \BaselineMAE{} for persistence. Raw q10--q90 coverage was
+\RawCoverage{}; earlier-label interval expansion raised coverage to
+\CalCoverage{} while widening the mean interval from \RawWidth{} to
+\CalWidth{} USDT and increasing pinball loss. A separate Kronos-small ablation
+executed two optimizer updates per adapted stage. These measurements establish
+that the workflows execute and preserve their intended data boundaries. Their
+size, temporal dependence, and unaudited pretraining provenance do not support a
+general forecast-skill, adaptation-gain, or profitability claim.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Scope and evidence}
+The deliverable is an executable research lab for the financial project in the
+supplied research plans, rather than a completed broad-market research study.
+The repository contains searchable versions of those plans under
+\code{docs/plans/}; \code{docs/IMPLEMENTATION.md} maps their requirements to code
+and states the corrections made during implementation~\cite{implementation}.
+The implemented scope includes public/local OHLCVA ingestion, probabilistic
+forecasting, chronological calibration and testing, checkpointed adaptation,
+model comparison, local paper simulation, and agent access.
+
+The quantitative source for this report is the committed
+\code{evidence/run-summary.json}, recorded at 2026-10-24 17:20:28 UTC
+(25 October, 00:20:28 in Ho Chi Minh City)~\cite{evidence}.
+Implementation behavior is described at commit \texttt{\sourcecommit};
+the availability fix and its four additional tests are documented separately in
+\code{VALIDATION.md}~\cite{validation}. Tables and headline numerical values are
+generated from the evidence file by \code{generate_tables.py}, and an accompanying
+manifest records its SHA-256. Full trajectories, local data, and training
+checkpoints remain local; they are not required to regenerate this document's
+aggregate tables. Re-running the models requires those inputs or a fresh data
+collection and can produce different measurements.
+
+The dashboard screenshot supplied with the report request shows an interactive
+configuration of 128 history bars, 12 future bars, and 20 paths. The numerical
+evaluation below uses the recorded 64/8/8 experiment. A displayed live forecast
+does not provide realized future labels or substitute for that evaluation.
+
+\section{System design}
+The same forecasting engine serves a Python CLI, an authenticated local HTTP API,
+and a stdio Model Context Protocol (MCP) server. The main boundaries are shown in
+Figure~\ref{fig:architecture}. Heavy jobs run through a bounded shared executor;
+inference is serialized to limit resource contention and shared random-state
+effects. The HTTP process stores jobs and results in bounded memory, so users
+export results before restarting it.
+
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox{0.91\linewidth}{\centering
+Public Binance / local CSV / optional Yahoo and Vnstock adapters\\[4pt]
+$\downarrow$\\[4pt]
+UTC validation and provenance $\longrightarrow$ history-only normalization\\[4pt]
+$\downarrow$\\[4pt]
+Pinned tokenizer + Kronos $\longrightarrow$ retained $S\times H\times6$ paths\\[4pt]
+$\downarrow$\\[4pt]
+CLI / authenticated HTTP jobs / stdio MCP\\[4pt]
+$\downarrow$\\[4pt]
+Dashboard and JSON export; chronological scoring and paper simulation}}
+\caption{Implemented data and execution boundaries. Observed future prices enter
+the scorer after a forecast has been produced. Known future timestamps may be
+passed to the forecasting engine.}
+\label{fig:architecture}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.26\linewidth}>{\raggedright\arraybackslash}p{0.66\linewidth}@{}}
+\toprule
+Module & Responsibility \\
+\midrule
+\code{data.py} & Provider adapters, strict frame validation, amount provenance. \\
+\code{forecast.py} & Checkpoint identities, normalization, autoregressive sampling, path summaries. \\
+\code{evaluation.py} & Matching origins, disjoint labels, frozen calibration, metrics. \\
+\code{training.py}, \code{ablation.py} & Causal windows, stage training, checkpoint selection, paired variants. \\
+\code{comparison.py}, \code{paper.py} & Chronos-2 comparison and cost-aware LONG/FLAT simulation. \\
+\code{service.py}, \code{api.py}, \code{mcp_server.py} & Bounded jobs and shared access to model evidence. \\
+\bottomrule
+\end{tabular}
+\caption{Source modules under \texttt{kronos\_lab/} at the implementation commit.}
+\end{table}
+
+\section{Data contract and provenance}
+Each candle has a UTC opening timestamp and six ordered features:
+\[
+  x_t=(O_t,H_t,L_t,C_t,V_t,A_t),
+\]
+where $A_t$ is quote amount. The recorded Binance integration uses actual quote
+volume and closed candles. When another supported input omits amount, the adapter
+labels its proxy, $A_t=V_t(O_t+H_t+L_t+C_t)/4$. Missing or invalid prices and
+volumes, duplicate timestamps, and inconsistent observed candles are rejected.
+Generated candles are treated separately: their positivity and OHLC consistency
+violations are counted and exposed, rather than silently repaired.
+
+The saved input consists of 499 closed BTCUSDT hourly candles, with opening
+timestamps from 3 October 2026 22:00 UTC through 24 October 2026 16:00 UTC. All
+tables use UTC for data boundaries. The CSV identity is:
+\begin{quote}\small\ttfamily
+45d795760f542ce7bac9af39331b2c0b91f417c16c0d159741af2faf1d022d2d
+\end{quote}
+This identifies the saved input, rather than promising that a later public API
+request will retrieve an identical file.
+
+Future timestamps must be unique, increasing, and later than the history. A
+constant observed cadence can be extended for continuously traded data; it is
+not an exchange-session calendar. Provider-backed equity forecasts require
+explicit future sessions, and a regular-looking imported CSV does not establish
+weekend or holiday trading. Yahoo uses unadjusted prices and records that policy.
+Yahoo and Vnstock integrations were exercised through mocked adapter tests;
+their live providers were not part of the recorded experiment.
+
+\section{Forecast construction}
+\subsection{History-only scaling and discrete generation}
+Let $L$ denote the lookback and $H$ the horizon. For each feature $j$, the engine
+fits population statistics on the $L$ observed history rows only:
+\begin{align}
+\mu_j&=\frac{1}{L}\sum_{t=1}^{L}x_{t,j}, &
+\sigma_j&=\sqrt{\frac{1}{L}\sum_{t=1}^{L}(x_{t,j}-\mu_j)^2},\\
+z_{t,j}&=\operatorname{clip}\!\left(\frac{x_{t,j}-\mu_j}{\sigma_j+10^{-5}},-5,5\right).
+\end{align}
+The official Kronos design uses a tokenizer for hierarchical discrete K-line
+tokens and an autoregressive transformer for their evolution~\cite{kronos}.
+The lab pins the upstream code and model revisions (Appendix~\ref{app:identities})
+and requires a clean upstream checkout. It encodes the observed history once,
+replicates its token sequence across $S$ samples, and samples each next token
+half from the predictor's two dependency-aware heads. Calendar features are
+minute, hour, weekday, day, and month.
+
+Logits are divided by temperature before optional top-$k$ and nucleus top-$p$
+filtering. Decoded future paths are transformed back using the same historical
+statistics. The retained tensor is
+\[
+  \widehat X\in\mathbb R^{S\times H\times6}.
+\]
+The implementation enforces $L+H\leq512$ and $1\leq S\leq256$; it does not
+discard paths by averaging them before uncertainty analysis. The recorded
+Kronos-base run used $L=64$, $H=8$, $S=8$, temperature $0.6$, top-$p=0.9$,
+top-$k=0$, and seed 42 on an A100 MIG 20 GB device, with Python 3.12.3 and
+PyTorch 2.6.0+cu124. Its returned shape was $(8,8,6)$, with zero diagnosed invalid
+generated candles. This one diagnostic outcome does not guarantee that future
+generated candles will always be valid.
+
+\subsection{Point summaries and sample votes}
+For close-price paths $\widehat C_{s,h}$ and last observed close $c_i$ at origin
+$i$, the point forecast and sample vote are
+\begin{align}
+\widehat c_{i,h}&=\frac{1}{S}\sum_{s=1}^{S}\widehat C_{i,s,h}, &
+\widehat p_{i,h}&=\frac{1}{S}\sum_{s=1}^{S}\mathbf 1\{\widehat C_{i,s,h}>c_i\}.
+\end{align}
+The API exposes the terminal vote as \code{p_up} and q10/q50/q90 as empirical
+close quantiles. The expected terminal return is
+$100(S^{-1}\sum_s\widehat C_{i,s,H}/c_i-1)$ percent. Sample votes describe the
+generated path cloud; they are not calibrated correctness probabilities.
+With eight paths their frequency resolution is 0.125. A smooth density display
+does not increase the number of model draws or establish calibrated uncertainty.
+No universal volatility multiplier or protocol-derived confidence score is added.
+
+\section{Chronological evaluation and interval calibration}
+\subsection{Origins and information boundaries}
+At origin index $i$ (the first unknown row), the forecaster receives rows
+$[i-L,i)$ and the future timestamps $[i,i+H)$; future OHLCVA values remain in the
+scorer. Persistence predicts $c_i$ at every horizon on exactly the same origins.
+Calibration labels precede test labels. Overlapping cross-split labels are
+purged, and the recorded run reports disjoint labels and no within-split label
+overlap. Historical contexts may overlap, so label disjointness does not imply
+statistical independence.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\input{tables/splits.tex}
+\caption{Main Kronos-base evaluation. Origin indices are zero-based; all label
+times are UTC. Each split has four eight-bar windows. Test origins are
+464, 472, 480, and 488.}
+\label{tab:splits}
+\end{table}
+
+\subsection{Empirical additive expansion}
+For calibration window $i$ and horizon $h$, let $\ell_{i,h}$ and $u_{i,h}$ be
+the raw q10 and q90 limits, and $y_{i,h}$ the realized close. The nonnegative
+score is
+\[
+ a_{i,h}=\max\{\ell_{i,h}-y_{i,h},\;y_{i,h}-u_{i,h},\;0\}.
+\]
+For $n$ calibration windows, the selected order-statistic rank is
+$k=\min\{n,\lceil(n+1)0.8\rceil\}$. The $k$th sorted score at each horizon
+defines $\delta_h$. It is frozen before testing and applied as
+\[
+ [\ell^{\mathrm{cal}}_{i,h},u^{\mathrm{cal}}_{i,h}]
+   =[\ell_{i,h}-\delta_h,\;u_{i,h}+\delta_h].
+\]
+The point mean, median, and votes are unchanged. Here $n=4$ and $k=4$, so each
+expansion is the largest observed calibration miss for its horizon. The rank
+does not exceed $n$ in this run; the code reports a cap when it does. This is an
+empirical chronological use of split-conformal-style scores, with no claimed
+exchangeability-based coverage guarantee for serially dependent market data.
+
+\begin{table}[htbp]
+\centering\small
+\input{tables/calibration.tex}
+\caption{Frozen Kronos-base interval expansions, in USDT, fitted on the earlier
+four calibration windows.}
+\end{table}
+
+\subsection{Metric definitions}
+Let $N=WH$ for $W$ test origins, $e_{i,h}=\widehat c_{i,h}-y_{i,h}$, and
+$r_{i,h}=100(y_{i,h}/c_i-1)$. The reported close errors are
+\[
+ \mathrm{MAE}=N^{-1}\sum_{i,h}|e_{i,h}|,\qquad
+ \mathrm{RMSE}=\sqrt{N^{-1}\sum_{i,h}e_{i,h}^2}.
+\]
+Return MAE uses $|\widehat r_{i,h}-r_{i,h}|$ and is measured in percentage points.
+Directional accuracy compares the signs of price changes from the observed
+anchor, including a distinct zero-change class. Persistence therefore has zero
+directional accuracy here: its prediction is flat and all scored actual changes
+are nonzero. This is not a binary up/down accuracy of zero.
+
+Brier score is $N^{-1}\sum_{i,h}(\widehat p_{i,h}-\mathbf1\{y_{i,h}>c_i\})^2$.
+Persistence is a point forecast without a probability distribution; a separate
+constant probability 0.5 benchmark has Brier score 0.25. Coverage is the fraction
+of observed closes inside the inclusive q10--q90 limits; width is the mean
+difference between their bounds. For residual $u=y-q$, pinball loss is
+$\rho_\tau(u)=\max\{\tau u,(\tau-1)u\}$. The reported mean pinball loss
+averages the losses for $\tau=0.1,0.5,0.9$, using the unchanged median for q50.
+Terminal metrics score only $h=H$ (four observations here), whereas the main
+tables pool all 32 origin--horizon observations.
+
+\section{Recorded results}
+\subsection{Kronos-base point forecast and uncertainty}
+\begin{table}[htbp]
+\centering\small
+\input{tables/base-point.tex}
+\caption{Kronos-base test point metrics against matching persistence.
+MAE/RMSE are USDT; return MAE is percentage points; direction is percent;
+Brier is unitless. Expansion leaves these model quantities unchanged.}
+\label{tab:point}
+\end{table}
+Kronos-base MAE is \MAEReductionPercent{} lower than persistence on these
+four windows. Its terminal directional accuracy is 75\% (three of four), and
+terminal Brier score is 0.13672. These are descriptive comparisons on one short
+BTCUSDT segment. Thirty-two correlated horizon observations are not 32
+independent experiments, and there is no confidence interval or significance
+claim attached to the observed MAE difference.
+
+\begin{table}[htbp]
+\centering\small
+\input{tables/base-interval.tex}
+\caption{Kronos-base q10--q90 test intervals. Coverage is percent; width and
+mean pinball loss are in USDT. The label ``80\%'' denotes quantile levels,
+not verified future coverage.}
+\label{tab:interval}
+\end{table}
+Raw intervals cover 21 of 32 closes; expanded intervals cover 31 of 32. The
+mean width increases by a factor of \WidthRatio{}, and mean pinball loss
+increases from \RawPinball{} to \CalPinball{}. The earlier calibration misses
+therefore lead to very broad test intervals. Higher coverage alone does not
+establish a better predictive distribution, and these results provide no
+evidence that one expansion will transfer to other market regimes.
+
+\subsection{Kronos-small adaptation ablation}
+The adaptation experiment starts from Kronos-small, not Kronos-base. It uses
+three variants with identical initial model/tokenizer identities, scored test
+origins, and sampling settings: unchanged zero-shot; predictor-only adaptation
+with a frozen original tokenizer; and tokenizer adaptation followed by predictor
+adaptation with the selected tokenizer frozen. The recorded trained stages each
+take two optimizer updates, in one epoch, with batch size two and seed 42.
+Tokenizer/predictor learning rates are $2\cdot10^{-4}$ and $10^{-6}$, and
+gradient clipping is 2.0 in this bounded run.
+
+The four half-open partitions have exclusive upper boundaries 12 October
+06:00, 16 October 10:00, 20 October 14:00, and 24 October 17:00 UTC. These
+separate optimization, checkpoint-selection validation, interval calibration,
+and final test. The ablation's scored calibration labels are 19 October 06:00
+through 20 October 13:00 UTC; they differ from the main base-model calibration
+in Table~\ref{tab:splits}. Its test labels match the main experiment. Training
+dataset window starts and scored evaluation origins are separately constructed;
+partition boundaries alone do not determine the exact scored label range.
+
+\begin{table}[htbp]
+\centering\small
+\input{tables/ablation.tex}
+\caption{Separate Kronos-small ablation. P/T mean predictor/tokenizer optimizer
+updates. MAE/RMSE are USDT; raw and expanded coverage are percent. All rows use
+four held-out test windows.}
+\label{tab:ablation}
+\end{table}
+Predictor-only and zero-shot metrics are identical at the reported precision
+(and in the saved aggregate values) despite a changed saved predictor hash.
+Two-stage MAE is slightly lower in this run, but two updates and four test
+windows cannot identify a stable adaptation gain. Changed checkpoints establish
+that training executed; they do not establish a meaningful forecast improvement.
+The base and small tables are not a controlled comparison of model capacity:
+their calibration windows differ and this experiment was designed for integration
+validation rather than capacity selection.
+
+\subsection{Chronos-2 and paper simulation}
+The comparator loads \code{amazon/chronos-2} on CPU with close as the target and
+past volume as a covariate. It uses the same history and future timestamps as
+the compared Kronos forecast. The recorded terminal directions disagree. This
+is one paired live forecast, not a held-out Chronos-2 skill benchmark, and
+agreement or disagreement cannot by itself establish which forecast is accurate.
+
+The paper simulator chooses LONG only when the frozen terminal mean forecast
+exceeds the last observed close; otherwise it stays FLAT. It enters at the next
+candle's open, exits at the final forecast candle's close, and rejects overlapping
+test windows. For cash $E$, fee fraction $f$, adverse slippage $s$, entry open
+$O$, and exit close $C$, a LONG roundtrip uses
+\[
+ Q=\frac{E}{O(1+s)(1+f)},\qquad E'=Q\,C(1-s)(1-f).
+\]
+Fees apply to each actual fill notional. Drawdown is sampled at the entry mark,
+held closes, and exit; it does not measure intrabar lows. The recorded run uses
+10 bps fees and 5 bps slippage per side and stays FLAT on all four test windows:
+zero trades, zero turnover, zero costs, and zero return. Consequently it does
+not exercise active-trade behavior on real saved test windows or demonstrate a
+profitable strategy. Active-trade accounting is covered by dedicated tests.
+
+\section{Adaptation implementation and leakage controls}
+\subsection{Window construction and objectives}
+Each training window and its labels are fully contained in one partition; the
+dataset does not borrow context from the preceding partition. It fits each
+feature's mean and population standard deviation on the window's context only,
+then transforms both context and target using those statistics, epsilon
+$10^{-5}$, and clipping at five. This prevents target values from changing the
+normalization of observed history.
+
+Tokenizer adaptation minimizes the exact implemented objective
+\[
+ \mathcal L_{\mathrm{tok}}=\tfrac12\bigl[
+  \mathrm{MSE}(\widehat z^{\mathrm{coarse}},z)+
+  \mathrm{MSE}(\widehat z^{\mathrm{full}},z)+\mathcal L_{\mathrm{quant}}\bigr],
+\]
+where the quantization term comes from the pinned upstream tokenizer. Predictor
+adaptation freezes the tokenizer and applies the average of its two head
+cross-entropies, $(\mathrm{CE}_{s1}+\mathrm{CE}_{s2})/2$, to
+future positions only, starting at the context boundary. Teacher forcing uses
+the shifted target token sequence. Loss on already observed context positions
+is excluded. Both stages save their best validation checkpoint and restore it
+before the next stage or evaluation; calibration and test labels do not select
+checkpoints~\cite{training}.
+
+\subsection{Causal validation and checkpoint identity}
+The pinned upstream cross-attention selects causal behavior through its module
+training flag. A plain evaluation-mode teacher-forced validation pass could
+therefore expose later sibling-token information. The lab's
+\code{causal_loss_mode} preserves causal attention during validation while
+disabling attention dropout and restoring prior module state afterward. This
+is a concrete guard in the implemented validation path, not a claim that every
+possible dependency in pretrained representations has been causally audited.
+
+Hub references resolve to immutable model SHAs; local checkpoint identities
+hash the configuration and weight files. Training manifests preserve initial
+and selected checkpoint identities and the partition policies. The zero-shot,
+predictor-only, and two-stage evaluations use the same scored origins. Tests
+mutate held-out data to check that checkpoint selection does not change. The
+separate two-worker CPU distributed smoke uses small randomly initialized
+official architectures and one update per stage: it verifies distributed
+execution and saving, not pretrained multi-GPU training or speedup.
+
+\section{Interfaces, operation, and verification}
+The MCP server exposes these tools:
+\begin{lstlisting}
+forecast_kline, forecast_signal, forecast_compare
+forecast_batch, job_status
+\end{lstlisting}
+Heavy
+work runs outside its protocol event loop; batch outcomes isolate invalid
+symbols. MCP transports model evidence and does not assign a statistical
+confidence level. A separate news corpus, retrieval pipeline, or multimodal
+reasoning model is outside this implementation.
+
+HTTP jobs use \code{POST /api/jobs}, \code{POST /api/batch}, and
+\code{GET /api/jobs/{job_id}}, with bearer-token authentication for model
+access. The token is read locally and is never part of this document. Server
+errors omit raw traces and secret values. The dashboard supports forecast paths,
+raw quantiles, empirical 3D density, held-out evaluation, Chronos-2 comparison,
+CSV/saved-result import, and JSON export. Its raw q10--q90 display must be
+interpreted separately from held-out calibrated coverage.
+
+The persistent \code{scripts/dashboard.sh} start/status/stop helper anchors
+paths to the checkout, waits for a successful health check, and tracks the
+owned process under \code{.cache/dashboard/}. It survives terminal closure
+but is not configured to restart at machine reboot. The availability fix was
+verified with HTTP 200 responses and a newly completed authenticated Kronos-base
+GPU job, and added four lifecycle tests. It does not imply that the service will
+remain available after process termination or host restart.
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}p{0.30\linewidth}p{0.62\linewidth}@{}}
+\toprule
+Check & Recorded verification and scope \\
+\midrule
+Project tests & 155 in the original integration record; 159 after the four lifecycle tests, also re-run for this report (159 passed in 14.26 s; one nonfatal timedelta deprecation warning). \\
+Pinned upstream & Four official CPU regression tests with real small-model/tokenizer weights. \\
+Real inference & Kronos-base GPU paths, chronological scoring, pretrained small-model adaptation, CPU Chronos-2. \\
+Distributed execution & Two CPU workers, random-test initialization, one update per stage; no multi-GPU run. \\
+MCP & Official SDK memory/stdio tests and real pretrained signal/batch success/error isolation. \\
+Browser & Desktop/mobile, saved forecast/evaluation/comparison, 3D view, export, authenticated job, stale-session-state regression. \\
+Paper accounting & Dedicated active-trade cost/slippage tests; recorded real windows all stayed FLAT. \\
+\bottomrule
+\end{tabular}
+\caption{Validation evidence from \texttt{VALIDATION.md} and the run summary.
+These checks verify software behavior within their tested scope.}
+\end{table}
+
+\section{Reproduction}
+\subsection{Rebuild this report}
+The LaTeX source, generated tables, generator, source-hash manifest, and compiled
+PDF are stored together under \code{docs/technical-report/}. The table generator
+uses only the Python standard library and the committed aggregate evidence.
+From the repository root:
+\begin{lstlisting}
+python3 docs/technical-report/generate_tables.py
+python3 docs/technical-report/generate_tables.py --check
+make -C docs/technical-report
+\end{lstlisting}
+The Makefile supports Tectonic or pdfLaTeX. The published build uses Tectonic
+0.17.0. A first Tectonic build may download its TeX bundle; an offline rebuild
+needs a populated cache or a complete TeX installation. Byte-for-byte PDF
+identity is not promised across compiler/bundle versions. Table and manifest
+generation is deterministic. The report README records the build and inspection
+commands and distinguishes document checks from previously recorded model runs.
+
+\subsection{Run new forecasts and evaluations}
+The application environment is separate from the report toolchain. The setup
+script creates the Python environment and pinned upstream checkout; model
+weights may be downloaded on first use. \code{requirements.lock} records the
+tested Linux environment. From the project root, representative commands are:
+\begin{lstlisting}
+bash scripts/setup.sh
+.venv/bin/python -m kronos_lab download \
+  --symbol BTCUSDT --interval 1h --limit 1000
+.venv/bin/python -m kronos_lab forecast \
+  --csv data/BTCUSDT_1h.csv --device cuda:1 \
+  --lookback 64 --horizon 8 --sample-count 8 \
+  --output output/new-forecast.json
+.venv/bin/python -m kronos_lab evaluate \
+  --csv data/BTCUSDT_1h.csv --device cuda:1 \
+  --lookback 64 --horizon 8 --sample-count 8 \
+  --max-windows 8 --output output/new-evaluation.json
+.venv/bin/python -m pytest tests -q
+\end{lstlisting}
+Choose a device that is actually available. A new download changes the time
+range and resulting split; these commands execute the workflow rather than
+recovering the exact saved October labels. Exact replay additionally requires
+the saved CSV hash, immutable checkpoint revisions, sampling settings, evaluation
+origin policy, and compatible numerical environment. GPU numerical behavior
+can vary even with the same seed. Research adaptation should use a new output
+directory and declared boundaries; the recorded bounded configuration is
+available locally under \code{output/real-run/ablation-config.json}.
+
+\section{Limits and research work remaining}
+The supported conclusion is that an integrated lab runs real pretrained models,
+preserves trajectories and data boundaries, and reports inspectable evidence.
+The main unresolved scientific question is whether any improvement persists
+across origins, seeds, assets, market regimes, and realistic trading costs.
+Four calibration windows make interval expansion unstable; four test windows
+and two training updates cannot settle that question. Pretraining data coverage
+was not independently audited, so an immutable checkpoint does not establish
+an uncontaminated historical benchmark.
+
+A subsequent study needs a declared multi-asset/time-range benchmark, sufficient
+non-overlapping origins, a fixed checkpoint-selection/calibration/test protocol,
+longer adaptation with validation-based stopping, multiple seeds, and uncertainty
+estimates that respect temporal dependence. It should compare skill and interval
+sharpness jointly, retain negative results, and test active trading with costs
+over enough trades to assess behavior. A rolling or regime-specific calibration
+study would address the extreme interval widening seen here. Such experiments
+are not represented as already completed in this report. Live Yahoo/Vnstock,
+pretrained multi-GPU training, broad equities, cross-domain/biomedical transfer,
+and news/multimodal retrieval likewise remain unrun or separate projects.
+
+\appendix
+\section{Immutable identities}\label{app:identities}
+The following identifiers come from the committed evidence~\cite{evidence}.
+They identify source code and weights; they do not audit model pretraining data.
+
+\begin{description}
+\item[Lab implementation commit]\hfill\\
+\code{693bcc4331a2df80402496492ccfa1a237f90c7a}
+\item[Official Kronos code]\hfill\\
+\code{67b630e67f6a18c9e9be918d9b4337c960db1e9a}
+\item[\texttt{NeoQuasar/Kronos-base}]\hfill\\
+\code{2b554741eca47781b64468546e77fef3e85130e6}
+\item[\texttt{NeoQuasar/Kronos-small}]\hfill\\
+\code{901c26c1332695a2a8f243eb2f37243a37bea320}
+\item[\texttt{NeoQuasar/Kronos-Tokenizer-base}]\hfill\\
+\code{0e0117387f39004a9016484a186a908917e22426}
+\item[\texttt{amazon/chronos-2}]\hfill\\
+\code{29ec3766d36d6f73f0696f85560a422f50e8498c}
+\end{description}
+
+The saved predictor-only model content hash is:
+\begin{quote}\small\ttfamily
+ac5f5ded4e2f9e2c7772c5ada72c20b67b46b17e8ee54e72505d73c261896d50
+\end{quote}
+\begin{samepage}
+The saved two-stage tokenizer and model content hashes are, respectively:
+\begin{quote}\small\ttfamily
+f504eaf5cc3bf76208f283ec26427193805024e3bca35c019355421e9d1211c2\\
+eb2b7aba4bc6526b3cf2f16a0a202eaa6330554b15f8cc136c54b2a4ea7aa0a3
+\end{quote}
+\end{samepage}
+The manifest beside this report records the evidence-file hash and source
+identities in machine-readable form. Raw candles, private tokens, model weights,
+checkpoints, and dashboard screenshots are not embedded in the PDF.
+
+\begin{thebibliography}{9}
+\raggedright
+\bibitem{evidence}
+Kronos Financial Forecasting Lab. \emph{Recorded integration evidence},
+24 October 2026, \code{evidence/run-summary.json} at lab implementation commit.
+\href{https://github.com/tuanngocfun/agent/blob/693bcc4331a2df80402496492ccfa1a237f90c7a/evidence/run-summary.json}{Versioned aggregate evidence}.
+
+\bibitem{implementation}
+Kronos Financial Forecasting Lab. \emph{Plan-to-code mapping},
+\code{docs/IMPLEMENTATION.md}; supplied plan text in \code{docs/plans/}.
+\href{https://github.com/tuanngocfun/agent/blob/693bcc4331a2df80402496492ccfa1a237f90c7a/docs/IMPLEMENTATION.md}{Versioned implementation mapping}.
+
+\bibitem{validation}
+Kronos Financial Forecasting Lab. \emph{Validation and availability fix},
+24--25 October 2026, \code{VALIDATION.md}.
+\href{https://github.com/tuanngocfun/agent/blob/693bcc4331a2df80402496492ccfa1a237f90c7a/VALIDATION.md}{Versioned validation record}.
+
+\bibitem{kronos}
+Official Kronos project. \emph{Kronos: A Foundation Model for the Language of
+Financial Markets}, README and source at audited revision
+\code{67b630e67f6a18c9e9be918d9b4337c960db1e9a}.
+\href{https://github.com/shiyu-coder/Kronos/tree/67b630e67f6a18c9e9be918d9b4337c960db1e9a}{Pinned upstream code}.
+
+\bibitem{training}
+Kronos Financial Forecasting Lab. \emph{Training, forecasting, and evaluation
+implementation}, \code{kronos_lab/training.py}, \code{forecast.py}, and
+\code{evaluation.py} at the lab implementation commit.
+\href{https://github.com/tuanngocfun/agent/tree/693bcc4331a2df80402496492ccfa1a237f90c7a/kronos_lab}{Versioned application source}.
+\end{thebibliography}
+\end{document}

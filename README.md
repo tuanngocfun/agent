@@ -199,7 +199,11 @@ Chronos-2, chronological evaluation and pretrained three-way ablation. Long rese
 training, broad market benchmarking, clinical/cross-domain datasets and news RAG
 remain separate experiments; their results are not represented as complete.
 
-`.env`, local API tokens, raw data, weights, environments and generated reports are
+The [technical report (PDF)](docs/technical-report/report.pdf) documents the methods,
+architecture, recorded results, and limitations. Its [LaTeX source and build instructions](docs/technical-report/README.md)
+include tables generated from the versioned evidence and a source-hash manifest.
+
+`.env`, local API tokens, raw data, weights, environments and generated run reports are
 ignored. The original Word files stay local; searchable text versions are retained
 in [docs/plans](docs/plans). Legacy starter scripts remain available, including
 `check_testnet.py` for an explicit read-only HMAC Spot-testnet check. No private
