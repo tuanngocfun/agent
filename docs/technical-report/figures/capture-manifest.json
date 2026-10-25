@@ -1,0 +1,45 @@
+{
+  "dashboard_url": "http://127.0.0.1:8765",
+  "method": "fresh native model exports loaded by the unmodified dashboard saved-result UI",
+  "presentation": "1440px desktop, 2x raster, chart labels enlarged for print; data unmodified",
+  "credentials_loaded": false,
+  "javascript_errors": [],
+  "captures": [
+    {
+      "file": "forecast-dashboard.png",
+      "sha256": "a9af46d64420376d92c909ca80aac794c1307c72c17fa9871be245f505f9df32",
+      "sources": {
+        "forecast.json": "687cdfa3596764a45cfcc31eb3c3c1a9e5a5fabcdd6c837dfcfef12efdfe2dab"
+      },
+      "view": "summary cards and retained-path fan",
+      "settings": {
+        "lookback": 128,
+        "horizon": 12,
+        "sample_count": 20,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 0,
+        "seed": 42,
+        "max_context": 512
+      }
+    },
+    {
+      "file": "evaluation-dashboard.png",
+      "sha256": "c0fc0927c5ed49a9c38a267c281e091b299e58232abbb34856b41007359a0808",
+      "sources": {
+        "evaluation.json": "ba2b2c603e76e73f16f7e297fa9f19a52092263a50c31cad5ea9a2020fce372e"
+      },
+      "view": "all test-window aggregate metrics and first chronological test window",
+      "selected_origin": 512,
+      "test_windows": 40
+    },
+    {
+      "file": "comparison-dashboard.png",
+      "sha256": "e2865b6aa896eb17e8dd44b97aa9b5ebb33023e2933af9f8b5bc861d65fcba96",
+      "sources": {
+        "comparison.json": "d2264ba9b76a11c9931ef0cf9b4e39f5490388ff54e001fd75f4741405f79311"
+      },
+      "view": "latest paired forward paths; Kronos mean and Chronos native median"
+    }
+  ]
+}

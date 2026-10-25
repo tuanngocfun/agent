@@ -5,6 +5,7 @@
 \usepackage[margin=25mm]{geometry}
 \usepackage{amsmath,amssymb,booktabs,longtable,array}
 \usepackage{xcolor,graphicx,listings}
+\usepackage{placeins}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,
   citecolor=blue!45!black,pdftitle={Kronos Financial Forecasting Lab: Technical Report},
@@ -16,6 +17,7 @@
 \setlength{\parindent}{0pt}
 \renewcommand{\arraystretch}{1.15}
 \input{tables/metrics.tex}
+\input{tables/visual-metrics.tex}
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \newcommand{\sourcecommit}{693bcc4331a2df80402496492ccfa1a237f90c7a}
 \title{Kronos Financial Forecasting Lab\\[5pt]
@@ -31,16 +33,16 @@ The lab implements real Kronos inference with retained Monte Carlo paths,
 chronological evaluation against persistence, empirical interval calibration,
 two adaptation modes, a cost-aware paper simulator, and shared CLI, HTTP, and MCP
 interfaces. This report documents the implemented methods and the recorded
-24--25 October 2026 integration evidence. On four held-out BTCUSDT hourly windows
-(32 origin--horizon observations), Kronos-base close MAE was \BaseMAE{} USDT,
-compared with \BaselineMAE{} for persistence. Raw q10--q90 coverage was
-\RawCoverage{}; earlier-label interval expansion raised coverage to
-\CalCoverage{} while widening the mean interval from \RawWidth{} to
-\CalWidth{} USDT and increasing pinball loss. A separate Kronos-small ablation
-executed two optimizer updates per adapted stage. These measurements establish
-that the workflows execute and preserve their intended data boundaries. Their
-size, temporal dependence, and unaudited pretraining provenance do not support a
-general forecast-skill, adaptation-gain, or profitability claim.
+24--25 October 2026 integration evidence and a fresh paired experiment with
+dashboard screenshots and inspectable figures. The fresh run uses 20 calibration
+and 40 test origins. Kronos median MAE is \FreshKMedianMAE{} versus Chronos-2
+\FreshCMedianMAE{}, while persistence is better at \FreshBaselineMAE{} USDT.
+Both naive positive-return trading rules lose after assumed costs; an
+agreement-and-cost rule earns \FreshConsensusNet{} from only two paper trades,
+which cannot establish dominance. The latest cost-filtered model rules both
+select FLAT. The earlier integration run and two-update Kronos-small ablation
+are retained separately. Small samples, temporal dependence, idealized execution,
+and unaudited pretraining provenance limit the scientific and economic conclusions.
 \end{abstract}
 
 \newpage
@@ -57,22 +59,25 @@ The implemented scope includes public/local OHLCVA ingestion, probabilistic
 forecasting, chronological calibration and testing, checkpointed adaptation,
 model comparison, local paper simulation, and agent access.
 
-The quantitative source for this report is the committed
-\code{evidence/run-summary.json}, recorded at 2026-10-24 17:20:28 UTC
+The earlier integration record is \code{evidence/run-summary.json}.
+It was saved at 2026-10-24 17:20:28 UTC
 (25 October, 00:20:28 in Ho Chi Minh City)~\cite{evidence}.
-Implementation behavior is described at commit \texttt{\sourcecommit};
-the availability fix and its four additional tests are documented separately in
-\code{VALIDATION.md}~\cite{validation}. Tables and headline numerical values are
-generated from the evidence file by \code{generate_tables.py}, and an accompanying
-manifest records its SHA-256. Full trajectories, local data, and training
+Implementation behavior is described at commit:
+\begin{quote}\small\texttt{\sourcecommit}\end{quote}
+The availability fix adds four tests and is described in
+\code{VALIDATION.md}~\cite{validation}. The table generator,
+\code{generate_tables.py}, reads that record. An accompanying manifest records
+its SHA-256. Full trajectories, local data, and training
 checkpoints remain local; they are not required to regenerate this document's
 aggregate tables. Re-running the models requires those inputs or a fresh data
 collection and can produce different measurements.
 
 The dashboard screenshot supplied with the report request shows an interactive
-configuration of 128 history bars, 12 future bars, and 20 paths. The numerical
-evaluation below uses the recorded 64/8/8 experiment. A displayed live forecast
-does not provide realized future labels or substitute for that evaluation.
+configuration of 128 history bars, 12 future bars, and 20 paths. A new paired
+experiment in Section~\ref{sec:fresh} uses those settings on a fresh snapshot,
+with actual dashboard captures, native model outputs, and 40 held-out test
+origins. It is sourced from \code{evidence/visual-evaluation-summary.json};
+the earlier 64/8/8 integration experiment remains separately identified.
 
 \section{System design}
 The same forecasting engine serves a Python CLI, an authenticated local HTTP API,
@@ -129,7 +134,7 @@ volumes, duplicate timestamps, and inconsistent observed candles are rejected.
 Generated candles are treated separately: their positivity and OHLC consistency
 violations are counted and exposed, rather than silently repaired.
 
-The saved input consists of 499 closed BTCUSDT hourly candles, with opening
+The earlier integration input consists of 499 closed BTCUSDT hourly candles, with opening
 timestamps from 3 October 2026 22:00 UTC through 24 October 2026 16:00 UTC. All
 tables use UTC for data boundaries. The CSV identity is:
 \begin{quote}\small\ttfamily
@@ -205,7 +210,7 @@ statistical independence.
 \begin{table}[htbp]
 \centering\footnotesize
 \input{tables/splits.tex}
-\caption{Main Kronos-base evaluation. Origin indices are zero-based; all label
+\caption{Earlier integration Kronos-base evaluation. Origin indices are zero-based; all label
 times are UTC. Each split has four eight-bar windows. Test origins are
 464, 472, 480, and 488.}
 \label{tab:splits}
@@ -225,8 +230,9 @@ defines $\delta_h$. It is frozen before testing and applied as
  [\ell^{\mathrm{cal}}_{i,h},u^{\mathrm{cal}}_{i,h}]
    =[\ell_{i,h}-\delta_h,\;u_{i,h}+\delta_h].
 \]
-The point mean, median, and votes are unchanged. Here $n=4$ and $k=4$, so each
-expansion is the largest observed calibration miss for its horizon. The rank
+The point mean, median, and votes are unchanged. In the earlier integration run,
+$n=4$ and $k=4$, so each expansion is the largest observed miss for its horizon;
+the fresh paired experiment uses $n=20$ and $k=17$. The rank
 does not exceed $n$ in this run; the code reports a cap when it does. This is an
 empirical chronological use of split-conformal-style scores, with no claimed
 exchangeability-based coverage guarantee for serially dependent market data.
@@ -261,7 +267,9 @@ averages the losses for $\tau=0.1,0.5,0.9$, using the unchanged median for q50.
 Terminal metrics score only $h=H$ (four observations here), whereas the main
 tables pool all 32 origin--horizon observations.
 
-\section{Recorded results}
+\input{visual-results.tex}
+\clearpage
+\section{Earlier integration and adaptation results}
 \subsection{Kronos-base point forecast and uncertainty}
 \begin{table}[htbp]
 \centering\small
@@ -330,10 +338,11 @@ their calibration windows differ and this experiment was designed for integratio
 validation rather than capacity selection.
 
 \subsection{Chronos-2 and paper simulation}
-The comparator loads \code{amazon/chronos-2} on CPU with close as the target and
+In the earlier integration run, the comparator loads \code{amazon/chronos-2} on CPU with close as the target and
 past volume as a covariate. It uses the same history and future timestamps as
 the compared Kronos forecast. The recorded terminal directions disagree. This
-is one paired live forecast, not a held-out Chronos-2 skill benchmark, and
+is one paired live forecast; the fresh held-out benchmark is separately reported
+in Section~\ref{sec:fresh}. Either way,
 agreement or disagreement cannot by itself establish which forecast is accurate.
 
 The paper simulator chooses LONG only when the frozen terminal mean forecast
@@ -427,13 +436,13 @@ remain available after process termination or host restart.
 \toprule
 Check & Recorded verification and scope \\
 \midrule
-Project tests & 155 in the original integration record; 159 after the four lifecycle tests, also re-run for this report (159 passed in 14.26 s; one nonfatal timedelta deprecation warning). \\
+Project tests & 155 in the original record; 159 after lifecycle tests; 165 after six fresh evaluation tests (165 passed in 12.20 s; one nonfatal timedelta warning). \\
 Pinned upstream & Four official CPU regression tests with real small-model/tokenizer weights. \\
 Real inference & Kronos-base GPU paths, chronological scoring, pretrained small-model adaptation, CPU Chronos-2. \\
 Distributed execution & Two CPU workers, random-test initialization, one update per stage; no multi-GPU run. \\
 MCP & Official SDK memory/stdio tests and real pretrained signal/batch success/error isolation. \\
 Browser & Desktop/mobile, saved forecast/evaluation/comparison, 3D view, export, authenticated job, stale-session-state regression. \\
-Paper accounting & Dedicated active-trade cost/slippage tests; recorded real windows all stayed FLAT. \\
+Paper accounting & Dedicated cost/slippage tests; earlier run all FLAT; fresh rules execute real-label paper trades, independently checked. \\
 \bottomrule
 \end{tabular}
 \caption{Validation evidence from \texttt{VALIDATION.md} and the run summary.
@@ -445,10 +454,13 @@ These checks verify software behavior within their tested scope.}
 The LaTeX source, generated tables, generator, source-hash manifest, and compiled
 PDF are stored together under \code{docs/technical-report/}. The table generator
 uses only the Python standard library and the committed aggregate evidence.
+Fresh tables and figure hashes are separately verified by
+\code{generate_visual_tables.py}; figures and screenshots are versioned.
 From the repository root:
 \begin{lstlisting}
 python3 docs/technical-report/generate_tables.py
 python3 docs/technical-report/generate_tables.py --check
+python3 docs/technical-report/generate_visual_tables.py --check
 make -C docs/technical-report
 \end{lstlisting}
 The Makefile supports Tectonic or pdfLaTeX. The published build uses Tectonic
@@ -486,13 +498,33 @@ can vary even with the same seed. Research adaptation should use a new output
 directory and declared boundaries; the recorded bounded configuration is
 available locally under \code{output/real-run/ablation-config.json}.
 
+The fresh paired run, bootstrap, figures, and browser captures can be produced
+from the root with the following commands. Reuse the saved directory to resume
+its frozen snapshot; choose a new directory for a new market snapshot.
+\begin{lstlisting}
+.venv/bin/python scripts/run_visual_evaluation.py \
+  --output-dir output/visual-run-20261025 \
+  --device cuda:1 --chronos-device cpu
+.venv/bin/python scripts/summarize_paired_uncertainty.py \
+  --input output/visual-run-20261025/paired-evaluation.json \
+  --output output/visual-run-20261025/bootstrap-summary.json
+.venv/bin/python scripts/plot_visual_evaluation.py \
+  --input-dir output/visual-run-20261025
+.venv/bin/python scripts/capture_report_dashboard.py \
+  --results output/visual-run-20261025
+python3 docs/technical-report/generate_visual_tables.py \
+  --import-run output/visual-run-20261025
+\end{lstlisting}
+
 \section{Limits and research work remaining}
 The supported conclusion is that an integrated lab runs real pretrained models,
 preserves trajectories and data boundaries, and reports inspectable evidence.
 The main unresolved scientific question is whether any improvement persists
 across origins, seeds, assets, market regimes, and realistic trading costs.
-Four calibration windows make interval expansion unstable; four test windows
-and two training updates cannot settle that question. Pretraining data coverage
+The earlier four calibration/test windows and two training updates cannot settle
+that question. The fresh 20/40-origin paired experiment adds evidence, but is
+still one asset, short regime, and fixed sampling seed; its best economic rule
+executes only two trades. No stable winner follows. Pretraining data coverage
 was not independently audited, so an immutable checkpoint does not establish
 an uncontaminated historical benchmark.
 
@@ -543,6 +575,8 @@ identities in machine-readable form. Raw candles, private tokens, model weights,
 checkpoints, and dashboard screenshots are not embedded in the PDF.
 
 \begin{thebibliography}{9}
+\small
+\setlength{\parskip}{0pt}
 \raggedright
 \bibitem{evidence}
 Kronos Financial Forecasting Lab. \emph{Recorded integration evidence},
@@ -570,5 +604,24 @@ Kronos Financial Forecasting Lab. \emph{Training, forecasting, and evaluation
 implementation}, \code{kronos_lab/training.py}, \code{forecast.py}, and
 \code{evaluation.py} at the lab implementation commit.
 \href{https://github.com/tuanngocfun/agent/tree/693bcc4331a2df80402496492ccfa1a237f90c7a/kronos_lab}{Versioned application source}.
+
+\bibitem{fresh}
+Kronos Financial Forecasting Lab. \emph{Fresh paired visual evaluation},
+25 October 2026. \code{evidence/visual-evaluation-summary.json}; plotted values
+and receipts in \code{docs/technical-report/figures/}; reproducible execution,
+capture, plotting, and uncertainty scripts under \code{scripts/}.
+\href{https://github.com/tuanngocfun/agent/tree/kronos-evaluation-lab/docs/technical-report}{Report package}.
+
+\bibitem{chronosmedian}
+Amazon Science. \emph{Chronos-2 pipeline}; installed
+\code{chronos-forecasting} 2.3.2 returns its median as the native point forecast.
+\href{https://github.com/amazon-science/chronos-forecasting/blob/main/src/chronos/chronos2/pipeline.py}{Official source};
+\href{https://huggingface.co/amazon/chronos-2}{official model card}.
+
+\bibitem{performance}
+SEC Office of Investor Education and Advocacy. \emph{Investor Bulletin:
+Performance Claims}, 15 September 2022. Describes net costs, hypothetical
+backtesting, and selected historical performance.
+\href{https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47}{Investor.gov bulletin}.
 \end{thebibliography}
 \end{document}

@@ -202,6 +202,11 @@ remain separate experiments; their results are not represented as complete.
 The [technical report (PDF)](docs/technical-report/report.pdf) documents the methods,
 architecture, recorded results, and limitations. Its [LaTeX source and build instructions](docs/technical-report/README.md)
 include tables generated from the versioned evidence and a source-hash manifest.
+The updated report adds fresh Kronos/Chronos-2 forecasts on 999 closed hourly
+candles, 20 calibration / 40 test origins, four scientific figures, three actual
+dashboard screenshots, and eight fixed paper-rule comparisons after costs.
+The latest saved cost-filtered signal is FLAT; the best observed return comes
+from only two trades and does not establish a winning strategy.
 
 `.env`, local API tokens, raw data, weights, environments and generated run reports are
 ignored. The original Word files stay local; searchable text versions are retained

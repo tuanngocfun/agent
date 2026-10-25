@@ -60,3 +60,44 @@ including model load. The service is left running for the user. Process logs/sta
 are ignored under `.cache/dashboard/`; no system-wide service or reboot startup was
 installed. Browser verification and four isolated lifecycle tests cover this change. The
 updated complete project suite passes 159 tests.
+
+## Fresh forecasts, paired evaluation and visual report — 25 October 2026
+
+Executed `scripts/run_visual_evaluation.py` on a new frozen public Binance
+snapshot: 999 closed BTCUSDT 1h candles, 2026-09-13T10:00Z–2026-10-25T00:00Z.
+The CSV SHA-256 is
+`5d53c32778c5fcbd3cc78c8ee3471791715d00dc70cc5cb341abc1d1b8ca8934`.
+Pinned Kronos-base GPU and Chronos-2 CPU each generated 60 chronological native
+forecasts plus the latest forecast, with 128 history and 12 future bars;
+Kronos retained 20 paths, seed42. Twenty earlier windows fit separate interval
+expansions and 40 later windows supply 480 test horizon observations.
+
+Independent review matched all 60 history hashes, timestamps and labels to the
+frozen CSV, verified native Chronos points equal q50, recomputed point error,
+coverage/width, every executed trade's fill accounting, compounded equity and
+fees. No Chronos paths or probability estimates were invented. Invalid Kronos
+OHLC bounds were exposed: 67 of 14,640 generated candles across the 61 forecasts;
+the latest has zero. No nonpositive OHLC or negative volume/amount was generated.
+
+Kronos median MAE is 467.02 USDT versus Chronos499.24, while persistence459.08
+beats both. Kronos mean MAE460.13 also fails to beat persistence. Raw/expanded
+coverage is Kronos38.33%/73.75%, Chronos72.50%/76.04%. The exploratory paired
+four-origin moving-block interval for Kronos-minus-Chronos median MAE difference
+is [-62.34,12.22] USDT (2,000 draws, seed42), crossing zero.
+
+Eight economic rules were fixed before scoring. Consensus above a0.30045%
+cost gate returned +0.44056% from only two trades,50% trade win rate,2.2873%
+sampled max drawdown. Cash returned0%; all other active candidates lost net.
+Chronos cost filtering won57.1% of seven trades but lost2.195%, illustrating
+why win rate alone cannot identify profitability. Latest native returns are
+Kronos mean−0.44494% and Chronos median+0.27915%; both cost filters select FLAT.
+Paper execution is idealized next-open entry with10bps fees and5bps adverse
+slippage per side; latency, intrabar drawdown and actual execution are not tested.
+
+`scripts/plot_visual_evaluation.py` created four readable scientific figures;
+`scripts/capture_report_dashboard.py` captured actual forecast, evaluation and
+comparison views from new exports, without credentials or JavaScript errors.
+Source SHA receipts and plotted values accompany the versioned figures. Six
+new focused evaluation tests pass; the complete suite passes **165 tests in
+12.20s**, with the same one nonfatal timedelta warning. No fresh adaptation,
+multi-GPU training, private exchange request or order was performed.

@@ -1,0 +1,57 @@
+{
+  "generated_at_utc": "2026-10-25T01:15:20.188952+00:00",
+  "generator": "scripts/plot_visual_evaluation.py",
+  "sources": [
+    {
+      "path": "output/visual-run-20261025/forecast.json",
+      "sha256": "687cdfa3596764a45cfcc31eb3c3c1a9e5a5fabcdd6c837dfcfef12efdfe2dab"
+    },
+    {
+      "path": "output/visual-run-20261025/comparison.json",
+      "sha256": "d2264ba9b76a11c9931ef0cf9b4e39f5490388ff54e001fd75f4741405f79311"
+    },
+    {
+      "path": "output/visual-run-20261025/paired-evaluation.json",
+      "sha256": "1c48297b1ff3300018ca356102b064a32550c4d3ef512717b79c709cab0d5ff4"
+    },
+    {
+      "path": "output/visual-run-20261025/strategy-summary.json",
+      "sha256": "004bfedd0f732cc33ba50b807f7d65caa6cb5f1f0162588992421a2412f083bd"
+    }
+  ],
+  "test_windows": 40,
+  "test_horizon": 12,
+  "point_semantics": {
+    "latest_kronos": "sample mean",
+    "latest_chronos2": "native q50 median",
+    "heldout_both": "median_close",
+    "paired_mae_both": "median_close"
+  },
+  "interval_semantics": "Raw model q10-q90 versus frozen additive per-horizon calibration; empirical coverage, no future guarantee.",
+  "figures": [
+    {
+      "name": "latest_forecast",
+      "pdf": "latest_forecast.pdf",
+      "png": "latest_forecast.png",
+      "caption": "Latest forecast from the same closed-candle history. Blue is the Kronos sample mean; orange is the Chronos-2 native median. Shading spans each model's raw q10 to q90. These are nominal 80% quantile ranges, not demonstrated future coverage. The dotted horizontal reference repeats the last observed close. No future actuals are scored in this panel."
+    },
+    {
+      "name": "heldout_forecasts",
+      "pdf": "heldout_forecasts.pdf",
+      "png": "heldout_forecasts.png",
+      "caption": "Four predetermined, evenly spaced chronological origins (or all origins when fewer than four) from 40 frozen test windows; selection includes the first and latest test origins. Both models use identical horizons and observed targets. Point lines use medians for an aligned comparison; blue and orange bands show raw q10 to q90. Returns are normalized to each origin's last observed close, and all panels share the same vertical scale. The zero reference is last-close persistence. Calibration windows do not appear here."
+    },
+    {
+      "name": "paired_errors_calibration",
+      "pdf": "paired_errors_calibration.pdf",
+      "png": "paired_errors_calibration.png",
+      "caption": "Upper: median-based MAE for each identical test origin, with persistence scored on the same actual closes. Lower: empirical q10-q90 coverage and mean interval width by horizon, before and after separately fitted, frozen per-model calibration. Each coverage point has 40 test observations; the complete test grid has 480 origin-horizon observations. The 80% guide is nominal, and observed coverage is not a future coverage guarantee. Larger calibrated widths can raise coverage while reducing precision."
+    },
+    {
+      "name": "strategy_equity",
+      "pdf": "strategy_equity.pdf",
+      "png": "strategy_equity.png",
+      "caption": "Paper execution on the frozen non-overlapping test windows only. Upper panels show the two positive-return model rules, consensus cost filter, buy-and-hold baseline, and the best observed net rule if different; this last selection is descriptive and made after scoring. Lower panel includes every predefined rule and actual completed trade counts. Net equity includes the exported fees and slippage. Drawdown is sampled at ledger marks, excludes intrabar extremes, and is shown below zero. No annualization or out-of-sample strategy-selection claim is made."
+    }
+  ]
+}
