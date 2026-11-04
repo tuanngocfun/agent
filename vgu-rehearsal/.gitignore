@@ -1,0 +1,10 @@
+# Recreated on this machine by setup/launch; never upload environments or caches.
+.venv/
+.cache/
+.runtime/
+.jupyter/
+.tooling/
+.pytest_cache/
+**/__pycache__/
+**/.ipynb_checkpoints/
+*.py[cod]

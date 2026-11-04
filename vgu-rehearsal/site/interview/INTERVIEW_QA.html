@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Technical explanation and research discussion prompts</title><link rel="stylesheet" href="../assets/docs.css"><link rel="stylesheet" href="../assets/katex/katex.min.css"></head><body><header><a href="../index.html">Rehearsal browser</a><a href="../teaching/LECTURE_SCRIPT.html">Lecture</a><a href="../research/RESEARCH_SCRIPT.html">Research</a><a href="../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="INTERVIEW_QA.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="technical-explanation-and-research-discussion-prompts">Technical explanation and research discussion prompts</h1>
+<p>Use these prompts to rehearse clear reasoning. They are worked technical explanations and
+generic professional questions, not a record of anyone's employment, qualifications or personal
+contribution. Give factual personal answers yourself when appropriate.</p>
+<h2 id="teaching-and-implementation">Teaching and implementation</h2>
+<h3 id="why-should-a-student-learn-sequence-generation">Why should a student learn sequence generation?</h3>
+<p>Many tasks require an ordered answer of variable length: translation, code generation, speech
+transcription and document recognition. The transferable skill is specifying the input, token
+unit, target sequence, loss, stopping rule and evaluation metric. A working generator also makes
+information leakage and evaluation mistakes easier to understand concretely.</p>
+<h3 id="what-prerequisites-should-you-check">What prerequisites should you check?</h3>
+<p>Check a short dot product, matrix multiplication shapes, conditional probability and a two-score
+softmax. For code, add basic Python slicing and tensor indexing. English proficiency does not
+establish mathematical readiness. Reduce a difficult question to one query and two keys before
+adding batch and head axes.</p>
+<h3 id="explain-q-k-and-v-without-assigning-fixed-meanings-to-heads">Explain Q, K and V without assigning fixed meanings to heads.</h3>
+<p>They are learned projections. Q/K comparisons determine attention weights, and those weights
+mix V. In self-attention they can come from the same hidden input; in cross-attention, decoder
+queries read encoder keys/values. Heads learn separate transformations rather than receiving
+fixed semantic job titles.</p>
+<h3 id="calculate-one-attention-row">Calculate one attention row.</h3>
+<p>For <code>q=[1,0]</code>, <code>K=[[1,0],[0,1]]</code>, <code>V=[[2,0],[0,4]]</code>, raw scores are <code>[1,0]</code>.
+Divide by <code>sqrt(2)</code> and apply softmax to get approximately <code>[0.6698,0.3302]</code>.
+The value mixture is approximately <code>[1.3395,1.3210]</code>. These output coordinates are not
+vocabulary probabilities. If the second key is blocked, its score becomes negative infinity,
+the weights become <code>[1,0]</code> and the output becomes <code>[2,0]</code>.</p>
+<p>For a fresh check, change only a value vector and explain why the weights remain the same.</p>
+<h3 id="explain-the-scale-and-shapes">Explain the scale and shapes.</h3>
+<p>Under simple centered, independent-coordinate assumptions, dot-product variance grows with the
+key width. Dividing by its square root moderates score scale before softmax; it is not a proof
+that every unscaled model fails.</p>
+<p>For Q <code>[B,H,T,d_k]</code>, K <code>[B,H,S,d_k]</code> and V <code>[B,H,S,d_v]</code>, scores have shape
+<code>[B,H,T,S]</code>, and output has shape <code>[B,H,T,d_v]</code>. Normalize over the S keys for each query.
+Use distinct dimensions to expose an incorrect transpose.</p>
+<h3 id="why-both-a-causal-mask-and-shifted-targets">Why both a causal mask and shifted targets?</h3>
+<p>For target <code>a b EOS</code>, decoder inputs are <code>BOS a b</code>, with labels <code>a b EOS</code>.
+Shifting selects the next-token label. The mask controls which input positions may contribute.
+At input <code>BOS</code>, a future input already contains label <code>a</code>; unmasked training could leak it.
+Allowing the diagonal is valid because the current input is already known when predicting its
+next token.</p>
+<h3 id="what-sums-to-one-and-what-happens-to-padding">What sums to one, and what happens to padding?</h3>
+<p>Valid attention-weight rows sum to one over keys. The additive mask does not. Ordinary softmax
+of a fully blocked row is undefined; the exercise API explicitly chooses zero weights/output.
+Ignoring PAD targets in cross-entropy does not block PAD keys in attention. Define both policies,
+including all-ignored loss behavior, and test them.</p>
+<h3 id="why-is-teacher-forced-training-different-from-generation">Why is teacher-forced training different from generation?</h3>
+<p>Training supplies correct earlier target tokens and can process positions together while masking
+future inputs. Generation must append its own predicted tokens and repeat. Earlier mistakes can
+change later predictions. Low teacher-forced loss alone therefore does not establish useful
+free-running generation.</p>
+<h3 id="how-would-you-debug-tiny-loss-and-poor-outputs">How would you debug tiny loss and poor outputs?</h3>
+<p>Start with a tiny batch. Inspect inputs versus labels, mask orientation, attention softmax axis,
+PAD loss treatment, BOS/EOS handling, evaluation mode and the generated prefix. Change only
+future inputs and check that earlier causal outputs remain unchanged. A suspicious loss suggests
+hypotheses; it does not identify the cause by itself.</p>
+<h3 id="does-beam-search-guarantee-a-better-answer">Does beam search guarantee a better answer?</h3>
+<p>No. In the fixed two-symbol tree, greedy chooses A with probability <code>.6</code>, then X with <code>.5</code>,
+scoring <code>.30</code>; B followed by X scores <code>.4 × 1 = .40</code>. Beam width 3 finds BX in that example.
+A finite beam remains approximate, and higher model probability need not improve task accuracy.
+Compare methods on the same held-out cases with the same stopping and length conventions.</p>
+<h3 id="how-should-special-tokens-affect-evaluation">How should special tokens affect evaluation?</h3>
+<p>Strip only the initial BOS prefix when that is the declared convention and stop at the first EOS.
+An internal generated BOS or inappropriate PAD should not silently disappear. CER divides edit
+distance by reference length, so insertions can make it exceed one. Declare empty-reference and
+corpus-versus-sequence aggregation policies.</p>
+<h3 id="what-does-the-synthetic-glyph-lab-establish">What does the synthetic glyph lab establish?</h3>
+<p>It connects an image encoder, cross-attention, shifted training and an actual generation loop.
+Four known templates with fixed-length outputs may be solved well by template matching and do
+not require useful target-history dependence. Report actual errors or none observed, with the
+sample count. Real handwriting or historical-document claims need an appropriate separate dataset.</p>
+<h3 id="how-would-you-help-a-confused-learner">How would you help a confused learner?</h3>
+<p>Ask where the reasoning first became unclear. Reduce the example, ask for a prediction, run or
+calculate it, and use the mismatch to choose feedback. Finish with a fresh example the learner
+solves independently. Repeating a formula or copying saved output is insufficient evidence.</p>
+<h2 id="research-reasoning">Research reasoning</h2>
+<h3 id="what-makes-an-experimental-comparison-credible">What makes an experimental comparison credible?</h3>
+<p>Name a narrow question, a simple baseline, a primary metric and the minimum useful difference.
+Hold the candidate data, splits, initialization policy and training budget fixed. Choose methods
+on development data, freeze the test, and compare paired cases. Separate exploratory diagnoses
+from the prespecified primary result.</p>
+<h3 id="how-could-a-second-confidence-signal-fail-to-help">How could a second confidence signal fail to help?</h3>
+<p>Signals derived from the same model may share errors or supply redundant information. Compare
+the combined method against the stronger single-signal baseline rather than only an unweighted
+baseline. Report uncertainty; an inconclusive interval is not evidence of equivalence.</p>
+<h3 id="how-do-you-control-leakage-and-label-quality">How do you control leakage and label quality?</h3>
+<p>Group related source documents and duplicates, inspect inherited model exposure, and reserve a
+held-out evaluation set. Independently review labels, including missed or rejected cases. Fit
+thresholds and calibration on development data. A renamed split cannot undo prior exposure.</p>
+<h3 id="how-do-you-measure-review-benefit">How do you measure review benefit?</h3>
+<p>Measure inspection, correction, re-review and adjudication effort alongside independently assessed
+output quality. Agree the acceptable error margin before testing. Faster work at substantially
+worse quality does not meet the same criterion. Estimate staffing from a measured pilot before
+promising scale.</p>
+<h3 id="what-should-you-say-about-published-and-personal-work">What should you say about published and personal work?</h3>
+<p>Identify the public source, metric, evaluation unit and whether the result belongs to a group.
+Coauthorship does not establish ownership of every component. Describe a personal responsibility
+only when it is factual; distinguish implementation, experiment design, data preparation,
+evaluation and writing. Keep private evidence and administrative records outside the repository.</p>
+<h3 id="what-if-the-proposed-method-does-not-improve-the-metric">What if the proposed method does not improve the metric?</h3>
+<p>Verify the data path and implementation, then report the planned comparison with uncertainty.
+A precise null result can rule out a useful gain; a wide interval may be inconclusive. Diagnose
+actual failures without replacing the primary result with the most favorable later analysis.</p>
+<h2 id="generic-professional-discussion">Generic professional discussion</h2>
+<p>Prepare truthful answers to these questions without filling missing history with invented claims:</p>
+<ul>
+<li>Which concepts can you explain and demonstrate independently today?</li>
+<li>How would you coordinate tutorials, assessment and student projects with the advising lecturer?</li>
+<li>How would you balance preparation, research, student support and service deadlines?</li>
+<li>What real example demonstrates your planning, collaboration or mentoring?</li>
+<li>What resources, project ownership and expected outcomes need agreement before work begins?</li>
+<li>How would you acknowledge and correct a mistake or failed demonstration?</li>
+</ul>
+<p>For rehearsal, explain one changed attention example, repair one broken mask/shift case and defend
+one research comparison without reading. Record actual timing and listener feedback privately;
+these outcomes have not been established by generating this guide.</p>
+<p>Public technical references: <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> and
+<a href="https://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer</a>.</p>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

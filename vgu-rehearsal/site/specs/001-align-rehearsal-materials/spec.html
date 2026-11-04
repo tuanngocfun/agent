@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Feature Specification: Align VGU rehearsal materials and visible notebook results</title><link rel="stylesheet" href="../../assets/docs.css"><link rel="stylesheet" href="../../assets/katex/katex.min.css"></head><body><header><a href="../../index.html">Rehearsal browser</a><a href="../../teaching/LECTURE_SCRIPT.html">Lecture</a><a href="../../research/RESEARCH_SCRIPT.html">Research</a><a href="../../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="spec.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="feature-specification-align-vgu-rehearsal-materials-and-visible-notebook-results">Feature Specification: Align VGU rehearsal materials and visible notebook results</h1>
+<p><strong>Feature Branch</strong>: None; a standalone materials project, no branch changes.
+<strong>Created</strong>: 2026-11-04
+<strong>Status</strong>: Specified
+<strong>Input</strong>: The user cannot see notebook outputs and requests use of the local GitHub Spec Kit to fulfill interview and teaching requirements so rehearsal can begin.</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing <em>(mandatory)</em></h2>
+<h3 id="user-story-1-see-actual-notebook-results-priority-p1">User Story 1 - See actual notebook results (Priority: P1)</h3>
+<p>The candidate opens the original interview notebooks and immediately sees actual saved results, with unfinished student exercises clearly identified. The candidate also has a distinct set of complete worked notebooks for rehearsal.</p>
+<p><strong>Why this priority</strong>: The prior handoff placed results elsewhere, leaving the candidate's files empty.
+<strong>Independent Test</strong>: Open the original instructor notebook and a canonical worked notebook without running a kernel; inspect visible numerical outputs and saved execution counts.
+<strong>Acceptance Scenarios</strong>:</p>
+<ol>
+<li>Given the 14 original notebooks, when their saved files are read, all code cells have fresh execution counts and every file has saved output; instructor paths contain no errors, student TODOs remain explicitly incomplete.</li>
+<li>Given the four canonical worked notebooks, when run from a clean kernel, all code cells execute without allowed errors and results remain saved at the linked paths.</li>
+<li>Given blank student code, when its own grading checks run, they fail for unfinished work rather than passing through imported answers.</li>
+</ol>
+<h3 id="user-story-2-rehearse-a-coherent-bachelor-lecture-priority-p1">User Story 2 - Rehearse a coherent Bachelor lecture (Priority: P1)</h3>
+<p>The candidate follows one 30-minute English lecture and its matching script, using worked numerical and code examples to explain what students learn, why it matters and what they can apply later.</p>
+<p><strong>Why this priority</strong>: Rehearsal requires finished teaching artifacts, not another findings-only report.
+<strong>Independent Test</strong>: Compare slide order, notes, time allocations, handout and notebook examples, then open static slides and worked results offline.
+<strong>Acceptance Scenarios</strong>:</p>
+<ol>
+<li>Given the trial lecture, when slide minutes are summed, the schedule is 30 minutes, with the invitation's 15-minute Q&amp;A additional.</li>
+<li>Given each slide, when the presenter reads embedded notes and the script, examples, labels, timings and promised labs match.</li>
+<li>Given the worked attention example, the reader can follow dot products, scaling, weights, weighted values, causal masking and target shift into code and inspect corresponding results.</li>
+<li>Given the student pathway, prerequisites, observable core outcomes, optional extensions, feedback questions, baseline and held-out evaluation are explicit.</li>
+</ol>
+<h3 id="user-story-3-rehearse-an-evidence-grounded-research-presentation-priority-p1">User Story 3 - Rehearse an evidence-grounded research presentation (Priority: P1)</h3>
+<p>The candidate rehearses a 20-minute research orientation whose historical claims match primary evidence and whose future plan reflects the actual RTA duties without inventing personal facts.</p>
+<p><strong>Why this priority</strong>: Unverified numerical or ownership claims could undermine the interview.
+<strong>Independent Test</strong>: Trace every historical number to the claim ledger and compare the roadmap with the supplied JD.
+<strong>Acceptance Scenarios</strong>:</p>
+<ol>
+<li>Given the research deck and script, unsupported project percentages, scholarship labels and personal implementation ownership are omitted from spoken claims.</li>
+<li>Given published group metrics, metric names, datasets and group attribution match the primary record.</li>
+<li>Given the research schedule, slide allocations total 20 minutes; the 10-minute Q&amp;A remains separate.</li>
+<li>Given annual research, teaching and service expectations, the plan acknowledges them and separates intended submissions from accepted publications.</li>
+</ol>
+<h3 id="user-story-4-start-rehearsal-from-one-place-and-inspect-fulfillment-priority-p2">User Story 4 - Start rehearsal from one place and inspect fulfillment (Priority: P2)</h3>
+<p>The candidate opens one entrypoint, follows the rehearsal order, selects the installed environment and inspects a requirement-to-evidence record without confusing material checks with personal readiness.</p>
+<p><strong>Why this priority</strong>: Multiple old masters and scattered evidence caused ambiguity.
+<strong>Independent Test</strong>: Follow every local entrypoint link and the documented launch command; inspect requirement statuses and the separate personal-action checklist.
+<strong>Acceptance Scenarios</strong>:</p>
+<ol>
+<li>Given START_HERE, every recommended artifact exists and opens directly.</li>
+<li>Given the local Spec Kit project, its constitution, specification, plan, tasks and convergence assessment are present and trace each obligation to delivered evidence.</li>
+<li>Given a candidate-only action, it remains unchecked unless an actual user confirmation or observed action exists.</li>
+</ol>
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li>Student TODO failures and comment-only scaffolds must never be treated as completed assignments.</li>
+<li>Fully masked attention rows, padded loss targets and all-ignored targets need declared behavior.</li>
+<li>Internal generated BOS/PAD tokens must not disappear from recognition metrics; finished sequences need a clear EOS convention.</li>
+<li>Cache chunk offsets and future-token changes must preserve the appropriate past outputs.</li>
+<li>Equal-shaped dimensions must not hide transposition mistakes; include rectangular examples.</li>
+<li>A zero toy error rate does not require inventing error examples or imply real OCR generalization.</li>
+<li>Beam search comparisons must use the same cases and an explicit ranking convention.</li>
+<li>No live network or package installation is available during a lecture; static outputs must remain useful.</li>
+<li>The invitation's confirmation deadline says 2025 despite a 2026 interview; preserve the discrepancy as a human clarification.</li>
+<li>Existing files are backed up before in-place output changes; notebook code remains intact.</li>
+<li>Notebook HTML links to Markdown must open a rendered guide with working local assets rather than a missing file or raw source.</li>
+<li>Repository upload must create a new branch and retain the existing main branch and unrelated repository contents.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+<li><strong>FR-001</strong>: All 14 original notebooks MUST retain fresh code-cell execution counts and saved results at their original paths, with accurate instructor/student status.</li>
+<li><strong>FR-002</strong>: Four clearly named canonical worked notebooks MUST be complete, contain actual results, and execute without allowed errors; core and optional work MUST be distinct.</li>
+<li><strong>FR-003</strong>: Core teaching MUST connect motivation, prerequisites, theory, a worked numerical example, code, checks and a later application or research question.</li>
+<li><strong>FR-004</strong>: The trial lecture, embedded notes and script MUST agree in content/order and allocate exactly 30 minutes; research equivalents MUST allocate 20 minutes, excluding their respective Q&amp;A.</li>
+<li><strong>FR-005</strong>: Historical presentation claims MUST have metric-specific primary evidence and group/personal attribution; unsupported claims MUST be removed from speech and isolated in a confirmation ledger.</li>
+<li><strong>FR-006</strong>: Promised lab tasks and assessment MUST match delivered notebooks; unfinished student code and private reference solutions MUST be separated and graded through the correct implementation.</li>
+<li><strong>FR-007</strong>: Behavioral verification MUST cover attention-reference agreement, causal invariance, rectangular shapes, padding/empty rows, shifted labels, cache equivalence and special-token metric behavior.</li>
+<li><strong>FR-008</strong>: Both presentations MUST have offline-readable slide files, matching rehearsal scripts and directly inspectable notebook results.</li>
+<li><strong>FR-009</strong>: The local Spec Kit checkout MUST actually initialize and structure this project, with recorded revision/commands and traceable specification, plan, tasks and convergence assessment.</li>
+<li><strong>FR-010</strong>: Human rehearsal, certificate/current-status confirmation, HR completion, attendance confirmation and submission MUST remain distinct from material verification; no unobserved action may be marked done.</li>
+<li><strong>FR-011</strong>: Exact original notebook bytes MUST be backed up before updates, and code sources MUST remain unchanged during output publication.</li>
+<li><strong>FR-012</strong>: One START_HERE entrypoint MUST identify current decks, scripts, worked notebooks, environment and rehearsal sequence; all local links MUST resolve.</li>
+<li><strong>FR-013</strong>: Delivered slides and notebook previews MUST be rendered and inspected for missing content, unreadable results or clipped text; checks MUST concern the files the candidate opens.</li>
+<li><strong>FR-014</strong>: No shared dataset writes, outgoing messages or public publication may be performed; computation MUST remain self-contained.</li>
+<li><strong>FR-015</strong>: An installed, discoverable environment and tested launch procedure MUST run the canonical notebooks; setup and exact dependency versions MUST be recorded.</li>
+<li><strong>FR-016</strong>: Notebook and rehearsal-browser guide links MUST open properly rendered HTML with readable mathematics, tables and code; local links and required assets MUST resolve through an HTTP server, including the previously broken instructor-guide link.</li>
+<li><strong>FR-017</strong>: The corresponding rehearsal package MUST be uploaded to a new branch of the user-specified tuanngocfun/agent repository, with remote content readback; existing main and unrelated files MUST be preserved, and installed environments, credentials and private application records MUST be excluded.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Teaching artifact</strong>: title, core/optional scope, audience, outcomes, source references, paths and linked worked examples.</li>
+<li><strong>Slide</strong>: stable ID, title, minutes, bullets, visual data, embedded notes, takeaway and sources.</li>
+<li><strong>Notebook result</strong>: actual path, source digest, executed-cell counts, outputs, errors, runtime and status.</li>
+<li><strong>Research claim</strong>: wording, metric/population, primary evidence, group/personal scope and disposition.</li>
+<li><strong>Verification record</strong>: requirement, artifact, actual check, observation and passed/failed/human-pending status.</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria <em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: Opening any original instructor or canonical worked notebook without rerunning reveals saved outputs; no canonical worked notebook contains an execution error.</li>
+<li><strong>SC-002</strong>: The candidate can locate the current lecture, research talk and worked notebook from START_HERE in one link each.</li>
+<li><strong>SC-003</strong>: All scheduled lecture minutes total 30 and research minutes total 20; each slide has matching presenter guidance.</li>
+<li><strong>SC-004</strong>: Every historical quantitative research claim in the new presentation maps to matching evidence; unsupported claims are absent from spoken content.</li>
+<li><strong>SC-005</strong>: Every FR has a delivered artifact and recorded verification; candidate-only actions remain separately unverified.</li>
+<li><strong>SC-006</strong>: The package provides a numeric attention example, causal-mask/shift diagnosis, actual generation comparison and a baseline-based project pathway, with results directly inspectable.</li>
+<li><strong>SC-007</strong>: The rendered browser entrypoint and instructor guide load through HTTP with no broken local links or math-rendering errors.</li>
+<li><strong>SC-008</strong>: The new repository branch contains the prepared artifact snapshot, confirmed by remote tree/blob identities, while main remains unchanged.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li>Rehearsal-material preparation is authorized; final personal confirmations and any external submission remain the candidate's responsibility.</li>
+<li>The supplied invitation/JD and verified primary records control requirements. Older AI reviews are evidence to check, not authorities.</li>
+<li>English Bachelor instruction targets an introduction, not mastery of advanced Transformer engineering in 30 minutes.</li>
+<li>Four synthetic known glyphs remain a fixed-length educational demo; no real OCR performance or novel-character generalization is claimed.</li>
+<li>Human timed delivery and student learning cannot be observed by preparing files; the package supplies practical checks for the candidate to perform.</li>
+<li>The user's later request explicitly authorizes uploading corresponding prepared files to a new repository branch. The connected repository was verified as private; no public website deployment is requested.</li>
+</ul>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

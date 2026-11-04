@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the materials in a browser</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="BROWSER_README.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="read-the-materials-in-a-browser">Read the materials in a browser</h1>
+<p>Open <a href="index.html">site/index.html</a> with Live Server or directly in a browser. It provides
+rendered lecture/research scripts, technical prompts and saved notebook outputs. Tables, code,
+equations and fonts are bundled for offline reading.</p>
+<p>From the package directory, you can also start a loopback-only server:</p>
+<div class="codehilite"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8766</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">127</span>.0.0.1
+</pre></div>
+<p>Open <code>http://127.0.0.1:8766/site/index.html</code>. Keep the full package together so links to PDFs,
+PowerPoint files, notebooks and local assets continue to work. Use HTML links for reading;
+Markdown-source downloads are provided separately.</p>
+<h2 id="clone-and-run-code">Clone and run code</h2>
+<div class="codehilite"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>codex/vgu-rehearsal-2026-11-04<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/tuanngocfun/agent.git
+<span class="nb">cd</span><span class="w"> </span>agent/vgu-rehearsal
+</pre></div>
+<p>For the Linux/WSL CPU environment, have <code>uv</code> or Python 3.12 with <code>venv</code> support, then run:</p>
+<div class="codehilite"><pre><span></span>bash<span class="w"> </span>scripts/setup_environment.sh
+.venv/bin/python<span class="w"> </span>scripts/check_portable.py
+bash<span class="w"> </span>scripts/open_jupyter.sh
+</pre></div>
+<p>Setup installs the pinned dependencies and dynamically registers <strong>VGU rehearsal (CPU)</strong> for the
+current folder. Open <code>VGU_Rehearsal.code-workspace</code> for the relative interpreter setting.
+Environments, project-local kernels and caches are deliberately excluded from Git.</p>
+<p>The portable check reads saved outputs and runs packaged reference tests. It does not rerun
+notebooks, update their execution manifests or certify human understanding. Read
+<a href="PUBLICATION_SCOPE.html">PUBLICATION_SCOPE.md</a> for the export boundary.</p>
+<h2 id="rebuild-the-reading-pages">Rebuild the reading pages</h2>
+<p>After environment setup, rebuild with:</p>
+<div class="codehilite"><pre><span></span>.venv/bin/python<span class="w"> </span>scripts/render_docs.py<span class="w"> </span>--bootstrap
+</pre></div>
+<p>The first build obtains pinned KaTeX for build-time typesetting. Generated pages use bundled
+assets and need no CDN requests; their KaTeX license is included with the assets. Rebuilding
+HTML does not execute notebooks. A browser automation check may require its own installed
+browser runtime; that is separate from reading the already generated pages.</p>
+<p>No private application records, contact instructions, private evidence filenames or original
+machine audit are part of this export. Administrative arrangements and any submission remain
+the presenter's own actions.</p>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

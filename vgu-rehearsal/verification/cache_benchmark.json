@@ -1,0 +1,26 @@
+[
+  {
+    "length": 8,
+    "warmup_per_path": 1,
+    "repetitions": 5,
+    "cached_ms": 3.4860060004575644,
+    "uncached_ms": 4.766280999319861,
+    "uncached_over_cached": 1.367261272268106
+  },
+  {
+    "length": 32,
+    "warmup_per_path": 1,
+    "repetitions": 5,
+    "cached_ms": 17.246220999368234,
+    "uncached_ms": 16.57137199799763,
+    "uncached_over_cached": 0.960869746398627
+  },
+  {
+    "length": 64,
+    "warmup_per_path": 1,
+    "repetitions": 5,
+    "cached_ms": 27.352594999683788,
+    "uncached_ms": 36.250242999813054,
+    "uncached_over_cached": 1.325294473896613
+  }
+]

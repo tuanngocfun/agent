@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research orientation: rehearsal script</title><link rel="stylesheet" href="../assets/docs.css"><link rel="stylesheet" href="../assets/katex/katex.min.css"></head><body><header><a href="../index.html">Rehearsal browser</a><a href="../teaching/LECTURE_SCRIPT.html">Lecture</a><a href="RESEARCH_SCRIPT.html">Research</a><a href="../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="RESEARCH_SCRIPT.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="research-orientation-rehearsal-script">Research orientation: rehearsal script</h1>
+<p>Repository edition. This script and <code>content/research_orientation.json</code> contain the same speaker notes. The planned presentation is <strong>20 minutes</strong>, followed by <strong>10 minutes of Q&amp;A</strong>. Times include pauses and transitions; actual spoken delivery must be rehearsed and measured.</p>
+<p>Public scholarly claims cite public sources. Personal records and administrative history are withheld from this repository. Individual contributions and future commitments require the candidate’s own factual confirmation. Proposed studies are not reported as completed results.</p>
+<table>
+<thead>
+<tr>
+<th>Slide</th>
+<th>Time</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R01</td>
+<td>00:00–01:00</td>
+<td>Reliable learning from limited document labels</td>
+</tr>
+<tr>
+<td>R02</td>
+<td>01:00–02:30</td>
+<td>Preparation through collaborative document research</td>
+</tr>
+<tr>
+<td>R03</td>
+<td>02:30–04:00</td>
+<td>Prior collaboration: recognizing mathematical structure</td>
+</tr>
+<tr>
+<td>R04</td>
+<td>04:00–06:00</td>
+<td>Three results, three meanings</td>
+</tr>
+<tr>
+<td>R05</td>
+<td>06:00–07:30</td>
+<td>Prior collaboration: expanding Nôm annotations</td>
+</tr>
+<tr>
+<td>R06</td>
+<td>07:30–09:00</td>
+<td>Research question: does structural agreement add evidence?</td>
+</tr>
+<tr>
+<td>R07</td>
+<td>09:00–11:00</td>
+<td>One controlled four-arm experiment</td>
+</tr>
+<tr>
+<td>R08</td>
+<td>11:00–13:00</td>
+<td>Build an evaluation set that can challenge the model</td>
+</tr>
+<tr>
+<td>R09</td>
+<td>13:00–15:00</td>
+<td>Success means quality, useful gain and feasible review</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>15:00–17:00</td>
+<td>Annual research plan to agree with the supervisor</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>17:00–18:30</td>
+<td>Research should strengthen teaching and service</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>18:30–20:00</td>
+<td>First steps and decisions for discussion</td>
+</tr>
+</tbody>
+</table>
+<p>If short of time, shorten R02/R03 background; preserve R04 metric definitions, R07 primary comparison and R10 role expectations.</p>
+<h2 id="r01-reliable-learning-from-limited-document-labels">R01 · Reliable learning from limited document labels</h2>
+<p>Planned duration: 1 minutes.</p>
+<p>Good morning. I am Nguyen Tuan Ngoc. My proposed research direction is reliable learning for historical document recognition when detailed labels and expert time are limited. A page image is not yet searchable text. The system must locate characters, identify them and preserve meaningful structure. A recognition error can then become a training label for the next model, so we need evidence about label quality as well as model accuracy.</p>
+<p>I will distinguish published collaborative results from the experiments I propose to conduct. I will first describe two research collaborations, then explain a controlled study of confidence and structural agreement. Finally, I will connect that study to teaching, service and the annual research expectations of this position. The practical question throughout is: what evidence would justify trusting the next step of the pipeline?</p>
+<p><strong>Takeaway:</strong> A useful research direction needs a measurable reliability question.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r02-preparation-through-collaborative-document-research">R02 · Preparation through collaborative document research</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>My research preparation includes collaborative work on document recognition. Public publisher records list me as a coauthor of the two papers shown here. I will describe their methods and group results, while keeping individual implementation ownership separate. A coauthor list supports participation in the publication record; it does not establish which person implemented each module.</p>
+<p>The two projects raise related questions. Mathematical-expression recognition asks whether local symbol and relationship decisions form a correct complete structure. Historical-document annotation asks whether automatically assigned labels can support subsequent learning. In both cases an intermediate score can look strong while the complete task remains difficult. That is why I want to make the evaluation unit and the evidence boundary explicit.</p>
+<p>For new work, I would begin by reproducing a baseline, checking the data split and examining actual errors before claiming an improvement. The common habit is asking what data a system saw, what its metric counts, which comparison is fair and what remains uncertain. These questions also matter in teaching. A student should learn how to question an impressive number and design a useful check, rather than treating the number as its own explanation.</p>
+<p><strong>Takeaway:</strong> Use the public research record accurately and keep individual ownership explicit.</p>
+<p>Evidence: <a href="https://link.springer.com/chapter/10.1007/978-3-032-09368-4_17">ICDAR 2025 Workshops publisher record</a>; <a href="https://link.springer.com/chapter/10.1007/978-3-032-36039-7_28">ICDAR 2026 publisher abstract</a>.</p>
+<h2 id="r03-prior-collaboration-recognizing-mathematical-structure">R03 · Prior collaboration: recognizing mathematical structure</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>The first collaboration concerns online handwritten mathematical expressions. Online input contains pen strokes; it is different from a photograph of a finished page. The task is more than identifying isolated symbols. A symbol can sit above, below or inside another structure, and those relationships change the meaning of the expression.</p>
+<p>The reported pipeline uses BLSTM-based recognition, a two-dimensional CYK parser and line-of-sight filtering to form a candidate graph. Nodes represent symbols and edges represent possible relationships. An edge-feature graph attention model then predicts which links should be retained. The structural candidates restrict the problem, but an early symbol or segmentation error can still limit the final answer.</p>
+<p>This is an important conceptual link to the trial lecture. Sequence models and graph models use different representations, but both must combine local evidence into a coherent structured output. The practical lesson is to evaluate that complete output, rather than stopping at a successful intermediate classifier. On the next slide I will show why two numbers from the same system can tell very different stories.</p>
+<p><strong>Takeaway:</strong> Correct local components do not automatically make a correct structured output.</p>
+<p>Evidence: <a href="https://link.springer.com/chapter/10.1007/978-3-032-09368-4_17">ICDAR 2025 Workshops publisher record</a>; <a href="https://arxiv.org/html/2511.02288v1">Public author manuscript: Tables 2–3</a>.</p>
+<h2 id="r04-three-results-three-meanings">R04 · Three results, three meanings</h2>
+<p>Planned duration: 2 minutes.</p>
+<p>These are the reported CROHME 2019 results for the BLSTM–CYK and line-of-sight configuration with EGAT. Table 2 reports 92.78 percent link accuracy. Table 3 reports 51.42 percent structure rate and 38.86 percent exact expression rate.</p>
+<p>These metrics answer different questions. Link accuracy evaluates link predictions. Structure rate asks whether all the spatial relationships in an expression are correct. Exact expression rate asks whether the entire expression is recognized correctly. The unit of evaluation changes, and the complete-output requirement is stricter. Therefore, I should not say that the system recognizes almost 93 percent of whole expressions correctly.</p>
+<p>Imagine a long expression with several related decisions. Many decisions can be right while a single wrong symbol or relationship makes the complete expression wrong. The reported numbers motivate looking at failure propagation and task-level quality; they do not by themselves identify a single causal explanation for every error.</p>
+<p>The manuscript also compares stronger overall recognition systems, so I do not describe these results as state of the art. The supported contribution is the reported graph-based approach and its evaluated behavior. My research question moves from this lesson toward another intermediate object that can look convincing: an automatically assigned training label.</p>
+<p>Pause here and ask yourself: if I quote a percentage, can the listener identify exactly what was counted?</p>
+<p><strong>Takeaway:</strong> Always identify the evaluation unit, configuration and test set.</p>
+<p>Evidence: <a href="https://arxiv.org/html/2511.02288v1">Public author manuscript: Tables 2–3</a>; <a href="https://link.springer.com/chapter/10.1007/978-3-032-09368-4_17">ICDAR 2025 Workshops publisher record</a>.</p>
+<h2 id="r05-prior-collaboration-expanding-nôm-annotations">R05 · Prior collaboration: expanding Nôm annotations</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>The second collaboration concerns automatic character-level annotation of historical Nôm documents. The published abstract describes a detector, a radical-based recognizer using Ideographic Description Sequences, and an iterative update loop. It reports annotation coverage of 83.95 percent of character instances.</p>
+<p>I keep the interpretation narrow: coverage describes the extent of the resulting annotation set. It is not the same as an independent human audit of label precision, and it is not end-to-end OCR accuracy. A pipeline can expand its label set while preserving systematic errors. If the next model learns from those errors, quantity alone is not enough.</p>
+<p>That distinction motivates my proposed study. I want to test whether structural agreement supplies useful reliability information beyond recognition confidence. The next slides describe a proposed evaluation, rather than additional results already achieved.</p>
+<p><strong>Takeaway:</strong> More automatic labels require separate evidence about their correctness.</p>
+<p>Evidence: <a href="https://link.springer.com/chapter/10.1007/978-3-032-36039-7_28">ICDAR 2026 publisher abstract</a>; Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r06-research-question-does-structural-agreement-add-evidence">R06 · Research question: does structural agreement add evidence?</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>The proposed question is whether structural agreement provides useful information beyond recognition confidence. Recognition confidence should score the assigned target label on the stored crop. It should not silently score a different top prediction and then attach that confidence to the assigned label.</p>
+<p>The second signal is agreement between the predicted Ideographic Description Sequence and the sequence associated with the transcription character. Alignment and edit distance can make this agreement explicit. For nonempty sequences, a simple starting similarity is one minus edit distance divided by the longer sequence length. If both sequences are empty, the score is defined as zero and the case is flagged, because no usable identity evidence has been supplied.</p>
+<p>Agreement is not independent verification: it is partly derived from the recognizer itself. Reviewed development labels are needed to learn and assess a mapping from these signals to pair correctness. The primary hypothesis is about a held-out learning improvement over recognizer-only weighting. A well-controlled finding of little added benefit would also be useful, especially if it identifies repeated characters, bad segmentation or shared model errors as the limiting cases.</p>
+<p><strong>Takeaway:</strong> A confidence score is a hypothesis about correctness until tested against independent labels.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r07-one-controlled-four-arm-experiment">R07 · One controlled four-arm experiment</h2>
+<p>Planned duration: 2 minutes.</p>
+<p>The four arms make the question testable. U gives every selected instance equal weight. R uses the assigned-target recognition signal. A uses structural agreement. C combines both signals. For R, A and C, probability mappings are learned using the same reviewed development labels and the same book-grouped validation procedure. The mappings are locked before test evaluation.</p>
+<p>Every arm uses one frozen candidate-label set. Initializations, random seeds, sampling, augmentation, update counts, invalid-target rules and stopping rules are matched. Only the weights change. The weighted loss is the sum of each instance loss multiplied by its weight, divided by the sum of weights. If the total weight is zero, the optimizer update is skipped. Otherwise, a division by zero would make a supposed learning improvement meaningless.</p>
+<p>The primary comparison is C against R: does adding agreement help beyond recognition evidence? U and A explain the result but cannot replace an unfavorable primary finding. If agreement becomes constant after selection and A collapses to uniform weighting, that is a finding to report. We should not quietly change A's selected training examples to manufacture a difference.</p>
+<p>At the initial scope, four arms with three matched seeds require twelve training runs, plus scoring, calibration and evaluation. The pilot must establish whether that resource request is feasible.</p>
+<p><strong>Takeaway:</strong> Change the proposed information source while holding the rest of the comparison fixed.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r08-build-an-evaluation-set-that-can-challenge-the-model">R08 · Build an evaluation set that can challenge the model</h2>
+<p>Planned duration: 2 minutes.</p>
+<p>The data plan starts with a twenty-page development pilot. Its purpose is to test annotation instructions, identify ambiguity and measure time. It cannot establish that the full scientific comparison will have enough power. A subsequent reviewed study sample of approximately two hundred to three hundred pages is a proposed starting scope; final source diversity and sample size must follow the pilot and resource discussion.</p>
+<p>Pages from the same book or edition can share layout, print style and near-duplicate content. I would therefore split by source and group related pages, rather than randomly mixing adjacent pages across training and test. There is another leakage risk: a previously trained checkpoint may already have seen the chosen pages. Renaming a split cannot erase that exposure. The protocol must audit it, obtain eligible new material or explicitly narrow its claim.</p>
+<p>Human review must examine whole pages. Reviewing only high-confidence crops would miss detection failures and bias the quality estimate. The record should include page identity, boxes, transcription and normalization versions, model checkpoint, review status and provenance. Machine-assigned and reviewed labels must remain distinguishable.</p>
+<p>Finally, web access does not establish redistribution rights. Image, transcription and annotation permissions need separate records. If images cannot be released, the project should document which code, metadata or labels can be shared under the actual terms.</p>
+<p><strong>Takeaway:</strong> A frozen test set is credible only when its source, exposure and gold labels are understood.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r09-success-means-quality-useful-gain-and-feasible-review">R09 · Success means quality, useful gain and feasible review</h2>
+<p>Planned duration: 2 minutes.</p>
+<p>There are three distinct outcomes. First, does the combined policy improve recognition? I would report character error rate and the paired difference between C and R, with uncertainty that preserves book or page clustering. Three seeds describe some training variability, but are not three independent populations of historical documents. Before testing, the supervisor and team should agree what improvement is practically useful. An interval spanning that threshold is inconclusive; failure to show superiority is not proof of equivalence.</p>
+<p>Second, do the scores actually identify correct character pairs? Pair quality must include localization and identity, with duplicates and missed characters counted. Coverage, precision and recall remain separate. Normalization rules and any modified character error metric must be versioned.</p>
+<p>Third, can experts work faster while maintaining acceptable quality? Compare the same initial labels with and without confidence guidance, balance page difficulty and reviewer assignment, and measure inspection, correction, re-review and adjudication time. Independent quality assessment should be blinded where feasible.</p>
+<p>The five-thousand-page ambition is conditional. At an assumed half hour of primary review per page, plus fifteen percent re-review and twenty percent coordination overhead, the proposal estimates three thousand four hundred and fifty team-hours. That is a planning calculation, not measured throughput. The pilot must replace it before a staffing or release commitment is made.</p>
+<p><strong>Takeaway:</strong> An improvement claim needs a defined benefit, uncertainty and a quality-constrained cost.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r10-annual-research-plan-to-agree-with-the-supervisor">R10 · Annual research plan to agree with the supervisor</h2>
+<p>Planned duration: 2 minutes.</p>
+<p>The job description sets substantial annual expectations: at least one journal article published as assigned by the supervisor, at least two articles in Scopus-indexed international conference proceedings each year, and research performance of 0.6 EIA under VGU's rules. I recognize these as employment expectations. A plan to write two PhD manuscripts over three years does not by itself meet them.</p>
+<p>I would therefore agree an annual portfolio with the supervisor, combining contributions to assigned group projects with the longer-term methodological study. In the first quarter, the discussion should identify which existing projects are mature enough for near-term manuscripts, what contribution I can take responsibility for, and what data, review and compute resources are available. Quarterly reviews would track experiment completion, drafts, submissions, reviews and published outputs separately.</p>
+<p>Submission is under our influence; acceptance and publication timing also depend on editors and reviewers. I should not promise guaranteed acceptance. The detailed EIA calculation and current venue indexing need confirmation under the university's applicable rules, rather than inference from a venue name.</p>
+<p>The same plan should reserve time for teaching and administration, include an internal research seminar at least annually, and account for national and international conference presentations from the second year. The PhD development direction is three to five years, subject to supervision, admission, resources and a feasible scope.</p>
+<p><strong>Takeaway:</strong> A realistic annual portfolio acknowledges the JD and distinguishes plans from accepted outputs.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r11-research-should-strengthen-teaching-and-service">R11 · Research should strengthen teaching and service</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>The RTA role includes one hundred and twenty academic hours of teaching assistance each academic year, alongside research and service. My proposed approach is to make tutorials explain why the concept matters, show one complete example and then require students to test an idea themselves. For the Transformer topic, that means connecting the equation to a small attention calculation, connecting the calculation to code and connecting the code to a controlled student project.</p>
+<p>A successful notebook run is evidence about execution, not proof that the student understands. I would ask the student to explain the mask, predict a changed output and debug a minimal error. I would also preserve a usable boundary between student exercises and instructor reference solutions, and keep examination material secure.</p>
+<p>The service duties are concrete: check equipment and environments, maintain teaching materials, help screen and mark assessments, support visiting faculty and events, and co-supervise Bachelor work with an appropriate faculty member. Research practice can support those duties through reproducible environments, clear documentation and careful feedback. The plan must fit the advising lecturer's course and the programme's needs rather than assuming I independently set institutional policy.</p>
+<p><strong>Takeaway:</strong> Research habits become useful teaching when students can explain, test and repair their own reasoning.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="r12-first-steps-and-decisions-for-discussion">R12 · First steps and decisions for discussion</h2>
+<p>Planned duration: 1.5 minutes.</p>
+<p>My first priority would be an agreed scope. In the first month I would clarify teaching and service responsibilities, assigned research projects, individual contributions and the data or compute resources that can actually be used.</p>
+<p>During the first three months, the research milestones would be a reproduced baseline, a small reviewed pilot and a protocol with explicit success criteria. The pilot should resolve whether the review workload, source diversity and score variation justify the planned comparison. If the evidence supports a smaller study, I would narrow the claim and document the decision rather than substituting automatically generated pages for reviewed data.</p>
+<p>The practical contribution I propose is a reliable cycle: understand the problem, build a baseline, make one controlled change, inspect failures and explain the evidence clearly. That cycle connects my research direction to the teaching demonstration and to students' later projects. I welcome questions about the study design, the interpretation of the published results and how to align the work with the group's annual priorities.</p>
+<p><strong>Takeaway:</strong> Agree ownership and resources, then make a small study produce inspectable evidence.</p>
+<p>Evidence: Local candidate confirmation; evidence withheld from repository.</p>
+<h2 id="ten-minute-research-qa-rehearsal">Ten-minute research Q&amp;A rehearsal</h2>
+<p>Practice the following explanations and allow the panel to ask follow-ups.</p>
+<ol>
+<li>Why might agreement add information beyond model confidence? State the C–R comparison and accept a null result.</li>
+<li>What exactly do 92.78% and 83.95% mean? State the evaluation unit and what each does not establish.</li>
+<li>How will you control leakage and uncertainty? Explain source splits, checkpoint exposure and paired clustered comparisons.</li>
+<li>How will the plan fit the role? Describe an agreed annual portfolio, realistic review capacity and the difference between submissions and published outputs.</li>
+</ol>
+<p>Candidate rehearsal, individual contribution statements and professional eligibility are separate confirmations. No file-generation or notebook check certifies those actions.</p>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

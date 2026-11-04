@@ -1,0 +1,750 @@
+{
+  "title": "Introduction to Sequence Generation with Transformers",
+  "subtitle": "VGU trial lecture · Bachelor level · English · 30 minutes",
+  "total_minutes": 30,
+  "audience": "Bachelor students; English approximately IELTS 6.0; basic vectors, matrix shapes and probabilities",
+  "delivery": "14 core slides. The invited 15-minute Q&A is separate. Notebook demonstrations are prepared outputs, not a required live training run.",
+  "slides": [
+    {
+      "id": 1,
+      "title": "How can a model generate an ordered answer?",
+      "kicker": "00:00–02:00 · A problem worth learning",
+      "minutes": 2,
+      "bullets": [
+        "Translation, code and image transcription produce sequences.",
+        "Today: calculate attention; hide future answers; explain training versus generation.",
+        "You need short vector products, matrix shapes and probability."
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Input",
+          "Ordered output"
+        ],
+        "rows": [
+          [
+            "Vietnamese sentence",
+            "English tokens, then EOS"
+          ],
+          [
+            "Image of an expression",
+            "LaTeX symbols, then EOS"
+          ]
+        ]
+      },
+      "speaker_notes": "Good morning. Imagine that a program receives an image containing x plus one. It must produce a sequence of symbols in the right order. A useful answer must also stop. The same pattern appears in translation, code completion and speech transcription. Today we will study how a Transformer can make the next decision using the input and the answer so far.\n\nBy the end, you should be able to do three things: calculate one attention result, explain why a model must hide future answers during training, and describe what changes when the model generates its own answer. These ideas help us write correct code and question a result that looks too good. We will study the mechanism rather than train a large model in class.\n\nYou need the idea of a probability, a short vector product and matrix rows and columns. A vector is just an ordered list of numbers here. Quick check: if two queries each compare with three keys, how many comparison scores do we get? [Pause five seconds.] Six: two rows and three columns. If you said five, count three comparisons for the first query and three for the second. Keep that picture; we will use it again. At the end, I will ask what information training has that generation does not.",
+      "takeaway": "Sequence generation means making ordered choices and learning when to stop.",
+      "sources": []
+    },
+    {
+      "id": 2,
+      "title": "From text to numbers: token → ID → embedding",
+      "kicker": "02:00–04:00 · Define the vocabulary first",
+      "minutes": 2,
+      "bullets": [
+        "A token may be a word, a word part, a character or a symbol.",
+        "An ID selects a learned vector; the ID itself is not a meaning score.",
+        "BOS begins a sequence; EOS ends it; PAD fills unused positions."
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Token",
+          "Lab-local ID",
+          "Illustrative embedding"
+        ],
+        "rows": [
+          [
+            "BOS",
+            "4",
+            "[0.1, 0.0, 0.2]"
+          ],
+          [
+            "I",
+            "0",
+            "[0.2, −0.1, 0.4]"
+          ],
+          [
+            "love",
+            "1",
+            "[0.7, 0.3, −0.2]"
+          ],
+          [
+            "AI",
+            "2",
+            "[−0.2, 0.6, 0.1]"
+          ],
+          [
+            "EOS",
+            "5",
+            "[0.0, 0.2, −0.3]"
+          ],
+          [
+            "PAD",
+            "6",
+            "[0.0, 0.0, 0.0]"
+          ]
+        ],
+        "note": "Lab-local token IDs; hand-chosen illustrative embeddings, not a deployed tokenizer."
+      },
+      "speaker_notes": "Before attention, we need to turn a sequence into numbers. A tokenizer divides the input into items called tokens. For this small example, I, love and AI are whole tokens. In real systems, a token may be only part of a word, one character, or a structural symbol. We choose the vocabulary before mapping tokens to IDs.\n\nAn ID is an index into a table. ID one for love does not make it more important than ID zero for I. It selects a row containing a vector. That row is called an embedding and its values can be learned during training. These IDs match the core lab: I zero, love one, AI two, BOS four, EOS five and PAD six. The small embedding vectors are hand-chosen examples so that we can follow the mechanism. They are not experimental results.\n\nBOS marks the beginning and EOS tells generation to stop. PAD is used when shorter examples share a batch with longer ones; its visibility and loss treatment need explicit handling. Ask yourself: can we replace an embedding vector with the single integer ID and keep the same meaning? [Pause.] No. The integer is a lookup address; the learned vector is the representation. In a later project, vocabulary choice affects whether the model can express the symbols we care about, including symbols in code or document transcription.",
+      "takeaway": "Token IDs are lookup addresses; embeddings provide the model's learned input vectors.",
+      "sources": [
+        {
+          "title": "Attention Is All You Need — embeddings and softmax",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "A sequence is a chain of next-token decisions",
+      "kicker": "04:00–06:00 · Conditional probability",
+      "minutes": 2,
+      "bullets": [
+        "p(y | x) = product over t of p(yₜ | y₍<t₎, x).",
+        "The prefix is the output already available before the next choice.",
+        "Example only: 0.8 × 0.6 × 0.5 × 0.9 = 0.216."
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Known prefix",
+          "Next target",
+          "Illustrative probability"
+        ],
+        "rows": [
+          [
+            "BOS",
+            "I",
+            "0.8"
+          ],
+          [
+            "BOS I",
+            "love",
+            "0.6"
+          ],
+          [
+            "BOS I love",
+            "AI",
+            "0.5"
+          ],
+          [
+            "BOS I love AI",
+            "EOS",
+            "0.9"
+          ]
+        ],
+        "source_condition": "The same source x is available at every row."
+      },
+      "speaker_notes": "Let x mean the source, such as a sentence or an image, and y mean the complete answer. At each step the model estimates a probability distribution for the next token, given x and the earlier output tokens. The vertical bar means given. The prefix is the part of the answer already available.\n\nFollow the table. Starting with BOS, we predict I. Then I is in the prefix and we predict love. We continue until EOS. For these invented probabilities, the probability of this complete output is point eight times point six times point five times point nine, which is point two one six. We multiply conditional probabilities; we do not add them. In software we usually add log probabilities for numerical stability.\n\nA model produces probabilities, not a guarantee of a correct sentence. Ask: if the first token has the largest local probability, must the complete sequence have the largest probability? [Pause.] No. A later continuation can be much less likely. We will calculate a small counterexample later. This factorisation is useful because outputs can have different lengths, but choosing a good complete output still requires a decoding rule. The probability of the whole output and the quality measured by a task are also different things.",
+      "takeaway": "Next-token probabilities combine to score a complete sequence.",
+      "sources": [
+        {
+          "title": "The Annotated Transformer — autoregressive encoder–decoder",
+          "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Where do the next-token scores come from?",
+      "kicker": "06:00–08:00 · A conditional encoder–decoder example",
+      "minutes": 2,
+      "bullets": [
+        "The encoder turns source input into memory vectors.",
+        "The decoder uses its prefix and can attend to source memory.",
+        "A vocabulary projection produces logits; softmax gives next-token probabilities."
+      ],
+      "visual": {
+        "type": "shape_flow",
+        "dimension_sizes": {
+          "S": "source positions",
+          "T": "prefix positions",
+          "d": "hidden width",
+          "C": "vocabulary size"
+        },
+        "stages": [
+          {
+            "name": "Source encoder",
+            "shape": "[S, d]",
+            "meaning": "One memory vector per source position"
+          },
+          {
+            "name": "Decoder prefix",
+            "shape": "[T, d]",
+            "meaning": "Causal self-attention, source cross-attention and feed-forward layers"
+          },
+          {
+            "name": "Vocabulary logits",
+            "shape": "[T, C]",
+            "meaning": "One score per vocabulary token at each position"
+          },
+          {
+            "name": "Next-token choice",
+            "shape": "[C]",
+            "meaning": "Use the last available position during generation"
+          }
+        ]
+      },
+      "speaker_notes": "This is an encoder–decoder Transformer used for conditional generation. The encoder reads the source and produces memory vectors. The decoder receives the output prefix. Causal self-attention lets it combine permitted prefix information. Cross-attention lets it use source memory: the decoder supplies queries, while encoder memory supplies keys and values.\n\nAttention is one part of a Transformer block. Feed-forward layers, residual connections and normalization also help transform the representations. We will focus on attention and information visibility today. Several attention heads use separate learned projections; their roles are learned, not assigned labels such as grammar head.\n\nAfter the decoder, a learned projection gives one real score for each vocabulary token. These scores are called logits. Softmax converts them to a next-token probability distribution. Do not confuse this vocabulary softmax with the attention softmax we will calculate next. One chooses weights over information sources; the other describes possible output tokens.\n\nSome text generators use a causal decoder without a separate encoder. That is a useful variant, but our conditional example makes the source and output paths easy to see. Check: in image transcription, should source information come only from the previously generated words? [Pause.] No; the source encoder provides image features as well. That is why cross-attention is useful in this example.",
+      "takeaway": "The source, the output prefix and the vocabulary distribution have different jobs.",
+      "sources": [
+        {
+          "title": "Attention Is All You Need — model architecture",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Attention: compare, normalize, mix",
+      "kicker": "08:00–11:00 · One complete numerical calculation",
+      "minutes": 3,
+      "bullets": [
+        "Q asks; K is compared; V carries the information to mix.",
+        "scores = QKᵀ / √dₖ; weights = softmax(scores).",
+        "output = weights × V ≈ [1.3395, 1.3210]."
+      ],
+      "visual": {
+        "type": "numeric_attention",
+        "query": [
+          1,
+          0
+        ],
+        "keys": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "values": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "key_dimension": 2,
+        "raw_scores": [
+          1,
+          0
+        ],
+        "scaled_scores": [
+          0.7071067812,
+          0
+        ],
+        "weights": [
+          0.6697615493,
+          0.3302384507
+        ],
+        "output": [
+          1.3395230986,
+          1.3209538027
+        ],
+        "steps": [
+          "Dot products: [1, 0]",
+          "Divide by √2: [0.7071, 0]",
+          "Softmax: [0.6698, 0.3302]",
+          "Mix V: 0.6698[2,0] + 0.3302[0,4]"
+        ]
+      },
+      "speaker_notes": "We will calculate one query and two information sources. We are not choosing the next word yet. Q is a query, K contains keys to compare against, and V contains values to mix. In self-attention, these can be learned projections of the same input: Q equals X times W-Q, and similarly for K and V. Our small numbers represent outputs of those projections.\n\nThe query is one, zero. Its dot product with the first key, one, zero, is one. Its dot product with the second key, zero, one, is zero. Each key has two coordinates, so divide both scores by the square root of two. We obtain about point seven zero seven one and zero.\n\nSoftmax takes exponentials and divides by their sum. The first weight is exp of point seven zero seven one divided by exp of point seven zero seven one plus one. It is about point six six nine eight. The second is point three three zero two. Check that they sum to one. [Give students ten seconds to check the sum.]\n\nNow multiply each whole value vector by its weight and add. The first coordinate is twice point six six nine eight. The second is four times point three three zero two. The result is about one point three three nine five, one point three two one zero. These two output coordinates are not probabilities. The attention weights were probabilities over source positions; the output is a mixed information vector.\n\nQuestion: why keep V separate from K? [Pause.] K helps decide relevance, while V carries what we retrieve. If you treated the output coordinates as next-word probabilities, return to the two value vectors and follow the multiplication. The vocabulary projection still comes later.",
+      "takeaway": "Attention weights select how much of each whole value vector to combine.",
+      "sources": [
+        {
+          "title": "Attention Is All You Need — scaled dot-product attention",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Shapes tell us what attention is doing",
+      "kicker": "11:00–13:00 · Trace the axes before coding",
+      "minutes": 2,
+      "bullets": [
+        "Each query gets one score for every key; softmax runs over keys.",
+        "Use distinct axis sizes to expose an incorrect transpose.",
+        "The √dₖ scale helps keep scores from growing too sharp as width grows."
+      ],
+      "visual": {
+        "type": "shape_flow",
+        "dimension_sizes": {
+          "B": 2,
+          "H": 3,
+          "T": 5,
+          "S": 7,
+          "d_k": 4,
+          "d_v": 6
+        },
+        "stages": [
+          {
+            "name": "Q",
+            "shape": "[2, 3, 5, 4]",
+            "meaning": "batch, heads, queries, key width"
+          },
+          {
+            "name": "K and V",
+            "shape": "K [2, 3, 7, 4]; V [2, 3, 7, 6]",
+            "meaning": "7 source positions; values may have a different width"
+          },
+          {
+            "name": "Q @ K.transpose(-2,-1)",
+            "shape": "[2, 3, 5, 7]",
+            "meaning": "5 queries × 7 keys for each batch and head"
+          },
+          {
+            "name": "softmax(..., dim=-1) @ V",
+            "shape": "[2, 3, 5, 6]",
+            "meaning": "one mixed value vector per query"
+          }
+        ]
+      },
+      "speaker_notes": "Return to two queries and three keys. There is one score for every query–key pair. In this larger example, B is batch, H is heads, T is query positions and S is source positions. We deliberately choose different numbers for every axis. Q has shape two, three, five, four; K has two, three, seven, four. Transposing K's last two axes gives a score tensor with five query positions and seven key positions.\n\nFor each query, normalize across its seven keys. In code that is softmax with dim minus one. Multiplying those weights by V gives shape two, three, five, six. Ask: why does the seven disappear? [Pause.] We sum over the source positions, keeping one mixture for each query. A square example can hide a wrong transpose, so use rectangular cases when testing.\n\nWhy divide by square root of d-k? Under simple assumptions of roughly independent, centered coordinates with similar variance, dot-product variance grows with the number of coordinates. Scaling helps prevent softmax from becoming unnecessarily concentrated. It is an intuition and a practical design choice, not a claim that every unscaled model always fails. In self-attention, T and S often match. In cross-attention, the source and output lengths can differ.",
+      "takeaway": "A score row belongs to one query; its columns are the available keys.",
+      "sources": [
+        {
+          "title": "Attention Is All You Need — scaled attention",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "A causal mask blocks future input positions",
+      "kicker": "13:00–16:00 · Scores before softmax; weights after it",
+      "minutes": 3,
+      "bullets": [
+        "Add 0 to permitted scores and −∞ to blocked scores, before softmax.",
+        "A blocked score gets attention weight 0 after softmax.",
+        "The mask is not a probability distribution; valid weight rows sum to 1."
+      ],
+      "visual": {
+        "type": "mask_shift",
+        "inputs": [
+          "BOS",
+          "I",
+          "love",
+          "AI"
+        ],
+        "targets": [
+          "I",
+          "love",
+          "AI",
+          "EOS"
+        ],
+        "mask": [
+          [
+            0,
+            "−∞",
+            "−∞",
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            "−∞",
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            0,
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "mask_label": "Additive mask BEFORE softmax",
+        "example": {
+          "query_position": 1,
+          "blocked_position": 2,
+          "label": "love",
+          "unmasked_two_key_scores": [
+            0.7071067812,
+            0
+          ],
+          "additive_mask": [
+            0,
+            "−∞"
+          ],
+          "masked_scores": [
+            0.7071067812,
+            "−∞"
+          ],
+          "weights_after_softmax": [
+            1,
+            0
+          ],
+          "mixed_value_output": [
+            2,
+            0
+          ]
+        }
+      },
+      "speaker_notes": "Imagine that we train the model using a complete known sentence. All its tokens are stored in memory. If an earlier prediction can look at later input positions, the correct answer may already be visible. We need a rule controlling what each query can read.\n\nThis triangular table is an additive causal mask. Rows are query positions and columns are key positions. Zero leaves a score unchanged. Negative infinity blocks the score before softmax. A row can read its own input position and earlier ones, because its prediction is for the following token. At position one, containing I, the label will be love. Input position two contains love, so letting position one read position two would leak that answer.\n\nLet us connect this to our two-key calculation. Suppose the second key is future information. The additive mask is zero, negative infinity. After adding it, scores are point seven zero seven one, negative infinity. After softmax, weights are one, zero. The output becomes two, zero. Notice that the mask values and the attention weights are different objects at different stages. Never label one cell as both zero and negative infinity.\n\nQuestion: may the query at input I inspect the input AI? [Pause five seconds.] No. Both love and AI lie in its future. If someone says yes because all training tokens are known, distinguish storage from permission: the dataset can contain a token that this prediction must not inspect.\n\nA padding mask handles a different problem: unused positions. Also, an entirely blocked row needs a defined policy; ordinary softmax of only negative infinities is undefined. Our valid causal rows always have at least the diagonal available.",
+      "takeaway": "The causal rule limits available information even when the complete training example is stored.",
+      "sources": [
+        {
+          "title": "The Annotated Transformer — subsequent mask",
+          "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Training gets correct prefixes; generation gets its own",
+      "kicker": "16:00–19:00 · Shifted targets and teacher forcing",
+      "minutes": 3,
+      "bullets": [
+        "Training inputs: BOS I love AI. Targets: I love AI EOS.",
+        "Cross-entropy rewards probability assigned to the correct next token.",
+        "Generation: predict → append the prediction → repeat until EOS or a length limit."
+      ],
+      "visual": {
+        "type": "mask_shift",
+        "inputs": [
+          "BOS",
+          "I",
+          "love",
+          "AI"
+        ],
+        "targets": [
+          "I",
+          "love",
+          "AI",
+          "EOS"
+        ],
+        "mask": [
+          [
+            0,
+            "−∞",
+            "−∞",
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            "−∞",
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            0,
+            "−∞"
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "mask_label": "Same causal visibility rule",
+        "example": {
+          "query_position": 1,
+          "blocked_position": 2,
+          "label": "love",
+          "training": "Correct earlier tokens supplied by dataset",
+          "generation": "Earlier predicted tokens supplied by model",
+          "padding": "Ignore padded targets in the loss explicitly"
+        }
+      },
+      "speaker_notes": "Put the complete target in a row: I, love, AI, EOS. The decoder input is BOS, I, love, AI. At the input I, what should the model predict? [Pause.] Love. At input AI it should predict EOS. This alignment is called shifting the targets. It is separate from masking: shifting defines what to predict, while masking defines which input information is allowed.\n\nTraining with the correct earlier tokens is called teacher forcing. The dataset already has those tokens, so we can compute predictions for the different target positions together in a forward pass, while the mask prevents future access. The model produces logits over the vocabulary at each position. Cross-entropy penalizes low probability for the correct next token. We include the EOS target and explicitly ignore padding labels when padding is used.\n\nDuring generation, there is no known full answer. Start with BOS and source x, get a next-token distribution, choose a token, append it, and run the next step. Stop when EOS appears or a maximum length is reached. The prefix may now contain a mistake from the model, and that can change later predictions.\n\nQuestion: can the model use the correct next target during generation to repair a wrong choice? [Pause.] No; that would be using the answer we are trying to predict. This is why an excellent loss on teacher-forced training is insufficient evidence for good generation. We must evaluate actual generated sequences on held-out cases. Parallel training also does not make attention free: it still computes many query–key comparisons. Generation remains sequential across output steps; caching is an optional later optimisation.",
+      "takeaway": "Target shifting, visibility masking and the generated-prefix loop solve different parts of the problem.",
+      "sources": [
+        {
+          "title": "The Annotated Transformer — batches, loss and greedy decoding",
+          "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Order needs an explicit explanation",
+      "kicker": "19:00–21:00 · Position information without a misleading slogan",
+      "minutes": 2,
+      "bullets": [
+        "“Dog bites person” and “Person bites dog” reuse tokens but change meaning.",
+        "Transformers commonly add or apply position information to representations.",
+        "A causal mask already has an ordered visibility pattern; removing position embeddings does not make every causal model order-blind."
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Position",
+          "Sequence A",
+          "Sequence B"
+        ],
+        "rows": [
+          [
+            "0",
+            "Dog",
+            "Person"
+          ],
+          [
+            "1",
+            "bites",
+            "bites"
+          ],
+          [
+            "2",
+            "person",
+            "dog"
+          ]
+        ],
+        "note": "Same token set, different ordered sequences. Positional vectors are one way to provide position information."
+      },
+      "speaker_notes": "Attention compares vectors, but a language task also needs order. Dog bites person and person bites dog contain the same kinds of words and have different meanings. A common Transformer design adds a positional vector to each token embedding. Other designs apply position-dependent transformations inside attention. We will leave their formulas for a later lesson.\n\nThere is an important qualification. Unmasked attention without position-dependent inputs treats a consistent permutation of the input as a corresponding permutation of its outputs. But a causal decoder also has a triangular visibility pattern: earlier and later positions have different permitted histories. Therefore it is too strong to say that removing positional embeddings makes every causal Transformer completely unable to use order. The mask already introduces a direction and a boundary. Explicit positional methods still provide useful, direct position information.\n\nAsk: if we want to test whether a positional method helps, can we simply compare two unrelated training runs? [Pause.] We need a controlled comparison with the same task and evaluation policy, and we should repeat seeds if practical. That is an optional research extension. It is not a required experiment in today's core lab. For today, explain where position information enters the model and avoid treating a causal mask as a replacement for every positional design choice.",
+      "takeaway": "Specify both the position representation and the visibility rule when reasoning about order.",
+      "sources": [
+        {
+          "title": "Attention Is All You Need — positional encoding",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Greedy can miss the best complete sequence",
+      "kicker": "21:00–23:00 · A two-symbol probability tree",
+      "minutes": 2,
+      "bullets": [
+        "Greedy chooses the best token at each step: A then X gives 0.6 × 0.5 = 0.30.",
+        "Beam width 3 retains several prefixes: B then X gives 0.4 × 1.0 = 0.40.",
+        "Beam is approximate search; a higher model score does not guarantee better task accuracy."
+      ],
+      "visual": {
+        "type": "generation_tree",
+        "root": "BOS",
+        "fixed_output_length": 2,
+        "tie_break": "X before Y",
+        "beam_width": 3,
+        "length_penalty": 0,
+        "branches": [
+          {
+            "token": "A",
+            "probability": 0.6,
+            "children": [
+              {
+                "token": "X",
+                "probability": 0.5,
+                "joint": 0.3
+              },
+              {
+                "token": "Y",
+                "probability": 0.5,
+                "joint": 0.3
+              }
+            ]
+          },
+          {
+            "token": "B",
+            "probability": 0.4,
+            "children": [
+              {
+                "token": "X",
+                "probability": 1.0,
+                "joint": 0.4
+              },
+              {
+                "token": "Y",
+                "probability": 0.0,
+                "joint": 0.0
+              }
+            ]
+          }
+        ],
+        "greedy_path": [
+          "A",
+          "X"
+        ],
+        "greedy_joint": 0.3,
+        "beam_path": [
+          "B",
+          "X"
+        ],
+        "beam_joint": 0.4,
+        "note": "Equal-length toy outputs; EOS and length normalization are omitted only for this tree."
+      },
+      "speaker_notes": "We will generate exactly two symbols in this small probability tree. We omit EOS and length penalties only to isolate the search decision. The first choice is A with probability point six or B with point four. Greedy selects A. After A, X and Y each have probability point five; our stated tie rule picks X. The complete AX probability is point three.\n\nAfter B, X has probability one, so BX has probability point four. Beam search with width three keeps several promising prefixes instead of committing to one. Here it keeps both A and B at the first step and discovers BX. At the next step the three nonzero candidates are BX, AX and AY.\n\nQuestion: did beam change the model's probabilities? [Pause.] No. It searched differently through the same probabilities. A finite beam can still discard a prefix that would later be useful, so it is approximate search in general. A sequence with a higher model probability may also be wrong for the task. We must compare actual exact match or another stated metric on the same held-out examples.\n\nOur optional glyph lab uses beam width three, matching this lecture. Sampling methods can produce different outputs, but temperature, top-k and top-p are optional follow-up topics; we do not need them to explain this example.",
+      "takeaway": "Decoding changes which path is selected; it does not improve the underlying probability model automatically.",
+      "sources": [
+        {
+          "title": "The Annotated Transformer — search and inference",
+          "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Use the same ideas for an image-to-symbol project",
+      "kicker": "23:00–24:00 · A small application with clear limits",
+      "minutes": 1,
+      "bullets": [
+        "Encode image features; generate symbols with shifted training and a causal decoder.",
+        "Compare generated outputs with held-out references and a simple baseline.",
+        "Four synthetic glyph classes demonstrate mechanics; they do not establish real OCR performance."
+      ],
+      "visual": {
+        "type": "shape_flow",
+        "stages": [
+          {
+            "name": "Synthetic glyph image",
+            "shape": "3 known-template glyphs",
+            "meaning": "Controlled educational input"
+          },
+          {
+            "name": "Image encoder → source memory",
+            "shape": "[S, d]",
+            "meaning": "Source features become keys and values"
+          },
+          {
+            "name": "Decoder → generated symbols",
+            "shape": "up to EOS / limit",
+            "meaning": "Compare greedy and beam width 3 on identical cases"
+          },
+          {
+            "name": "Inspect evidence",
+            "shape": "exact match + declared CER",
+            "meaning": "Compare to nearest-template baseline and inspect actual errors"
+          }
+        ]
+      },
+      "speaker_notes": "Now transfer the mechanism. An image encoder converts a small glyph image into source features. The decoder uses those features and its prefix to generate symbols. We keep the same ideas: embeddings, cross-attention, a causal rule, shifted labels and an actual generation loop.\n\nOur optional lab uses four synthetic known glyph templates. It is a controlled way to connect the components. A simple nearest-template baseline may already solve the task well. That is useful evidence about the toy data, not a failure of the baseline. It also means we cannot claim that the Transformer is necessary, that beam must improve accuracy, or that this establishes real handwritten or historical-document recognition. To study those questions, we need appropriate real data and a carefully held-out evaluation.",
+      "takeaway": "A working toy system teaches mechanisms; research claims require an appropriate task and evidence.",
+      "sources": []
+    },
+    {
+      "id": 12,
+      "title": "Can you diagnose an answer that looks too good?",
+      "kicker": "24:00–27:00 · Guided prediction, explanation and feedback",
+      "minutes": 3,
+      "bullets": [
+        "Case A: input I can inspect future input love. What leaked?",
+        "Case B: the input row is BOS I love AI, and labels are identical. What is being learned?",
+        "Case C: perturb only future tokens. Which earlier outputs should remain unchanged?"
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Observation",
+          "Propose a cause",
+          "A useful check"
+        ],
+        "rows": [
+          [
+            "Suspiciously tiny training loss",
+            "Possible future-label leakage",
+            "Inspect mask + shifted inputs/labels"
+          ],
+          [
+            "Model predicts each current input",
+            "Possible missing target shift",
+            "Write one explicit input → next-target pair"
+          ],
+          [
+            "Future change alters earlier output",
+            "Possible causal-mask error",
+            "Compare earlier outputs before/after future perturbation"
+          ]
+        ]
+      },
+      "speaker_notes": "Let us use the ideas before we finish. Case A: at input I, the model can inspect the future input love. Why can training loss become misleadingly small? [Wait ten seconds.] Love is the target for that position, so the answer has leaked through the input. A small loss alone does not prove a useful generator. If you say the target was shifted, remember that shifting cannot stop the model reading a future input. We need both the correct shift and a causal mask.\n\nCase B: input and target are both BOS, I, love, AI. What task have we accidentally created? [Wait ten seconds.] We may be rewarding the model for copying the current token, rather than predicting the next one. Write a single pair: input I should predict love. That is an easy way to check the alignment.\n\nCase C: we change only future tokens and rerun the same causal decoder. Which outputs should stay the same? [Wait ten seconds.] Earlier-position outputs should remain unchanged, within the numerical tolerance of the chosen implementation. This is a behavioral test, stronger than merely looking at a triangular picture. If outputs change, check the mask orientation and how it is applied.\n\nNow explain one case to a partner in one sentence, or tell me directly if we are a small group. [Allow twenty seconds.] I am checking your explanation, not whether your notebook has a green checkmark. A notebook may run while testing an instructor function rather than your function, or while TODOs contain only comments. The core lab therefore asks for your reasoning as well as executed code and observed outputs.",
+      "takeaway": "Test what information the prediction can use and which target it is asked to learn.",
+      "sources": []
+    },
+    {
+      "id": 13,
+      "title": "From this lesson to your own working project",
+      "kicker": "27:00–29:00 · Two core labs; two optional extensions",
+      "minutes": 2,
+      "bullets": [
+        "Core T1: calculate attention, shapes, visibility, shifted labels and the search tree.",
+        "Core T2: implement attention, masks, target shift and padding-aware loss; test your code.",
+        "Optional T3 systems; optional T4 synthetic glyph generation. Neither is required to understand today's core."
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "Stage",
+          "Student evidence",
+          "Why it matters"
+        ],
+        "rows": [
+          [
+            "T1 · 60–90 min",
+            "Numbers + explanations + one changed example",
+            "Connect concepts to calculations"
+          ],
+          [
+            "T2 · 2–3 hours",
+            "Own code + outputs + behavioral checks",
+            "Build a correct component"
+          ],
+          [
+            "T3 · optional 1–2 weeks",
+            "Cache correctness before a measured timing claim",
+            "Study systems tradeoffs"
+          ],
+          [
+            "T4 · optional 1–2 weeks",
+            "Generated sequences + baseline + actual error analysis",
+            "Connect a model to an evaluation question"
+          ]
+        ]
+      },
+      "speaker_notes": "After class, begin with the two core labs. In T1, work through the attention numbers, a rectangular shape example, a mask, shifted labels and the greedy counterexample. Write why each step is useful. In T2, implement attention, a mask, target shifting and padding-aware cross-entropy, then inspect visible outputs and test the function you actually wrote. The T1 workbook check cells use the same implementation; return to them after completing those functions. A blank learner file should not be mistaken for a completed solution.\n\nThe instructor demonstration notebooks contain worked examples and saved outputs for rehearsal. Use the separate learner tasks when you want to assess yourself. First predict the answer, then run, compare, explain a mismatch and try a changed case. Copying a worked output is not evidence of understanding.\n\nTwo extensions are optional. T3 studies caching and systems measurements after correctness checks. T4 connects an image encoder to symbol generation and compares greedy with beam width three on the same cases. A position-encoding ablation is a possible later project, not a promised core task.\n\nFor a Bachelor project, choose one narrow question with an advising lecturer, obtain appropriate data, establish a simple baseline and freeze a test set before choosing methods. Your report should include actual errors, limitations and a next hypothesis. A measured absence of improvement can still be a useful result when the comparison is fair.",
+      "takeaway": "Progress from explanation, to verified code, to a narrow question with controlled evidence.",
+      "sources": []
+    },
+    {
+      "id": 14,
+      "title": "Exit ticket: explain the information available",
+      "kicker": "29:00–30:00 · Check the three learning goals",
+      "minutes": 1,
+      "bullets": [
+        "What does training supply that generation does not?",
+        "Why are mask values different from attention weights?",
+        "At input I, which token is the next-target label?"
+      ],
+      "visual": {
+        "type": "comparison",
+        "columns": [
+          "We learned",
+          "We can now check"
+        ],
+        "rows": [
+          [
+            "Attention mixes value vectors",
+            "A numerical result and its shapes"
+          ],
+          [
+            "Causality controls available input",
+            "No future information affects an earlier output"
+          ],
+          [
+            "Generation uses predicted prefixes",
+            "Evaluate generated sequences, not only training loss"
+          ]
+        ]
+      },
+      "speaker_notes": "Please answer the first question in one sentence: what does training supply that generation does not? [Pause ten seconds and take one answer.] Training supplies the correct earlier target tokens. During generation, the model must build that prefix from its own choices.\n\nTwo quick checks: mask values are added to scores before softmax; attention weights come after softmax. At input I in our shifted example, the next target is love. These are practical checks you can use when writing or reviewing a generator.\n\nYou can now connect a sequence probability, one attention calculation and the training–generation distinction. In the core labs, test that explanation with your own code. Thank you. We finish the lecture here at thirty minutes. I am ready for the separate questions.",
+      "takeaway": "Explain the mechanism, show the computation and check the available information.",
+      "sources": []
+    }
+  ]
+}

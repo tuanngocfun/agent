@@ -1,0 +1,97 @@
+{
+  "generated_utc": "2026-11-04T15:35:27.233793+00:00",
+  "katex_version": "0.19.1",
+  "markdown_pages": [
+    "site/.specify/memory/constitution.html",
+    "site/BROWSER_README.html",
+    "site/PUBLICATION_SCOPE.html",
+    "site/START_HERE.html",
+    "site/interview/INTERVIEW_QA.html",
+    "site/interview/SUBMISSION_CHECKLIST.html",
+    "site/notebooks/student_exercises/README.html",
+    "site/research/CLAIM_LEDGER.html",
+    "site/research/RESEARCH_SCRIPT.html",
+    "site/slides/README.html",
+    "site/specs/001-align-rehearsal-materials/checklists/requirements.html",
+    "site/specs/001-align-rehearsal-materials/data-model.html",
+    "site/specs/001-align-rehearsal-materials/plan.html",
+    "site/specs/001-align-rehearsal-materials/quickstart.html",
+    "site/specs/001-align-rehearsal-materials/research.html",
+    "site/specs/001-align-rehearsal-materials/spec.html",
+    "site/specs/001-align-rehearsal-materials/tasks.html",
+    "site/teaching/ASSESSMENT_AND_HANDOUT.html",
+    "site/teaching/LECTURE_SCRIPT.html",
+    "site/teaching/REHEARSAL_LOG.html",
+    "site/teaching/STUDENT_PATHWAY.html",
+    "site/verification/EXPORT_CHECKS.html",
+    "site/reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html",
+    "site/reference/legacy_teaching_pack/docs/STUDENT_ASSIGNMENT_HANDOUT.html",
+    "site/reference/legacy_teaching_pack/docs/LECTURE_AND_SOURCE_LINKS.html"
+  ],
+  "notebook_pages": [
+    {
+      "path": "site/notebooks/01_Core_Attention_Worked.html",
+      "source_path": "notebooks/01_Core_Attention_Worked.ipynb",
+      "source_sha256": "7aeb343061bab16790f15d2de23aef906fa30d18282a7e91b1774c7bd777ce50",
+      "code_sha256": "5145ac311da39f4325f33b19fe383c10ff2a635cb81d67fd934e11df615c1b63",
+      "notebook_unchanged": true,
+      "code_cells": 6,
+      "outputs": 7,
+      "errors": 0
+    },
+    {
+      "path": "site/notebooks/02_Training_and_Generation_Worked.html",
+      "source_path": "notebooks/02_Training_and_Generation_Worked.ipynb",
+      "source_sha256": "5b6cc704901cadb7b12419eaf84d1c1f648576b24f4557e782afa3bce220eb6d",
+      "code_sha256": "d4734377ec2ee9b027bd8c2c1f0ee85bdce8dc0778d318bdab0ce468ca04ed12",
+      "notebook_unchanged": true,
+      "code_cells": 7,
+      "outputs": 7,
+      "errors": 0
+    },
+    {
+      "path": "site/notebooks/03_Optional_Systems_Worked.html",
+      "source_path": "notebooks/03_Optional_Systems_Worked.ipynb",
+      "source_sha256": "e4e232dadfeb1a45ea0fbf0332394eaf9fa9d849714082702d3c2d24ec8c0b60",
+      "code_sha256": "63a77ff5c355ce7e138ff7574668e91a6c896a45aece3cf3ebd5c3fa0289f234",
+      "notebook_unchanged": true,
+      "code_cells": 4,
+      "outputs": 6,
+      "errors": 0
+    },
+    {
+      "path": "site/notebooks/04_Optional_Image_to_Sequence_Worked.html",
+      "source_path": "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+      "source_sha256": "52fec53ee1227c6f8d22e17cd0ac742907fe7c72f534bf99de51c5df509330c3",
+      "code_sha256": "c6127fbc408f1d4c5b8c5f454e5a6df7f073bc82ed2f181447d81f08a8b07673",
+      "notebook_unchanged": true,
+      "code_cells": 5,
+      "outputs": 7,
+      "errors": 0
+    },
+    {
+      "path": "site/notebooks/student_exercises/Tier1_Student.html",
+      "source_path": "notebooks/student_exercises/Tier1_Student.ipynb",
+      "source_sha256": "893035bfcb6c2da1e94bd65c450029370f7c5bd620a1b1710399e62d4ee4801f",
+      "code_sha256": "a0a10b04bd799a8f1b527f5712f1b4ae30b8cb7bdaac86a26ba6d230ebef12f5",
+      "notebook_unchanged": true,
+      "code_cells": 5,
+      "outputs": 5,
+      "errors": 4
+    },
+    {
+      "path": "site/notebooks/student_exercises/Tier2_Student.html",
+      "source_path": "notebooks/student_exercises/Tier2_Student.ipynb",
+      "source_sha256": "c7340a2e5f70e2d6f85004328d9a3c475231e6575bcc2b3ee2972640306c6a81",
+      "code_sha256": "b88962425565144cf197c47557f4ecc3558e585225ceb54ef155f283604cf397",
+      "notebook_unchanged": true,
+      "code_cells": 4,
+      "outputs": 4,
+      "errors": 3
+    }
+  ],
+  "legacy_pages": [],
+  "math_errors": [],
+  "unbundled_private_references": [],
+  "copied_assets": []
+}

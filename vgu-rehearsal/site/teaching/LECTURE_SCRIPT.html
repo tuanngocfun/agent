@@ -1,0 +1,297 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trial lecture rehearsal script</title><link rel="stylesheet" href="../assets/docs.css"><link rel="stylesheet" href="../assets/katex/katex.min.css"></head><body><header><a href="../index.html">Rehearsal browser</a><a href="LECTURE_SCRIPT.html">Lecture</a><a href="../research/RESEARCH_SCRIPT.html">Research</a><a href="../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="LECTURE_SCRIPT.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="trial-lecture-rehearsal-script">Trial lecture rehearsal script</h1>
+<p><strong>Introduction to Sequence Generation with Transformers</strong></p>
+<p>The lecture source is <a href="../../content/trial_lecture.json">trial_lecture.json</a>. Each section below contains the exact core presenter notes and its time window. The 30-minute schedule is a rehearsal target; a human timed delivery remains necessary. This document does not claim that delivery or student understanding has been observed.</p>
+<h2 id="before-you-rehearse">Before you rehearse</h2>
+<p>Use the canonical lecture deck/PDF produced from this source and the worked notebooks under <code>../notebooks/</code>. Start with <code>01_Core_Attention_Worked.ipynb</code>, then <code>02_Training_and_Generation_Worked.ipynb</code>. These are the worked instructor demonstrations with saved outputs. <code>03_Optional_Systems_Worked.ipynb</code> and <code>04_Optional_Image_to_Sequence_Worked.ipynb</code> are optional follow-up material. Do not add their training or benchmarking to the lecture clock.</p>
+<p>Speak at roughly 110–120 words per minute; leave the stated pauses and calculation time. This script has about 3,000 spoken words. Use everyday terms before new terms: earlier answer before prefix; hide future positions before causal mask; correct earlier tokens before teacher forcing. The English level does not imply prior knowledge of matrices, so keep the opening diagnostic.</p>
+<p>Open the PDF offline before starting. Keep this script, the two-key numeric calculation, the 4×4 mask and the shifted-target table available in print. The lecture does not require a live internet connection, package installation or model training. Show prepared notebook outputs only if they fit inside the allocated example time. If a demo fails to open, continue with the static numbers below.</p>
+<h2 id="the-clock">The clock</h2>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>Slide</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:00–02:00</td>
+<td>1. How can a model generate an ordered answer?</td>
+<td>Sequence generation means making ordered choices and learning when to stop.</td>
+</tr>
+<tr>
+<td>02:00–04:00</td>
+<td>2. From text to numbers: token → ID → embedding</td>
+<td>Token IDs are lookup addresses; embeddings provide the model's learned input vectors.</td>
+</tr>
+<tr>
+<td>04:00–06:00</td>
+<td>3. A sequence is a chain of next-token decisions</td>
+<td>Next-token probabilities combine to score a complete sequence.</td>
+</tr>
+<tr>
+<td>06:00–08:00</td>
+<td>4. Where do the next-token scores come from?</td>
+<td>The source, the output prefix and the vocabulary distribution have different jobs.</td>
+</tr>
+<tr>
+<td>08:00–11:00</td>
+<td>5. Attention: compare, normalize, mix</td>
+<td>Attention weights select how much of each whole value vector to combine.</td>
+</tr>
+<tr>
+<td>11:00–13:00</td>
+<td>6. Shapes tell us what attention is doing</td>
+<td>A score row belongs to one query; its columns are the available keys.</td>
+</tr>
+<tr>
+<td>13:00–16:00</td>
+<td>7. A causal mask blocks future input positions</td>
+<td>The causal rule limits available information even when the complete training example is stored.</td>
+</tr>
+<tr>
+<td>16:00–19:00</td>
+<td>8. Training gets correct prefixes; generation gets its own</td>
+<td>Target shifting, visibility masking and the generated-prefix loop solve different parts of the problem.</td>
+</tr>
+<tr>
+<td>19:00–21:00</td>
+<td>9. Order needs an explicit explanation</td>
+<td>Specify both the position representation and the visibility rule when reasoning about order.</td>
+</tr>
+<tr>
+<td>21:00–23:00</td>
+<td>10. Greedy can miss the best complete sequence</td>
+<td>Decoding changes which path is selected; it does not improve the underlying probability model automatically.</td>
+</tr>
+<tr>
+<td>23:00–24:00</td>
+<td>11. Use the same ideas for an image-to-symbol project</td>
+<td>A working toy system teaches mechanisms; research claims require an appropriate task and evidence.</td>
+</tr>
+<tr>
+<td>24:00–27:00</td>
+<td>12. Can you diagnose an answer that looks too good?</td>
+<td>Test what information the prediction can use and which target it is asked to learn.</td>
+</tr>
+<tr>
+<td>27:00–29:00</td>
+<td>13. From this lesson to your own working project</td>
+<td>Progress from explanation, to verified code, to a narrow question with controlled evidence.</td>
+</tr>
+<tr>
+<td>29:00–30:00</td>
+<td>14. Exit ticket: explain the information available</td>
+<td>Explain the mechanism, show the computation and check the available information.</td>
+</tr>
+</tbody>
+</table>
+<p>Keep the numerical attention example, mask distinction, shift and exit ticket. If you fall behind, shorten the architecture taxonomy on slide 4, position-method discussion on slide 9 and optional project detail on slide 13. Do not add sampling variants to slide 10. Finish at 30 minutes and begin the separate Q&amp;A afterwards.</p>
+<h2 id="spoken-script">Spoken script</h2>
+<h3 id="slide-1-how-can-a-model-generate-an-ordered-answer">Slide 1 — How can a model generate an ordered answer?</h3>
+<p><strong>00:00–02:00 · A problem worth learning</strong> · 2 minute(s)</p>
+<p>Good morning. Imagine that a program receives an image containing x plus one. It must produce a sequence of symbols in the right order. A useful answer must also stop. The same pattern appears in translation, code completion and speech transcription. Today we will study how a Transformer can make the next decision using the input and the answer so far.</p>
+<p>By the end, you should be able to do three things: calculate one attention result, explain why a model must hide future answers during training, and describe what changes when the model generates its own answer. These ideas help us write correct code and question a result that looks too good. We will study the mechanism rather than train a large model in class.</p>
+<p>You need the idea of a probability, a short vector product and matrix rows and columns. A vector is just an ordered list of numbers here. Quick check: if two queries each compare with three keys, how many comparison scores do we get? [Pause five seconds.] Six: two rows and three columns. If you said five, count three comparisons for the first query and three for the second. Keep that picture; we will use it again. At the end, I will ask what information training has that generation does not.</p>
+<p><strong>Leave visible:</strong> Sequence generation means making ordered choices and learning when to stop.</p>
+<h3 id="slide-2-from-text-to-numbers-token-id-embedding">Slide 2 — From text to numbers: token → ID → embedding</h3>
+<p><strong>02:00–04:00 · Define the vocabulary first</strong> · 2 minute(s)</p>
+<p>Before attention, we need to turn a sequence into numbers. A tokenizer divides the input into items called tokens. For this small example, I, love and AI are whole tokens. In real systems, a token may be only part of a word, one character, or a structural symbol. We choose the vocabulary before mapping tokens to IDs.</p>
+<p>An ID is an index into a table. ID one for love does not make it more important than ID zero for I. It selects a row containing a vector. That row is called an embedding and its values can be learned during training. These IDs match the core lab: I zero, love one, AI two, BOS four, EOS five and PAD six. The small embedding vectors are hand-chosen examples so that we can follow the mechanism. They are not experimental results.</p>
+<p>BOS marks the beginning and EOS tells generation to stop. PAD is used when shorter examples share a batch with longer ones; its visibility and loss treatment need explicit handling. Ask yourself: can we replace an embedding vector with the single integer ID and keep the same meaning? [Pause.] No. The integer is a lookup address; the learned vector is the representation. In a later project, vocabulary choice affects whether the model can express the symbols we care about, including symbols in code or document transcription.</p>
+<p><strong>Leave visible:</strong> Token IDs are lookup addresses; embeddings provide the model's learned input vectors.</p>
+<h3 id="slide-3-a-sequence-is-a-chain-of-next-token-decisions">Slide 3 — A sequence is a chain of next-token decisions</h3>
+<p><strong>04:00–06:00 · Conditional probability</strong> · 2 minute(s)</p>
+<p>Let x mean the source, such as a sentence or an image, and y mean the complete answer. At each step the model estimates a probability distribution for the next token, given x and the earlier output tokens. The vertical bar means given. The prefix is the part of the answer already available.</p>
+<p>Follow the table. Starting with BOS, we predict I. Then I is in the prefix and we predict love. We continue until EOS. For these invented probabilities, the probability of this complete output is point eight times point six times point five times point nine, which is point two one six. We multiply conditional probabilities; we do not add them. In software we usually add log probabilities for numerical stability.</p>
+<p>A model produces probabilities, not a guarantee of a correct sentence. Ask: if the first token has the largest local probability, must the complete sequence have the largest probability? [Pause.] No. A later continuation can be much less likely. We will calculate a small counterexample later. This factorisation is useful because outputs can have different lengths, but choosing a good complete output still requires a decoding rule. The probability of the whole output and the quality measured by a task are also different things.</p>
+<p><strong>Leave visible:</strong> Next-token probabilities combine to score a complete sequence.</p>
+<h3 id="slide-4-where-do-the-next-token-scores-come-from">Slide 4 — Where do the next-token scores come from?</h3>
+<p><strong>06:00–08:00 · A conditional encoder–decoder example</strong> · 2 minute(s)</p>
+<p>This is an encoder–decoder Transformer used for conditional generation. The encoder reads the source and produces memory vectors. The decoder receives the output prefix. Causal self-attention lets it combine permitted prefix information. Cross-attention lets it use source memory: the decoder supplies queries, while encoder memory supplies keys and values.</p>
+<p>Attention is one part of a Transformer block. Feed-forward layers, residual connections and normalization also help transform the representations. We will focus on attention and information visibility today. Several attention heads use separate learned projections; their roles are learned, not assigned labels such as grammar head.</p>
+<p>After the decoder, a learned projection gives one real score for each vocabulary token. These scores are called logits. Softmax converts them to a next-token probability distribution. Do not confuse this vocabulary softmax with the attention softmax we will calculate next. One chooses weights over information sources; the other describes possible output tokens.</p>
+<p>Some text generators use a causal decoder without a separate encoder. That is a useful variant, but our conditional example makes the source and output paths easy to see. Check: in image transcription, should source information come only from the previously generated words? [Pause.] No; the source encoder provides image features as well. That is why cross-attention is useful in this example.</p>
+<p><strong>Leave visible:</strong> The source, the output prefix and the vocabulary distribution have different jobs.</p>
+<h3 id="slide-5-attention-compare-normalize-mix">Slide 5 — Attention: compare, normalize, mix</h3>
+<p><strong>08:00–11:00 · One complete numerical calculation</strong> · 3 minute(s)</p>
+<p>We will calculate one query and two information sources. We are not choosing the next word yet. Q is a query, K contains keys to compare against, and V contains values to mix. In self-attention, these can be learned projections of the same input: Q equals X times W-Q, and similarly for K and V. Our small numbers represent outputs of those projections.</p>
+<p>The query is one, zero. Its dot product with the first key, one, zero, is one. Its dot product with the second key, zero, one, is zero. Each key has two coordinates, so divide both scores by the square root of two. We obtain about point seven zero seven one and zero.</p>
+<p>Softmax takes exponentials and divides by their sum. The first weight is exp of point seven zero seven one divided by exp of point seven zero seven one plus one. It is about point six six nine eight. The second is point three three zero two. Check that they sum to one. [Give students ten seconds to check the sum.]</p>
+<p>Now multiply each whole value vector by its weight and add. The first coordinate is twice point six six nine eight. The second is four times point three three zero two. The result is about one point three three nine five, one point three two one zero. These two output coordinates are not probabilities. The attention weights were probabilities over source positions; the output is a mixed information vector.</p>
+<p>Question: why keep V separate from K? [Pause.] K helps decide relevance, while V carries what we retrieve. If you treated the output coordinates as next-word probabilities, return to the two value vectors and follow the multiplication. The vocabulary projection still comes later.</p>
+<p><strong>Leave visible:</strong> Attention weights select how much of each whole value vector to combine.</p>
+<h3 id="slide-6-shapes-tell-us-what-attention-is-doing">Slide 6 — Shapes tell us what attention is doing</h3>
+<p><strong>11:00–13:00 · Trace the axes before coding</strong> · 2 minute(s)</p>
+<p>Return to two queries and three keys. There is one score for every query–key pair. In this larger example, B is batch, H is heads, T is query positions and S is source positions. We deliberately choose different numbers for every axis. Q has shape two, three, five, four; K has two, three, seven, four. Transposing K's last two axes gives a score tensor with five query positions and seven key positions.</p>
+<p>For each query, normalize across its seven keys. In code that is softmax with dim minus one. Multiplying those weights by V gives shape two, three, five, six. Ask: why does the seven disappear? [Pause.] We sum over the source positions, keeping one mixture for each query. A square example can hide a wrong transpose, so use rectangular cases when testing.</p>
+<p>Why divide by square root of d-k? Under simple assumptions of roughly independent, centered coordinates with similar variance, dot-product variance grows with the number of coordinates. Scaling helps prevent softmax from becoming unnecessarily concentrated. It is an intuition and a practical design choice, not a claim that every unscaled model always fails. In self-attention, T and S often match. In cross-attention, the source and output lengths can differ.</p>
+<p><strong>Leave visible:</strong> A score row belongs to one query; its columns are the available keys.</p>
+<h3 id="slide-7-a-causal-mask-blocks-future-input-positions">Slide 7 — A causal mask blocks future input positions</h3>
+<p><strong>13:00–16:00 · Scores before softmax; weights after it</strong> · 3 minute(s)</p>
+<p>Imagine that we train the model using a complete known sentence. All its tokens are stored in memory. If an earlier prediction can look at later input positions, the correct answer may already be visible. We need a rule controlling what each query can read.</p>
+<p>This triangular table is an additive causal mask. Rows are query positions and columns are key positions. Zero leaves a score unchanged. Negative infinity blocks the score before softmax. A row can read its own input position and earlier ones, because its prediction is for the following token. At position one, containing I, the label will be love. Input position two contains love, so letting position one read position two would leak that answer.</p>
+<p>Let us connect this to our two-key calculation. Suppose the second key is future information. The additive mask is zero, negative infinity. After adding it, scores are point seven zero seven one, negative infinity. After softmax, weights are one, zero. The output becomes two, zero. Notice that the mask values and the attention weights are different objects at different stages. Never label one cell as both zero and negative infinity.</p>
+<p>Question: may the query at input I inspect the input AI? [Pause five seconds.] No. Both love and AI lie in its future. If someone says yes because all training tokens are known, distinguish storage from permission: the dataset can contain a token that this prediction must not inspect.</p>
+<p>A padding mask handles a different problem: unused positions. Also, an entirely blocked row needs a defined policy; ordinary softmax of only negative infinities is undefined. Our valid causal rows always have at least the diagonal available.</p>
+<p><strong>Leave visible:</strong> The causal rule limits available information even when the complete training example is stored.</p>
+<h3 id="slide-8-training-gets-correct-prefixes-generation-gets-its-own">Slide 8 — Training gets correct prefixes; generation gets its own</h3>
+<p><strong>16:00–19:00 · Shifted targets and teacher forcing</strong> · 3 minute(s)</p>
+<p>Put the complete target in a row: I, love, AI, EOS. The decoder input is BOS, I, love, AI. At the input I, what should the model predict? [Pause.] Love. At input AI it should predict EOS. This alignment is called shifting the targets. It is separate from masking: shifting defines what to predict, while masking defines which input information is allowed.</p>
+<p>Training with the correct earlier tokens is called teacher forcing. The dataset already has those tokens, so we can compute predictions for the different target positions together in a forward pass, while the mask prevents future access. The model produces logits over the vocabulary at each position. Cross-entropy penalizes low probability for the correct next token. We include the EOS target and explicitly ignore padding labels when padding is used.</p>
+<p>During generation, there is no known full answer. Start with BOS and source x, get a next-token distribution, choose a token, append it, and run the next step. Stop when EOS appears or a maximum length is reached. The prefix may now contain a mistake from the model, and that can change later predictions.</p>
+<p>Question: can the model use the correct next target during generation to repair a wrong choice? [Pause.] No; that would be using the answer we are trying to predict. This is why an excellent loss on teacher-forced training is insufficient evidence for good generation. We must evaluate actual generated sequences on held-out cases. Parallel training also does not make attention free: it still computes many query–key comparisons. Generation remains sequential across output steps; caching is an optional later optimisation.</p>
+<p><strong>Leave visible:</strong> Target shifting, visibility masking and the generated-prefix loop solve different parts of the problem.</p>
+<h3 id="slide-9-order-needs-an-explicit-explanation">Slide 9 — Order needs an explicit explanation</h3>
+<p><strong>19:00–21:00 · Position information without a misleading slogan</strong> · 2 minute(s)</p>
+<p>Attention compares vectors, but a language task also needs order. Dog bites person and person bites dog contain the same kinds of words and have different meanings. A common Transformer design adds a positional vector to each token embedding. Other designs apply position-dependent transformations inside attention. We will leave their formulas for a later lesson.</p>
+<p>There is an important qualification. Unmasked attention without position-dependent inputs treats a consistent permutation of the input as a corresponding permutation of its outputs. But a causal decoder also has a triangular visibility pattern: earlier and later positions have different permitted histories. Therefore it is too strong to say that removing positional embeddings makes every causal Transformer completely unable to use order. The mask already introduces a direction and a boundary. Explicit positional methods still provide useful, direct position information.</p>
+<p>Ask: if we want to test whether a positional method helps, can we simply compare two unrelated training runs? [Pause.] We need a controlled comparison with the same task and evaluation policy, and we should repeat seeds if practical. That is an optional research extension. It is not a required experiment in today's core lab. For today, explain where position information enters the model and avoid treating a causal mask as a replacement for every positional design choice.</p>
+<p><strong>Leave visible:</strong> Specify both the position representation and the visibility rule when reasoning about order.</p>
+<h3 id="slide-10-greedy-can-miss-the-best-complete-sequence">Slide 10 — Greedy can miss the best complete sequence</h3>
+<p><strong>21:00–23:00 · A two-symbol probability tree</strong> · 2 minute(s)</p>
+<p>We will generate exactly two symbols in this small probability tree. We omit EOS and length penalties only to isolate the search decision. The first choice is A with probability point six or B with point four. Greedy selects A. After A, X and Y each have probability point five; our stated tie rule picks X. The complete AX probability is point three.</p>
+<p>After B, X has probability one, so BX has probability point four. Beam search with width three keeps several promising prefixes instead of committing to one. Here it keeps both A and B at the first step and discovers BX. At the next step the three nonzero candidates are BX, AX and AY.</p>
+<p>Question: did beam change the model's probabilities? [Pause.] No. It searched differently through the same probabilities. A finite beam can still discard a prefix that would later be useful, so it is approximate search in general. A sequence with a higher model probability may also be wrong for the task. We must compare actual exact match or another stated metric on the same held-out examples.</p>
+<p>Our optional glyph lab uses beam width three, matching this lecture. Sampling methods can produce different outputs, but temperature, top-k and top-p are optional follow-up topics; we do not need them to explain this example.</p>
+<p><strong>Leave visible:</strong> Decoding changes which path is selected; it does not improve the underlying probability model automatically.</p>
+<h3 id="slide-11-use-the-same-ideas-for-an-image-to-symbol-project">Slide 11 — Use the same ideas for an image-to-symbol project</h3>
+<p><strong>23:00–24:00 · A small application with clear limits</strong> · 1 minute(s)</p>
+<p>Now transfer the mechanism. An image encoder converts a small glyph image into source features. The decoder uses those features and its prefix to generate symbols. We keep the same ideas: embeddings, cross-attention, a causal rule, shifted labels and an actual generation loop.</p>
+<p>Our optional lab uses four synthetic known glyph templates. It is a controlled way to connect the components. A simple nearest-template baseline may already solve the task well. That is useful evidence about the toy data, not a failure of the baseline. It also means we cannot claim that the Transformer is necessary, that beam must improve accuracy, or that this establishes real handwritten or historical-document recognition. To study those questions, we need appropriate real data and a carefully held-out evaluation.</p>
+<p><strong>Leave visible:</strong> A working toy system teaches mechanisms; research claims require an appropriate task and evidence.</p>
+<h3 id="slide-12-can-you-diagnose-an-answer-that-looks-too-good">Slide 12 — Can you diagnose an answer that looks too good?</h3>
+<p><strong>24:00–27:00 · Guided prediction, explanation and feedback</strong> · 3 minute(s)</p>
+<p>Let us use the ideas before we finish. Case A: at input I, the model can inspect the future input love. Why can training loss become misleadingly small? [Wait ten seconds.] Love is the target for that position, so the answer has leaked through the input. A small loss alone does not prove a useful generator. If you say the target was shifted, remember that shifting cannot stop the model reading a future input. We need both the correct shift and a causal mask.</p>
+<p>Case B: input and target are both BOS, I, love, AI. What task have we accidentally created? [Wait ten seconds.] We may be rewarding the model for copying the current token, rather than predicting the next one. Write a single pair: input I should predict love. That is an easy way to check the alignment.</p>
+<p>Case C: we change only future tokens and rerun the same causal decoder. Which outputs should stay the same? [Wait ten seconds.] Earlier-position outputs should remain unchanged, within the numerical tolerance of the chosen implementation. This is a behavioral test, stronger than merely looking at a triangular picture. If outputs change, check the mask orientation and how it is applied.</p>
+<p>Now explain one case to a partner in one sentence, or tell me directly if we are a small group. [Allow twenty seconds.] I am checking your explanation, not whether your notebook has a green checkmark. A notebook may run while testing an instructor function rather than your function, or while TODOs contain only comments. The core lab therefore asks for your reasoning as well as executed code and observed outputs.</p>
+<p><strong>Leave visible:</strong> Test what information the prediction can use and which target it is asked to learn.</p>
+<h3 id="slide-13-from-this-lesson-to-your-own-working-project">Slide 13 — From this lesson to your own working project</h3>
+<p><strong>27:00–29:00 · Two core labs; two optional extensions</strong> · 2 minute(s)</p>
+<p>After class, begin with the two core labs. In T1, work through the attention numbers, a rectangular shape example, a mask, shifted labels and the greedy counterexample. Write why each step is useful. In T2, implement attention, a mask, target shifting and padding-aware cross-entropy, then inspect visible outputs and test the function you actually wrote. The T1 workbook check cells use the same implementation; return to them after completing those functions. A blank learner file should not be mistaken for a completed solution.</p>
+<p>The instructor demonstration notebooks contain worked examples and saved outputs for rehearsal. Use the separate learner tasks when you want to assess yourself. First predict the answer, then run, compare, explain a mismatch and try a changed case. Copying a worked output is not evidence of understanding.</p>
+<p>Two extensions are optional. T3 studies caching and systems measurements after correctness checks. T4 connects an image encoder to symbol generation and compares greedy with beam width three on the same cases. A position-encoding ablation is a possible later project, not a promised core task.</p>
+<p>For a Bachelor project, choose one narrow question with an advising lecturer, obtain appropriate data, establish a simple baseline and freeze a test set before choosing methods. Your report should include actual errors, limitations and a next hypothesis. A measured absence of improvement can still be a useful result when the comparison is fair.</p>
+<p><strong>Leave visible:</strong> Progress from explanation, to verified code, to a narrow question with controlled evidence.</p>
+<h3 id="slide-14-exit-ticket-explain-the-information-available">Slide 14 — Exit ticket: explain the information available</h3>
+<p><strong>29:00–30:00 · Check the three learning goals</strong> · 1 minute(s)</p>
+<p>Please answer the first question in one sentence: what does training supply that generation does not? [Pause ten seconds and take one answer.] Training supplies the correct earlier target tokens. During generation, the model must build that prefix from its own choices.</p>
+<p>Two quick checks: mask values are added to scores before softmax; attention weights come after softmax. At input I in our shifted example, the next target is love. These are practical checks you can use when writing or reviewing a generator.</p>
+<p>You can now connect a sequence probability, one attention calculation and the training–generation distinction. In the core labs, test that explanation with your own code. Thank you. We finish the lecture here at thirty minutes. I am ready for the separate questions.</p>
+<p><strong>Leave visible:</strong> Explain the mechanism, show the computation and check the available information.</p>
+<h2 id="static-calculation-card">Static calculation card</h2>
+<p>These values are fully specified teaching examples, not measured model quality:</p>
+<div class="codehilite"><pre><span></span>q = [1, 0]
+K = [[1, 0], [0, 1]]
+V = [[2, 0], [0, 4]]
+raw scores       = [1, 0]
+scaled scores    = [0.70710678, 0]
+softmax weights  = [0.66976155, 0.33023845]
+weighted output  = [1.33952310, 1.32095380]
+
+If key 2 is blocked:
+additive mask    = [0, -infinity]       BEFORE softmax
+masked scores    = [0.70710678, -infinity]
+attention weights= [1, 0]              AFTER softmax
+weighted output  = [2, 0]
+</pre></div>
+<div class="codehilite"><pre><span></span>position:          0      1      2      3
+decoder input:    BOS     I     love    AI
+next-token label:  I     love    AI    EOS
+
+Additive causal mask BEFORE softmax:
+[ 0, -inf, -inf, -inf ]
+[ 0,    0, -inf, -inf ]
+[ 0,    0,    0, -inf ]
+[ 0,    0,    0,    0 ]
+
+At input position 1, I predicts love.
+Input position 2 already contains love, so it must be hidden from position 1.
+</pre></div>
+<div class="codehilite"><pre><span></span>Distinct dimensions: B=2,H=3,T=5,S=7,d_k=4,d_v=6
+Q:       [2,3,5,4]
+K:       [2,3,7,4]
+V:       [2,3,7,6]
+scores:  [2,3,5,7]
+output:  [2,3,5,6]
+softmax over the last axis: 7 keys for each query.
+</pre></div>
+<div class="codehilite"><pre><span></span>Two-symbol tree; ties choose X before Y; beam width=3; no length penalty:
+p(A)=0.6, p(B)=0.4
+p(X|A)=0.5, p(Y|A)=0.5  -&gt; AX=.30, AY=.30
+p(X|B)=1.0, p(Y|B)=0.0  -&gt; BX=.40, BY=.00
+Greedy AX=.30. Beam-3 BX=.40. Equal output length is fixed at two here.
+</pre></div>
+<h2 id="questions-to-prepare-for-the-separate-15-minute-qa">Questions to prepare for the separate 15-minute Q&amp;A</h2>
+<table>
+<thead>
+<tr>
+<th>Likely question</th>
+<th>Concise defensible answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why separate Q, K and V?</td>
+<td>Q/K compare relevance in a learned comparison space. V supplies the information to aggregate. Their parameters can learn different transformations.</td>
+</tr>
+<tr>
+<td>What changes when dimensions grow?</td>
+<td>Under simple variance assumptions dot products grow in spread; scaling by √d_k moderates this before softmax. Real activation distributions need not satisfy the assumptions exactly.</td>
+</tr>
+<tr>
+<td>Is attention the next-token distribution?</td>
+<td>No. Attention weights range over key positions. The vocabulary projection and its softmax produce next-token probabilities.</td>
+</tr>
+<tr>
+<td>Why both mask and shift?</td>
+<td>Shift selects the next-token label. Mask limits which input positions may contribute to its prediction.</td>
+</tr>
+<tr>
+<td>Why allow the diagonal of the causal mask?</td>
+<td>Input at position t is the previous token relative to the label at t. The current input is already known and may be used to predict the next token.</td>
+</tr>
+<tr>
+<td>What if every key in a row is masked?</td>
+<td>Ordinary softmax over all −∞ is undefined. Our exercise API chooses zero output/weights and tests gradients; an explicit rejection policy can also be valid.</td>
+</tr>
+<tr>
+<td>Is ignoring PAD in CE enough?</td>
+<td>It removes padded targets from loss. It does not prevent attention to padding keys; those require an attention mask. The optional fixed-length glyph model is not evidence of arbitrary variable-length support.</td>
+</tr>
+<tr>
+<td>Can a causal model use order without position embeddings?</td>
+<td>The fixed causal visibility pattern already provides order-related asymmetry; explicit positional methods add direct information. An unmasked no-position layer has a different symmetry.</td>
+</tr>
+<tr>
+<td>Why do we call teacher-forced training parallel?</td>
+<td>Different output positions can be computed together with the correct prefix tokens and mask. It still performs substantial attention work; generation must select successive output tokens.</td>
+</tr>
+<tr>
+<td>Does a cache make the model more accurate?</td>
+<td>A correct cache should reproduce the uncached computation within tolerance while reusing previous keys/values. It is an implementation optimisation; measure runtime rather than promising a gain.</td>
+</tr>
+<tr>
+<td>Does a wider beam always help?</td>
+<td>No. It can improve the model score found, but finite search and model/task mismatch remain. Compare declared metrics on exactly the same examples.</td>
+</tr>
+<tr>
+<td>Why a trivial template baseline?</td>
+<td>It reveals what the toy task actually requires. If known-template matching solves it, high Transformer accuracy does not establish an autoregressive advantage or real OCR validity.</td>
+</tr>
+<tr>
+<td>What is the first research step?</td>
+<td>Agree a narrow question with the advising lecturer, define legal data and splits, establish a baseline, freeze the test and record errors and limitations.</td>
+</tr>
+<tr>
+<td>Can this lecture prove you teach effectively?</td>
+<td>It provides goals, worked examples, checks and feedback. A timed rehearsal and observed student explanations provide evidence of delivery and comprehension.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rehearsal-record-complete-after-delivery">Rehearsal record — complete after delivery</h2>
+<p>Record actual start/end times for slides 5, 7, 8, 12 and 14. Ask a listener to explain a fresh rectangular shape and an unseen mask/shift example. Write the listener's answer and the feedback you gave. Record what you shortened and whether the lecture ended at 30 minutes. Leave this record unfilled until a human rehearsal occurs.</p>
+<p>Verified primary references: <a href="https://arxiv.org/html/1706.03762v7">Attention Is All You Need</a> and <a href="https://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer</a>. The presentation's toy numbers and calculation cards are derived examples; they are not publication performance claims.</p>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>
