@@ -1,6 +1,6 @@
 # Feature Specification: Align VGU rehearsal materials and visible notebook results
 
-**Feature Branch**: None; a standalone materials project, no branch changes.
+**Feature Branch**: `codex/vgu-rehearsal-2026-11-04`; repository edition under `vgu-rehearsal/`, with main preserved.
 **Created**: 2026-11-04
 **Status**: Specified
 **Input**: The user cannot see notebook outputs and requests use of the local GitHub Spec Kit to fulfill interview and teaching requirements so rehearsal can begin.

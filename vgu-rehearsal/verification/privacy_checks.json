@@ -1,7 +1,7 @@
 {
   "status": "pass",
   "scope": "Exact lean repository candidate snapshot; independent content and hidden-metadata inspection.",
-  "candidate_file_count": 235,
+  "candidate_file_count": 238,
   "relative_filenames": [
     ".agents/skills/speckit-analyze/SKILL.md",
     ".agents/skills/speckit-checklist/SKILL.md",
@@ -68,6 +68,7 @@
     "scripts/render_decks.py",
     "scripts/render_docs.py",
     "scripts/run_notebooks.py",
+    "scripts/serve_docs.py",
     "scripts/setup_environment.sh",
     "site/.specify/memory/constitution.html",
     "site/.specify/memory/constitution.md",
@@ -233,15 +234,17 @@
     "verification/cache_benchmark.json",
     "verification/document_browser_build.json",
     "verification/document_browser_checks.json",
+    "verification/github_upload.json",
     "verification/glyph_experiment.json",
     "verification/glyph_training_losses.json",
     "verification/notebook_execution.json",
     "verification/privacy_checks.json",
+    "verification/reader_checks.json",
     "verification/slides_layout.json"
   ],
   "counts": {
-    "files": 235,
-    "text_files": 171,
+    "files": 238,
+    "text_files": 174,
     "notebook_files": 12,
     "other_binary_files": 60,
     "embedded_data_objects": 2,

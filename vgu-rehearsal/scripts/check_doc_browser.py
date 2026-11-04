@@ -8,13 +8,13 @@ from pathlib import Path
 from urllib.parse import urljoin,urlsplit,unquote,quote
 from urllib.request import urlopen,Request
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
-import hashlib,json,re,threading
+import hashlib,json,os,re,threading
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'site'
-CAPTURES=ROOT/'.runtime/browser-captures'
+CAPTURES=Path(os.environ.get('REHEARSAL_BROWSER_CAPTURE_DIR',str(ROOT/'.runtime/browser-captures')))
 CAPTURES.mkdir(parents=True,exist_ok=True)
 
 def rel(path):return Path(path).resolve().relative_to(ROOT).as_posix()

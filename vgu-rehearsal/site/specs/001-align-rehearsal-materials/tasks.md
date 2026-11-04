@@ -47,5 +47,5 @@ Complete the original visible-output interaction as local authoring work. Delive
 ## Phase 8: User-requested browser rendering and repository delivery
 - [x] T021 [US4] Render this edition’s linked guides and Markdown in site/ using scripts/render_docs.py; earlier export repairs remain local authoring history (FR-016).
 - [x] T022 [US4] Verify HTTP links, local math assets and actual browser rendering in verification/document_browser_checks.json (FR-016,FR-013).
-- [ ] T023 [US4] Deliver the reviewed package to the user-selected repository branch and verify remote contents after the repository operation is authorized (FR-017).
-- [ ] T024 Update the aggregate export check summary for browser and repository delivery outcomes (FR-009,FR-016,FR-017).
+- [x] T023 [US4] Deliver the initial reviewed package to the user-selected repository branch and verify its remote contents; the reference snapshot is recorded in verification/github_upload.json (FR-017). Later reader changes require their own readback.
+- [x] T024 Update the aggregate export check summary for the verified initial browser/repository snapshot and preserve the separate pending status of later reader changes (FR-009,FR-016,FR-017).

@@ -1,4 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Start rehearsal here</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="START_HERE.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="start-rehearsal-here">Start rehearsal here</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Start rehearsal here</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="START_HERE.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="start-rehearsal-here">Start rehearsal here</h1>
+<p>Repository branch: <a href="https://github.com/tuanngocfun/agent/tree/codex/vgu-rehearsal-2026-11-04">codex/vgu-rehearsal-2026-11-04</a>.</p>
 <p>This repository package contains a 30-minute Bachelor-level introduction to sequence generation
 with Transformers, a separate 20-minute research-orientation talk, four worked notebooks and
 independent learner exercises. The scripts include explanations, questions, feedback and an
@@ -63,4 +64,12 @@ debugging practice. The <a href="interview/SUBMISSION_CHECKLIST.html">generic pr
 unchecked until the presenter performs each action.</p>
 <p>The original private evidence collection, application records and machine-specific provenance
 audit are not included. This package makes no claim that a clone reproduces that broader audit.</p>
+<h2 id="read-md-links-as-formatted-pages">Read <code>.md</code> links as formatted pages</h2>
+<p>For browser reading, start the standard-library document server from this package:</p>
+<div class="codehilite"><pre><span></span>python3<span class="w"> </span>scripts/serve_docs.py
+</pre></div>
+<p>Open <code>http://127.0.0.1:8766/site/index.html</code>. A <code>.md</code> request redirects to its rendered
+HTML so mathematics, tables and code remain readable. Use <code>?raw=1</code> or the source-download
+button for raw Markdown. See <a href="BROWSER_README.html">the browser guide</a> for an optional wider
+reading root when opening older exported URLs.</p>
 <footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

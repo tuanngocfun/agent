@@ -1,6 +1,6 @@
 # Implementation Plan: VGU rehearsal alignment
 
-**Branch**: no Git branch change | **Date**: 2026-11-04 | **Spec**: [spec.md](spec.md)
+**Branch**: `codex/vgu-rehearsal-2026-11-04` | **Date**: 2026-11-04 | **Spec**: [spec.md](spec.md)
 **Input**: specs/001-align-rehearsal-materials/spec.md
 
 ## Summary

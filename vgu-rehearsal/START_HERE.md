@@ -1,5 +1,7 @@
 # Start rehearsal here
 
+Repository branch: [codex/vgu-rehearsal-2026-11-04](https://github.com/tuanngocfun/agent/tree/codex/vgu-rehearsal-2026-11-04).
+
 This repository package contains a 30-minute Bachelor-level introduction to sequence generation
 with Transformers, a separate 20-minute research-orientation talk, four worked notebooks and
 independent learner exercises. The scripts include explanations, questions, feedback and an
@@ -82,3 +84,16 @@ unchecked until the presenter performs each action.
 
 The original private evidence collection, application records and machine-specific provenance
 audit are not included. This package makes no claim that a clone reproduces that broader audit.
+
+## Read `.md` links as formatted pages
+
+For browser reading, start the standard-library document server from this package:
+
+```bash
+python3 scripts/serve_docs.py
+```
+
+Open `http://127.0.0.1:8766/site/index.html`. A `.md` request redirects to its rendered
+HTML so mathematics, tables and code remain readable. Use `?raw=1` or the source-download
+button for raw Markdown. See [the browser guide](BROWSER_README.md) for an optional wider
+reading root when opening older exported URLs.

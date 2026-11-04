@@ -20,7 +20,7 @@ from pygments.lexers import get_lexer_by_name, TextLexer
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT/'site'
 KATEX_VERSION='0.19.1'
-TOOLS=ROOT/'.tooling/katex'
+TOOLS=Path(os.environ.get('REHEARSAL_KATEX_DIR',str(ROOT/'.tooling/katex')))
 PORTABLE_REFERENCE=ROOT/'reference/legacy_teaching_pack'
 OLD_PACK=PORTABLE_REFERENCE
 LEGACY_NAMES=['INSTRUCTOR_FULLY_WORKED_SOLUTIONS.md','STUDENT_ASSIGNMENT_HANDOUT.md','LECTURE_AND_SOURCE_LINKS.md']
@@ -211,7 +211,7 @@ def shell(title,body,page,assets_root=SITE,home=None,download=None,notice=''):
     nav=f'<a href="{href_to(home,page)}">Rehearsal browser</a>'
     if assets_root==SITE:
         nav+=f'<a href="{href_to(SITE/"teaching/LECTURE_SCRIPT.html",page)}">Lecture</a><a href="{href_to(SITE/"research/RESEARCH_SCRIPT.html",page)}">Research</a><a href="{href_to(SITE/"notebooks/index.html",page)}">Worked notebooks</a>'
-    download_html=f'<p class="download meta"><a href="{href_to(download,page)}" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p>' if download else ''
+    download_html=f'<p class="download meta"><a href="{href_to(download,page)+("?raw=1" if download.suffix.lower()==".md" else "")}" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p>' if download else ''
     return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><link rel="stylesheet" href="{css}"><link rel="stylesheet" href="{katex}"></head><body><header>{nav}</header><main>{notice}{download_html}{body}<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX {KATEX_VERSION}; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>'
 
 

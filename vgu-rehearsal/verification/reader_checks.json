@@ -1,0 +1,521 @@
+{
+  "status": "pass",
+  "checks_count": 72,
+  "failed_tests": 0,
+  "tests": [
+    {
+      "name": "canonical_and_export_reader_source_identical",
+      "status": "pass",
+      "reader_sha256": "e5574aee55a7de1212204aa77ea7eb8b8b62777cd9a3d831035e6c6a0648c0a9"
+    },
+    {
+      "name": "canonical_markdown_redirect_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "canonical_rendered_html_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "canonical_raw_source_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "canonical_markdown_redirect_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "canonical_rendered_html_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "canonical_raw_source_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "canonical_root_reading_index",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "canonical_relative_css_asset",
+      "status": "pass",
+      "asset_http_status": 200
+    },
+    {
+      "name": "export_markdown_redirect_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "export_rendered_html_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "export_raw_source_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "export_markdown_redirect_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "export_rendered_html_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "export_raw_source_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "export_root_reading_index",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "export_relative_css_asset",
+      "status": "pass",
+      "asset_http_status": 200
+    },
+    {
+      "name": "exact_legacy_guide_redirect_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "exact_legacy_guide_html_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "exact_legacy_guide_raw_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "exact_legacy_guide_redirect_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "exact_legacy_guide_html_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "html_mime": true
+    },
+    {
+      "name": "exact_legacy_guide_raw_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "custom_root_index_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "public_specify_license_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200
+    },
+    {
+      "name": "encoded_spaces_unicode_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "encoded_spaces_raw_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "package_site_mapping_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "missing_html_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_parent_traversal_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_double_encoded_traversal_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_backslash_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_nul_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_file_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_rendered_html_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_directory_index_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_file_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_credentials_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_agents_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_directory_listing_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_absolute_request_target_GET",
+      "status": "pass",
+      "method": "GET",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "custom_root_index_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "public_specify_license_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200
+    },
+    {
+      "name": "encoded_spaces_unicode_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "encoded_spaces_raw_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 200,
+      "utf8_mime": true,
+      "source_matches": true
+    },
+    {
+      "name": "package_site_mapping_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 302,
+      "rendered_target_correct": true
+    },
+    {
+      "name": "missing_html_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_parent_traversal_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_double_encoded_traversal_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_backslash_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_nul_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_file_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_rendered_html_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_symlink_directory_index_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_file_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_credentials_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_hidden_agents_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 403,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_directory_listing_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 404,
+      "outside_content_absent": true
+    },
+    {
+      "name": "confinement_absolute_request_target_HEAD",
+      "status": "pass",
+      "method": "HEAD",
+      "http_status": 400,
+      "outside_content_absent": true
+    },
+    {
+      "name": "browser_legacy_redirect_fragment",
+      "status": "pass",
+      "html_route": true,
+      "fragment_retained": true
+    },
+    {
+      "name": "browser_legacy_tables_code_math",
+      "status": "pass",
+      "tables": 4,
+      "code_blocks": 8,
+      "math_equations": 351,
+      "math_errors": 0
+    },
+    {
+      "name": "browser_legacy_offline_fonts_assets",
+      "status": "pass",
+      "page_errors": 0,
+      "external_requests": 0,
+      "font_responses": 8,
+      "fonts_loaded": true,
+      "body_overflow_px": 0
+    },
+    {
+      "name": "browser_legacy_raw_source_button",
+      "status": "pass",
+      "raw_source_link_present": true
+    },
+    {
+      "name": "browser_export_guide_redirect_fragment",
+      "status": "pass",
+      "html_route": true,
+      "fragment_retained": true
+    },
+    {
+      "name": "browser_export_guide_tables_code_math",
+      "status": "pass",
+      "tables": 4,
+      "code_blocks": 8,
+      "math_equations": 351,
+      "math_errors": 0
+    },
+    {
+      "name": "browser_export_guide_offline_fonts_assets",
+      "status": "pass",
+      "page_errors": 0,
+      "external_requests": 0,
+      "font_responses": 8,
+      "fonts_loaded": true,
+      "body_overflow_px": 0
+    },
+    {
+      "name": "browser_export_guide_raw_source_button",
+      "status": "pass",
+      "raw_source_link_present": true
+    },
+    {
+      "name": "browser_canonical_lecture_redirect_fragment",
+      "status": "pass",
+      "html_route": true,
+      "fragment_retained": true
+    },
+    {
+      "name": "browser_canonical_lecture_tables_code_math",
+      "status": "pass",
+      "tables": 2,
+      "code_blocks": 4,
+      "math_equations": 0,
+      "math_errors": 0
+    },
+    {
+      "name": "browser_canonical_lecture_offline_fonts_assets",
+      "status": "pass",
+      "page_errors": 0,
+      "external_requests": 0,
+      "font_responses": 0,
+      "fonts_loaded": true,
+      "body_overflow_px": 0
+    },
+    {
+      "name": "browser_canonical_lecture_raw_source_button",
+      "status": "pass",
+      "raw_source_link_present": true
+    },
+    {
+      "name": "browser_encoded_spaces_fragment_inheritance",
+      "status": "pass",
+      "fragment_retained": true,
+      "unicode_space_route": true
+    }
+  ],
+  "reader_sha256": "e5574aee55a7de1212204aa77ea7eb8b8b62777cd9a3d831035e6c6a0648c0a9",
+  "scope": "Actual loopback HTTP and browser checks of canonical and repository readers; disposable boundary fixtures; no notebook execution.",
+  "screenshots": [
+    "reader_exact_legacy_guide.png",
+    "reader_export_guide.png",
+    "reader_export_math.png"
+  ],
+  "limits": [
+    "No human presentation or comprehension is certified.",
+    "Detailed local routes and screenshots remain outside the publication directory."
+  ]
+}

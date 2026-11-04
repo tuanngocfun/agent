@@ -1,0 +1,18 @@
+{
+  "repository": "tuanngocfun/agent",
+  "branch": "codex/vgu-rehearsal-2026-11-04",
+  "prefix": "vgu-rehearsal/",
+  "commit_sha": "df8039271e97774be63f5986284a5e1b9bf5e17d",
+  "tree_sha": "667617fa643a204bc784eb772e664883feed0fcf",
+  "remote_tree_verified": true,
+  "files_verified": 236,
+  "package_files": 235,
+  "main_before": "49155c691f8f3d7201721af3101a39ab4c516b0b",
+  "main_after": "49155c691f8f3d7201721af3101a39ab4c516b0b",
+  "private_repository_verified": true,
+  "url": "https://github.com/tuanngocfun/agent/tree/codex/vgu-rehearsal-2026-11-04",
+  "verified_at_utc": "2026-11-04T19:49:03.152109+00:00",
+  "record_kind": "Reference record of the initial verified repository snapshot",
+  "scope": "The initial reviewed package and repository navigation were remotely verified. This record does not claim that later local reader/document changes have already been uploaded.",
+  "subsequent_reader_update": "Pending its own commit and remote readback."
+}

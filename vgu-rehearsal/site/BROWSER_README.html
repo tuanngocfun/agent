@@ -1,9 +1,9 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the materials in a browser</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="BROWSER_README.md" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="read-the-materials-in-a-browser">Read the materials in a browser</h1>
-<p>Open <a href="index.html">site/index.html</a> with Live Server or directly in a browser. It provides
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the materials in a browser</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="BROWSER_README.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="read-the-materials-in-a-browser">Read the materials in a browser</h1>
+<p>Open <a href="index.html">site/index.html</a> directly in a browser, or use the reading server below. It provides
 rendered lecture/research scripts, technical prompts and saved notebook outputs. Tables, code,
 equations and fonts are bundled for offline reading.</p>
 <p>From the package directory, you can also start a loopback-only server:</p>
-<div class="codehilite"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8766</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">127</span>.0.0.1
+<div class="codehilite"><pre><span></span>python3<span class="w"> </span>scripts/serve_docs.py
 </pre></div>
 <p>Open <code>http://127.0.0.1:8766/site/index.html</code>. Keep the full package together so links to PDFs,
 PowerPoint files, notebooks and local assets continue to work. Use HTML links for reading;
@@ -34,4 +34,15 @@ browser runtime; that is separate from reading the already generated pages.</p>
 <p>No private application records, contact instructions, private evidence filenames or original
 machine audit are part of this export. Administrative arrangements and any submission remain
 the presenter's own actions.</p>
+<h2 id="read-markdown-as-formatted-documents">Read Markdown as formatted documents</h2>
+<p>Use <code>python3 scripts/serve_docs.py</code> for HackMD-style reading. Open
+<code>http://127.0.0.1:8766/site/index.html</code>. Requests ending in <code>.md</code> redirect to the
+matching rendered HTML, so equations, tables, code and relative assets display correctly.
+Add <code>?raw=1</code> when you want the original Markdown text; source-download buttons use that query.</p>
+<p>The server uses only Python’s standard library and binds to <code>127.0.0.1</code>. It serves this package
+by default. For an older exported URL beneath a wider folder, pass <code>--root &lt;reading-root&gt;</code> and
+keep the URL path relative to that root. A Markdown file in an existing HTML export opens its
+sibling HTML page. Requests outside the chosen root and symlink escapes are refused.</p>
+<p>If a Markdown page has no rendered counterpart, the server explains how to open the reading
+index or request raw source. Rebuild the pages after editing documents. Press Ctrl+C to stop.</p>
 <footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

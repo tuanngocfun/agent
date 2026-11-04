@@ -1,12 +1,12 @@
 {
   "policy": "Standalone loopback HTTP, offline file viewing, blocked external browser requests and package-relative evidence; no notebook execution or modification. Screenshots are retained locally outside the distributed artifact.",
   "html_pages_checked": 43,
-  "unique_internal_http_targets": 135,
+  "unique_internal_http_targets": 157,
   "http_errors": [],
   "fragment_errors": [],
   "absolute_navigation_paths": [],
   "renamed_package_check": {
-    "unique_internal_http_targets": 135,
+    "unique_internal_http_targets": 157,
     "http_errors": [],
     "links_escaping_package": [],
     "fragment_errors": [],
@@ -123,8 +123,8 @@
     },
     {
       "path": "BROWSER_README.md",
-      "sha256": "9ec90bca2cd862639a70cdbf5966f651a58559ca25b597cf5222126201bb589e",
-      "rendered_source_sha256": "9ec90bca2cd862639a70cdbf5966f651a58559ca25b597cf5222126201bb589e",
+      "sha256": "20a74ae850ced3d731dfebabc8188cbbbc602113aed0821351795add3b599900",
+      "rendered_source_sha256": "20a74ae850ced3d731dfebabc8188cbbbc602113aed0821351795add3b599900",
       "matches_rendered_source": true
     },
     {
@@ -135,8 +135,8 @@
     },
     {
       "path": "START_HERE.md",
-      "sha256": "f91b85eecd645442a55bf4e8c6f24595cc901dc75c67a6571d2f760ecb02e0a4",
-      "rendered_source_sha256": "f91b85eecd645442a55bf4e8c6f24595cc901dc75c67a6571d2f760ecb02e0a4",
+      "sha256": "5cebd77aa2c246974d6e25ef6c2bb95969ce2114b70098c43ea1b1098dc8c92f",
+      "rendered_source_sha256": "5cebd77aa2c246974d6e25ef6c2bb95969ce2114b70098c43ea1b1098dc8c92f",
       "matches_rendered_source": true
     },
     {
@@ -189,8 +189,8 @@
     },
     {
       "path": "specs/001-align-rehearsal-materials/plan.md",
-      "sha256": "149161c7486448291b31f59a36a98b8de4501fc58930432e508aa25ff84c0cf1",
-      "rendered_source_sha256": "149161c7486448291b31f59a36a98b8de4501fc58930432e508aa25ff84c0cf1",
+      "sha256": "928c940347c60e2c214efe61007b5112775ca2f5284857a6650d39184a00a625",
+      "rendered_source_sha256": "928c940347c60e2c214efe61007b5112775ca2f5284857a6650d39184a00a625",
       "matches_rendered_source": true
     },
     {
@@ -207,14 +207,14 @@
     },
     {
       "path": "specs/001-align-rehearsal-materials/spec.md",
-      "sha256": "561650ec1400056d65f8162c9134d54022f1e14b4e9e6bb3283c7794f0ae6467",
-      "rendered_source_sha256": "561650ec1400056d65f8162c9134d54022f1e14b4e9e6bb3283c7794f0ae6467",
+      "sha256": "bb79d37097cb32d748d27d375ed47cd5811cf741a3800692bdb80c39d9f96787",
+      "rendered_source_sha256": "bb79d37097cb32d748d27d375ed47cd5811cf741a3800692bdb80c39d9f96787",
       "matches_rendered_source": true
     },
     {
       "path": "specs/001-align-rehearsal-materials/tasks.md",
-      "sha256": "30f8a04ed6e8d93692caeb437d90c57cde6b241c2a459ca4eaa2b86428c6e7b2",
-      "rendered_source_sha256": "30f8a04ed6e8d93692caeb437d90c57cde6b241c2a459ca4eaa2b86428c6e7b2",
+      "sha256": "313e740d9bde5512c64b3bf82f2fa70b4f26946531f9667872f90f7ee4bac956",
+      "rendered_source_sha256": "313e740d9bde5512c64b3bf82f2fa70b4f26946531f9667872f90f7ee4bac956",
       "matches_rendered_source": true
     },
     {
@@ -243,8 +243,8 @@
     },
     {
       "path": "verification/EXPORT_CHECKS.md",
-      "sha256": "7c3aa113588fbdb4392fceaa7ee2a9c7f5c1e428190c2ad598372a72f38d2206",
-      "rendered_source_sha256": "7c3aa113588fbdb4392fceaa7ee2a9c7f5c1e428190c2ad598372a72f38d2206",
+      "sha256": "356ca1f7237804ac2eb01e71ea4e237393c9fec5107126e605b00827d8d6536f",
+      "rendered_source_sha256": "356ca1f7237804ac2eb01e71ea4e237393c9fec5107126e605b00827d8d6536f",
       "matches_rendered_source": true
     },
     {

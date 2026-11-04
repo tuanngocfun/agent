@@ -1,13 +1,13 @@
 # Read the materials in a browser
 
-Open [site/index.html](site/index.html) with Live Server or directly in a browser. It provides
+Open [site/index.html](site/index.html) directly in a browser, or use the reading server below. It provides
 rendered lecture/research scripts, technical prompts and saved notebook outputs. Tables, code,
 equations and fonts are bundled for offline reading.
 
 From the package directory, you can also start a loopback-only server:
 
 ```bash
-python3 -m http.server 8766 --bind 127.0.0.1
+python3 scripts/serve_docs.py
 ```
 
 Open `http://127.0.0.1:8766/site/index.html`. Keep the full package together so links to PDFs,
@@ -53,3 +53,18 @@ browser runtime; that is separate from reading the already generated pages.
 No private application records, contact instructions, private evidence filenames or original
 machine audit are part of this export. Administrative arrangements and any submission remain
 the presenter's own actions.
+
+## Read Markdown as formatted documents
+
+Use `python3 scripts/serve_docs.py` for HackMD-style reading. Open
+`http://127.0.0.1:8766/site/index.html`. Requests ending in `.md` redirect to the
+matching rendered HTML, so equations, tables, code and relative assets display correctly.
+Add `?raw=1` when you want the original Markdown text; source-download buttons use that query.
+
+The server uses only Python’s standard library and binds to `127.0.0.1`. It serves this package
+by default. For an older exported URL beneath a wider folder, pass `--root <reading-root>` and
+keep the URL path relative to that root. A Markdown file in an existing HTML export opens its
+sibling HTML page. Requests outside the chosen root and symlink escapes are refused.
+
+If a Markdown page has no rendered counterpart, the server explains how to open the reading
+index or request raw source. Rebuild the pages after editing documents. Press Ctrl+C to stop.
