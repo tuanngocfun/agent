@@ -1,14 +1,36 @@
 {
+  "timestamp_utc": "2026-11-05T07:19:59.836483+00:00",
   "python_executable": ".venv/bin/python",
   "python_version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
-  "policy": "Fresh independent kernel per instructor notebook; allow_errors=False; original code preserved; outputs saved at linked original canonical paths; student exercises excluded and incomplete.",
+  "run_status": "pass",
+  "policy": "Every .ipynb recursively under notebooks/; fresh independent kernel in each notebook parent; allow_errors=False; force_raise_errors=True; allow_error_names=[]; raises-exception and skip-execution tags forbidden. Source code is unchanged during execution. All examples, including legacy Student filenames, must complete; blank practice is Markdown only.",
+  "discovered_notebooks": [
+    "notebooks/01_Core_Attention_Worked.ipynb",
+    "notebooks/02_Training_and_Generation_Worked.ipynb",
+    "notebooks/03_Optional_Systems_Worked.ipynb",
+    "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+    "notebooks/Tier1_Instructor.ipynb",
+    "notebooks/Tier2_Instructor.ipynb",
+    "notebooks/student_exercises/Tier1_Student.ipynb",
+    "notebooks/student_exercises/Tier2_Student.ipynb"
+  ],
   "notebooks": [
     {
       "path": "notebooks/01_Core_Attention_Worked.ipynb",
+      "relative_path": "notebooks/01_Core_Attention_Worked.ipynb",
+      "role": "provided_worked_example",
       "status": "pass",
       "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
       "sha256_before": "08c9eb85fac3e7386f691ccc0ddc9b93847d2727d4714a0d396cdf2e1df3a98d",
-      "sha256_after": "7aeb343061bab16790f15d2de23aef906fa30d18282a7e91b1774c7bd777ce50",
+      "sha256_after": "8bbebf2291e050f83fbcb16497f874bcf207ca030274a2830b7dc85a3473a3e0",
+      "code_sha256_before": "1a6d3a6474948b303be25095697e3f10e90d28627f4cbc8771e4dd5a383f26fb",
+      "code_sha256_after": "1a6d3a6474948b303be25095697e3f10e90d28627f4cbc8771e4dd5a383f26fb",
       "code_unchanged": true,
       "saved_outputs_verified": true,
       "code_cells": 6,
@@ -16,12 +38,14 @@
       "output_count": 7,
       "image_output_count": 1,
       "errors": null,
-      "elapsed_s": 5.535,
+      "elapsed_s": 4.811,
       "per_cell": [
         {
           "cell_index": 1,
           "execution_count": 1,
+          "source_sha256": "7c3080c3a3ac36d50756a594e8abd3af96052828b877783f305b150964523627",
           "output_count": 1,
+          "outputs_sha256": "81ca62253eb02bee221b36cc382196037e2f487ad70ba9eead622770d1925f55",
           "output_types": [
             "stream"
           ],
@@ -29,12 +53,15 @@
           "text_outputs": [
             "PyTorch: 2.10.0+cpu | device: CPU | threads: 1\nActual imported source: src/vgu_transformers.py\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 3,
           "execution_count": 2,
+          "source_sha256": "da2f9eafe8b59a28eb20ebfd60a14d447663d6186268475812ae2b14387cb7f5",
           "output_count": 1,
+          "outputs_sha256": "d94338dba8a63679bc4851c4e0067ba6e3b320f31ea5b0bbde6ea026b569a2ac",
           "output_types": [
             "stream"
           ],
@@ -42,12 +69,15 @@
           "text_outputs": [
             "tokens: ['BOS', 'I', 'love', 'AI', 'EOS']\nIDs: [[4, 0, 1, 2, 5]] shape: (1, 5)\nembedding shape [batch, token position, features]: (1, 5, 4)\nfirst two embedding vectors (random initialization):\n tensor([[ 1.9437,  0.9387,  0.2648, -0.8008],\n        [-1.0674, -0.7172,  1.0897, -1.5747]])\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 5,
           "execution_count": 3,
+          "source_sha256": "25122daf9bd63664272c5cdc3557791c7a80aaa7799bfc0c5edcf7a8e3a293a4",
           "output_count": 1,
+          "outputs_sha256": "07b20aa6cb5c33acd3a0df91342241ccaae96777b050b2fa581c7364aab0afd4",
           "output_types": [
             "stream"
           ],
@@ -55,12 +85,15 @@
           "text_outputs": [
             "scaled scores: [[0.7071067690849304, 0.0]]\nweights: [[0.6697615385055542, 0.3302384614944458]] row sum: [1.0]\nweighted value: [[1.3395230770111084, 1.3209538459777832]]\nFour-decimal teaching answer: [1.3395, 1.321]\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 7,
           "execution_count": 4,
+          "source_sha256": "3dfbc8002cd15aca70edf0cc6b42f0692bf63658b2620fdfc6a78511ef3d991a",
           "output_count": 1,
+          "outputs_sha256": "232bb1bc7cb326727d4832f01016456ed0ff4ed0b5e2e6bb38d1af7026723752",
           "output_types": [
             "stream"
           ],
@@ -68,12 +101,15 @@
           "text_outputs": [
             "Q, K, V: (2, 3, 5, 4) (2, 3, 7, 4) (2, 3, 7, 6)\nweights: (2, 3, 5, 7) output: (2, 3, 5, 6)\nconcatenated heads: (2, 5, 18) output projection: (2, 5, 12)\nMaximum manual-vs-PyTorch difference: 2.384185791015625e-07\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 9,
           "execution_count": 5,
+          "source_sha256": "bd6b5ca8ad0f0b5e1b49906f4f21fb0163764a714068b04104774167f89ca75e",
           "output_count": 2,
+          "outputs_sha256": "d8baea511571450ac96b7d6ad94aed702121d51b81cbb7672c0dfa113ddcf548",
           "output_types": [
             "stream",
             "display_data"
@@ -82,12 +118,15 @@
           "text_outputs": [
             "Additive mask (0 allowed; -inf forbidden):\n tensor([[0., -inf, -inf, -inf],\n        [0., 0., -inf, -inf],\n        [0., 0., 0., -inf],\n        [0., 0., 0., 0.]])\nSoftmax weights:\n tensor([[1.0000, 0.0000, 0.0000, 0.0000],\n        [0.5000, 0.5000, 0.0000, 0.0000],\n        [0.3333, 0.3333, 0.3333, 0.0000],\n        [0.2500, 0.2500, 0.2500, 0.2500]])\nWeight row sums: [1.0, 1.0, 1.0, 1.0]\n"
           ],
-          "image_output_count": 1
+          "image_output_count": 1,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 11,
           "execution_count": 6,
+          "source_sha256": "5508aa4bdeed4547aa224381da6123a4a3bc74f36b694d5c2c3ef5c7899a3c9b",
           "output_count": 1,
+          "outputs_sha256": "8d0a25af47e7de696383a1d6b815699d0118751655c3df54edcae96c47b93cfa",
           "output_types": [
             "stream"
           ],
@@ -95,16 +134,27 @@
           "text_outputs": [
             "decoder inputs: [[4, 0, 1, 2]] labels: [[0, 1, 2, 5]]\nprobabilities: [[[0.5, 0.25, 0.25]]]\ncross-entropy (nats/token): 1.3862943649291992 perplexity: 4.0\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         }
       ]
     },
     {
       "path": "notebooks/02_Training_and_Generation_Worked.ipynb",
+      "relative_path": "notebooks/02_Training_and_Generation_Worked.ipynb",
+      "role": "provided_worked_example",
       "status": "pass",
       "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
       "sha256_before": "363611591846b90ae8996f6f8fe24961e852c4a0c0c79d0ea89828590e68c1d5",
-      "sha256_after": "5b6cc704901cadb7b12419eaf84d1c1f648576b24f4557e782afa3bce220eb6d",
+      "sha256_after": "9163e29d86ab19627d6e75e8984f23f688df63b15c7fba0ef4631511b86dbd1b",
+      "code_sha256_before": "710448bd8a877240a8b1b882f002996644b2b5ec70a979f30f4f93b5a291657c",
+      "code_sha256_after": "710448bd8a877240a8b1b882f002996644b2b5ec70a979f30f4f93b5a291657c",
       "code_unchanged": true,
       "saved_outputs_verified": true,
       "code_cells": 7,
@@ -112,12 +162,14 @@
       "output_count": 7,
       "image_output_count": 0,
       "errors": null,
-      "elapsed_s": 4.033,
+      "elapsed_s": 4.308,
       "per_cell": [
         {
           "cell_index": 1,
           "execution_count": 1,
+          "source_sha256": "7c3080c3a3ac36d50756a594e8abd3af96052828b877783f305b150964523627",
           "output_count": 1,
+          "outputs_sha256": "81ca62253eb02bee221b36cc382196037e2f487ad70ba9eead622770d1925f55",
           "output_types": [
             "stream"
           ],
@@ -125,12 +177,15 @@
           "text_outputs": [
             "PyTorch: 2.10.0+cpu | device: CPU | threads: 1\nActual imported source: src/vgu_transformers.py\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 3,
           "execution_count": 2,
+          "source_sha256": "bfd80de8244fc903c8cd9af325b6bd458a1162425bb3e31ad73696acf000e405",
           "output_count": 1,
+          "outputs_sha256": "9b9174939947b2dc428044e4e32835e2ca4384c0cfd7e18b50120b3ac766e31b",
           "output_types": [
             "stream"
           ],
@@ -138,12 +193,15 @@
           "text_outputs": [
             "earlier-output max difference with causal mask: 0.0\nearlier-output max difference without mask: 99.96993255615234\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 5,
           "execution_count": 3,
+          "source_sha256": "733aa87c818bcb143cca9950a9008b248bbe64ad469cb2c04df23c226dedcc6d",
           "output_count": 1,
+          "outputs_sha256": "517cdec71619d90d79cda311e097fe039162caf74762c9c1ef8f6d74d8312b6b",
           "output_types": [
             "stream"
           ],
@@ -151,12 +209,15 @@
           "text_outputs": [
             "padding-key perturbation max difference: 0.0\nall-blocked weights sum: 0.0 output sum: 0.0 query gradient norm: 0.0\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 7,
           "execution_count": 4,
+          "source_sha256": "3d4f930db21ae4f559d28e2accfedc084e9134b0a0350988d190bcdb94cac132",
           "output_count": 1,
+          "outputs_sha256": "5e11e3ae10c97487f90f657b91688aace7e5ac57f4723ff01c3e3057ab71030f",
           "output_types": [
             "stream"
           ],
@@ -164,12 +225,15 @@
           "text_outputs": [
             "supervised tokens: 2 loss: 3.155644416809082\nignored-position loss gradient: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]\nall-ignored loss: 0.0 total gradient: 0.0\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 9,
           "execution_count": 5,
+          "source_sha256": "a253031febef3a851cb3be849fa7dd5848e9ae41337266edd1d493987c3f307b",
           "output_count": 1,
+          "outputs_sha256": "c7dcffe0d7d76b4ad20eb692595e5b054d98706b3bea16066a2d623dff9c06a2",
           "output_types": [
             "stream"
           ],
@@ -177,12 +241,15 @@
           "text_outputs": [
             "greedy tokens: ['BOS', 'A', 'X'] joint probability: 0.30000001423898903\nbeam width 3, alpha 0: ['BOS', 'B', 'X'] joint probability: 0.40000001257540685\nThe observed result disproves universal greedy sequence optimality; it does not prove beam always finds a global optimum.\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 11,
           "execution_count": 6,
+          "source_sha256": "c298fbc47395cf8273334df9524cf62366e7d6b78f979493e40a659555e90430",
           "output_count": 1,
+          "outputs_sha256": "8b4a3e67a850fc7ac9bf068a57978b8928dfaf453cca16a72caa59760e9b7dfe",
           "output_types": [
             "stream"
           ],
@@ -190,12 +257,15 @@
           "text_outputs": [
             "raw token rows: [[4, 5, 6, 6], [4, 1, 1, 5]]\nmetric token rows: [[], [1, 1]]\nInternal special-token errors remain visible: [0, 4, 6]\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 13,
           "execution_count": 7,
+          "source_sha256": "2609384552c64c7a936a9c22938d71dae78fe23f55f7fb53ee42a5547b64166d",
           "output_count": 1,
+          "outputs_sha256": "d157f94b30c3064f40e856fb9fdfd599dc39b76e9eb441a869fc258acc2b3f3d",
           "output_types": [
             "stream"
           ],
@@ -203,16 +273,27 @@
           "text_outputs": [
             "temperature: 0.5 probabilities: [0.7289, 0.2169, 0.0542] 300 sample counts: [206, 80, 14]\ntemperature: 1.0 probabilities: [0.55, 0.3, 0.15] 300 sample counts: [146, 106, 48]\ntemperature: 2.0 probabilities: [0.4423, 0.3267, 0.231] 300 sample counts: [121, 100, 79]\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         }
       ]
     },
     {
       "path": "notebooks/03_Optional_Systems_Worked.ipynb",
+      "relative_path": "notebooks/03_Optional_Systems_Worked.ipynb",
+      "role": "provided_worked_example",
       "status": "pass",
       "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
       "sha256_before": "d6ac0267ec705c4be59f7e89cf218fac3687c53588626e17b6a210e68e149e5f",
-      "sha256_after": "e4e232dadfeb1a45ea0fbf0332394eaf9fa9d849714082702d3c2d24ec8c0b60",
+      "sha256_after": "6dd479e3d16097aaedef58542522a40bf81a42241df60b9be63802fa7a05b84c",
+      "code_sha256_before": "21c2080f6adc07b5127f2953c89cde4988cbcc1af50dd8fa133010207f5f50e5",
+      "code_sha256_after": "21c2080f6adc07b5127f2953c89cde4988cbcc1af50dd8fa133010207f5f50e5",
       "code_unchanged": true,
       "saved_outputs_verified": true,
       "code_cells": 4,
@@ -220,12 +301,14 @@
       "output_count": 6,
       "image_output_count": 0,
       "errors": null,
-      "elapsed_s": 4.751,
+      "elapsed_s": 4.601,
       "per_cell": [
         {
           "cell_index": 1,
           "execution_count": 1,
+          "source_sha256": "7c3080c3a3ac36d50756a594e8abd3af96052828b877783f305b150964523627",
           "output_count": 1,
+          "outputs_sha256": "81ca62253eb02bee221b36cc382196037e2f487ad70ba9eead622770d1925f55",
           "output_types": [
             "stream"
           ],
@@ -233,12 +316,15 @@
           "text_outputs": [
             "PyTorch: 2.10.0+cpu | device: CPU | threads: 1\nActual imported source: src/vgu_transformers.py\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 3,
           "execution_count": 2,
+          "source_sha256": "1340b680ba9d3f2137f1694027f7d499e77686c5b7d207bafe3a3697ab482fc0",
           "output_count": 1,
+          "outputs_sha256": "e9005f299cbb15830c3161354691acd7a2d8d4245f2dd4c7fc1dd4a1ddb0fcfa",
           "output_types": [
             "stream"
           ],
@@ -246,12 +332,15 @@
           "text_outputs": [
             "RoPE max squared-norm difference: 1.9073486328125e-06\nrotation differs at shifted positions: 2.270735502243042\n2 new queries after 3 cached tokens use mask:\n tensor([[0., 0., 0., 0., -inf],\n        [0., 0., 0., 0., 0.]])\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 5,
           "execution_count": 3,
+          "source_sha256": "ecfad4bfa0a08e4e84a712fea088dab2433909f5ea03aff11decfed3ae107c96",
           "output_count": 1,
+          "outputs_sha256": "1b30a2a40e2fe94bb74dfba47e850d0b5f6a9bcecf9e52972ef68d86ac2b1f9f",
           "output_types": [
             "stream"
           ],
@@ -259,12 +348,15 @@
           "text_outputs": [
             "KV heads: 1 token error: 7.450580596923828e-08 chunk error: 7.450580596923828e-08 KV tensor bytes: 1152\nKV heads: 2 token error: 5.960464477539063e-08 chunk error: 5.960464477539063e-08 KV tensor bytes: 2304\nKV heads: 4 token error: 5.960464477539063e-08 chunk error: 5.960464477539063e-08 KV tensor bytes: 4608\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 7,
           "execution_count": 4,
+          "source_sha256": "ce964131b479259164e69cc2f7022d31e89454bfcf96cd35ec96d5823d3032f0",
           "output_count": 3,
+          "outputs_sha256": "aa23cda001198f0a325c302a1af4ac9cbeb2e8d06d673b20952294917ae31388",
           "output_types": [
             "stream",
             "stream",
@@ -272,20 +364,31 @@
           ],
           "errors": [],
           "text_outputs": [
-            "{\"length\": 8, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 3.4860060004575644, \"uncached_ms\": 4.766280999319861, \"uncached_over_cached\": 1.367261272268106}\n",
-            "{\"length\": 32, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 17.246220999368234, \"uncached_ms\": 16.57137199799763, \"uncached_over_cached\": 0.960869746398627}\n",
-            "{\"length\": 64, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 27.352594999683788, \"uncached_ms\": 36.250242999813054, \"uncached_over_cached\": 1.325294473896613}\nInterpret the displayed ratios by length. They are observed local timings, not a universal cache speed claim.\n"
+            "{\"length\": 8, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 3.3860480034491047, \"uncached_ms\": 3.849424989311956, \"uncached_over_cached\": 1.1368489121804668}\n",
+            "{\"length\": 32, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 13.760936999460682, \"uncached_ms\": 16.622412003926, \"uncached_over_cached\": 1.2079418723141793}\n",
+            "{\"length\": 64, \"warmup_per_path\": 1, \"repetitions\": 5, \"cached_ms\": 27.709350993973203, \"uncached_ms\": 36.84741599136032, \"uncached_over_cached\": 1.3297827148450592}\nInterpret the displayed ratios by length. They are observed local timings, not a universal cache speed claim.\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         }
       ]
     },
     {
       "path": "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+      "relative_path": "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+      "role": "provided_worked_example",
       "status": "pass",
       "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
       "sha256_before": "e70bc0eadd05db4b5d43f770820c696febdf4d121aaa565cc63839383e8db7ee",
-      "sha256_after": "52fec53ee1227c6f8d22e17cd0ac742907fe7c72f534bf99de51c5df509330c3",
+      "sha256_after": "9fd8d1b19ac7e61a9291b2027c19e4f26e618398846a55a4e61db3659c25c847",
+      "code_sha256_before": "e05dc4cb605105540db7892a1be55edeeeef23cb06d6ecbac30f8536260a92e6",
+      "code_sha256_after": "e05dc4cb605105540db7892a1be55edeeeef23cb06d6ecbac30f8536260a92e6",
       "code_unchanged": true,
       "saved_outputs_verified": true,
       "code_cells": 5,
@@ -293,12 +396,14 @@
       "output_count": 7,
       "image_output_count": 1,
       "errors": null,
-      "elapsed_s": 9.041,
+      "elapsed_s": 9.361,
       "per_cell": [
         {
           "cell_index": 1,
           "execution_count": 1,
+          "source_sha256": "7c3080c3a3ac36d50756a594e8abd3af96052828b877783f305b150964523627",
           "output_count": 1,
+          "outputs_sha256": "81ca62253eb02bee221b36cc382196037e2f487ad70ba9eead622770d1925f55",
           "output_types": [
             "stream"
           ],
@@ -306,12 +411,15 @@
           "text_outputs": [
             "PyTorch: 2.10.0+cpu | device: CPU | threads: 1\nActual imported source: src/vgu_transformers.py\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 3,
           "execution_count": 2,
+          "source_sha256": "e5fd42e86327d5f2475b5ab1d5b885eaae4580c3730afbf381a9a170d065a3b5",
           "output_count": 1,
+          "outputs_sha256": "9839e7718da3f3374eb703f29a61f11c666ecec9c4a941675848b65df5068542",
           "output_types": [
             "stream"
           ],
@@ -319,12 +427,15 @@
           "text_outputs": [
             "declared training: {'steps': 60, 'batch': 24, 'seed': 11, 'noise': 0.06, 'lr': 0.003}\ntest: n=16 sequences, 48 reference symbols, seed=987001, bit-flip noise=0.06\nstress: n=16 sequences, 48 reference symbols, seed=987002, bit-flip noise=0.25\ntwo references: [[2, 0, 3], [0, 0, 3]]\nshifted decoder inputs: [[4, 2, 0, 3], [4, 0, 0, 3]] targets (include EOS): [[2, 0, 3, 5], [0, 0, 3, 5]]\nimages [B,S,C,H,W]: (2, 3, 1, 5, 5) logits [B,T,V]: (2, 4, 7)\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 5,
           "execution_count": 3,
+          "source_sha256": "2492353a2a4657c0789dd5f92f7814552b7381b8c2e64524da9215da4e4b691b",
           "output_count": 3,
+          "outputs_sha256": "b628555290fa30d16594d6804d680abd1760487b527b53f6b4c2913ed0da8818",
           "output_types": [
             "stream",
             "display_data",
@@ -332,14 +443,17 @@
           ],
           "errors": [],
           "text_outputs": [
-            "CPU training seconds: 4.085\nfirst loss: 2.0232412815093994 last loss: 0.006463388446718454\nloss values at steps 1, 10, 20, 30, 40, 50, 60: [2.0232412815093994, 1.0763474702835083, 0.6407694816589355, 0.2130153328180313, 0.06233865022659302, 0.08639708161354065, 0.006463388446718454]\n"
+            "CPU training seconds: 4.407\nfirst loss: 2.0232412815093994 last loss: 0.006463388446718454\nloss values at steps 1, 10, 20, 30, 40, 50, 60: [2.0232412815093994, 1.0763474702835083, 0.6407694816589355, 0.2130153328180313, 0.06233865022659302, 0.08639708161354065, 0.006463388446718454]\n"
           ],
-          "image_output_count": 1
+          "image_output_count": 1,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 7,
           "execution_count": 4,
+          "source_sha256": "64c5b99efa818a8fcb2f5ccc276c05feb91775cc7bd2b9c93e27aa5c53b06d77",
           "output_count": 1,
+          "outputs_sha256": "ac9f2bfe180e894e02878ccf2231f0e3a105645f67ba0bfc70c2d9c0124ea4e4",
           "output_types": [
             "stream"
           ],
@@ -347,12 +461,15 @@
           "text_outputs": [
             "{\"split\": \"declared_test_noise_0.06\", \"method\": \"nearest_template\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 0, \"cer\": 0.0, \"exact_count\": 16, \"exact_match\": 1.0}\n{\"split\": \"declared_test_noise_0.06\", \"method\": \"greedy\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 0, \"cer\": 0.0, \"exact_count\": 16, \"exact_match\": 1.0}\n{\"split\": \"declared_test_noise_0.06\", \"method\": \"beam3_alpha0\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 0, \"cer\": 0.0, \"exact_count\": 16, \"exact_match\": 1.0}\nAll cases: index | reference | nearest-template | greedy | beam3\n0 [2, 0, 3] [2, 0, 3] [2, 0, 3] [2, 0, 3]\n1 [0, 0, 3] [0, 0, 3] [0, 0, 3] [0, 0, 3]\n2 [3, 3, 0] [3, 3, 0] [3, 3, 0] [3, 3, 0]\n3 [1, 2, 0] [1, 2, 0] [1, 2, 0] [1, 2, 0]\n4 [3, 0, 1] [3, 0, 1] [3, 0, 1] [3, 0, 1]\n5 [3, 3, 1] [3, 3, 1] [3, 3, 1] [3, 3, 1]\n6 [2, 2, 1] [2, 2, 1] [2, 2, 1] [2, 2, 1]\n7 [1, 2, 0] [1, 2, 0] [1, 2, 0] [1, 2, 0]\n8 [0, 3, 3] [0, 3, 3] [0, 3, 3] [0, 3, 3]\n9 [2, 1, 3] [2, 1, 3] [2, 1, 3] [2, 1, 3]\n10 [2, 1, 3] [2, 1, 3] [2, 1, 3] [2, 1, 3]\n11 [3, 1, 0] [3, 1, 0] [3, 1, 0] [3, 1, 0]\n12 [2, 1, 3] [2, 1, 3] [2, 1, 3] [2, 1, 3]\n13 [1, 3, 3] [1, 3, 3] [1, 3, 3] [1, 3, 3]\n14 [1, 0, 3] [1, 0, 3] [1, 0, 3] [1, 0, 3]\n15 [3, 0, 3] [3, 0, 3] [3, 0, 3] [3, 0, 3]\nNeural-decoder error cases: none observed in these 16 cases\nRows without EOS: greedy 0 beam3 0\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         },
         {
           "cell_index": 9,
           "execution_count": 5,
+          "source_sha256": "49ca56fbb17772f8a5320d9f5a067edad1290d82003dbde63f819fdfc3ced996",
           "output_count": 1,
+          "outputs_sha256": "6b735ce96c0b0823e8a4d49e76b85d09a4c74c1c9810a96ff587f9c0f3576b78",
           "output_types": [
             "stream"
           ],
@@ -360,9 +477,577 @@
           "text_outputs": [
             "{\"split\": \"predeclared_stress_noise_0.25\", \"method\": \"nearest_template\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 6, \"cer\": 0.125, \"exact_count\": 11, \"exact_match\": 0.6875}\n{\"split\": \"predeclared_stress_noise_0.25\", \"method\": \"greedy\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 7, \"cer\": 0.14583333333333334, \"exact_count\": 9, \"exact_match\": 0.5625}\n{\"split\": \"predeclared_stress_noise_0.25\", \"method\": \"beam3_alpha0\", \"n_sequences\": 16, \"reference_symbols\": 48, \"edit_count\": 7, \"cer\": 0.14583333333333334, \"exact_count\": 9, \"exact_match\": 0.5625}\nAll cases: index | reference | nearest-template | greedy | beam3\n0 [1, 2, 3] [1, 2, 3] [1, 2, 3] [1, 2, 3]\n1 [3, 3, 3] [2, 3, 3] [2, 3, 3] [2, 3, 3]\n2 [0, 2, 3] [0, 2, 3] [0, 2, 3] [0, 2, 3]\n3 [0, 2, 2] [0, 2, 2] [0, 2, 2] [0, 2, 2]\n4 [1, 0, 0] [1, 0, 0] [1, 0, 0] [1, 0, 0]\n5 [0, 0, 0] [0, 0, 0] [0, 0, 0] [0, 0, 0]\n6 [1, 0, 2] [1, 3, 2] [1, 3, 2] [1, 3, 2]\n7 [1, 3, 2] [1, 3, 3] [1, 3, 3] [1, 3, 3]\n8 [1, 3, 3] [1, 3, 3] [1, 3, 3] [1, 3, 3]\n9 [3, 1, 3] [3, 1, 3] [3, 1, 3] [3, 1, 3]\n10 [3, 1, 2] [3, 1, 2] [2, 1, 2] [2, 1, 2]\n11 [0, 0, 1] [0, 0, 3] [0, 0, 3] [0, 0, 3]\n12 [2, 1, 3] [2, 1, 3] [2, 1, 3] [2, 1, 3]\n13 [1, 2, 3] [1, 2, 3] [1, 3, 3] [1, 3, 3]\n14 [3, 0, 3] [3, 0, 3] [3, 0, 3] [3, 0, 3]\n15 [2, 0, 2] [2, 3, 0] [2, 3, 2] [2, 3, 2]\nNeural-decoder error cases: [{'index': 1, 'reference': [3, 3, 3], 'greedy': [2, 3, 3], 'beam3': [2, 3, 3]}, {'index': 6, 'reference': [1, 0, 2], 'greedy': [1, 3, 2], 'beam3': [1, 3, 2]}, {'index': 7, 'reference': [1, 3, 2], 'greedy': [1, 3, 3], 'beam3': [1, 3, 3]}, {'index': 10, 'reference': [3, 1, 2], 'greedy': [2, 1, 2], 'beam3': [2, 1, 2]}, {'index': 11, 'reference': [0, 0, 1], 'greedy': [0, 0, 3], 'beam3': [0, 0, 3]}, {'index': 13, 'reference': [1, 2, 3], 'greedy': [1, 3, 3], 'beam3': [1, 3, 3]}, {'index': 15, 'reference': [2, 0, 2], 'greedy': [2, 3, 2], 'beam3': [2, 3, 2]}]\nRows without EOS: greedy 0 beam3 0\nMetric sanity check: reference [0], hypothesis [0,1,2] -> CER 2.0\nEvidence saved with all references and predictions; no task-accuracy claim is inferred from training loss alone.\n"
           ],
-          "image_output_count": 0
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        }
+      ]
+    },
+    {
+      "path": "notebooks/Tier1_Instructor.ipynb",
+      "relative_path": "notebooks/Tier1_Instructor.ipynb",
+      "role": "provided_completed_tier_example",
+      "status": "pass",
+      "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
+      "sha256_before": "63664c947f1840ad59d9e2f66d6e13cb2cfae5083f7f7950ad494ef10214a5b7",
+      "sha256_after": "4a6927329babf6043e0450089dab47866770d28a89223f4eb1fe621df0dab702",
+      "code_sha256_before": "417199f89516395f648559bb0f4ed39ae72b84cd430d70fa9928fab108991634",
+      "code_sha256_after": "417199f89516395f648559bb0f4ed39ae72b84cd430d70fa9928fab108991634",
+      "code_unchanged": true,
+      "saved_outputs_verified": true,
+      "code_cells": 6,
+      "executed_code_cells": 6,
+      "output_count": 6,
+      "image_output_count": 0,
+      "errors": null,
+      "elapsed_s": 2.72,
+      "per_cell": [
+        {
+          "cell_index": 2,
+          "execution_count": 1,
+          "source_sha256": "31c8b43c5d8c245591e853f9c860221876719d59701b4243a7e45b10a306fdaa",
+          "output_count": 1,
+          "outputs_sha256": "cd32692111d55e84e92aa2d89602298be8fcc7bf3a6308e8a4e91461c69fe88a",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Completed implementation: notebooks/student_exercises/student_impl.py\nPyTorch: 2.10.0+cpu\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 4,
+          "execution_count": 2,
+          "source_sha256": "431f8664baf9b336bffb865bfbcf39108f95a6ace4e951103fd8e496493b5812",
+          "output_count": 1,
+          "outputs_sha256": "66f68ed66902818ec3aa12f55e05a3bf80a71eb56ba0416e0e3f2a1fc5d26567",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Raw scores: tensor([[1., 0.]])\nScaled scores: tensor([[0.7071, 0.0000]])\nWeights over keys: tensor([[0.6698, 0.3302]])\nWeighted value output: tensor([[1.3395, 1.3210]])\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 6,
+          "execution_count": 3,
+          "source_sha256": "c180e770f1fd38bc30f2e1e7aac96a10e4e1dbd3a7426a600c43308b518de310",
+          "output_count": 1,
+          "outputs_sha256": "cd3962ec4759fc59f7d130c98b08d8af126d14658d726074b61f00a1808dd9eb",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Q / K / V: (2, 3, 5, 4) (2, 3, 7, 4) (2, 3, 7, 6)\nScore / weight shape: (2, 3, 5, 7)\nOutput shape: (2, 3, 5, 6)\nLargest difference from independent PyTorch API: 2.384185791015625e-07\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 8,
+          "execution_count": 4,
+          "source_sha256": "262b4fce876c7c158f1d35b4ea2e921f3a6684c1bcde4724006231814a4a3ba4",
+          "output_count": 1,
+          "outputs_sha256": "870e6aa2cb4a18b72d36cd0883455b275c3607a07bc9531b235ab26554e0f953",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Additive mask BEFORE softmax:\n tensor([[0., -inf, -inf, -inf],\n        [0., 0., -inf, -inf],\n        [0., 0., 0., -inf],\n        [0., 0., 0., 0.]])\nWeights AFTER softmax, equal scores:\n tensor([[1.0000, 0.0000, 0.0000, 0.0000],\n        [0.5000, 0.5000, 0.0000, 0.0000],\n        [0.3333, 0.3333, 0.3333, 0.0000],\n        [0.2500, 0.2500, 0.2500, 0.2500]])\nDecoder input IDs: [[4, 0, 1, 2]]\nNext-token label IDs: [[0, 1, 2, 5]]\nAt input I, label love is predicted; future input love is blocked.\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 10,
+          "execution_count": 5,
+          "source_sha256": "490d76b7a783eed1a52b79b089ec2afe75b195cb715c30e52e26b846a0f8951f",
+          "output_count": 1,
+          "outputs_sha256": "980491ce21192af7991fb647aecba38e4d28b793168db3ff7a97e418b1968152",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Vocabulary probabilities: tensor([[[0.5000, 0.2500, 0.2500]]])\nCorrect target index: 2\nCross-entropy: 1.3862943649291992\nOne-token perplexity: 4.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 12,
+          "execution_count": 6,
+          "source_sha256": "7908c30cc0a4d2f69bd1ba9c413cada54c8d7a3d2908ec953c20ec7af1a3a741",
+          "output_count": 1,
+          "outputs_sha256": "72996ccb66318b4d438fa1370f7ceacd9990c3f17a11e18131fe572d82d4dee2",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Complete two-symbol candidates: [('AX', 0.3), ('AY', 0.3), ('BX', 0.4), ('BY', 0.0)]\nGreedy: AX 0.3\nWidth-3 retained complete candidates: [('BX', 0.4), ('AX', 0.3), ('AY', 0.3)]\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        }
+      ]
+    },
+    {
+      "path": "notebooks/Tier2_Instructor.ipynb",
+      "relative_path": "notebooks/Tier2_Instructor.ipynb",
+      "role": "provided_completed_tier_example",
+      "status": "pass",
+      "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
+      "sha256_before": "131f9885721c5107714c6dfd1a9b718927de45737a0b4edcbc97d3879c6afd75",
+      "sha256_after": "f7c9d381506177b6d87c7ca761357d8fa139ef342717792e419d52a4f5389700",
+      "code_sha256_before": "a6905202f9f69fa5b14d9c61b56a93996c658109be062800eb4ec17c4e3237e3",
+      "code_sha256_after": "a6905202f9f69fa5b14d9c61b56a93996c658109be062800eb4ec17c4e3237e3",
+      "code_unchanged": true,
+      "saved_outputs_verified": true,
+      "code_cells": 8,
+      "executed_code_cells": 8,
+      "output_count": 8,
+      "image_output_count": 0,
+      "errors": null,
+      "elapsed_s": 2.726,
+      "per_cell": [
+        {
+          "cell_index": 2,
+          "execution_count": 1,
+          "source_sha256": "31c8b43c5d8c245591e853f9c860221876719d59701b4243a7e45b10a306fdaa",
+          "output_count": 1,
+          "outputs_sha256": "cd32692111d55e84e92aa2d89602298be8fcc7bf3a6308e8a4e91461c69fe88a",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Completed implementation: notebooks/student_exercises/student_impl.py\nPyTorch: 2.10.0+cpu\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 4,
+          "execution_count": 2,
+          "source_sha256": "1f35a86e00e46f66c6003f49e483f5eae9bc2c09e1a4ad5988c736f95db66e62",
+          "output_count": 1,
+          "outputs_sha256": "70630c0cfcc5571749ce58b9cb22900479ed627fdd1ba416246a341dd05f4b69",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "def attention(q, k, v, mask=None):\n    \"\"\"Return (mixed values, weights) for q [...,Tq,d], k [...,Tk,d], v [...,Tk,dv].\n\n    Each valid query distributes weight across keys. Our declared policy for a\n    fully blocked query is zero weights/output, with finite zero gradients for\n    that query. We construct a safe softmax input before normalization; we do\n    not discard exceptions or conceal invalid results after computation.\n    \"\"\"\n    scores = (q @ k.transpose(-2, -1)) / math.sqrt(q.shape[-1])\n    if mask is not None:\n        if mask.dtype == torch.bool:\n            raise TypeError(\"This API uses a floating additive 0/-inf mask.\")\n        scores = scores + mask\n    has_visible_key = ~torch.isneginf(scores).all(dim=-1, keepdim=True)\n    safe_scores = torch.where(has_visible_key, scores, torch.zeros_like(scores))\n    weights = torch.softmax(safe_scores, dim=-1)\n    weights = torch.where(has_visible_key, weights, torch.zeros_like(weights))\n    return weights @ v, weights\n\ndef causal_mask(t_query, t_key=None, past=0, device=None):\n    \"\"\"Return [Tq,Tk]: key j is visible iff j <= past + query_index.\n\n    Zero permits a score, negative infinity blocks it. With cached history,\n    local query zero has absolute position ``past``. By default Tk=Tq+past.\n    \"\"\"\n    if t_query < 0 or past < 0 or (t_key is not None and t_key < 0):\n        raise ValueError(\"Sequence lengths and past must be nonnegative.\")\n    t_key = t_query + past if t_key is None else t_key\n    query_positions = torch.arange(past, past + t_query, device=device)[:, None]\n    key_positions = torch.arange(t_key, device=device)[None, :]\n    return torch.where(key_positions <= query_positions, 0.0, float('-inf'))\n\ndef next_token_pairs(ids):\n    \"\"\"For [B,T] containing BOS/EOS, return previous inputs and next labels.\n\n    EOS remains a supervised label. Any padded labels are handled explicitly by\n    the loss function; this alignment function does not silently remove tokens.\n    \"\"\"\n    if ids.ndim != 2 or ids.shape[1] < 2:\n        raise ValueError(\"Expected a [batch,time] tensor with at least two tokens.\")\n    return ids[:, :-1], ids[:, 1:]\n\ndef masked_cross_entropy(logits, labels, *, ignore_index):\n    \"\"\"Mean [B,T,C] cross-entropy over valid labels; padding choice is explicit.\n\n    If every target is ignored, the declared loss is differentiable zero. Loss\n    masking and attention padding masks are separate operations.\n    \"\"\"\n    if not labels.ne(ignore_index).any():\n        return logits.sum() * 0.0\n    return F.cross_entropy(\n        logits.reshape(-1, logits.shape[-1]),\n        labels.reshape(-1),\n        ignore_index=ignore_index,\n    )\n\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 6,
+          "execution_count": 3,
+          "source_sha256": "b59ed1d338f3de814502740c3f848e2f34641187867d6449ccd8551dbca933a5",
+          "output_count": 1,
+          "outputs_sha256": "065d7f08ae00339e08acea00efb7c7b9681948aae0497f83e0bd994c2fb9705c",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Weight / output shapes: (2, 3, 4, 7) (2, 3, 4, 5)\nMaximum absolute reference difference: 2.384185791015625e-07\nValid row-sum range: 0.9999999403953552 1.0000001192092896\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 8,
+          "execution_count": 4,
+          "source_sha256": "bd60437cf117146dcfc506e78e6727238ac1006e338f925762fe41df8a6a1f2a",
+          "output_count": 1,
+          "outputs_sha256": "b8dc124d7efe21cea092e3ee65f43eb27325650fb1980701fd8e1340574075c2",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Earlier causal output difference: 0.0\nFuture attention weights: 0.0\nUnmasked contrast, earlier output difference: 101.16981506347656\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 10,
+          "execution_count": 5,
+          "source_sha256": "b171384855cafcc3c728327acb5e9d662d9fa20573d794d1cb4030c924714317",
+          "output_count": 1,
+          "outputs_sha256": "8eb8173d292f5420d38b456c4f65d656fb725cd9130f2e833c7fc970ebe11bab",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Cached-offset mask:\n tensor([[0., 0., 0., 0., -inf],\n        [0., 0., 0., 0., 0.]])\nPerturbing padded keys/values changes output by: 0.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 12,
+          "execution_count": 6,
+          "source_sha256": "7c5ef5bf11666251c0876def7992a06f7fe4c4d167fd72b0822dbb3a9c7c26f9",
+          "output_count": 1,
+          "outputs_sha256": "af48659bde2cfe6bc8ce01c315561b9c1d3e3a9ad75392fd118e0b8ee0233ac5",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Weights:\n tensor([[[[0.3299, 0.3067, 0.3634],\n          [0.0000, 0.0000, 0.0000]]]], grad_fn=<WhereBackward0>)\nRow sums: tensor([[[1.0000, 0.0000]]], grad_fn=<SumBackward1>)\nFully blocked output: tensor([0., 0., 0., 0., 0.], grad_fn=<SelectBackward0>)\nAll query gradients finite: True\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 14,
+          "execution_count": 7,
+          "source_sha256": "42081bee0dd44508ab887ab4360681fcc4375b7fe3cc175e5763e0eec1a6f402",
+          "output_count": 1,
+          "outputs_sha256": "e3802e70554a01b292a286de14eef2a3df007ce13ca8a388cce549b633d4e663",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Decoder inputs:\n tensor([[4, 0, 1, 2],\n        [4, 2, 0, 5]])\nNext-token labels:\n tensor([[0, 1, 2, 5],\n        [2, 0, 5, 6]])\nValid supervised targets: 7\nPadding-aware cross-entropy: 2.623682737350464\nLargest ignored-target gradient: 0.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 16,
+          "execution_count": 8,
+          "source_sha256": "2213a56924b4cce1fa7f47b3b894f51ae737065eeaa2bbbdc89004c057c6d755",
+          "output_count": 1,
+          "outputs_sha256": "8ccf3d3502470f0f91d8725790aa84fef9b7f69042e1b321293c9a353a0daac9",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "All-ignored loss: 0.0\nGradient absolute sum: 0.0\nCompleted checks: reference attention, shapes, causality, offsets, padding, empty rows, shift and loss.\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        }
+      ]
+    },
+    {
+      "path": "notebooks/student_exercises/Tier1_Student.ipynb",
+      "relative_path": "notebooks/student_exercises/Tier1_Student.ipynb",
+      "role": "provided_completed_tier_example",
+      "status": "pass",
+      "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
+      "sha256_before": "6cc461e5c8d65b90f6dc52de3efdedba82d0782cc2582ae2cc7ffff27982fff7",
+      "sha256_after": "319e00059d3c17dfcdca7166611214d2158edd63cb1f9605080b92a8184c77c9",
+      "code_sha256_before": "417199f89516395f648559bb0f4ed39ae72b84cd430d70fa9928fab108991634",
+      "code_sha256_after": "417199f89516395f648559bb0f4ed39ae72b84cd430d70fa9928fab108991634",
+      "code_unchanged": true,
+      "saved_outputs_verified": true,
+      "code_cells": 6,
+      "executed_code_cells": 6,
+      "output_count": 6,
+      "image_output_count": 0,
+      "errors": null,
+      "elapsed_s": 2.706,
+      "per_cell": [
+        {
+          "cell_index": 2,
+          "execution_count": 1,
+          "source_sha256": "31c8b43c5d8c245591e853f9c860221876719d59701b4243a7e45b10a306fdaa",
+          "output_count": 1,
+          "outputs_sha256": "cd32692111d55e84e92aa2d89602298be8fcc7bf3a6308e8a4e91461c69fe88a",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Completed implementation: notebooks/student_exercises/student_impl.py\nPyTorch: 2.10.0+cpu\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 4,
+          "execution_count": 2,
+          "source_sha256": "431f8664baf9b336bffb865bfbcf39108f95a6ace4e951103fd8e496493b5812",
+          "output_count": 1,
+          "outputs_sha256": "66f68ed66902818ec3aa12f55e05a3bf80a71eb56ba0416e0e3f2a1fc5d26567",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Raw scores: tensor([[1., 0.]])\nScaled scores: tensor([[0.7071, 0.0000]])\nWeights over keys: tensor([[0.6698, 0.3302]])\nWeighted value output: tensor([[1.3395, 1.3210]])\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 6,
+          "execution_count": 3,
+          "source_sha256": "c180e770f1fd38bc30f2e1e7aac96a10e4e1dbd3a7426a600c43308b518de310",
+          "output_count": 1,
+          "outputs_sha256": "cd3962ec4759fc59f7d130c98b08d8af126d14658d726074b61f00a1808dd9eb",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Q / K / V: (2, 3, 5, 4) (2, 3, 7, 4) (2, 3, 7, 6)\nScore / weight shape: (2, 3, 5, 7)\nOutput shape: (2, 3, 5, 6)\nLargest difference from independent PyTorch API: 2.384185791015625e-07\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 8,
+          "execution_count": 4,
+          "source_sha256": "262b4fce876c7c158f1d35b4ea2e921f3a6684c1bcde4724006231814a4a3ba4",
+          "output_count": 1,
+          "outputs_sha256": "870e6aa2cb4a18b72d36cd0883455b275c3607a07bc9531b235ab26554e0f953",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Additive mask BEFORE softmax:\n tensor([[0., -inf, -inf, -inf],\n        [0., 0., -inf, -inf],\n        [0., 0., 0., -inf],\n        [0., 0., 0., 0.]])\nWeights AFTER softmax, equal scores:\n tensor([[1.0000, 0.0000, 0.0000, 0.0000],\n        [0.5000, 0.5000, 0.0000, 0.0000],\n        [0.3333, 0.3333, 0.3333, 0.0000],\n        [0.2500, 0.2500, 0.2500, 0.2500]])\nDecoder input IDs: [[4, 0, 1, 2]]\nNext-token label IDs: [[0, 1, 2, 5]]\nAt input I, label love is predicted; future input love is blocked.\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 10,
+          "execution_count": 5,
+          "source_sha256": "490d76b7a783eed1a52b79b089ec2afe75b195cb715c30e52e26b846a0f8951f",
+          "output_count": 1,
+          "outputs_sha256": "980491ce21192af7991fb647aecba38e4d28b793168db3ff7a97e418b1968152",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Vocabulary probabilities: tensor([[[0.5000, 0.2500, 0.2500]]])\nCorrect target index: 2\nCross-entropy: 1.3862943649291992\nOne-token perplexity: 4.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 12,
+          "execution_count": 6,
+          "source_sha256": "7908c30cc0a4d2f69bd1ba9c413cada54c8d7a3d2908ec953c20ec7af1a3a741",
+          "output_count": 1,
+          "outputs_sha256": "72996ccb66318b4d438fa1370f7ceacd9990c3f17a11e18131fe572d82d4dee2",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Complete two-symbol candidates: [('AX', 0.3), ('AY', 0.3), ('BX', 0.4), ('BY', 0.0)]\nGreedy: AX 0.3\nWidth-3 retained complete candidates: [('BX', 0.4), ('AX', 0.3), ('AY', 0.3)]\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        }
+      ]
+    },
+    {
+      "path": "notebooks/student_exercises/Tier2_Student.ipynb",
+      "relative_path": "notebooks/student_exercises/Tier2_Student.ipynb",
+      "role": "provided_completed_tier_example",
+      "status": "pass",
+      "allow_errors": false,
+      "force_raise_errors": true,
+      "allow_error_names": [],
+      "forbidden_execution_tags": [
+        "raises-exception",
+        "skip-execution"
+      ],
+      "sha256_before": "e3a683e1aa4f169b40e3bbc25042dfbfbd85d7caa830b2ffe21c16c1663f1fc8",
+      "sha256_after": "f695cf86b191f1aae7168e56bbc28a462fad5dd6750d4776b9535e0e88540b93",
+      "code_sha256_before": "a6905202f9f69fa5b14d9c61b56a93996c658109be062800eb4ec17c4e3237e3",
+      "code_sha256_after": "a6905202f9f69fa5b14d9c61b56a93996c658109be062800eb4ec17c4e3237e3",
+      "code_unchanged": true,
+      "saved_outputs_verified": true,
+      "code_cells": 8,
+      "executed_code_cells": 8,
+      "output_count": 8,
+      "image_output_count": 0,
+      "errors": null,
+      "elapsed_s": 2.712,
+      "per_cell": [
+        {
+          "cell_index": 2,
+          "execution_count": 1,
+          "source_sha256": "31c8b43c5d8c245591e853f9c860221876719d59701b4243a7e45b10a306fdaa",
+          "output_count": 1,
+          "outputs_sha256": "cd32692111d55e84e92aa2d89602298be8fcc7bf3a6308e8a4e91461c69fe88a",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Completed implementation: notebooks/student_exercises/student_impl.py\nPyTorch: 2.10.0+cpu\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 4,
+          "execution_count": 2,
+          "source_sha256": "1f35a86e00e46f66c6003f49e483f5eae9bc2c09e1a4ad5988c736f95db66e62",
+          "output_count": 1,
+          "outputs_sha256": "70630c0cfcc5571749ce58b9cb22900479ed627fdd1ba416246a341dd05f4b69",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "def attention(q, k, v, mask=None):\n    \"\"\"Return (mixed values, weights) for q [...,Tq,d], k [...,Tk,d], v [...,Tk,dv].\n\n    Each valid query distributes weight across keys. Our declared policy for a\n    fully blocked query is zero weights/output, with finite zero gradients for\n    that query. We construct a safe softmax input before normalization; we do\n    not discard exceptions or conceal invalid results after computation.\n    \"\"\"\n    scores = (q @ k.transpose(-2, -1)) / math.sqrt(q.shape[-1])\n    if mask is not None:\n        if mask.dtype == torch.bool:\n            raise TypeError(\"This API uses a floating additive 0/-inf mask.\")\n        scores = scores + mask\n    has_visible_key = ~torch.isneginf(scores).all(dim=-1, keepdim=True)\n    safe_scores = torch.where(has_visible_key, scores, torch.zeros_like(scores))\n    weights = torch.softmax(safe_scores, dim=-1)\n    weights = torch.where(has_visible_key, weights, torch.zeros_like(weights))\n    return weights @ v, weights\n\ndef causal_mask(t_query, t_key=None, past=0, device=None):\n    \"\"\"Return [Tq,Tk]: key j is visible iff j <= past + query_index.\n\n    Zero permits a score, negative infinity blocks it. With cached history,\n    local query zero has absolute position ``past``. By default Tk=Tq+past.\n    \"\"\"\n    if t_query < 0 or past < 0 or (t_key is not None and t_key < 0):\n        raise ValueError(\"Sequence lengths and past must be nonnegative.\")\n    t_key = t_query + past if t_key is None else t_key\n    query_positions = torch.arange(past, past + t_query, device=device)[:, None]\n    key_positions = torch.arange(t_key, device=device)[None, :]\n    return torch.where(key_positions <= query_positions, 0.0, float('-inf'))\n\ndef next_token_pairs(ids):\n    \"\"\"For [B,T] containing BOS/EOS, return previous inputs and next labels.\n\n    EOS remains a supervised label. Any padded labels are handled explicitly by\n    the loss function; this alignment function does not silently remove tokens.\n    \"\"\"\n    if ids.ndim != 2 or ids.shape[1] < 2:\n        raise ValueError(\"Expected a [batch,time] tensor with at least two tokens.\")\n    return ids[:, :-1], ids[:, 1:]\n\ndef masked_cross_entropy(logits, labels, *, ignore_index):\n    \"\"\"Mean [B,T,C] cross-entropy over valid labels; padding choice is explicit.\n\n    If every target is ignored, the declared loss is differentiable zero. Loss\n    masking and attention padding masks are separate operations.\n    \"\"\"\n    if not labels.ne(ignore_index).any():\n        return logits.sum() * 0.0\n    return F.cross_entropy(\n        logits.reshape(-1, logits.shape[-1]),\n        labels.reshape(-1),\n        ignore_index=ignore_index,\n    )\n\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 6,
+          "execution_count": 3,
+          "source_sha256": "b59ed1d338f3de814502740c3f848e2f34641187867d6449ccd8551dbca933a5",
+          "output_count": 1,
+          "outputs_sha256": "065d7f08ae00339e08acea00efb7c7b9681948aae0497f83e0bd994c2fb9705c",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Weight / output shapes: (2, 3, 4, 7) (2, 3, 4, 5)\nMaximum absolute reference difference: 2.384185791015625e-07\nValid row-sum range: 0.9999999403953552 1.0000001192092896\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 8,
+          "execution_count": 4,
+          "source_sha256": "bd60437cf117146dcfc506e78e6727238ac1006e338f925762fe41df8a6a1f2a",
+          "output_count": 1,
+          "outputs_sha256": "b8dc124d7efe21cea092e3ee65f43eb27325650fb1980701fd8e1340574075c2",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Earlier causal output difference: 0.0\nFuture attention weights: 0.0\nUnmasked contrast, earlier output difference: 101.16981506347656\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 10,
+          "execution_count": 5,
+          "source_sha256": "b171384855cafcc3c728327acb5e9d662d9fa20573d794d1cb4030c924714317",
+          "output_count": 1,
+          "outputs_sha256": "8eb8173d292f5420d38b456c4f65d656fb725cd9130f2e833c7fc970ebe11bab",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Cached-offset mask:\n tensor([[0., 0., 0., 0., -inf],\n        [0., 0., 0., 0., 0.]])\nPerturbing padded keys/values changes output by: 0.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 12,
+          "execution_count": 6,
+          "source_sha256": "7c5ef5bf11666251c0876def7992a06f7fe4c4d167fd72b0822dbb3a9c7c26f9",
+          "output_count": 1,
+          "outputs_sha256": "af48659bde2cfe6bc8ce01c315561b9c1d3e3a9ad75392fd118e0b8ee0233ac5",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Weights:\n tensor([[[[0.3299, 0.3067, 0.3634],\n          [0.0000, 0.0000, 0.0000]]]], grad_fn=<WhereBackward0>)\nRow sums: tensor([[[1.0000, 0.0000]]], grad_fn=<SumBackward1>)\nFully blocked output: tensor([0., 0., 0., 0., 0.], grad_fn=<SelectBackward0>)\nAll query gradients finite: True\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 14,
+          "execution_count": 7,
+          "source_sha256": "42081bee0dd44508ab887ab4360681fcc4375b7fe3cc175e5763e0eec1a6f402",
+          "output_count": 1,
+          "outputs_sha256": "e3802e70554a01b292a286de14eef2a3df007ce13ca8a388cce549b633d4e663",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "Decoder inputs:\n tensor([[4, 0, 1, 2],\n        [4, 2, 0, 5]])\nNext-token labels:\n tensor([[0, 1, 2, 5],\n        [2, 0, 5, 6]])\nValid supervised targets: 7\nPadding-aware cross-entropy: 2.623682737350464\nLargest ignored-target gradient: 0.0\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
+        },
+        {
+          "cell_index": 16,
+          "execution_count": 8,
+          "source_sha256": "2213a56924b4cce1fa7f47b3b894f51ae737065eeaa2bbbdc89004c057c6d755",
+          "output_count": 1,
+          "outputs_sha256": "8ccf3d3502470f0f91d8725790aa84fef9b7f69042e1b321293c9a353a0daac9",
+          "output_types": [
+            "stream"
+          ],
+          "errors": [],
+          "text_outputs": [
+            "All-ignored loss: 0.0\nGradient absolute sum: 0.0\nCompleted checks: reference attention, shapes, causality, offsets, padding, empty rows, shift and loss.\n"
+          ],
+          "image_output_count": 0,
+          "execution_bypass_tags": []
         }
       ]
     }
-  ]
+  ],
+  "summary": {
+    "discovered_notebooks": 8,
+    "processed_notebooks": 8,
+    "strict_passed_notebooks": 8,
+    "code_cells": 50,
+    "executed_code_cells": 50,
+    "output_count": 55,
+    "image_output_count": 2,
+    "error_output_count": 0,
+    "all_strict_pass": true
+  }
 }

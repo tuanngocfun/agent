@@ -1,13 +1,17 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the materials in a browser</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="BROWSER_README.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="read-the-materials-in-a-browser">Read the materials in a browser</h1>
-<p>Open <a href="index.html">site/index.html</a> directly in a browser, or use the reading server below. It provides
-rendered lecture/research scripts, technical prompts and saved notebook outputs. Tables, code,
-equations and fonts are bundled for offline reading.</p>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the materials in a browser</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="PRESENT_THIS.html"><strong>Present this lecture</strong></a><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture script</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Instructor demos</a></header><main><p class="download meta"><a href="BROWSER_README.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="read-the-materials-in-a-browser">Read the materials in a browser</h1>
+<p>Open <a href="PRESENT_THIS.html">Present this lecture</a> for delivery, or its rendered page at <code>site/PRESENT_THIS.html</code>.
+The wider <a href="index.html">reading library</a> provides lecture/research scripts, technical prompts
+and saved notebook outputs. Tables, code, equations and fonts are bundled for offline reading.</p>
 <p>From the package directory, you can also start a loopback-only server:</p>
 <div class="codehilite"><pre><span></span>python3<span class="w"> </span>scripts/serve_docs.py
 </pre></div>
-<p>Open <code>http://127.0.0.1:8766/site/index.html</code>. Keep the full package together so links to PDFs,
+<p>Open <code>http://127.0.0.1:8766/site/PRESENT_THIS.html</code>. Keep the full package together so links to PDFs,
 PowerPoint files, notebooks and local assets continue to work. Use HTML links for reading;
 Markdown-source downloads are provided separately.</p>
+<p>All eight current notebooks are completed references. The two historical <code>Student</code> filenames
+also contain complete examples. Independent learner tasks are in
+<a href="teaching/STUDENT_PRACTICE.html">Student practice</a>; they are not deliberate error cells in a
+presentation notebook. The main delivery route links the completed instructor demonstrations.</p>
 <h2 id="clone-and-run-code">Clone and run code</h2>
 <div class="codehilite"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>codex/vgu-rehearsal-2026-11-04<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/tuanngocfun/agent.git
 <span class="nb">cd</span><span class="w"> </span>agent/vgu-rehearsal
@@ -36,7 +40,7 @@ machine audit are part of this export. Administrative arrangements and any submi
 the presenter's own actions.</p>
 <h2 id="read-markdown-as-formatted-documents">Read Markdown as formatted documents</h2>
 <p>Use <code>python3 scripts/serve_docs.py</code> for HackMD-style reading. Open
-<code>http://127.0.0.1:8766/site/index.html</code>. Requests ending in <code>.md</code> redirect to the
+<code>http://127.0.0.1:8766/site/PRESENT_THIS.html</code> for the lecture, or <code>site/index.html</code> for the library. Requests ending in <code>.md</code> redirect to the
 matching rendered HTML, so equations, tables, code and relative assets display correctly.
 Add <code>?raw=1</code> when you want the original Markdown text; source-download buttons use that query.</p>
 <p>The server uses only Python’s standard library and binds to <code>127.0.0.1</code>. It serves this package

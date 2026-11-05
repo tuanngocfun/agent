@@ -146,6 +146,14 @@ constitution=ROOT/'.specify/memory/constitution.md'
 if constitution.exists():CANONICAL_MD.append(constitution)
 CANONICAL_MD=sorted(set(CANONICAL_MD))
 CANONICAL_NB=sorted((ROOT/'notebooks').glob('*.ipynb'))+sorted((ROOT/'notebooks/student_exercises').glob('*.ipynb'))
+INSTRUCTOR_DEMOS=[
+    ('01_Core_Attention_Worked.ipynb','Core attention','Tokens, embeddings, attention calculations, masks and shifted targets.'),
+    ('02_Training_and_Generation_Worked.ipynb','Training and generation','Visibility checks, padding, generation and decoding probabilities.'),
+    ('Tier1_Instructor.ipynb','Tier 1 instructor','Completed introductory implementation with worked checks.'),
+    ('Tier2_Instructor.ipynb','Tier 2 instructor','Completed extended implementation with worked checks.'),
+    ('03_Optional_Systems_Worked.ipynb','Optional systems','Position methods, grouped queries, cache correctness and measured timings.'),
+    ('04_Optional_Image_to_Sequence_Worked.ipynb','Optional image-to-sequence','Toy training, baselines, matched evaluations and observed failure cases.'),
+]
 TARGETS={p.resolve():(SITE/p.relative_to(ROOT)).with_suffix('.html') for p in CANONICAL_MD+CANONICAL_NB}
 for name in LEGACY_NAMES:TARGETS[(OLD_PACK/'docs'/name).resolve()]=SITE/'reference/legacy_teaching_pack/docs'/Path(name).with_suffix('.html')
 SAFE_SUFFIX={'.pdf','.pptx','.png','.jpg','.jpeg','.svg','.gif','.py','.sh','.txt','.xml','.json','.code-workspace','.yaml','.yml','.toml','.ini','.cfg'}
@@ -210,7 +218,8 @@ def shell(title,body,page,assets_root=SITE,home=None,download=None,notice=''):
     css=href_to(assets_root/'assets/docs.css',page);katex=href_to(assets_root/'assets/katex/katex.min.css',page)
     nav=f'<a href="{href_to(home,page)}">Rehearsal browser</a>'
     if assets_root==SITE:
-        nav+=f'<a href="{href_to(SITE/"teaching/LECTURE_SCRIPT.html",page)}">Lecture</a><a href="{href_to(SITE/"research/RESEARCH_SCRIPT.html",page)}">Research</a><a href="{href_to(SITE/"notebooks/index.html",page)}">Worked notebooks</a>'
+        nav=f'<a href="{href_to(SITE/"PRESENT_THIS.html",page)}"><strong>Present this lecture</strong></a>'+nav
+        nav+=f'<a href="{href_to(SITE/"teaching/LECTURE_SCRIPT.html",page)}">Lecture script</a><a href="{href_to(SITE/"research/RESEARCH_SCRIPT.html",page)}">Research</a><a href="{href_to(SITE/"notebooks/index.html",page)}">Instructor demos</a>'
     download_html=f'<p class="download meta"><a href="{href_to(download,page)+("?raw=1" if download.suffix.lower()==".md" else "")}" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p>' if download else ''
     return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><link rel="stylesheet" href="{css}"><link rel="stylesheet" href="{katex}"></head><body><header>{nav}</header><main>{notice}{download_html}{body}<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX {KATEX_VERSION}; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>'
 
@@ -229,7 +238,7 @@ def render_doc(source,page,legacy=False):
             h['id']=candidate;used.add(candidate)
     first=soup.find('h1');title=first.get_text() if first else source.stem.replace('_',' ')
     raw=page.with_suffix('.md');raw.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,raw)
-    note=('<div class="notice"><strong>Legacy teaching reference.</strong> This renders the inherited document faithfully; working links and typeset equations do not validate every inherited scientific claim or task promise. Use the <a href="'+href_to(SITE/'index.html',page)+'">current rehearsal browser</a> and <a href="'+href_to(SITE/'START_HERE.html',page)+'">current start guide</a> for the corrected teaching scope, executed worked notebooks and evidence boundaries.</div>') if source.name in LEGACY_NAMES else ''
+    note=('<div class="notice"><strong>Legacy teaching reference.</strong> This renders the inherited document faithfully; working links and typeset equations do not validate every inherited scientific claim or task promise. For teaching, open <a href="'+href_to(SITE/'PRESENT_THIS.html',page)+'">Present this lecture</a>. Use the <a href="'+href_to(SITE/'index.html',page)+'">current rehearsal browser</a> and <a href="'+href_to(SITE/'START_HERE.html',page)+'">current start guide</a> for the corrected teaching scope, executed worked notebooks and evidence boundaries.</div>') if source.name in LEGACY_NAMES else ''
     assets=SITE
     home=SITE/'index.html'
     page.write_text(shell(title,str(soup),page,assets,home,raw,note))
@@ -255,22 +264,38 @@ def render_notebook(source,page,legacy=False):
                     value=out.get('text',data.get('text/plain',[]));value=''.join(value) if isinstance(value,list) else value
                     if value:parts.append('<div class="output"><pre>'+html.escape(value)+'</pre></div>')
             parts.append('</section>')
+    if not legacy and errors:
+        raise ValueError(f'Current presentation notebook has {errors} saved error object(s): {source.name}. Execute it successfully before building the reader.')
     page.parent.mkdir(parents=True,exist_ok=True)
     if not legacy:download=page.with_suffix('.ipynb');download.write_bytes(original)
     else:download=None
     meta=f'<p class="meta">Saved notebook view · {code} code cells · {outputs} saved output objects · {errors} error objects. This page does not execute code.</p>'
-    notice=('<div class="notice"><strong>Legacy notebook snapshot.</strong> Rendering preserves the inherited source and saved results; it does not repair or certify every legacy code/content claim. Student TODO failures remain incomplete exercises. Use the <a href="'+href_to(SITE/'index.html',page)+'">current rehearsal browser</a> or <a href="'+href_to(SITE/'START_HERE.html',page)+'">current start guide</a> for the corrected rehearsable materials and separate learner tasks. Linked teaching Markdown now opens as HTML with offline mathematics.</div>') if legacy else ''
+    notice=('<div class="notice"><strong>Legacy notebook snapshot.</strong> Rendering preserves the inherited source and saved results; it does not repair or certify every legacy code/content claim. Student TODO failures in this inherited snapshot remain incomplete exercises. For the completed presentation notebooks, open <a href="'+href_to(SITE/'PRESENT_THIS.html',page)+'">Present this lecture</a>. Use the <a href="'+href_to(SITE/'index.html',page)+'">current rehearsal browser</a> or <a href="'+href_to(SITE/'START_HERE.html',page)+'">current start guide</a> for the corrected rehearsable materials. Linked teaching Markdown now opens as HTML with offline mathematics.</div>') if legacy else ''
+    if not legacy and source.parent.name=='student_exercises':
+        notice='<div class="notice"><strong>Completed reference example.</strong> The historical Student filename is retained, but this notebook contains completed code. Independent learner prompts are in <a href="'+href_to(SITE/'teaching/STUDENT_PRACTICE.html',page)+'">Student practice</a>. For delivery, open <a href="'+href_to(SITE/'PRESENT_THIS.html',page)+'">Present this lecture</a>.</div>'
     page.write_text(shell(source.stem.replace('_',' '),meta+''.join(parts),page,SITE,None,download,notice))
     assert source.read_bytes()==original,'Notebook source or outputs changed unexpectedly'
     REPORT['legacy_pages' if legacy else 'notebook_pages'].append({'path':rel(page),'source_path':rel(source),'source_sha256':hashlib.sha256(original).hexdigest(),'code_sha256':hashlib.sha256('\n'.join(''.join(c.get('source',[])) for c in nb['cells'] if c['cell_type']=='code').encode()).hexdigest(),'notebook_unchanged':True,'code_cells':code,'outputs':outputs,'errors':errors})
 
 
 def make_index():
-    cards=[('30-minute lecture','teaching/LECTURE_SCRIPT.html','Read the timed lecture beside the PDF and worked examples.'),('20-minute research','research/RESEARCH_SCRIPT.html','Review supported group results and the proposed study.'),('Worked notebooks','notebooks/index.html','Inspect actual saved tensors, plots, generated outputs and errors.'),('Student pathway','teaching/STUDENT_PATHWAY.html','Follow prerequisites, independent tasks and optional projects.'),('Interview Q&A','interview/INTERVIEW_QA.html','Practice explanations and prepare factual personal answers.'),('Fully worked legacy reference','reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html','Read the inherited long mathematical derivations with offline typesetting.')]
-    body='<h1>VGU rehearsal browser</h1><p>Read the teaching materials, equations and saved notebook results in one local browser. Start with the lecture, then rehearse the research orientation. The files below are the current corrected rehearsal package; legacy references are labelled.</p><div class="cards">'
+    cards=[('Present this lecture','PRESENT_THIS.html','Start here: the 30-minute PDF, timed script, two core demos and presentation checklist.'),('Instructor demos','notebooks/index.html','Six completed instructor examples with saved calculations, plots and checks.'),('20-minute research','research/RESEARCH_SCRIPT.html','Review supported group results and the proposed study.'),('Student practice','teaching/STUDENT_PRACTICE.html','Assign independent explanation and implementation prompts after the demonstration.'),('Student pathway','teaching/STUDENT_PATHWAY.html','Follow prerequisites, assessment and optional projects.'),('Interview Q&A','interview/INTERVIEW_QA.html','Practice explanations and prepare factual personal answers.')]
+    body='<h1>VGU rehearsal browser</h1><div class="notice"><strong>Teaching now?</strong> Open <a href="PRESENT_THIS.html"><strong>Present this lecture</strong></a>. It links the completed instructor demonstrations in delivery order and the offline PDF fallback. The current notebook examples contain no deliberate failing exercise cells.</div><p>The library contains the lecture, research orientation, equations and saved notebook results. A timed human rehearsal and student teach-back still need to be performed.</p><div class="cards">'
     for title,url,desc in cards:body+=f'<article class="card"><h3><a href="{url}">{title}</a></h3><p>{desc}</p></article>'
-    body+='</div><h2>Start and present</h2><ul><li><a href="START_HERE.html">Full start guide and requirement evidence</a></li><li><a href="../slides/Trial_Lecture_30min.pdf">Lecture PDF</a> · <a href="../slides/Trial_Lecture_30min.pptx">PowerPoint with notes</a></li><li><a href="../slides/Research_Orientation_20min.pdf">Research PDF</a> · <a href="../slides/Research_Orientation_20min.pptx">PowerPoint with notes</a></li><li><a href="interview/SUBMISSION_CHECKLIST.html">Personal rehearsal checklist</a></li></ul><div class="notice">Personal certificates, HR forms and private evidence scans are not bundled in this browser. Those records and their local filenames are omitted from this export. No message or submission has been sent.</div>'
+    body+='</div><h2>Setup, slides and verification</h2><ul><li><a href="START_HERE.html">Full start guide and requirement evidence</a></li><li><a href="../slides/Trial_Lecture_30min.pdf">Lecture PDF</a> · <a href="../slides/Trial_Lecture_30min.pptx">PowerPoint with notes</a></li><li><a href="../slides/Research_Orientation_20min.pdf">Research PDF</a> · <a href="../slides/Research_Orientation_20min.pptx">PowerPoint with notes</a></li><li><a href="interview/SUBMISSION_CHECKLIST.html">Personal submission checklist</a></li></ul><details><summary>Legacy mathematical reference — separate from the current lecture</summary><p><a href="reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html">Inherited full mathematical solutions</a>. The source is rendered faithfully and is labelled legacy. It is not the current instructor demonstration route, and functioning links do not certify every inherited claim.</p></details><div class="notice">Personal certificates, HR forms and private evidence scans are not bundled in this browser. Those records and their local filenames are omitted from this export. No message or submission has been sent.</div>'
     (SITE/'index.html').write_text(shell('VGU rehearsal browser',body,SITE/'index.html'))
+
+
+def make_notebook_index():
+    page=SITE/'notebooks/index.html';page.parent.mkdir(parents=True,exist_ok=True)
+    body='<h1>Completed instructor demonstrations</h1><p>Use <a href="../PRESENT_THIS.html">Present this lecture</a> for the timed delivery checklist. The first two notebooks support the 30-minute lecture. The other four are preparation, Q&A or follow-up material.</p><ol>'
+    for filename,title,description in INSTRUCTOR_DEMOS:
+        source=ROOT/'notebooks'/filename
+        if source.resolve() not in TARGETS:raise FileNotFoundError(f'Missing instructor demonstration: {filename}')
+        body+=f'<li><a href="{href_to(TARGETS[source.resolve()],page)}">{html.escape(title)}</a> — {html.escape(description)}</li>'
+    body+='</ol><p>For independent learner work, use <a href="../teaching/STUDENT_PRACTICE.html">Student practice</a>. The historical Student-named notebooks are completed reference copies; they are not the presentation route.</p><p><a href="../../slides/Trial_Lecture_30min.pdf">Open the offline lecture PDF</a> if a live demonstration cannot open. Saved execution and a human explanation serve different purposes; record your actual rehearsal in the <a href="../teaching/REHEARSAL_LOG.html">rehearsal log</a>.</p>'
+    page.write_text(shell('Completed instructor demonstrations',body,page))
+
 
 
 def make_directory_indexes(root):
@@ -297,12 +322,18 @@ def make_directory_indexes(root):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--bootstrap',action='store_true');ap.add_argument('--skip-legacy',action='store_true');args=ap.parse_args()
     setup_katex(args.bootstrap)
+    for filename,_,_ in INSTRUCTOR_DEMOS:
+        if not (ROOT/'notebooks'/filename).is_file():raise FileNotFoundError(f'Missing instructor demonstration: {filename}')
+    for source in CANONICAL_NB:
+        nb=json.loads(source.read_text())
+        errors=sum(out.get('output_type')=='error' for cell in nb['cells'] for out in cell.get('outputs',[]))
+        if errors:raise ValueError(f'Current presentation notebook has {errors} saved error object(s): {source.name}. Execute it successfully before building the reader.')
     if SITE.exists():shutil.rmtree(SITE)
     SITE.mkdir();install_assets(SITE)
     for source in CANONICAL_MD:render_doc(source,TARGETS[source.resolve()])
     for source in CANONICAL_NB:render_notebook(source,TARGETS[source.resolve()])
     for name in LEGACY_NAMES:render_doc(OLD_PACK/'docs'/name,TARGETS[(OLD_PACK/'docs'/name).resolve()])
-    make_index();make_directory_indexes(SITE)
+    make_index();make_notebook_index();make_directory_indexes(SITE)
     out=ROOT/'verification/document_browser_build.json';out.write_text(json.dumps(REPORT,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'site':'site/index.html','markdown_pages':len(REPORT['markdown_pages']),'canonical_notebooks':len(REPORT['notebook_pages']),'legacy_notebooks':len(REPORT['legacy_pages']),'math_errors':len(REPORT['math_errors']),'unbundled_private_references':len(REPORT['unbundled_private_references']),'report':'verification/document_browser_build.json'},ensure_ascii=False))
     if REPORT['math_errors']:

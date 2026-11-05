@@ -1,18 +1,18 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Feature Specification: Align VGU rehearsal materials and visible notebook results</title><link rel="stylesheet" href="../../assets/docs.css"><link rel="stylesheet" href="../../assets/katex/katex.min.css"></head><body><header><a href="../../index.html">Rehearsal browser</a><a href="../../teaching/LECTURE_SCRIPT.html">Lecture</a><a href="../../research/RESEARCH_SCRIPT.html">Research</a><a href="../../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="spec.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="feature-specification-align-vgu-rehearsal-materials-and-visible-notebook-results">Feature Specification: Align VGU rehearsal materials and visible notebook results</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Feature Specification: Align VGU rehearsal materials and visible notebook results</title><link rel="stylesheet" href="../../assets/docs.css"><link rel="stylesheet" href="../../assets/katex/katex.min.css"></head><body><header><a href="../../PRESENT_THIS.html"><strong>Present this lecture</strong></a><a href="../../index.html">Rehearsal browser</a><a href="../../teaching/LECTURE_SCRIPT.html">Lecture script</a><a href="../../research/RESEARCH_SCRIPT.html">Research</a><a href="../../notebooks/index.html">Instructor demos</a></header><main><p class="download meta"><a href="spec.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="feature-specification-align-vgu-rehearsal-materials-and-visible-notebook-results">Feature Specification: Align VGU rehearsal materials and visible notebook results</h1>
 <p><strong>Feature Branch</strong>: <code>codex/vgu-rehearsal-2026-11-04</code>; repository edition under <code>vgu-rehearsal/</code>, with main preserved.
 <strong>Created</strong>: 2026-11-04
 <strong>Status</strong>: Specified
 <strong>Input</strong>: The user cannot see notebook outputs and requests use of the local GitHub Spec Kit to fulfill interview and teaching requirements so rehearsal can begin.</p>
 <h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing <em>(mandatory)</em></h2>
 <h3 id="user-story-1-see-actual-notebook-results-priority-p1">User Story 1 - See actual notebook results (Priority: P1)</h3>
-<p>The candidate opens the original interview notebooks and immediately sees actual saved results, with unfinished student exercises clearly identified. The candidate also has a distinct set of complete worked notebooks for rehearsal.</p>
+<p>The candidate opens the original interview notebooks and immediately sees actual saved historical results, with original unfinished exercises accurately identified. The current canonical rehearsal package supplies eight complete, error-free runnable examples; unanswered learner practice is kept in Markdown rather than failing notebooks.</p>
 <p><strong>Why this priority</strong>: The prior handoff placed results elsewhere, leaving the candidate's files empty.
 <strong>Independent Test</strong>: Open the original instructor notebook and a canonical worked notebook without running a kernel; inspect visible numerical outputs and saved execution counts.
 <strong>Acceptance Scenarios</strong>:</p>
 <ol>
 <li>Given the 14 original notebooks, when their saved files are read, all code cells have fresh execution counts and every file has saved output; instructor paths contain no errors, student TODOs remain explicitly incomplete.</li>
-<li>Given the four canonical worked notebooks, when run from a clean kernel, all code cells execute without allowed errors and results remain saved at the linked paths.</li>
-<li>Given blank student code, when its own grading checks run, they fail for unfinished work rather than passing through imported answers.</li>
+<li>Given every notebook recursively under the canonical notebooks directory (eight delivered files), when each runs in a fresh kernel from its own directory, all code cells execute without allowed errors or exception/skip tags, and actual outputs remain saved in place.</li>
+<li>Given the provided completed Tier 1–2 examples, when their local four-function implementation is imported, all nine behavioral tests pass; unanswered practice prompts remain in teaching/STUDENT_PRACTICE.md outside runnable notebooks. Historical Student filenames do not imply an independently completed learner submission.</li>
 </ol>
 <h3 id="user-story-2-rehearse-a-coherent-bachelor-lecture-priority-p1">User Story 2 - Rehearse a coherent Bachelor lecture (Priority: P1)</h3>
 <p>The candidate follows one 30-minute English lecture and its matching script, using worked numerical and code examples to explain what students learn, why it matters and what they can apply later.</p>
@@ -48,7 +48,7 @@
 </ol>
 <h3 id="edge-cases">Edge Cases</h3>
 <ul>
-<li>Student TODO failures and comment-only scaffolds must never be treated as completed assignments.</li>
+<li>Historical original TODO failures remain accurately labelled in the earlier audit. Current canonical runnable notebooks must have no saved errors, unfinished code, exception-allowing tags or skipped execution; unanswered practice is Markdown only.</li>
 <li>Fully masked attention rows, padded loss targets and all-ignored targets need declared behavior.</li>
 <li>Internal generated BOS/PAD tokens must not disappear from recognition metrics; finished sequences need a clear EOS convention.</li>
 <li>Cache chunk offsets and future-token changes must preserve the appropriate past outputs.</li>
@@ -65,11 +65,11 @@
 <h3 id="functional-requirements">Functional Requirements</h3>
 <ul>
 <li><strong>FR-001</strong>: All 14 original notebooks MUST retain fresh code-cell execution counts and saved results at their original paths, with accurate instructor/student status.</li>
-<li><strong>FR-002</strong>: Four clearly named canonical worked notebooks MUST be complete, contain actual results, and execute without allowed errors; core and optional work MUST be distinct.</li>
+<li><strong>FR-002</strong>: All eight canonical notebooks MUST be complete, contain actual saved results, and execute recursively in fresh kernels without allowed errors or execution-bypass tags. The four core/optional worked notebooks, two dedicated Tier 1–2 instructor notebooks, and two completed examples at legacy Student filenames MUST have distinct, accurate roles.</li>
 <li><strong>FR-003</strong>: Core teaching MUST connect motivation, prerequisites, theory, a worked numerical example, code, checks and a later application or research question.</li>
 <li><strong>FR-004</strong>: The trial lecture, embedded notes and script MUST agree in content/order and allocate exactly 30 minutes; research equivalents MUST allocate 20 minutes, excluding their respective Q&amp;A.</li>
 <li><strong>FR-005</strong>: Historical presentation claims MUST have metric-specific primary evidence and group/personal attribution; unsupported claims MUST be removed from speech and isolated in a confirmation ledger.</li>
-<li><strong>FR-006</strong>: Promised lab tasks and assessment MUST match delivered notebooks; unfinished student code and private reference solutions MUST be separated and graded through the correct implementation.</li>
+<li><strong>FR-006</strong>: Promised lab tasks and assessment MUST match delivered examples. Runnable Tier 1–2 notebooks and their local four-function implementation MUST be complete and pass all nine behavioral tests; unanswered learner tasks MUST be separated into teaching/STUDENT_PRACTICE.md. Provided examples MUST NOT be presented as evidence that a learner independently completed the practice.</li>
 <li><strong>FR-007</strong>: Behavioral verification MUST cover attention-reference agreement, causal invariance, rectangular shapes, padding/empty rows, shifted labels, cache equivalence and special-token metric behavior.</li>
 <li><strong>FR-008</strong>: Both presentations MUST have offline-readable slide files, matching rehearsal scripts and directly inspectable notebook results.</li>
 <li><strong>FR-009</strong>: The local Spec Kit checkout MUST actually initialize and structure this project, with recorded revision/commands and traceable specification, plan, tasks and convergence assessment.</li>
@@ -93,7 +93,7 @@
 <h2 id="success-criteria-mandatory">Success Criteria <em>(mandatory)</em></h2>
 <h3 id="measurable-outcomes">Measurable Outcomes</h3>
 <ul>
-<li><strong>SC-001</strong>: Opening any original instructor or canonical worked notebook without rerunning reveals saved outputs; no canonical worked notebook contains an execution error.</li>
+<li><strong>SC-001</strong>: Opening any original instructor or canonical notebook without rerunning reveals saved outputs; every one of the eight recursive canonical notebooks has complete execution counts and zero saved errors, with no allowed-error or skip policy.</li>
 <li><strong>SC-002</strong>: The candidate can locate the current lecture, research talk and worked notebook from START_HERE in one link each.</li>
 <li><strong>SC-003</strong>: All scheduled lecture minutes total 30 and research minutes total 20; each slide has matching presenter guidance.</li>
 <li><strong>SC-004</strong>: Every historical quantitative research claim in the new presentation maps to matching evidence; unsupported claims are absent from spoken content.</li>
@@ -111,4 +111,6 @@
 <li>Human timed delivery and student learning cannot be observed by preparing files; the package supplies practical checks for the candidate to perform.</li>
 <li>The user's later request explicitly authorizes uploading corresponding prepared files to a new repository branch. The connected repository was verified as private; no public website deployment is requested.</li>
 </ul>
+<h2 id="superseding-error-free-lecture-request">Superseding error-free lecture request</h2>
+<p>The later user request requires every runnable notebook in this repository edition to complete without errors. Eight provided examples are verified recursively; unanswered practice is Markdown only. Historical authoring/audit records remain outside this repository edition and are not rewritten to conceal earlier TODO failures. Current package checks cover the 18 reference and nine completed-example tests without claiming independent learner completion.</p>
 <footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

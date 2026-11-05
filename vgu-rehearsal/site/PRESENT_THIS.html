@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Present this lecture</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="PRESENT_THIS.html"><strong>Present this lecture</strong></a><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture script</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Instructor demos</a></header><main><p class="download meta"><a href="PRESENT_THIS.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="present-this-lecture">Present this lecture</h1>
+<p>Use this page as the presentation entrypoint. Keep the <a href="../slides/Trial_Lecture_30min.pdf">30-minute lecture PDF</a> and <a href="teaching/LECTURE_SCRIPT.html">timed script</a> open together. The <a href="../slides/Trial_Lecture_30min.pptx">PowerPoint</a> contains the same presenter notes. Allow a separate 15 minutes for questions.</p>
+<h2 id="before-the-audience-arrives">Before the audience arrives</h2>
+<ul>
+<li>Open the PDF and the two core demonstrations below. Check that their saved outputs are visible; reopen an old IDE tab to load the saved version.</li>
+<li>If you plan to execute code, choose <strong>VGU rehearsal (CPU)</strong> from this package. Run the demonstrations before the session.</li>
+<li>Keep the script's static attention calculation, mask and shifted-target table ready. If a live window fails, continue with the PDF and those calculations.</li>
+<li>Start a timer. The 30-minute schedule is a plan; record an actual timed rehearsal and teach-back in the <a href="teaching/REHEARSAL_LOG.html">rehearsal log</a>.</li>
+</ul>
+<h2 id="demonstrations-for-the-30-minute-lecture">Demonstrations for the 30-minute lecture</h2>
+<table>
+<thead>
+<tr>
+<th>Open</th>
+<th>Explain and ask</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="notebooks/01_Core_Attention_Worked.html">01 — Core attention worked</a></td>
+<td>Connect tokens, IDs and embeddings; calculate attention; check dimensions, the causal mask and shifted targets. Ask what information one prediction can use.</td>
+</tr>
+<tr>
+<td><a href="notebooks/02_Training_and_Generation_Worked.html">02 — Training and generation worked</a></td>
+<td>Compare training prefixes with generated prefixes. Show future-invariance, padding and decoding checks. Ask why a locally best next token can lose over a complete sequence.</td>
+</tr>
+</tbody>
+</table>
+<p>Show selected saved outputs inside the script's example time. The lesson does not need a new training run, a download or a benchmark during delivery.</p>
+<h2 id="completed-instructor-references-for-questions-and-follow-up">Completed instructor references for questions and follow-up</h2>
+<p>These are completed examples. They supplement the two core demonstrations; they do not add time to the 30-minute lecture.</p>
+<ul>
+<li><a href="notebooks/Tier1_Instructor.html">Tier 1 — Instructor</a>: the introductory implementation and its worked checks.</li>
+<li><a href="notebooks/Tier2_Instructor.html">Tier 2 — Instructor</a>: the extended implementation and its worked checks.</li>
+<li><a href="notebooks/03_Optional_Systems_Worked.html">03 — Optional systems worked</a>: position methods, grouped queries, cache offsets and measured CPU behavior.</li>
+<li><a href="notebooks/04_Optional_Image_to_Sequence_Worked.html">04 — Optional image-to-sequence worked</a>: a small trained model, a template baseline, matched evaluations and observed failure cases. Toy results do not establish real document OCR performance.</li>
+</ul>
+<p>Independent tasks are written in <a href="teaching/STUDENT_PRACTICE.html">Student practice</a>. The two historical <code>Student</code> notebook filenames now hold completed reference examples; they contain no deliberate unimplemented exercise cells. Use the Markdown questions when asking learners to write or explain their own solution.</p>
+<h2 id="finish-and-rehearse-the-research-talk-separately">Finish and rehearse the research talk separately</h2>
+<p>Use the final exit ticket to check the mechanism and information available to a prediction. Finish the lecture at 30 minutes, then take its separate Q&amp;A. Complete the <a href="teaching/REHEARSAL_LOG.html">rehearsal log</a> after you actually deliver and explain the examples.</p>
+<p>The <a href="../slides/Research_Orientation_20min.pdf">20-minute research PDF</a> and <a href="research/RESEARCH_SCRIPT.html">research script</a> form a separate presentation with an additional 10-minute Q&amp;A. Use <a href="START_HERE.html">Start here</a> for setup and verification records and <a href="BROWSER_README.html">the browser guide</a> for formatted reading.</p>
+<footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

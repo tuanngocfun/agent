@@ -1,111 +1,93 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Core learner handout and assessment guide</title><link rel="stylesheet" href="../assets/docs.css"><link rel="stylesheet" href="../assets/katex/katex.min.css"></head><body><header><a href="../index.html">Rehearsal browser</a><a href="LECTURE_SCRIPT.html">Lecture</a><a href="../research/RESEARCH_SCRIPT.html">Research</a><a href="../notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="ASSESSMENT_AND_HANDOUT.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="core-learner-handout-and-assessment-guide">Core learner handout and assessment guide</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Independent practice and assessment guide</title><link rel="stylesheet" href="../assets/docs.css"><link rel="stylesheet" href="../assets/katex/katex.min.css"></head><body><header><a href="../PRESENT_THIS.html"><strong>Present this lecture</strong></a><a href="../index.html">Rehearsal browser</a><a href="LECTURE_SCRIPT.html">Lecture script</a><a href="../research/RESEARCH_SCRIPT.html">Research</a><a href="../notebooks/index.html">Instructor demos</a></header><main><p class="download meta"><a href="ASSESSMENT_AND_HANDOUT.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="independent-practice-and-assessment-guide">Independent practice and assessment guide</h1>
 <p><strong>Topic:</strong> Introduction to Sequence Generation with Transformers<br/>
-<strong>Audience:</strong> Bachelor students with basic vectors, matrix multiplication, probabilities and Python indexing<br/>
-<strong>Core:</strong> Tier 1 (60–90 minutes, 25 points) followed by Tier 2 (2–3 hours, 25 points)<br/>
-<strong>Optional:</strong> systems and synthetic image-to-sequence extensions after the core</p>
-<p>The lecture is 30 minutes; this homework/tutorial time is additional. The worked teacher notebooks contain answers and saved outputs. For an independent learner distribution, provide the <code>notebooks/student_exercises/</code> folder and the learner-facing task/rubric text below, rather than the whole private rehearsal master. Keep worked solutions private until feedback or self-study begins.</p>
-<h2 id="what-you-will-learn-and-why">What you will learn and why</h2>
-<p>You will connect an attention calculation to tensor code, prevent a model from seeing future answers, align inputs with next-token labels, and evaluate the distinction between correct training prefixes and generated prefixes. These skills apply to translation, code generation, speech transcripts and document transcription. They also help you identify a result that looks excellent because of a data or implementation error.</p>
-<p>Before beginning, check that you can multiply <code>[1,0] · [0,1]</code>, predict the shape of <code>[T,d] @ [d,S]</code>, and explain that <code>p(next | earlier)</code> means probability of the next item given earlier items. Read a token as a vocabulary item, not necessarily a complete word. An embedding is a learned vector selected by a token ID. Use the prerequisite section in STUDENT_PATHWAY.md and ask for a short prerequisite exercise if one of these steps is unfamiliar.</p>
-<h2 id="your-files-and-workflow">Your files and workflow</h2>
-<p>Open <code>Tier1_Student.ipynb</code>, then <code>Tier2_Student.ipynb</code> in <code>notebooks/student_exercises/</code>. Write your own code in <code>student_impl.py</code>. Its four functions deliberately raise <code>NotImplementedError</code> until you implement them. Blank work is an incomplete exercise, not an environment failure.</p>
-<ol>
-<li>Predict and write the calculation or shape before reading an output.</li>
-<li>Complete the written Tier 1 reasoning.</li>
-<li>Implement the functions while working through Tier 2.</li>
-<li>Return to the Tier 1 check cells, which call those same functions.</li>
-<li>Run the supplied behavioral tests against <strong>your</strong> <code>student_impl.py</code>.</li>
-<li>Explain one failed attempt, its cause, the correction and a fresh case you checked.</li>
-</ol>
-<p>Use the tested environment and kernel identified in the package's main run guide. From the learner directory, the assessment command is <code>python -m pytest -q tests</code> with that interpreter. Keep the test output in your submission. A notebook opening successfully or a green instructor demonstration is not a substitute for your implementation and reasoning.</p>
+<strong>Audience:</strong> Bachelor students with vectors, matrix multiplication, probability and basic Python indexing<br/>
+<strong>Core practice:</strong> Tier 1, 60–90 minutes / 25 points; Tier 2, 2–3 hours / 25 points</p>
+<p>The lecture is 30 minutes; practice time is additional. Every delivered notebook now contains completed worked examples. The historical <code>Tier1_Student.ipynb</code>, <code>Tier2_Student.ipynb</code> and <code>student_impl.py</code> filenames are retained, but their contents are <strong>reference solutions</strong>, not unfinished student submissions. Their passing tests do not establish independent learner implementation.</p>
+<h2 id="presentation-and-independent-work-routes">Presentation and independent-work routes</h2>
+<p>For teaching, use <a href="../notebooks/Tier1_Instructor.html">Tier1_Instructor.ipynb</a> and <a href="../notebooks/Tier2_Instructor.html">Tier2_Instructor.ipynb</a>. They connect motivation, mathematics, complete code, expected behavior and checks. The historical <a href="../notebooks/student_exercises/README.html">exercise folder</a> also contains completed examples. Keep those demonstrations intact and runnable.</p>
+<p>For independent work, use <a href="STUDENT_PRACTICE.html">STUDENT_PRACTICE.md</a>. Its unanswered Markdown prompts use changed inputs. Learners create their <strong>own separate module and folder</strong>, rather than delete code from a supplied notebook. No executable blank notebook ships in this package.</p>
+<p>The target functions are <code>attention</code>, <code>causal_mask</code>, <code>next_token_pairs</code> and <code>masked_cross_entropy</code>. A learner may copy the supplied behavioral tests into their own practice folder and change the copied import to their own implementation. For example, for their own <code>my_attention.py</code>, use <code>import my_attention as s</code>. Run from that separate folder and check the imported module's location so the tests cannot accidentally exercise the completed package reference.</p>
+<p>The supplied tests are public correctness checks, not a hidden examination. Include a fresh changed-input question and an unscripted explanation when assessing independent understanding.</p>
+<h2 id="what-to-learn-and-why">What to learn and why</h2>
+<p>A generator needs inputs, ordered targets, a learning objective and a stopping rule. Attention combines available information; masking prevents future-answer leakage; target shifting defines what each position predicts; generation uses predicted prefixes. These ideas transfer to translation, code, speech transcription and document recognition.</p>
+<p>Before practice, check a short dot product, the shape of <code>[T,d] @ [d,S]</code> and the meaning of <code>p(next | earlier)</code>. Explain that a token may be a word part or symbol, an ID is a lookup address, and an embedding is a learned vector. Use the prerequisite section in <a href="STUDENT_PATHWAY.html">STUDENT_PATHWAY.md</a> for a short diagnostic.</p>
 <h2 id="tier-1-explain-before-coding-25-points">Tier 1 — Explain before coding: 25 points</h2>
+<p>These are the independent variants in STUDENT_PRACTICE.md, deliberately different from the worked demonstrations.</p>
 <table>
 <thead>
 <tr>
 <th>Task</th>
-<th>Required evidence</th>
+<th>Required independent evidence</th>
 <th style="text-align:right">Points</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1A Attention calculation</td>
-<td>For <code>q=[1,0]</code>, <code>K=[[1,0],[0,1]]</code>, <code>V=[[2,0],[0,4]]</code>, predict the larger weight; calculate raw/scaled scores, softmax weights and output. Explain Q/K/V and why key width determines the scale.</td>
+<td>1A Attention</td>
+<td>For the changed query/values, predict relevance, calculate raw/scaled scores, weights and output; explain what changes when only V changes.</td>
 <td style="text-align:right">8</td>
 </tr>
 <tr>
-<td>1B Shape trace</td>
-<td>For <code>B=2,H=4,Tq=3,Tk=5,d=8,dv=6</code>, give Q/K/V, score, weight and output shapes. Name the softmax axis and explain why source and target lengths may differ.</td>
+<td>1B Shapes</td>
+<td>For <code>B=3,H=2,T=4,S=7,d_k=5,d_v=6</code>, trace all shapes and name the normalized and summed axes.</td>
 <td style="text-align:right">4</td>
 </tr>
 <tr>
-<td>1C Visibility and shift</td>
-<td>Draw a 4×4 additive causal mask. Shift <code>[BOS,a,b,c,EOS]</code> into decoder input and next-token targets. Explain separately what an incorrect mask and an incorrect shift would permit.</td>
+<td>1C Visibility/shift</td>
+<td>For <code>[BOS,x,y,EOS]</code>, construct inputs, targets and the mask; identify exactly which future input would leak an answer.</td>
 <td style="text-align:right">5</td>
 </tr>
 <tr>
 <td>1D Learning signal</td>
-<td>For logits <code>[ln(2),0,0]</code> and target index 2, compute probabilities, negative log-likelihood and perplexity. Declare the loss ignore index. Explain why low training loss alone does not establish generalization.</td>
+<td>For <code>[0,ln(3),0]</code>, target 0, derive probabilities, NLL and perplexity; distinguish vocabulary probabilities from attention weights.</td>
 <td style="text-align:right">5</td>
 </tr>
 <tr>
 <td>1E Sequence score</td>
-<td>Given <code>p(A)=.6</code>, <code>p(B)=.4</code>, best continuation after A <code>.5</code>, best after B <code>1</code>, calculate both complete scores. Explain why a greedy first choice can lose. This written arithmetic alone does not test a search implementation.</td>
+<td>Compare greedy and complete-sequence decisions using the practice tree; declare length and EOS conventions.</td>
 <td style="text-align:right">3</td>
 </tr>
 </tbody>
 </table>
-<p>The shape numbers in this independent workbook intentionally differ from the lecture's example <code>B=2,H=3,T=5,S=7,d_k=4,d_v=6</code>. Transfer the axis meanings rather than copy the lecture tensor sizes.</p>
-<p><strong>Transfer prompt:</strong> choose a next-word predictor, character transcriber or structured-output parser. Name its input, token unit, target sequence, BOS/EOS, loss, metric, one possible leak and one simple baseline. Include this explanation with your code submission.</p>
-<h2 id="tier-2-implement-and-challenge-your-code-25-points">Tier 2 — Implement and challenge your code: 25 points</h2>
+<p>Credit correct intermediate reasoning even when one arithmetic slip changes the result. Ask a fresh value, dimension or visibility question before concluding the method transfers.</p>
+<h2 id="tier-2-implement-and-challenge-your-own-component-25-points">Tier 2 — Implement and challenge your own component: 25 points</h2>
 <table>
 <thead>
 <tr>
 <th>Task</th>
-<th>Required evidence</th>
+<th>Required independent evidence</th>
 <th style="text-align:right">Points</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>2A Attention</td>
-<td>Implement <code>attention(q,k,v,mask=None)</code>: scaled scores, floating additive mask, key-axis softmax, value mixture. Support rectangular attention and broadcast masks. Demonstrate the declared all-masked policy.</td>
+<td>Own scaled-score/mask/softmax/value implementation; rectangular reference agreement with a declared tolerance.</td>
 <td style="text-align:right">8</td>
 </tr>
 <tr>
-<td>2B Causality</td>
-<td>Implement <code>causal_mask(t_query,t_key=None,past=0,device=None)</code>. A key <code>j</code> is visible iff <code>j &lt;= past + query_index</code>. Show that changing only future K/V does not alter earlier outputs. Cover padding keys, offsets and all-masked rows.</td>
+<td>2B Causality/padding</td>
+<td>Own offset causal mask; future-perturbation, padding-key and empty-row checks; explain an unmasked contrast.</td>
 <td style="text-align:right">7</td>
 </tr>
 <tr>
-<td>2C Shift and loss</td>
-<td>Implement <code>next_token_pairs(ids)</code> and <code>masked_cross_entropy(logits,labels,*,ignore_index)</code>. Preserve EOS as a target, ignore padded labels explicitly and cover the all-ignored loss policy.</td>
+<td>2C Shift/loss</td>
+<td>Own target alignment and explicit padding-aware CE; retain EOS supervision and check ignored-target gradients.</td>
 <td style="text-align:right">7</td>
 </tr>
 <tr>
-<td>2D Diagnose and explain</td>
-<td>Explain how unmasked teacher-forced input can contain an earlier position's correct label. Submit a 250-word explanation distinguishing mask, shift, source attention and loss padding, supported by one behavioral check.</td>
+<td>2D Explain/transfer</td>
+<td>Explain mask, shift, source attention and loss padding; diagnose a mismatch and name an application/baseline.</td>
 <td style="text-align:right">3</td>
 </tr>
 </tbody>
 </table>
-<p>Use the following explicit interface policy:</p>
-<ul>
-<li>Masks are floating additive scores: <code>0</code> permits a key, <code>-inf</code> blocks it <strong>before</strong> softmax.</li>
-<li>Attention weights are the values <strong>after</strong> softmax. Each valid row sums to one.</li>
-<li>A fully blocked query row returns zero weights and zero output in this exercise; its row sum is zero. Implement the policy without NaN gradients. Ordinary all-<code>-inf</code> softmax has no valid distribution.</li>
-<li>Loss averages only valid labels and requires an explicit ignore index. If every label is ignored, return differentiable zero with zero gradients.</li>
-<li>Ignoring PAD in loss does not block PAD in attention. They require different operations.</li>
-</ul>
-<p>Other edge policies can be reasonable in a different API, including explicit rejection. The supplied tests assess the stated contract. They import the learner implementation, so an unimplemented function must fail. Do not replace the learner module with an instructor import.</p>
-<h2 id="grading-criteria-and-feedback">Grading criteria and feedback</h2>
-<p>Calculations and explanations receive credit for a correct method even when one arithmetic slip affects a final number. Name the axes and intermediate values so the cause is visible. Code receives credit for behavior under fresh inputs, not resemblance to a reference implementation. Tests provide evidence for the implemented cases; they do not prove every possible behavior.</p>
-<p>For a missed shape question, reduce to two queries and three keys and count comparisons. For mask/weight confusion, write the values before and after softmax in separate rows. For a missed shift question, write one explicit pair, such as input <code>a</code> → target <code>b</code>. For a future-invariance failure, perturb only future data and compare earlier outputs before inspecting the mask's appearance. Reattempt a fresh case after feedback.</p>
-<p>To check independent understanding, the teacher may change the query to <code>[0,1]</code>, alter a value vector, use unequal source/target lengths, or ask about a different masked key. A correct copied output is insufficient evidence for that check. Human observations are recorded during the real tutorial; this guide does not claim they have occurred.</p>
-<h2 id="what-to-submit">What to submit</h2>
-<p>Submit your completed Tier 1 written work, the two notebooks with your actual outputs, your <code>student_impl.py</code>, the behavioral test result and the short explanation/transfer prompt. Identify the interpreter/kernel you used. State any incomplete task directly. Do not fabricate a passing result or an error example. Passing tests plus a clear explanation are both required for the core; the lecturer agrees any final course grade.</p>
-<h2 id="optional-follow-up-choose-one">Optional follow-up — choose one</h2>
-<p><strong>Systems, one to two weeks:</strong> use <code>03_Optional_Systems_Worked.ipynb</code> as a worked reference after the core. Verify cached/full output agreement, including offsets, before benchmarking at multiple supported lengths. State the hardware, dimensions, precision and measurement policy. Report observed timings without promising a speedup. RoPE, grouped-query attention and cache storage are optional extension topics.</p>
-<p><strong>Image-to-sequence, one to two weeks:</strong> use <code>04_Optional_Image_to_Sequence_Worked.ipynb</code> as a worked reference. Identify the source encoder, cross-attention, shifted training targets and actual generation loop. Compare greedy and <strong>beam width 3</strong> on the <strong>same 16</strong> worked examples, alongside the nearest-template baseline. Declare exact match and CER conventions and report actual errors, including “none observed” when appropriate. The four-template, fixed-length synthetic task is not evidence of real OCR generalization or a need for target-history dependence. A larger frozen noise experiment is a separate extension, not a claim from those 16 cases.</p>
-<p>A position-encoding ablation, a pretrained model and a real-document research dataset are possible later projects with their own controls. They are not promised as completed components of the core handout.</p>
+<p>The reference contract uses floating additive masks: zero permits, negative infinity blocks <strong>before</strong> softmax. Valid rows sum to one; fully blocked rows return zero weights/output, with finite gradients. Loss requires an explicit ignore index, averages valid targets only and returns differentiable zero for all-ignored supervision. Ignoring padded targets does not hide padding keys in attention.</p>
+<p>Other APIs can choose explicit rejection for empty rows/batches; the supplied reference checks assess its stated zero policy. Do not catch or remove a failed assertion to claim completion. All delivered demonstrations use valid inputs and normal successful execution.</p>
+<h2 id="feedback-and-submission">Feedback and submission</h2>
+<p>For shapes, draw two queries with three key comparisons each. For mask/weight confusion, write separate before/after-softmax rows. For alignment, state one input → next-target pair. For a causality issue, perturb only future data and compare earlier outputs before inspecting the mask picture.</p>
+<p>An independent submission contains the learner's calculations, their own module, actual run/test output and an explanation of a mismatch, correction and limitation. Running the supplied completed notebooks checks reference examples; it does not establish that independent submission. The advising lecturer agrees the final grading policy.</p>
+<h2 id="optional-next-work">Optional next work</h2>
+<p>Systems work checks cached/full agreement before measured timings; no speedup is guaranteed. The glyph example compares greedy and beam width 3 on the same cases and a nearest-template baseline. Report actual errors or none observed, with sample count and CER convention. Four known synthetic templates do not establish real OCR generalization or a need for useful target-history dependence.</p>
+<p>Position-method ablations, pretrained models and real-document datasets are later projects with their own controls, not prerequisites for running the completed core demonstrations.</p>
 <footer>Local rehearsal materials · mathematics pre-rendered with KaTeX 0.19.1; no network connection is needed to read these pages. Saved execution results do not certify human rehearsal or student understanding.</footer></main></body></html>

@@ -1,12 +1,12 @@
 {
   "policy": "Standalone loopback HTTP, offline file viewing, blocked external browser requests and package-relative evidence; no notebook execution or modification. Screenshots are retained locally outside the distributed artifact.",
-  "html_pages_checked": 43,
-  "unique_internal_http_targets": 157,
+  "html_pages_checked": 49,
+  "unique_internal_http_targets": 171,
   "http_errors": [],
   "fragment_errors": [],
   "absolute_navigation_paths": [],
   "renamed_package_check": {
-    "unique_internal_http_targets": 157,
+    "unique_internal_http_targets": 171,
     "http_errors": [],
     "links_escaping_package": [],
     "fragment_errors": [],
@@ -23,6 +23,19 @@
       "math_errors": 0,
       "broken_image_count": 0,
       "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/PRESENT_THIS.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
       "external_requests": [],
       "body_overflow_px": 0,
       "file_view_math_errors": 0
@@ -34,28 +47,7 @@
       "math_errors": 0,
       "broken_image_count": 0,
       "page_errors": [],
-      "external_requests": [],
-      "body_overflow_px": 0,
-      "file_view_math_errors": 0
-    },
-    {
-      "path": "site/notebooks/01_Core_Attention_Worked.html",
-      "http_status": 200,
-      "katex_equations": 19,
-      "math_errors": 0,
-      "broken_image_count": 0,
-      "page_errors": [],
-      "external_requests": [],
-      "body_overflow_px": 0,
-      "file_view_math_errors": 0
-    },
-    {
-      "path": "site/notebooks/04_Optional_Image_to_Sequence_Worked.html",
-      "http_status": 200,
-      "katex_equations": 0,
-      "math_errors": 0,
-      "broken_image_count": 0,
-      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
       "external_requests": [],
       "body_overflow_px": 0,
       "file_view_math_errors": 0
@@ -67,10 +59,143 @@
       "math_errors": 0,
       "broken_image_count": 0,
       "page_errors": [],
+      "saved_notebook_error_nodes": 0,
       "external_requests": [],
       "body_overflow_px": 0,
       "file_view_math_errors": 0,
       "mobile_body_overflow_px": 0
+    },
+    {
+      "path": "site/notebooks/01_Core_Attention_Worked.html",
+      "http_status": 200,
+      "katex_equations": 19,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/02_Training_and_Generation_Worked.html",
+      "http_status": 200,
+      "katex_equations": 5,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/03_Optional_Systems_Worked.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/04_Optional_Image_to_Sequence_Worked.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/Tier1_Instructor.html",
+      "http_status": 200,
+      "katex_equations": 13,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/Tier2_Instructor.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/index.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/student_exercises/README.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/student_exercises/Tier1_Student.html",
+      "http_status": 200,
+      "katex_equations": 13,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/student_exercises/Tier2_Student.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
+    },
+    {
+      "path": "site/notebooks/student_exercises/index.html",
+      "http_status": 200,
+      "katex_equations": 0,
+      "math_errors": 0,
+      "broken_image_count": 0,
+      "page_errors": [],
+      "saved_notebook_error_nodes": 0,
+      "external_requests": [],
+      "body_overflow_px": 0,
+      "file_view_math_errors": 0
     }
   ],
   "math_parse_errors": [],
@@ -78,39 +203,51 @@
   "notebook_source_hashes": [
     {
       "path": "notebooks/01_Core_Attention_Worked.ipynb",
-      "sha256": "7aeb343061bab16790f15d2de23aef906fa30d18282a7e91b1774c7bd777ce50",
+      "sha256": "8bbebf2291e050f83fbcb16497f874bcf207ca030274a2830b7dc85a3473a3e0",
       "matches_rendered_source": true,
       "code_sha256": "5145ac311da39f4325f33b19fe383c10ff2a635cb81d67fd934e11df615c1b63"
     },
     {
       "path": "notebooks/02_Training_and_Generation_Worked.ipynb",
-      "sha256": "5b6cc704901cadb7b12419eaf84d1c1f648576b24f4557e782afa3bce220eb6d",
+      "sha256": "9163e29d86ab19627d6e75e8984f23f688df63b15c7fba0ef4631511b86dbd1b",
       "matches_rendered_source": true,
       "code_sha256": "d4734377ec2ee9b027bd8c2c1f0ee85bdce8dc0778d318bdab0ce468ca04ed12"
     },
     {
       "path": "notebooks/03_Optional_Systems_Worked.ipynb",
-      "sha256": "e4e232dadfeb1a45ea0fbf0332394eaf9fa9d849714082702d3c2d24ec8c0b60",
+      "sha256": "6dd479e3d16097aaedef58542522a40bf81a42241df60b9be63802fa7a05b84c",
       "matches_rendered_source": true,
       "code_sha256": "63a77ff5c355ce7e138ff7574668e91a6c896a45aece3cf3ebd5c3fa0289f234"
     },
     {
       "path": "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
-      "sha256": "52fec53ee1227c6f8d22e17cd0ac742907fe7c72f534bf99de51c5df509330c3",
+      "sha256": "9fd8d1b19ac7e61a9291b2027c19e4f26e618398846a55a4e61db3659c25c847",
       "matches_rendered_source": true,
       "code_sha256": "c6127fbc408f1d4c5b8c5f454e5a6df7f073bc82ed2f181447d81f08a8b07673"
     },
     {
-      "path": "notebooks/student_exercises/Tier1_Student.ipynb",
-      "sha256": "893035bfcb6c2da1e94bd65c450029370f7c5bd620a1b1710399e62d4ee4801f",
+      "path": "notebooks/Tier1_Instructor.ipynb",
+      "sha256": "4a6927329babf6043e0450089dab47866770d28a89223f4eb1fe621df0dab702",
       "matches_rendered_source": true,
-      "code_sha256": "a0a10b04bd799a8f1b527f5712f1b4ae30b8cb7bdaac86a26ba6d230ebef12f5"
+      "code_sha256": "6707273f97f4e5397282c858c02c375b3f9824c00dca67df15174d3874340a30"
+    },
+    {
+      "path": "notebooks/Tier2_Instructor.ipynb",
+      "sha256": "f7c9d381506177b6d87c7ca761357d8fa139ef342717792e419d52a4f5389700",
+      "matches_rendered_source": true,
+      "code_sha256": "4d97e80e08433a4ad069b18982f6c68ab261884258d2b8de0d0769ffa648df6a"
+    },
+    {
+      "path": "notebooks/student_exercises/Tier1_Student.ipynb",
+      "sha256": "319e00059d3c17dfcdca7166611214d2158edd63cb1f9605080b92a8184c77c9",
+      "matches_rendered_source": true,
+      "code_sha256": "6707273f97f4e5397282c858c02c375b3f9824c00dca67df15174d3874340a30"
     },
     {
       "path": "notebooks/student_exercises/Tier2_Student.ipynb",
-      "sha256": "c7340a2e5f70e2d6f85004328d9a3c475231e6575bcc2b3ee2972640306c6a81",
+      "sha256": "f695cf86b191f1aae7168e56bbc28a462fad5dd6750d4776b9535e0e88540b93",
       "matches_rendered_source": true,
-      "code_sha256": "b88962425565144cf197c47557f4ecc3558e585225ceb54ef155f283604cf397"
+      "code_sha256": "4d97e80e08433a4ad069b18982f6c68ab261884258d2b8de0d0769ffa648df6a"
     }
   ],
   "all_notebook_hashes_match": true,
@@ -123,20 +260,26 @@
     },
     {
       "path": "BROWSER_README.md",
-      "sha256": "20a74ae850ced3d731dfebabc8188cbbbc602113aed0821351795add3b599900",
-      "rendered_source_sha256": "20a74ae850ced3d731dfebabc8188cbbbc602113aed0821351795add3b599900",
+      "sha256": "a66d0e80ffbc79ce7ba8d3b54e31b9260766bfbf3aed1c45e8dd76f1df75b2fe",
+      "rendered_source_sha256": "a66d0e80ffbc79ce7ba8d3b54e31b9260766bfbf3aed1c45e8dd76f1df75b2fe",
+      "matches_rendered_source": true
+    },
+    {
+      "path": "PRESENT_THIS.md",
+      "sha256": "71e23e9c963f5d1d8571f1d3e1fa71943066e191a01fd6229cf0ab8f71a05ec3",
+      "rendered_source_sha256": "71e23e9c963f5d1d8571f1d3e1fa71943066e191a01fd6229cf0ab8f71a05ec3",
       "matches_rendered_source": true
     },
     {
       "path": "PUBLICATION_SCOPE.md",
-      "sha256": "1dab05691bc6b4ea62e20c0ff94ed2105b834e747e2ec042fe26b58c2eb3f0b4",
-      "rendered_source_sha256": "1dab05691bc6b4ea62e20c0ff94ed2105b834e747e2ec042fe26b58c2eb3f0b4",
+      "sha256": "b37dcb617adef4e5334c2a3fd787b5d62a1f796ac8603a9bc7d8e1108a0757ba",
+      "rendered_source_sha256": "b37dcb617adef4e5334c2a3fd787b5d62a1f796ac8603a9bc7d8e1108a0757ba",
       "matches_rendered_source": true
     },
     {
       "path": "START_HERE.md",
-      "sha256": "5cebd77aa2c246974d6e25ef6c2bb95969ce2114b70098c43ea1b1098dc8c92f",
-      "rendered_source_sha256": "5cebd77aa2c246974d6e25ef6c2bb95969ce2114b70098c43ea1b1098dc8c92f",
+      "sha256": "0f2b8dfb0d46f9183cb2fe9671568fa3704a38f167a49bfaaf9129deb85f8940",
+      "rendered_source_sha256": "0f2b8dfb0d46f9183cb2fe9671568fa3704a38f167a49bfaaf9129deb85f8940",
       "matches_rendered_source": true
     },
     {
@@ -153,8 +296,8 @@
     },
     {
       "path": "notebooks/student_exercises/README.md",
-      "sha256": "eb9d6c03c1c729a7f4b02707919c94b8dd4e0022d7487a3b16b6827c6608d8ad",
-      "rendered_source_sha256": "eb9d6c03c1c729a7f4b02707919c94b8dd4e0022d7487a3b16b6827c6608d8ad",
+      "sha256": "e787df13ff1ce1d06b46a32252b90b1eeb5efe91791576b7e9ef96059ecf8658",
+      "rendered_source_sha256": "e787df13ff1ce1d06b46a32252b90b1eeb5efe91791576b7e9ef96059ecf8658",
       "matches_rendered_source": true
     },
     {
@@ -189,44 +332,44 @@
     },
     {
       "path": "specs/001-align-rehearsal-materials/plan.md",
-      "sha256": "928c940347c60e2c214efe61007b5112775ca2f5284857a6650d39184a00a625",
-      "rendered_source_sha256": "928c940347c60e2c214efe61007b5112775ca2f5284857a6650d39184a00a625",
+      "sha256": "0ac895258fadc17afb96320102ba9a579156c118d19b8030be7dbb1dcdd894ec",
+      "rendered_source_sha256": "0ac895258fadc17afb96320102ba9a579156c118d19b8030be7dbb1dcdd894ec",
       "matches_rendered_source": true
     },
     {
       "path": "specs/001-align-rehearsal-materials/quickstart.md",
-      "sha256": "773006601a8ecbd89d74d425e29aa3315cbc54fe515aafc87beb5d08631087b2",
-      "rendered_source_sha256": "773006601a8ecbd89d74d425e29aa3315cbc54fe515aafc87beb5d08631087b2",
+      "sha256": "6d6c686511180948eb0358060ce4f49cd820ba6c59bde55ecebb8872bf984c88",
+      "rendered_source_sha256": "6d6c686511180948eb0358060ce4f49cd820ba6c59bde55ecebb8872bf984c88",
       "matches_rendered_source": true
     },
     {
       "path": "specs/001-align-rehearsal-materials/research.md",
-      "sha256": "d3e7b0b5c288709fff18ecf0a8dd278a727d04dcee78d85e6fa6ff5972d41925",
-      "rendered_source_sha256": "d3e7b0b5c288709fff18ecf0a8dd278a727d04dcee78d85e6fa6ff5972d41925",
+      "sha256": "62746929bc42aba7d391f6ddf330c0ce4445f5ac610100f5ee575e609299443c",
+      "rendered_source_sha256": "62746929bc42aba7d391f6ddf330c0ce4445f5ac610100f5ee575e609299443c",
       "matches_rendered_source": true
     },
     {
       "path": "specs/001-align-rehearsal-materials/spec.md",
-      "sha256": "bb79d37097cb32d748d27d375ed47cd5811cf741a3800692bdb80c39d9f96787",
-      "rendered_source_sha256": "bb79d37097cb32d748d27d375ed47cd5811cf741a3800692bdb80c39d9f96787",
+      "sha256": "9d11014d37ba15a6bb193fe852a04fc5991792aecbd1fdf38ba18447d8d3f5b0",
+      "rendered_source_sha256": "9d11014d37ba15a6bb193fe852a04fc5991792aecbd1fdf38ba18447d8d3f5b0",
       "matches_rendered_source": true
     },
     {
       "path": "specs/001-align-rehearsal-materials/tasks.md",
-      "sha256": "313e740d9bde5512c64b3bf82f2fa70b4f26946531f9667872f90f7ee4bac956",
-      "rendered_source_sha256": "313e740d9bde5512c64b3bf82f2fa70b4f26946531f9667872f90f7ee4bac956",
+      "sha256": "75d41e5bfcc55067a1b64a560668b3d7a080aaec9de795a4c10a6c5068ecaff7",
+      "rendered_source_sha256": "75d41e5bfcc55067a1b64a560668b3d7a080aaec9de795a4c10a6c5068ecaff7",
       "matches_rendered_source": true
     },
     {
       "path": "teaching/ASSESSMENT_AND_HANDOUT.md",
-      "sha256": "7aba93b0b30e327a2119741a512c06f6a6029da5b907987d87726a8336c2d8cb",
-      "rendered_source_sha256": "7aba93b0b30e327a2119741a512c06f6a6029da5b907987d87726a8336c2d8cb",
+      "sha256": "b207e5d5de24dd91f7aa8ace8b8789bf9e45912fdc7f219976df244a69b6a6f5",
+      "rendered_source_sha256": "b207e5d5de24dd91f7aa8ace8b8789bf9e45912fdc7f219976df244a69b6a6f5",
       "matches_rendered_source": true
     },
     {
       "path": "teaching/LECTURE_SCRIPT.md",
-      "sha256": "3bf933ed72e65fb906662456918677d8354f7dbc12623fa273bfdd25e586f678",
-      "rendered_source_sha256": "3bf933ed72e65fb906662456918677d8354f7dbc12623fa273bfdd25e586f678",
+      "sha256": "9a52204582d349671492ac541abe02ed8a58b9ddf738d61d668433ea8233f420",
+      "rendered_source_sha256": "9a52204582d349671492ac541abe02ed8a58b9ddf738d61d668433ea8233f420",
       "matches_rendered_source": true
     },
     {
@@ -237,14 +380,32 @@
     },
     {
       "path": "teaching/STUDENT_PATHWAY.md",
-      "sha256": "9e0942a9670536c6cedb1f7c0cc73881d13d4c5a3d58dc3f17ffd08a863b88d6",
-      "rendered_source_sha256": "9e0942a9670536c6cedb1f7c0cc73881d13d4c5a3d58dc3f17ffd08a863b88d6",
+      "sha256": "98a15b81cf25296ccffc371793f7dfc94f060ba99ca9e5f9fb2ddd1edeec3319",
+      "rendered_source_sha256": "98a15b81cf25296ccffc371793f7dfc94f060ba99ca9e5f9fb2ddd1edeec3319",
+      "matches_rendered_source": true
+    },
+    {
+      "path": "teaching/STUDENT_PRACTICE.md",
+      "sha256": "52c5e47a073865a8f61570ba696a7c9803c4fc075389ee25833eab0e38f4b313",
+      "rendered_source_sha256": "52c5e47a073865a8f61570ba696a7c9803c4fc075389ee25833eab0e38f4b313",
+      "matches_rendered_source": true
+    },
+    {
+      "path": "verification/CONVERGENCE.md",
+      "sha256": "c4aaa7d1bfd2a90abb7a64f865a71280c8777e671fe110c718eb0d3f730c4e1d",
+      "rendered_source_sha256": "c4aaa7d1bfd2a90abb7a64f865a71280c8777e671fe110c718eb0d3f730c4e1d",
       "matches_rendered_source": true
     },
     {
       "path": "verification/EXPORT_CHECKS.md",
-      "sha256": "356ca1f7237804ac2eb01e71ea4e237393c9fec5107126e605b00827d8d6536f",
-      "rendered_source_sha256": "356ca1f7237804ac2eb01e71ea4e237393c9fec5107126e605b00827d8d6536f",
+      "sha256": "5e22a811a9787459fe5d97614e8adc04ac9db857fab2ee78c4fcc0a25fcb7aab",
+      "rendered_source_sha256": "5e22a811a9787459fe5d97614e8adc04ac9db857fab2ee78c4fcc0a25fcb7aab",
+      "matches_rendered_source": true
+    },
+    {
+      "path": "verification/independent_content_review.md",
+      "sha256": "9a1a477235363b9dc9860b5a55c4e46e3cffc3f4b8842d67940721925b1b77b6",
+      "rendered_source_sha256": "9a1a477235363b9dc9860b5a55c4e46e3cffc3f4b8842d67940721925b1b77b6",
       "matches_rendered_source": true
     },
     {

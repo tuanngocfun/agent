@@ -20,12 +20,6 @@ import pymupdf
 from pptx import Presentation
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOKS = [
-    '01_Core_Attention_Worked.ipynb',
-    '02_Training_and_Generation_Worked.ipynb',
-    '03_Optional_Systems_Worked.ipynb',
-    '04_Optional_Image_to_Sequence_Worked.ipynb',
-]
 DECKS = [
     ('trial_lecture.json', 'Trial_Lecture_30min', 14, 30),
     ('research_orientation.json', 'Research_Orientation_20min', 12, 20),
@@ -46,17 +40,24 @@ def main():
               'notebook_rows': [], 'deck_rows': [], 'errors': [],
               'manifests_modified': False, 'human_rehearsal': 'Not assessed.'}
     try:
-        for name in NOTEBOOKS:
-            path = ROOT / 'notebooks' / name
+        notebook_paths = sorted((ROOT / 'notebooks').rglob('*.ipynb'))
+        ensure(notebook_paths, 'No runnable notebooks were discovered')
+        result['discovered_notebooks'] = [str(path.relative_to(ROOT)) for path in notebook_paths]
+        for path in notebook_paths:
+            name = str(path.relative_to(ROOT))
             nb = nbformat.read(path, as_version=4)
             nbformat.validate(nb)
             cells = [c for c in nb.cells if c.cell_type == 'code']
             counts = [c.execution_count for c in cells]
             outputs = sum(len(c.get('outputs', [])) for c in cells)
             errors = [o for c in cells for o in c.get('outputs', []) if o.output_type == 'error']
+            bypasses = [(index, sorted(set(c.metadata.get('tags', [])) & {'raises-exception', 'skip-execution'}))
+                        for index, c in enumerate(nb.cells)
+                        if set(c.metadata.get('tags', [])) & {'raises-exception', 'skip-execution'}]
+            ensure(not bypasses, f'{name}: forbidden execution-bypass tags {bypasses}')
             ensure(cells and counts == list(range(1, len(cells)+1)), f'{name}: incomplete saved execution counts')
             ensure(outputs > 0 and not errors, f'{name}: missing visible outputs or saved error')
-            result['notebook_rows'].append({'path': f'notebooks/{name}', 'code_cells': len(cells),
+            result['notebook_rows'].append({'path': name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'code_cells': len(cells),
                                             'outputs': outputs, 'saved_errors': len(errors)})
         layout = json.loads((ROOT / 'verification' / 'slides_layout.json').read_text())
         ensure(not layout.get('bounds_violations'), 'Recorded slide bounds violations')
@@ -90,7 +91,14 @@ def main():
                                  cwd=ROOT, env=env, text=True, capture_output=True, timeout=120)
             result['behavioral_tests'] = {'exit_code': run.returncode, 'output': run.stdout.strip(), 'stderr': run.stderr.strip()}
             ensure(run.returncode == 0, 'Packaged reference behavioral tests failed')
-        result['student_exercises'] = 'Separate intentional blanks; no claim of student completion.'
+            tier_run = subprocess.run([sys.executable, '-m', 'pytest', '-q', '-p', 'no:cacheprovider', 'tests'],
+                                      cwd=ROOT / 'notebooks/student_exercises', env=env, text=True, capture_output=True, timeout=120)
+            result['completed_tier12_tests'] = {'exit_code': tier_run.returncode, 'output': tier_run.stdout.strip(), 'stderr': tier_run.stderr.strip()}
+            ensure(tier_run.returncode == 0, 'Completed Tier 1–2 example tests failed')
+        practice = ROOT / 'teaching/STUDENT_PRACTICE.md'
+        ensure(practice.is_file() and practice.stat().st_size > 500, 'Separate Markdown practice prompts are missing')
+        result['completed_tier12_examples'] = 'Provided complete examples; both legacy Student filenames must execute without errors. No claim of learner completion.'
+        result['practice_prompts'] = 'teaching/STUDENT_PRACTICE.md; unanswered practice is outside runnable notebooks.'
     except Exception as exc:
         result['errors'].append(f'{type(exc).__name__}: {exc}')
     result['status'] = 'pass' if not result['errors'] else 'fail'

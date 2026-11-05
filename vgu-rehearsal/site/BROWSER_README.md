@@ -1,8 +1,8 @@
 # Read the materials in a browser
 
-Open [site/index.html](site/index.html) directly in a browser, or use the reading server below. It provides
-rendered lecture/research scripts, technical prompts and saved notebook outputs. Tables, code,
-equations and fonts are bundled for offline reading.
+Open [Present this lecture](PRESENT_THIS.md) for delivery, or its rendered page at `site/PRESENT_THIS.html`.
+The wider [reading library](site/index.html) provides lecture/research scripts, technical prompts
+and saved notebook outputs. Tables, code, equations and fonts are bundled for offline reading.
 
 From the package directory, you can also start a loopback-only server:
 
@@ -10,9 +10,14 @@ From the package directory, you can also start a loopback-only server:
 python3 scripts/serve_docs.py
 ```
 
-Open `http://127.0.0.1:8766/site/index.html`. Keep the full package together so links to PDFs,
+Open `http://127.0.0.1:8766/site/PRESENT_THIS.html`. Keep the full package together so links to PDFs,
 PowerPoint files, notebooks and local assets continue to work. Use HTML links for reading;
 Markdown-source downloads are provided separately.
+
+All eight current notebooks are completed references. The two historical `Student` filenames
+also contain complete examples. Independent learner tasks are in
+[Student practice](teaching/STUDENT_PRACTICE.md); they are not deliberate error cells in a
+presentation notebook. The main delivery route links the completed instructor demonstrations.
 
 ## Clone and run code
 
@@ -57,7 +62,7 @@ the presenter's own actions.
 ## Read Markdown as formatted documents
 
 Use `python3 scripts/serve_docs.py` for HackMD-style reading. Open
-`http://127.0.0.1:8766/site/index.html`. Requests ending in `.md` redirect to the
+`http://127.0.0.1:8766/site/PRESENT_THIS.html` for the lecture, or `site/index.html` for the library. Requests ending in `.md` redirect to the
 matching rendered HTML, so equations, tables, code and relative assets display correctly.
 Add `?raw=1` when you want the original Markdown text; source-download buttons use that query.
 

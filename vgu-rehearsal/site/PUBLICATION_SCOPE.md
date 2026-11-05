@@ -22,5 +22,4 @@ source downloads as well as visible text. Run the portable checks and review eve
 upload file before publishing. Repository delivery is complete only after remote contents are
 read back; preparing this folder alone is not a delivery result.
 
-Worked teacher solutions are included for self-study and rehearsal. Distribute the separate
-learner folder when assessing independent work.
+All eight notebooks and the historical student_impl.py contain complete reference solutions for rehearsal. Distribute teaching/STUDENT_PRACTICE.md for independent tasks and ask learners to create their own implementation; supplied passing examples do not establish independent completion.

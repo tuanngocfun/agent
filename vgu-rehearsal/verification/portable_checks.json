@@ -1,0 +1,156 @@
+{
+  "generated_utc": "2026-11-05T12:12:05.375530+00:00",
+  "scope": "Portable package checks only; not the original 17-requirement host/provenance audit.",
+  "environment": "Temporarily reused the existing validated Linux CPU Python environment.",
+  "protected_files_before": {
+    "notebooks/01_Core_Attention_Worked.ipynb": "8bbebf2291e050f83fbcb16497f874bcf207ca030274a2830b7dc85a3473a3e0",
+    "notebooks/02_Training_and_Generation_Worked.ipynb": "9163e29d86ab19627d6e75e8984f23f688df63b15c7fba0ef4631511b86dbd1b",
+    "notebooks/03_Optional_Systems_Worked.ipynb": "6dd479e3d16097aaedef58542522a40bf81a42241df60b9be63802fa7a05b84c",
+    "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb": "9fd8d1b19ac7e61a9291b2027c19e4f26e618398846a55a4e61db3659c25c847",
+    "notebooks/Tier1_Instructor.ipynb": "4a6927329babf6043e0450089dab47866770d28a89223f4eb1fe621df0dab702",
+    "notebooks/Tier2_Instructor.ipynb": "f7c9d381506177b6d87c7ca761357d8fa139ef342717792e419d52a4f5389700",
+    "notebooks/student_exercises/Tier1_Student.ipynb": "319e00059d3c17dfcdca7166611214d2158edd63cb1f9605080b92a8184c77c9",
+    "notebooks/student_exercises/Tier2_Student.ipynb": "f695cf86b191f1aae7168e56bbc28a462fad5dd6750d4776b9535e0e88540b93",
+    "slides/Research_Orientation_20min.pdf": "25923b83b6ceacc5f698bd825dae3e206035cc572ec36b778f1fbda4a7aff32d",
+    "slides/Research_Orientation_20min.pptx": "c1186c1b3b0f7bdca26f65464d9658d304f988e3735732e32056dfbfe23591f8",
+    "slides/Trial_Lecture_30min.pdf": "d2ced1b6893c234bf31fc7f5da0815fe0d7080e649ab3ae162f4664658e383f7",
+    "slides/Trial_Lecture_30min.pptx": "2544d992e08f2aa2d9707c58740ea6b47a3efbe1232b97cd1b28cffdeae444bd"
+  },
+  "initial_temporary_path_state": {
+    ".venv": false,
+    ".jupyter": false,
+    ".runtime": true,
+    ".cache": false
+  },
+  "kernel_registration_exit_code": 0,
+  "notebook_execution": "Saved outputs inspected; notebooks are not rerun.",
+  "notebook_rows": [
+    {
+      "path": "notebooks/01_Core_Attention_Worked.ipynb",
+      "sha256": "8bbebf2291e050f83fbcb16497f874bcf207ca030274a2830b7dc85a3473a3e0",
+      "code_cells": 6,
+      "outputs": 7,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/02_Training_and_Generation_Worked.ipynb",
+      "sha256": "9163e29d86ab19627d6e75e8984f23f688df63b15c7fba0ef4631511b86dbd1b",
+      "code_cells": 7,
+      "outputs": 7,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/03_Optional_Systems_Worked.ipynb",
+      "sha256": "6dd479e3d16097aaedef58542522a40bf81a42241df60b9be63802fa7a05b84c",
+      "code_cells": 4,
+      "outputs": 6,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+      "sha256": "9fd8d1b19ac7e61a9291b2027c19e4f26e618398846a55a4e61db3659c25c847",
+      "code_cells": 5,
+      "outputs": 7,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/Tier1_Instructor.ipynb",
+      "sha256": "4a6927329babf6043e0450089dab47866770d28a89223f4eb1fe621df0dab702",
+      "code_cells": 6,
+      "outputs": 6,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/Tier2_Instructor.ipynb",
+      "sha256": "f7c9d381506177b6d87c7ca761357d8fa139ef342717792e419d52a4f5389700",
+      "code_cells": 8,
+      "outputs": 8,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/student_exercises/Tier1_Student.ipynb",
+      "sha256": "319e00059d3c17dfcdca7166611214d2158edd63cb1f9605080b92a8184c77c9",
+      "code_cells": 6,
+      "outputs": 6,
+      "saved_errors": 0
+    },
+    {
+      "path": "notebooks/student_exercises/Tier2_Student.ipynb",
+      "sha256": "f695cf86b191f1aae7168e56bbc28a462fad5dd6750d4776b9535e0e88540b93",
+      "code_cells": 8,
+      "outputs": 8,
+      "saved_errors": 0
+    }
+  ],
+  "deck_rows": [
+    {
+      "name": "Trial_Lecture_30min",
+      "slides": 14,
+      "minutes": 30,
+      "source_notes_present": true
+    },
+    {
+      "name": "Research_Orientation_20min",
+      "slides": 12,
+      "minutes": 20,
+      "source_notes_present": true
+    }
+  ],
+  "errors": [],
+  "manifests_modified": false,
+  "human_rehearsal": "Not assessed.",
+  "discovered_notebooks": [
+    "notebooks/01_Core_Attention_Worked.ipynb",
+    "notebooks/02_Training_and_Generation_Worked.ipynb",
+    "notebooks/03_Optional_Systems_Worked.ipynb",
+    "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb",
+    "notebooks/Tier1_Instructor.ipynb",
+    "notebooks/Tier2_Instructor.ipynb",
+    "notebooks/student_exercises/Tier1_Student.ipynb",
+    "notebooks/student_exercises/Tier2_Student.ipynb"
+  ],
+  "kernel": {
+    "name": "vgu-rehearsal",
+    "matches_current_checkout": true
+  },
+  "behavioral_tests": {
+    "exit_code": 0,
+    "output": "..................                                                       [100%]\n18 passed in 2.46s",
+    "stderr": ""
+  },
+  "completed_tier12_tests": {
+    "exit_code": 0,
+    "output": ".........                                                                [100%]\n9 passed in 1.26s",
+    "stderr": ""
+  },
+  "completed_tier12_examples": "Provided complete examples; both legacy Student filenames must execute without errors. No claim of learner completion.",
+  "practice_prompts": "teaching/STUDENT_PRACTICE.md; unanswered practice is outside runnable notebooks.",
+  "status": "pass",
+  "portable_check_exit_code": 0,
+  "protected_files_after": {
+    "notebooks/01_Core_Attention_Worked.ipynb": "8bbebf2291e050f83fbcb16497f874bcf207ca030274a2830b7dc85a3473a3e0",
+    "notebooks/02_Training_and_Generation_Worked.ipynb": "9163e29d86ab19627d6e75e8984f23f688df63b15c7fba0ef4631511b86dbd1b",
+    "notebooks/03_Optional_Systems_Worked.ipynb": "6dd479e3d16097aaedef58542522a40bf81a42241df60b9be63802fa7a05b84c",
+    "notebooks/04_Optional_Image_to_Sequence_Worked.ipynb": "9fd8d1b19ac7e61a9291b2027c19e4f26e618398846a55a4e61db3659c25c847",
+    "notebooks/Tier1_Instructor.ipynb": "4a6927329babf6043e0450089dab47866770d28a89223f4eb1fe621df0dab702",
+    "notebooks/Tier2_Instructor.ipynb": "f7c9d381506177b6d87c7ca761357d8fa139ef342717792e419d52a4f5389700",
+    "notebooks/student_exercises/Tier1_Student.ipynb": "319e00059d3c17dfcdca7166611214d2158edd63cb1f9605080b92a8184c77c9",
+    "notebooks/student_exercises/Tier2_Student.ipynb": "f695cf86b191f1aae7168e56bbc28a462fad5dd6750d4776b9535e0e88540b93",
+    "slides/Research_Orientation_20min.pdf": "25923b83b6ceacc5f698bd825dae3e206035cc572ec36b778f1fbda4a7aff32d",
+    "slides/Research_Orientation_20min.pptx": "c1186c1b3b0f7bdca26f65464d9658d304f988e3735732e32056dfbfe23591f8",
+    "slides/Trial_Lecture_30min.pdf": "d2ced1b6893c234bf31fc7f5da0815fe0d7080e649ab3ae162f4664658e383f7",
+    "slides/Trial_Lecture_30min.pptx": "2544d992e08f2aa2d9707c58740ea6b47a3efbe1232b97cd1b28cffdeae444bd"
+  },
+  "protected_files_unchanged": true,
+  "cleanup": {
+    ".venv": "Removed only the validation-created link.",
+    ".jupyter": "Removed only the validation-created project kernel directory.",
+    ".runtime": "Preserved; excluded from delivery.",
+    ".cache": "Preserved; excluded from delivery."
+  },
+  "excluded_artifacts_present": [
+    ".runtime"
+  ],
+  "temporary_link_and_kernel_removed": true,
+  "all_passed": true
+}

@@ -6,7 +6,9 @@ The lecture source is [trial_lecture.json](../content/trial_lecture.json). Each 
 
 ## Before you rehearse
 
-Use the canonical lecture deck/PDF produced from this source and the worked notebooks under `../notebooks/`. Start with `01_Core_Attention_Worked.ipynb`, then `02_Training_and_Generation_Worked.ipynb`. These are the worked instructor demonstrations with saved outputs. `03_Optional_Systems_Worked.ipynb` and `04_Optional_Image_to_Sequence_Worked.ipynb` are optional follow-up material. Do not add their training or benchmarking to the lecture clock.
+Open [Present this lecture](../PRESENT_THIS.md) as the delivery checklist. Keep the [lecture PDF](../slides/Trial_Lecture_30min.pdf) beside this script. Start with [01 — Core attention worked](../notebooks/01_Core_Attention_Worked.ipynb), then [02 — Training and generation worked](../notebooks/02_Training_and_Generation_Worked.ipynb). These are completed instructor demonstrations with saved outputs. The completed [Tier 1 instructor](../notebooks/Tier1_Instructor.ipynb) and [Tier 2 instructor](../notebooks/Tier2_Instructor.ipynb) notebooks support preparation and questions. [03 — Optional systems worked](../notebooks/03_Optional_Systems_Worked.ipynb) and [04 — Optional image-to-sequence worked](../notebooks/04_Optional_Image_to_Sequence_Worked.ipynb) are follow-up material. Do not add their training or benchmarking to the lecture clock.
+
+All eight current notebooks are completed reference examples, including the historical `Student` filenames. Use [Student practice](STUDENT_PRACTICE.md) for independent learner tasks. Explain a selected calculation and ask students to reason about it; opening a completed example alone does not assess their understanding.
 
 Speak at roughly 110–120 words per minute; leave the stated pauses and calculation time. This script has about 3,000 spoken words. Use everyday terms before new terms: earlier answer before prefix; hide future positions before causal mask; correct earlier tokens before teacher forcing. The English level does not imply prior knowledge of matrices, so keep the opening diagnostic.
 
@@ -197,7 +199,7 @@ Now explain one case to a partner in one sentence, or tell me directly if we are
 
 **27:00–29:00 · Two core labs; two optional extensions** · 2 minute(s)
 
-After class, begin with the two core labs. In T1, work through the attention numbers, a rectangular shape example, a mask, shifted labels and the greedy counterexample. Write why each step is useful. In T2, implement attention, a mask, target shifting and padding-aware cross-entropy, then inspect visible outputs and test the function you actually wrote. The T1 workbook check cells use the same implementation; return to them after completing those functions. A blank learner file should not be mistaken for a completed solution.
+After class, begin with the two core labs. In T1, work through the attention numbers, a rectangular shape example, a mask, shifted labels and the greedy counterexample. Write why each step is useful. In T2, implement attention, a mask, target shifting and padding-aware cross-entropy, then inspect visible outputs and test the function you actually wrote. Use the Markdown practice tasks in a separate learner-owned module, and point copied behavioral tests at that module. The packaged notebooks remain completed reference examples.
 
 The instructor demonstration notebooks contain worked examples and saved outputs for rehearsal. Use the separate learner tasks when you want to assess yourself. First predict the answer, then run, compare, explain a mismatch and try a changed case. Copying a worked output is not evidence of understanding.
 

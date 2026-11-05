@@ -17,7 +17,7 @@
 - [x] T006 [US1] Complete the original visible-output repair locally; the repository edition distributes the selected worked notebooks with accurate status labels (FR-001,FR-011).
 - [x] T007 [US1] Deliver strict-executed core notebooks notebooks/01_Core_Attention_Worked.ipynb and notebooks/02_Training_and_Generation_Worked.ipynb (FR-002,FR-003).
 - [x] T008 [US1] Deliver strict-executed optional notebooks notebooks/03_Optional_Systems_Worked.ipynb and notebooks/04_Optional_Image_to_Sequence_Worked.ipynb with measured controls and scope (FR-002,FR-007).
-- [x] T009 [US1] Separate notebooks/student_exercises/ from private references and verify blank student tests fail for TODOs (FR-006).
+- [x] T009 [US1] Deliver all eight runnable notebooks as strict, error-free worked examples, including dedicated Tier1_Instructor/Tier2_Instructor and completed legacy Student files; verify the local four-function implementation with nine passing tests, retain 18 reference checks, and move unanswered practice to teaching/STUDENT_PRACTICE.md (FR-002,FR-006,FR-007). This supersedes the earlier expected-failure scaffold task. Verified 5 November 2026: all eight strict fresh-kernel runs pass, 50/50 code cells, 55 saved outputs, zero saved errors; 18 reference and nine completed-example tests pass.
 
 ## Phase 4: User Story 2 - Coherent lecture
 - [x] T010 [P] [US2] Finalize content/trial_lecture.json and teaching/LECTURE_SCRIPT.md with aligned30-minute schedule and numerics (FR-003,FR-004).
@@ -42,7 +42,7 @@
 T001–T005 establish project contracts. T006 is the independent original-output repair. Core/optional notebooks (T007–T009),lecture content (T010/T012),and research content/ledger (T013/T015/T017) can proceed in parallel after foundations. Deck rendering requires its respective JSON. Entry links and final verification depend on finished artifacts. T020 follows completed implementation and tests. No candidate-only action is a build task.
 
 ## Implementation strategy
-Complete the original visible-output interaction as local authoring work. Deliver four complete worked notebooks while leaving student exercises honest. Build aligned static decks and full scripts from the same structured content. Verify content, saved outputs, source claims, links, rendering and local launch;only then assess material convergence. Human timed rehearsal and application submission remain separate.
+Complete the original visible-output interaction as local authoring work. Deliver eight complete, strictly executed notebooks identified as provided examples. Unanswered practice remains Markdown; no runnable notebook is an expected-failure scaffold. Build aligned static decks and full scripts from the same structured content. Verify content, saved outputs, source claims, links, rendering and local launch;only then assess material convergence. Human timed rehearsal and application submission remain separate.
 
 ## Phase 8: User-requested browser rendering and repository delivery
 - [x] T021 [US4] Render this edition’s linked guides and Markdown in site/ using scripts/render_docs.py; earlier export repairs remain local authoring history (FR-016).

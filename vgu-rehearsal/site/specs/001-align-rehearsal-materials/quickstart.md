@@ -1,6 +1,6 @@
 # Rehearsal package quickstart
 
-Open [the start guide](../../START_HERE.md) and [the browser](../../site/index.html). Read the saved attention values in the first worked notebook without starting a kernel. The four worked notebooks contain computed outputs; the separate student exercises intentionally remain incomplete.
+Open [the start guide](../../START_HERE.md) and [the browser](../../site/index.html). Read the saved attention values in the first worked notebook without starting a kernel. All eight supplied notebooks contain completed worked examples with saved computed outputs and zero execution errors. Start with PRESENT_THIS.md and use teaching/STUDENT_PRACTICE.md for unanswered independent tasks.
 
 From the package root, follow the pinned setup instructions in the start guide, then run:
 

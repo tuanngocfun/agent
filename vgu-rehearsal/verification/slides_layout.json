@@ -14,7 +14,7 @@
     {
       "name": "Trial_Lecture_30min",
       "source": "content/trial_lecture.json",
-      "source_sha256": "d18045dc2e10ac9a24a8b31fbc567c2ea99214b721c19567c9d156ba6dece26f",
+      "source_sha256": "56719cd0de97e35418d5e6b1cbc442e12bda038a1d69415dc8213dfa96980eb0",
       "source_slide_count": 14,
       "pptx_slide_count": 14,
       "pdf_page_count": 14,
@@ -3834,7 +3834,7 @@
         {
           "id": 13,
           "minutes": 2,
-          "notes_sha256": "ca6c219d351c68c7dcdd45720b5fe1cfd090faf7b063cf86b4a7ff76b6d70f85",
+          "notes_sha256": "15476d69c06f7cc2f785cd4434f74c4fff597426912fd6f6bdf91636da22109a",
           "visual_type": "comparison",
           "element_count": 58,
           "text_boxes": [

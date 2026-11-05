@@ -2,10 +2,15 @@
 
 Repository branch: [codex/vgu-rehearsal-2026-11-04](https://github.com/tuanngocfun/agent/tree/codex/vgu-rehearsal-2026-11-04).
 
+**For teaching, open [Present this lecture](PRESENT_THIS.md).** It links the PDF, timed script
+and completed instructor demonstrations in delivery order.
+
 This repository package contains a 30-minute Bachelor-level introduction to sequence generation
-with Transformers, a separate 20-minute research-orientation talk, four worked notebooks and
-independent learner exercises. The scripts include explanations, questions, feedback and an
-offline fallback. Saved outputs let you inspect computations before installing an environment.
+with Transformers, a separate 20-minute research-orientation talk and eight completed worked
+notebooks, including the two historical `Student` filenames. Independent learner tasks are in
+[Student practice](teaching/STUDENT_PRACTICE.md), without deliberately failing code cells in the
+presentation notebooks. The scripts include explanations, questions, feedback and an offline
+fallback. Saved outputs let you inspect computations before installing an environment.
 
 This is a teaching and rehearsal export. Its scope and exclusions are described in
 [PUBLICATION_SCOPE.md](PUBLICATION_SCOPE.md). Checks of the bundled files do not certify a timed
@@ -18,12 +23,13 @@ git clone --branch codex/vgu-rehearsal-2026-11-04 --single-branch https://github
 cd agent/vgu-rehearsal
 ```
 
-Open [site/index.html](site/index.html), or follow [BROWSER_README.md](BROWSER_README.md).
+Open `site/PRESENT_THIS.html` for delivery, or [site/index.html](site/index.html) for the wider
+reading library. See [BROWSER_README.md](BROWSER_README.md) for the reading server.
 The browser pages, saved notebook outputs and PDFs can be read without installing packages.
 
 ## Rehearse the 30-minute lecture
 
-Open [the lecture PDF](slides/Trial_Lecture_30min.pdf) beside
+Start at [Present this lecture](PRESENT_THIS.md). Open [the lecture PDF](slides/Trial_Lecture_30min.pdf) beside
 [the timed script](teaching/LECTURE_SCRIPT.md). The
 [PowerPoint](slides/Trial_Lecture_30min.pptx) contains presenter notes. The 15-minute lecture Q&A
 is additional to the prepared 30 minutes.
@@ -65,9 +71,13 @@ matching wheels on other platforms are not guaranteed. Setup and launch register
 It does not rerun notebooks or overwrite execution manifests. To recompute an example, open its
 notebook with the project kernel and run it explicitly. An unrerun saved output is not a new run.
 
-The separate [student exercises](notebooks/student_exercises/README.md) intentionally retain
-blank implementations. Their tests call student code and should fail until the learner finishes
-it. Use that folder for independent assessment; the wider package contains worked answers.
+The completed [Tier 1 instructor notebook](notebooks/Tier1_Instructor.ipynb) and
+[Tier 2 instructor notebook](notebooks/Tier2_Instructor.ipynb) provide additional worked
+implementations for preparation and questions. The historical
+[Student-named notebook folder](notebooks/student_exercises/README.md) also contains completed
+references. Learners' independent tasks are now written in
+[Student practice](teaching/STUDENT_PRACTICE.md). Assign those prompts and ask for an explanation
+and a fresh implementation before sharing a worked reference.
 
 ## Rehearse the 20-minute research talk
 
@@ -93,7 +103,8 @@ For browser reading, start the standard-library document server from this packag
 python3 scripts/serve_docs.py
 ```
 
-Open `http://127.0.0.1:8766/site/index.html`. A `.md` request redirects to its rendered
+Open `http://127.0.0.1:8766/site/PRESENT_THIS.html` for teaching, or
+`http://127.0.0.1:8766/site/index.html` for the library. A `.md` request redirects to its rendered
 HTML so mathematics, tables and code remain readable. Use `?raw=1` or the source-download
 button for raw Markdown. See [the browser guide](BROWSER_README.md) for an optional wider
 reading root when opening older exported URLs.

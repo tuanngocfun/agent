@@ -1,6 +1,6 @@
-"""These tests grade student_impl, never an instructor answer library.
+"""These tests check the supplied completed student_impl reference examples.
 
-Run from the student_lab directory: python -m pytest -q tests
+Run from the student_exercises directory: python -m pytest -q tests
 """
 import math
 import torch

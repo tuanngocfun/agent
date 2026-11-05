@@ -30,7 +30,7 @@ Check three distinctions aloud: attention weights over keys versus vocabulary pr
 
 ## Stage 2 — Complete the separate learner exercises
 
-Use [the learner folder](../notebooks/student_exercises/) rather than importing the worked instructor implementation. Start with written work in `Tier1_Student.ipynb` (60–90 minutes, 25 points). Implement the four functions in `student_impl.py` while completing `Tier2_Student.ipynb` (2–3 hours, 25 points). The Tier 1 check cells also call that implementation; return to them after writing the functions. Run the supplied tests against your own file.
+Use [Student practice](STUDENT_PRACTICE.md) for unanswered independent tasks. Tier 1 is written reasoning (60–90 minutes, 25 points); Tier 2 is implementation and behavioral checks (2–3 hours, 25 points). Create your own separate practice folder and module. Keep the supplied notebooks and implementation complete and runnable. The historical `Tier1_Student.ipynb`, `Tier2_Student.ipynb` and `student_impl.py` filenames now contain completed reference solutions. For preparation, open the completed [Tier 1 instructor notebook](../notebooks/Tier1_Instructor.ipynb) and [Tier 2 instructor notebook](../notebooks/Tier2_Instructor.ipynb).
 
 The four contracts are:
 
@@ -43,7 +43,7 @@ The four contracts are:
 
 The exercise API uses a floating additive mask: zero permits, negative infinity blocks. It chooses zero weights and zero output for an all-masked query row, and differentiable zero loss for an all-ignored batch. Valid attention rows sum to one; all-masked rows sum to zero. Those are explicit exercise policies, not universal behavior guaranteed by every library. Boolean-mask conventions vary between APIs, so do not transfer one convention silently.
 
-Submit numbers, shape annotations, code, output and a short explanation. A blank stub raising `NotImplementedError` is an incomplete exercise. An instructor test pass does not assess a learner's implementation. Keep the distribution limited to the learner folder for independent assessment; the wider rehearsal package is a private teacher master containing worked answers.
+Submit numbers, shape annotations, your own code, actual output and a short explanation. Copy the supplied behavioral tests into your practice folder and point the copied import at your own module. Check the imported module's location before interpreting a pass. A pass against a completed reference does not assess your implementation. Use a changed-input question and an unscripted explanation alongside the tests; the supplied examples are worked answers, not an independent student submission.
 
 ## Stage 3 — Optional systems extension
 
@@ -77,6 +77,6 @@ The deliverable is a working component plus an understandable report: why the pr
 
 ## Teacher maintenance and feedback
 
-Keep the worked teacher version, learner stubs, behavioral tests and assessment rubric versioned together. Verify the machine/kernel and offline fallback before class. During the tutorial, ask for a prediction, run a small case, diagnose the mismatch and retry a changed case. Collect the student's explanation before showing the key. Bring observed student difficulties to the advising lecturer when revising the next tutorial.
+Keep the completed teacher examples, Markdown practice prompts, behavioral tests and assessment rubric versioned together. Verify the machine/kernel and offline fallback before class. During the tutorial, ask for a prediction, run a small case, diagnose the mismatch and retry a changed case. Collect the student's explanation before showing the key. Bring observed student difficulties to the advising lecturer when revising the next tutorial.
 
 No file in this package can certify comprehension. The human evidence is the learner's unscripted explanation, independently completed code and transfer to a fresh example. Record those observations during the actual session.

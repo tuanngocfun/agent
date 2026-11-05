@@ -8,14 +8,14 @@
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - See actual notebook results (Priority: P1)
-The candidate opens the original interview notebooks and immediately sees actual saved results, with unfinished student exercises clearly identified. The candidate also has a distinct set of complete worked notebooks for rehearsal.
+The candidate opens the original interview notebooks and immediately sees actual saved historical results, with original unfinished exercises accurately identified. The current canonical rehearsal package supplies eight complete, error-free runnable examples; unanswered learner practice is kept in Markdown rather than failing notebooks.
 
 **Why this priority**: The prior handoff placed results elsewhere, leaving the candidate's files empty.
 **Independent Test**: Open the original instructor notebook and a canonical worked notebook without running a kernel; inspect visible numerical outputs and saved execution counts.
 **Acceptance Scenarios**:
 1. Given the 14 original notebooks, when their saved files are read, all code cells have fresh execution counts and every file has saved output; instructor paths contain no errors, student TODOs remain explicitly incomplete.
-2. Given the four canonical worked notebooks, when run from a clean kernel, all code cells execute without allowed errors and results remain saved at the linked paths.
-3. Given blank student code, when its own grading checks run, they fail for unfinished work rather than passing through imported answers.
+2. Given every notebook recursively under the canonical notebooks directory (eight delivered files), when each runs in a fresh kernel from its own directory, all code cells execute without allowed errors or exception/skip tags, and actual outputs remain saved in place.
+3. Given the provided completed Tier 1–2 examples, when their local four-function implementation is imported, all nine behavioral tests pass; unanswered practice prompts remain in teaching/STUDENT_PRACTICE.md outside runnable notebooks. Historical Student filenames do not imply an independently completed learner submission.
 
 ### User Story 2 - Rehearse a coherent Bachelor lecture (Priority: P1)
 The candidate follows one 30-minute English lecture and its matching script, using worked numerical and code examples to explain what students learn, why it matters and what they can apply later.
@@ -50,7 +50,7 @@ The candidate opens one entrypoint, follows the rehearsal order, selects the ins
 3. Given a candidate-only action, it remains unchecked unless an actual user confirmation or observed action exists.
 
 ### Edge Cases
-- Student TODO failures and comment-only scaffolds must never be treated as completed assignments.
+- Historical original TODO failures remain accurately labelled in the earlier audit. Current canonical runnable notebooks must have no saved errors, unfinished code, exception-allowing tags or skipped execution; unanswered practice is Markdown only.
 - Fully masked attention rows, padded loss targets and all-ignored targets need declared behavior.
 - Internal generated BOS/PAD tokens must not disappear from recognition metrics; finished sequences need a clear EOS convention.
 - Cache chunk offsets and future-token changes must preserve the appropriate past outputs.
@@ -67,11 +67,11 @@ The candidate opens one entrypoint, follows the rehearsal order, selects the ins
 
 ### Functional Requirements
 - **FR-001**: All 14 original notebooks MUST retain fresh code-cell execution counts and saved results at their original paths, with accurate instructor/student status.
-- **FR-002**: Four clearly named canonical worked notebooks MUST be complete, contain actual results, and execute without allowed errors; core and optional work MUST be distinct.
+- **FR-002**: All eight canonical notebooks MUST be complete, contain actual saved results, and execute recursively in fresh kernels without allowed errors or execution-bypass tags. The four core/optional worked notebooks, two dedicated Tier 1–2 instructor notebooks, and two completed examples at legacy Student filenames MUST have distinct, accurate roles.
 - **FR-003**: Core teaching MUST connect motivation, prerequisites, theory, a worked numerical example, code, checks and a later application or research question.
 - **FR-004**: The trial lecture, embedded notes and script MUST agree in content/order and allocate exactly 30 minutes; research equivalents MUST allocate 20 minutes, excluding their respective Q&A.
 - **FR-005**: Historical presentation claims MUST have metric-specific primary evidence and group/personal attribution; unsupported claims MUST be removed from speech and isolated in a confirmation ledger.
-- **FR-006**: Promised lab tasks and assessment MUST match delivered notebooks; unfinished student code and private reference solutions MUST be separated and graded through the correct implementation.
+- **FR-006**: Promised lab tasks and assessment MUST match delivered examples. Runnable Tier 1–2 notebooks and their local four-function implementation MUST be complete and pass all nine behavioral tests; unanswered learner tasks MUST be separated into teaching/STUDENT_PRACTICE.md. Provided examples MUST NOT be presented as evidence that a learner independently completed the practice.
 - **FR-007**: Behavioral verification MUST cover attention-reference agreement, causal invariance, rectangular shapes, padding/empty rows, shifted labels, cache equivalence and special-token metric behavior.
 - **FR-008**: Both presentations MUST have offline-readable slide files, matching rehearsal scripts and directly inspectable notebook results.
 - **FR-009**: The local Spec Kit checkout MUST actually initialize and structure this project, with recorded revision/commands and traceable specification, plan, tasks and convergence assessment.
@@ -94,7 +94,7 @@ The candidate opens one entrypoint, follows the rehearsal order, selects the ins
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
-- **SC-001**: Opening any original instructor or canonical worked notebook without rerunning reveals saved outputs; no canonical worked notebook contains an execution error.
+- **SC-001**: Opening any original instructor or canonical notebook without rerunning reveals saved outputs; every one of the eight recursive canonical notebooks has complete execution counts and zero saved errors, with no allowed-error or skip policy.
 - **SC-002**: The candidate can locate the current lecture, research talk and worked notebook from START_HERE in one link each.
 - **SC-003**: All scheduled lecture minutes total 30 and research minutes total 20; each slide has matching presenter guidance.
 - **SC-004**: Every historical quantitative research claim in the new presentation maps to matching evidence; unsupported claims are absent from spoken content.
@@ -110,3 +110,7 @@ The candidate opens one entrypoint, follows the rehearsal order, selects the ins
 - Four synthetic known glyphs remain a fixed-length educational demo; no real OCR performance or novel-character generalization is claimed.
 - Human timed delivery and student learning cannot be observed by preparing files; the package supplies practical checks for the candidate to perform.
 - The user's later request explicitly authorizes uploading corresponding prepared files to a new repository branch. The connected repository was verified as private; no public website deployment is requested.
+
+## Superseding error-free lecture request
+
+The later user request requires every runnable notebook in this repository edition to complete without errors. Eight provided examples are verified recursively; unanswered practice is Markdown only. Historical authoring/audit records remain outside this repository edition and are not rewritten to conceal earlier TODO failures. Current package checks cover the 18 reference and nine completed-example tests without claiming independent learner completion.

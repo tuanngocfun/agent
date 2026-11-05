@@ -77,7 +77,7 @@ def browser_check(browser,path):
     page.route('http**/*',route)
     response=page.goto(web(path),wait_until='networkidle');page.evaluate('document.fonts.ready')
     page.screenshot(path=str(CAPTURES/(path.stem+'.png')))
-    row={'path':rel(path),'http_status':response.status,'katex_equations':page.locator('.katex').count(),'math_errors':page.locator('.math-error,.katex-error').count(),'broken_image_count':page.locator('img').evaluate_all('xs=>xs.filter(x=>!x.complete||!x.naturalWidth).length'),'page_errors':events,'external_requests':outside,'body_overflow_px':page.evaluate('Math.max(0,document.documentElement.scrollWidth-innerWidth)')}
+    row={'path':rel(path),'http_status':response.status,'katex_equations':page.locator('.katex').count(),'math_errors':page.locator('.math-error,.katex-error').count(),'broken_image_count':page.locator('img').evaluate_all('xs=>xs.filter(x=>!x.complete||!x.naturalWidth).length'),'page_errors':events,'saved_notebook_error_nodes':page.locator('.output.error').count(),'external_requests':outside,'body_overflow_px':page.evaluate('Math.max(0,document.documentElement.scrollWidth-innerWidth)')}
     if path.name.startswith('INSTRUCTOR_'):
         head=page.get_by_role('heading',name='T1.A: Derive and compute scaled dot-product attention (6/6)',exact=True)
         if head.count():head.scroll_into_view_if_needed();page.screenshot(path=str(CAPTURES/'solution-math.png'))
@@ -93,11 +93,12 @@ def browser_check(browser,path):
 try:
     main=crawl();renamed=crawl('vgu-rehearsal/')
     renamed['method']='Same package mounted read-only under the vgu-rehearsal URL prefix; tests relative navigation, not a fresh dependency installation.'
-    targets=[SITE/'index.html',SITE/'teaching/LECTURE_SCRIPT.html',SITE/'notebooks/01_Core_Attention_Worked.html',SITE/'notebooks/04_Optional_Image_to_Sequence_Worked.html',SITE/'reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html']
+    targets=[SITE/'index.html',SITE/'PRESENT_THIS.html',SITE/'teaching/LECTURE_SCRIPT.html',SITE/'reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html'] + sorted((SITE/'notebooks').rglob('*.html'))
     with sync_playwright() as pw:
         browser=pw.chromium.launch(headless=True,args=['--no-sandbox'])
         rows=[browser_check(browser,path) for path in targets]
-        page=browser.new_page();response=page.goto(web(targets[-1],'vgu-rehearsal/'),wait_until='networkidle');page.evaluate('document.fonts.ready')
+        solution_target=SITE/'reference/legacy_teaching_pack/docs/INSTRUCTOR_FULLY_WORKED_SOLUTIONS.html'
+        page=browser.new_page();response=page.goto(web(solution_target,'vgu-rehearsal/'),wait_until='networkidle');page.evaluate('document.fonts.ready')
         renamed['solution_math_equations']=page.locator('.katex').count();renamed['http_status']=response.status
         renamed['passed']=renamed['passed'] and response.status==200 and renamed['solution_math_equations']>0
         browser.close()
@@ -109,7 +110,7 @@ try:
     for name in build['markdown_pages']:
         page=ROOT/name;source=ROOT/page.relative_to(SITE).with_suffix('.md');snapshot=page.with_suffix('.md')
         if source.exists():documents.append({'path':rel(source),'sha256':sha(source),'rendered_source_sha256':sha(snapshot),'matches_rendered_source':sha(source)==sha(snapshot)})
-    browser_pass=all(row['http_status']==200 and not row['math_errors'] and not row['file_view_math_errors'] and not row['broken_image_count'] and not row['page_errors'] and not row['external_requests'] and not row['body_overflow_px'] and not row.get('mobile_body_overflow_px',0) for row in rows)
+    browser_pass=all(row['http_status']==200 and not row['math_errors'] and not row['file_view_math_errors'] and not row['broken_image_count'] and not row['page_errors'] and not row.get('saved_notebook_error_nodes',0) and not row['external_requests'] and not row['body_overflow_px'] and not row.get('mobile_body_overflow_px',0) for row in rows)
     result={'policy':'Standalone loopback HTTP, offline file viewing, blocked external browser requests and package-relative evidence; no notebook execution or modification. Screenshots are retained locally outside the distributed artifact.','html_pages_checked':len(list(SITE.rglob('*.html'))),'unique_internal_http_targets':main['unique_internal_http_targets'],'http_errors':main['http_errors'],'fragment_errors':main['fragment_errors'],'absolute_navigation_paths':main['links_escaping_package'],'renamed_package_check':renamed,'browser_checks':rows,'math_parse_errors':build['math_errors'],'unbundled_reference_count':len(build['unbundled_private_references']),'notebook_source_hashes':notebooks,'all_notebook_hashes_match':all(x['matches_rendered_source'] for x in notebooks),'document_source_hashes':documents,'all_document_sources_match':all(x['matches_rendered_source'] for x in documents),'katex_license':'site/assets/katex/LICENSE'}
     result['all_passed']=main['passed'] and renamed['passed'] and browser_pass and not build['math_errors'] and not build['unbundled_private_references'] and result['all_notebook_hashes_match'] and result['all_document_sources_match']
     (ROOT/'verification/document_browser_checks.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')

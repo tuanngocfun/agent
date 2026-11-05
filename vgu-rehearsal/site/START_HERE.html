@@ -1,9 +1,13 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Start rehearsal here</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Worked notebooks</a></header><main><p class="download meta"><a href="START_HERE.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="start-rehearsal-here">Start rehearsal here</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Start rehearsal here</title><link rel="stylesheet" href="assets/docs.css"><link rel="stylesheet" href="assets/katex/katex.min.css"></head><body><header><a href="PRESENT_THIS.html"><strong>Present this lecture</strong></a><a href="index.html">Rehearsal browser</a><a href="teaching/LECTURE_SCRIPT.html">Lecture script</a><a href="research/RESEARCH_SCRIPT.html">Research</a><a href="notebooks/index.html">Instructor demos</a></header><main><p class="download meta"><a href="START_HERE.md?raw=1" download>Download original source</a> · HTML is rendered for reading; notebook outputs are saved results.</p><h1 id="start-rehearsal-here">Start rehearsal here</h1>
 <p>Repository branch: <a href="https://github.com/tuanngocfun/agent/tree/codex/vgu-rehearsal-2026-11-04">codex/vgu-rehearsal-2026-11-04</a>.</p>
+<p><strong>For teaching, open <a href="PRESENT_THIS.html">Present this lecture</a>.</strong> It links the PDF, timed script
+and completed instructor demonstrations in delivery order.</p>
 <p>This repository package contains a 30-minute Bachelor-level introduction to sequence generation
-with Transformers, a separate 20-minute research-orientation talk, four worked notebooks and
-independent learner exercises. The scripts include explanations, questions, feedback and an
-offline fallback. Saved outputs let you inspect computations before installing an environment.</p>
+with Transformers, a separate 20-minute research-orientation talk and eight completed worked
+notebooks, including the two historical <code>Student</code> filenames. Independent learner tasks are in
+<a href="teaching/STUDENT_PRACTICE.html">Student practice</a>, without deliberately failing code cells in the
+presentation notebooks. The scripts include explanations, questions, feedback and an offline
+fallback. Saved outputs let you inspect computations before installing an environment.</p>
 <p>This is a teaching and rehearsal export. Its scope and exclusions are described in
 <a href="PUBLICATION_SCOPE.html">PUBLICATION_SCOPE.md</a>. Checks of the bundled files do not certify a timed
 human delivery, student comprehension or anyone's personal history.</p>
@@ -11,10 +15,11 @@ human delivery, student comprehension or anyone's personal history.</p>
 <div class="codehilite"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>codex/vgu-rehearsal-2026-11-04<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/tuanngocfun/agent.git
 <span class="nb">cd</span><span class="w"> </span>agent/vgu-rehearsal
 </pre></div>
-<p>Open <a href="index.html">site/index.html</a>, or follow <a href="BROWSER_README.html">BROWSER_README.md</a>.
+<p>Open <code>site/PRESENT_THIS.html</code> for delivery, or <a href="index.html">site/index.html</a> for the wider
+reading library. See <a href="BROWSER_README.html">BROWSER_README.md</a> for the reading server.
 The browser pages, saved notebook outputs and PDFs can be read without installing packages.</p>
 <h2 id="rehearse-the-30-minute-lecture">Rehearse the 30-minute lecture</h2>
-<p>Open <a href="../slides/Trial_Lecture_30min.pdf">the lecture PDF</a> beside
+<p>Start at <a href="PRESENT_THIS.html">Present this lecture</a>. Open <a href="../slides/Trial_Lecture_30min.pdf">the lecture PDF</a> beside
 <a href="teaching/LECTURE_SCRIPT.html">the timed script</a>. The
 <a href="../slides/Trial_Lecture_30min.pptx">PowerPoint</a> contains presenter notes. The 15-minute lecture Q&amp;A
 is additional to the prepared 30 minutes.</p>
@@ -49,9 +54,13 @@ matching wheels on other platforms are not guaranteed. Setup and launch register
 <p><code>check_portable.py</code> inspects saved outputs, slide counts/notes and the packaged reference tests.
 It does not rerun notebooks or overwrite execution manifests. To recompute an example, open its
 notebook with the project kernel and run it explicitly. An unrerun saved output is not a new run.</p>
-<p>The separate <a href="notebooks/student_exercises/README.html">student exercises</a> intentionally retain
-blank implementations. Their tests call student code and should fail until the learner finishes
-it. Use that folder for independent assessment; the wider package contains worked answers.</p>
+<p>The completed <a href="notebooks/Tier1_Instructor.html">Tier 1 instructor notebook</a> and
+<a href="notebooks/Tier2_Instructor.html">Tier 2 instructor notebook</a> provide additional worked
+implementations for preparation and questions. The historical
+<a href="notebooks/student_exercises/README.html">Student-named notebook folder</a> also contains completed
+references. Learners' independent tasks are now written in
+<a href="teaching/STUDENT_PRACTICE.html">Student practice</a>. Assign those prompts and ask for an explanation
+and a fresh implementation before sharing a worked reference.</p>
 <h2 id="rehearse-the-20-minute-research-talk">Rehearse the 20-minute research talk</h2>
 <p>Open <a href="../slides/Research_Orientation_20min.pdf">the research PDF</a> beside
 <a href="research/RESEARCH_SCRIPT.html">the research script</a>. The
@@ -68,7 +77,8 @@ audit are not included. This package makes no claim that a clone reproduces that
 <p>For browser reading, start the standard-library document server from this package:</p>
 <div class="codehilite"><pre><span></span>python3<span class="w"> </span>scripts/serve_docs.py
 </pre></div>
-<p>Open <code>http://127.0.0.1:8766/site/index.html</code>. A <code>.md</code> request redirects to its rendered
+<p>Open <code>http://127.0.0.1:8766/site/PRESENT_THIS.html</code> for teaching, or
+<code>http://127.0.0.1:8766/site/index.html</code> for the library. A <code>.md</code> request redirects to its rendered
 HTML so mathematics, tables and code remain readable. Use <code>?raw=1</code> or the source-download
 button for raw Markdown. See <a href="BROWSER_README.html">the browser guide</a> for an optional wider
 reading root when opening older exported URLs.</p>
