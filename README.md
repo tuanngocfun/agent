@@ -27,3 +27,9 @@ A working entry for the Physical-Engineering’s Last Exam harness competition: 
 | `package.json`, `package-lock.json` | Pi 1.1.0 and every package it uses, pinned. To upgrade, edit `package.json`, run `npm install --package-lock-only`, commit both |
 | `artifacts/` | The dev-set artifacts the portal grades, one folder per dev task |
 | `AGENTS.md` | The full rules, for a coding agent working on your entry |
+
+## Kaggle writeup
+
+The [writeup and figures](writeup/kaggle-fields.md) document the organizers’ archived Pi on Claude Opus 5.5 results. Kaggle can pin [`9125501f508151917f308f1b9d64ac7177cb8edd`](https://github.com/tuanngocfun/agent/tree/9125501f508151917f308f1b9d64ac7177cb8edd) for the exact upstream harness and artifact tree. The current kit warns that these artifacts were generated against an earlier version of the dev set.
+
+The Kubernetes Security Remediation Agent demo is maintained on the [`kube-remediation-demo`](https://github.com/tuanngocfun/agent/tree/kube-remediation-demo) branch.
