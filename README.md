@@ -1,35 +1,28 @@
-# Submission template: Pi on Claude Opus 5.5
+# Pi on Physical Engineering
 
-A working entry for the Physical-Engineering’s Last Exam harness competition: the [Pi](https://github.com/badlogic/pi-mono) coding agent calling `google-cloud/claude-opus-5-5`.
+This repository holds the Kaggle writeup and the organizers’ Pi harness on Claude Opus 5.5. The archived run averaged **0.4912 across 29 development tasks**. Four tasks scored zero, including two that exported no deliverables. [Archived manifest](https://github.com/physical-engineerings-last-exam/submission-template/blob/22c26a93a9e4974b16e4351faab0e860ff9fb24f/artifacts/manifest.json)
 
-## Use it
+## Kaggle entry
 
-1. Click **Use this template**. Public works. Make it private if you add a `.env` with API keys or want to keep your code to yourself, and install the [PLE-submission](https://github.com/apps/ple-submission) app on it.
-2. Clone it next to the competition repository and set `name` in `submission.yaml`.
-3. From the competition repository, check the entry and run the dev set (a `google-cloud` model needs a local proxy, see `docs/models.md`):
-   ```bash
-   uv run python -m kit check ../your-repo
-   uv run python eval/run.py ../your-repo     # writes artifacts/
-   ```
-4. Commit everything, `artifacts/` included, push, and submit the commit on the competition site.
+**Pinned entry commit** `9125501f508151917f308f1b9d64ac7177cb8edd`. This commit preserves the exact source and artifacts from the organizers’ Apache-2.0 template. The current kit found 28 usable task artifact directories, flagged one as empty, and warned that the archive came from an earlier dev-set version. The official smoke check for the current environment is pending. [Pinned entry tree](https://github.com/tuanngocfun/agent/tree/9125501f508151917f308f1b9d64ac7177cb8edd) · [Organizer template](https://github.com/physical-engineerings-last-exam/submission-template/tree/22c26a93a9e4974b16e4351faab0e860ff9fb24f)
 
-`artifacts/` already holds a dev-set run of Pi on Claude Opus 5.5 over all 29 dev tasks, so the template can be submitted unchanged. Once you change anything, `name` included, step 3 replaces it with your harness's run.
+- [Project Description](writeup/project-description.md)
+- [Kaggle fields and figures](writeup/kaggle-fields.md)
 
-## Files
+## Deliverable-first prototype
 
-| File | Purpose |
-|---|---|
-| `submission.yaml` | The model, and the install and start commands |
-| `serve.py` | The WebSocket endpoint: hands each task to `harness.solve` |
-| `harness.py` | Runs Pi on each task. Edit `NOTE` (prompt), `THINKING`, or `UNKNOWN_MODEL` (limits for a model Pi doesn't know) |
-| `task-tools.ts` | Points Pi's `read`, `write`, `edit` and `bash` tools at the task container |
-| `taskbridge.py` | The competition protocol |
-| `package.json`, `package-lock.json` | Pi 1.1.0 and every package it uses, pinned. To upgrade, edit `package.json`, run `npm install --package-lock-only`, commit both |
-| `artifacts/` | The dev-set artifacts the portal grades, one folder per dev task |
-| `AGENTS.md` | The full rules, for a coding agent working on your entry |
+A separate local candidate addresses the archived failures. Pi declares the explicitly requested file paths, drafts usable outputs early, and checks constraints before optimizing. The harness audits file structure inside the task container and can start one repair phase capped at four minutes when it finds a file defect or Pi has yet to return a final answer. Tasks that only require application state or a response can complete without a file audit.
 
-## Kaggle writeup
+The prototype passed ten offline integration scenarios using simulated Pi replies, including missing and malformed files, cancellation, and an app-only task. Its submission configuration passed static kit validation. The next benchmark pairs the baseline and candidate on the same current dev tasks, model, grader, and budget. A third run with repair disabled isolates the value and cost of the repair pass. The official comparison and candidate score are pending. [Official evaluator](https://github.com/google-research/ple/blob/5cf736f8b6e6f28eea71cae52de0c3bedaa88fa2/eval/README.md)
 
-The [writeup and figures](writeup/kaggle-fields.md) document the organizers’ archived Pi on Claude Opus 5.5 results. Kaggle can pin [`9125501f508151917f308f1b9d64ac7177cb8edd`](https://github.com/tuanngocfun/agent/tree/9125501f508151917f308f1b9d64ac7177cb8edd) for the exact upstream harness and artifact tree. The current kit warns that these artifacts were generated against an earlier version of the dev set.
+## Baseline files
+
+| Path | Purpose |
+| --- | --- |
+| `submission.yaml` | Model and install and serve commands |
+| `serve.py`, `harness.py` | WebSocket entry point and Pi wrapper |
+| `task-tools.ts`, `taskbridge.py` | Relay from Pi to the task container |
+| `package.json`, `package-lock.json` | Pinned Pi dependencies |
+| `artifacts/` | Archived deliverables, trajectories, and manifest |
 
 The Kubernetes Security Remediation Agent demo is maintained on the [`kube-remediation-demo`](https://github.com/tuanngocfun/agent/tree/kube-remediation-demo) branch.
